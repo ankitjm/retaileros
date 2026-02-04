@@ -34,6 +34,7 @@ async function main() {
                 phone TEXT,
                 email TEXT,
                 joined_at TEXT,
+                dob TEXT,
                 location TEXT
             )
         `);

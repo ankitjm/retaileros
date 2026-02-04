@@ -36,7 +36,7 @@ export function renderHistory() {
         const moreCount = items.length > 1 ? `+ ${items.length - 1} more` : '';
 
         return `
-                        <div onclick="window.setSalesHistoryId('${s.id}')" class="card p-6 border-2 transition-all cursor-pointer text-left ${state.salesHistoryId === s.id ? 'border-slate-900 shadow-lg' : 'border-transparent hover:border-slate-200'}">
+                        <button type="button" onclick="window.setSalesHistoryId('${s.id}')" class="card p-6 border-2 transition-all cursor-pointer text-left w-full ${state.salesHistoryId === s.id ? 'border-slate-900 shadow-lg' : 'border-transparent hover:border-slate-200'}">
                             <div class="flex justify-between items-start mb-4 text-left">
                                 <div class="text-left">
                                     <div class="flex items-center gap-2 mb-1 text-left">
@@ -56,7 +56,7 @@ export function renderHistory() {
                                     <p class="text-[9px] font-black text-slate-300 uppercase text-right">${new Date(s.date).toLocaleDateString()}</p>
                                 </div>
                             </div>
-                        </div>
+                        </button>
                     `}).join('')}
                 </div>
              </section>

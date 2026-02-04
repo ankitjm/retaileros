@@ -1,4 +1,4 @@
-import { db } from '../utils/db.js';
+import { query } from './db.js';
 import { triggerRender } from '../state.js';
 
 /**
@@ -12,10 +12,10 @@ export async function syncData() {
         // Fetch All Application Data in Parallel
         // Fetch Only Active App Modules
         const [customers, products, sales, saleItems] = await Promise.all([
-            db.query("SELECT * FROM customers"),
-            db.query("SELECT * FROM products"),
-            db.query("SELECT * FROM sales ORDER BY date DESC"),
-            db.query("SELECT * FROM sale_items")
+            query("SELECT * FROM customers"),
+            query("SELECT * FROM products"),
+            query("SELECT * FROM sales ORDER BY date DESC"),
+            query("SELECT * FROM sale_items")
         ]);
 
         // Map to global window storage

@@ -20,6 +20,9 @@ export async function addProductToCart(id) {
 export function selectSaleCustomer(id, name) {
     selectedCustomerId = id;
     selectedCustomerName = name;
+    // Close the dropdown after selection
+    const dropdown = document.getElementById('customer-dropdown-menu');
+    if (dropdown) dropdown.classList.add('hidden');
     window.triggerRender();
 }
 
@@ -135,18 +138,30 @@ export function renderSales() {
         ? allCustomers.filter(c => c.name.toLowerCase().includes(customerSearch) || c.phone.includes(customerSearch))
         : allCustomers;
 
-    /* ... */
+    // Product search
+    const searchInput = document.getElementById('sales-item-search');
+    const searchVal = searchInput ? searchInput.value.toLowerCase() : '';
+    const filteredProducts = searchVal
+        ? products.filter(p => p.name.toLowerCase().includes(searchVal) || p.brand?.toLowerCase().includes(searchVal))
+        : [];
+
+    // Calculate total
+    const total = activeCart.reduce((sum, item) => sum + (item.mop || 0), 0);
+
+    return `
+        ${renderSalesHeader('new')}
+        <div class="scrolling-content px-8 space-y-8 pb-12 text-left">
             <section class="space-y-3 text-left">
                 <h3 class="text-[9px] font-black text-slate-400 uppercase tracking-widest text-left">Customer Details</h3>
 
                 <div class="relative text-left">
-                    <div id="customer-dropdown-trigger" onclick="window.toggleCustomerDropdown(event)" class="card p-5 flex items-center justify-between cursor-pointer hover:border-slate-300 transition-all text-left">
+                    <button type="button" id="customer-dropdown-trigger" onclick="window.toggleCustomerDropdown(event)" class="card p-5 flex items-center justify-between cursor-pointer hover:border-slate-300 transition-all text-left w-full">
                         <div class="flex items-center gap-4 text-slate-900 text-left">
                             <span class="material-icons-outlined text-slate-400">person</span>
                             <span class="text-sm font-black text-left">${selectedCustomerName}</span>
                         </div>
                         <span class="material-icons-outlined text-slate-300">expand_more</span>
-                    </div>
+                    </button>
                     <!-- Dropdown Content -->
                     <div id="customer-dropdown-menu" class="hidden absolute top-full left-0 right-0 z-50 bg-white border border-slate-100 rounded-2xl shadow-2xl max-h-60 overflow-y-auto text-left mt-2 flex flex-col">
                         
@@ -170,10 +185,10 @@ export function renderSales() {
                         ${customers.length === 0 ? `
                              <div class="p-4 text-center text-slate-400 text-xs font-bold">No customers found</div>
                         ` : customers.map(c => `
-                            <div onclick="selectSaleCustomer('${c.id}', '${c.name.replace(/'/g, "\\'")}')" class="p-4 hover:bg-slate-50 cursor-pointer border-b border-slate-50 text-left">
+                            <button type="button" onclick="window.selectSaleCustomer('${c.id}', '${c.name.replace(/'/g, "\\'")}')" class="p-4 hover:bg-slate-50 cursor-pointer border-b border-slate-50 text-left w-full">
                                 <p class="text-xs font-black text-slate-900 text-left">${c.name}</p>
                                 <p class="text-[9px] font-bold text-slate-400 text-left">${c.phone}</p>
-                            </div>
+                            </button>
                         `).join('')}
                     </div>
                 </div>
@@ -188,13 +203,13 @@ export function renderSales() {
                     ${searchVal ? `
                         <div class="absolute top-full left-0 right-0 z-50 bg-white border border-slate-100 rounded-2xl shadow-2xl mt-2 overflow-hidden text-left">
                             ${filteredProducts.length > 0 ? filteredProducts.map(p => `
-                                <div onclick="addProductToCart('${p.id}')" class="p-4 hover:bg-slate-50 cursor-pointer flex justify-between items-center text-left">
+                                <button type="button" onclick="window.addProductToCart('${p.id}')" class="p-4 hover:bg-slate-50 cursor-pointer flex justify-between items-center text-left w-full">
                                     <div class="text-left">
                                         <h4 class="text-xs font-black text-slate-900 text-left">${p.name}</h4>
                                         <p class="text-[9px] font-bold text-slate-400 uppercase text-left">${p.brand} • ${p.category}</p>
                                     </div>
                                     <p class="text-xs font-black text-slate-900 text-right">₹${p.mop.toLocaleString()}</p>
-                                </div>
+                                </button>
                             `).join('') : '<p class="p-6 text-[10px] text-slate-300 font-black uppercase text-center">No products found</p>'}
                         </div>
                     ` : ''}
@@ -234,7 +249,7 @@ export function renderSales() {
 
                 <div class="flex gap-3 pt-6 border-t border-slate-100 mt-6 text-left">
                     <button onclick="window.saveDraft()" class="flex-1 py-4 border-2 border-slate-900 rounded-2xl text-[10px] font-black uppercase hover:bg-slate-50 transition-all text-center">Save Draft</button>
-                    <button id="complete-txn-btn" onclick="completeTransaction()" class="flex-[2] py-4 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase shadow-xl hover:scale-[1.02] transition-all flex items-center justify-center gap-2 text-center">
+                    <button id="complete-txn-btn" onclick="window.completeTransaction()" class="flex-[2] py-4 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase shadow-xl hover:scale-[1.02] transition-all flex items-center justify-center gap-2 text-center">
                         Complete Transaction (₹${total.toLocaleString()})
                         <span class="material-icons-outlined text-sm text-blue-400 text-center">arrow_forward</span>
                     </button>

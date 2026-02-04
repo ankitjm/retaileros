@@ -170,6 +170,7 @@ export function setActiveAutomation(id) {
 }
 
 // Make actions available globally for inline onclick handlers
+window.triggerRender = triggerRender;
 window.setApp = setApp;
 window.setTab = setTab;
 window.setSalesHistoryId = setSalesHistoryId;
