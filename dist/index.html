@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <title>RetailerOS | Multi-Dimensional UI</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+
+    <style type="text/tailwindcss">
+        @layer base {
+            :root {
+                --primary: #0F172A;
+                --bg-light: #F8FAFC;
+            }
+            html, body {
+                width: 100%;
+                height: 100%;
+                overflow: hidden; /* Prevent body scroll */
+            }
+            body { 
+                margin: 0; 
+                padding: 0; 
+                background-color: #e2e8f0; 
+                font-family: 'Plus Jakarta Sans', sans-serif;
+            }
+        }
+
+        @layer utilities {
+            .dot-grid {
+                background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+                background-size: 24px 24px;
+            }
+            .screen-container {
+                height: 100dvh;
+                width: 100%;
+                display: flex;
+                background: white;
+                overflow: hidden;
+            }
+            .mobile-col {
+                background: var(--bg-light);
+                height: 100dvh;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                border-right: 1px solid #f1f5f9;
+                flex-shrink: 0;
+                position: relative;
+            }
+            .scrolling-content {
+                flex: 1;
+                overflow-y: auto;
+                scroll-behavior: smooth;
+                -webkit-overflow-scrolling: touch;
+            }
+            .scrolling-content::-webkit-scrollbar { display: none; }
+            .scrolling-content { -ms-overflow-style: none; scrollbar-width: none; }
+            
+            .card { 
+                background-color: white;
+                border: 1px solid #f1f5f9;
+                border-radius: 24px;
+            }
+            .toggle-btn { 
+                padding: 0.25rem 0.5rem;
+                font-size: 8px;
+                font-weight: 900;
+                border-radius: 0.375rem;
+                transition: all 150ms ease-in-out;
+                text-transform: uppercase;
+            }
+            .toggle-btn-active { 
+                background-color: #0f172a; 
+                color: white; 
+                box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            }
+            .toggle-btn-inactive { 
+                color: #94a3b8; 
+                color: #94a3b8;
+            }
+            .toggle-btn-inactive:hover {
+                background-color: #e2e8f0;
+            }
+
+            .news-ticker-container {
+                background-color: white;
+                border: 1px solid #f1f5f9;
+                border-radius: 1rem;
+                overflow: hidden;
+                padding-top: 0.75rem;
+                padding-bottom: 0.75rem;
+                margin-top: 1.5rem;
+                position: relative;
+            }
+            .news-ticker {
+                display: flex;
+                white-space: nowrap;
+                animation: ticker 30s linear infinite;
+            }
+            .fast-ticker {
+                display: flex;
+                white-space: nowrap;
+                animation: fast-ticker 20s linear infinite;
+            }
+            @keyframes ticker {
+                0% { transform: translateX(100%); }
+                100% { transform: translateX(-100%); }
+            }
+            @keyframes fast-ticker {
+                0% { transform: translateX(100%); }
+                100% { transform: translateX(-100%); }
+            }
+            
+            /* Animation for modal */
+            @keyframes slide-up {
+                from { transform: translateY(100%); opacity: 0; }
+                to { transform: translateY(0); opacity: 1; }
+            }
+            .animate-slide-up {
+                animation: slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            }
+            .custom-scrollbar::-webkit-scrollbar {
+                width: 4px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            .custom-scrollbar::-webkit-scrollbar-thumb {
+                background-color: #e2e8f0;
+                border-radius: 20px;
+            }
+        }
+    </style>
+  <script type="module" crossorigin src="/assets/index-CfzzjEiT.js"></script>
+</head>
+
+<body>
+
+    <div id="app" class="screen-container">
+        <div class="m-auto flex flex-col items-center gap-4">
+            <div class="w-12 h-12 border-4 border-slate-900 border-t-transparent animate-spin rounded-full"></div>
+            <p class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Loading OS Environment...</p>
+        </div>
+    </div>
+
+</body>
+
+</html>
