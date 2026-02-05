@@ -15,9 +15,52 @@ export function renderRegister(layout = 'mobile') {
 function renderRegisterPrimary() {
     const step = state.registrationStep;
 
+    // When step 3, show completion message in middle column
+    if (step === 3) {
+        return `
+            <div class="h-full w-full flex flex-col items-center justify-center p-8 bg-white dot-grid relative overflow-hidden text-center">
+                <div class="animate-slide-up max-w-md">
+                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="material-icons-outlined text-green-600 text-5xl">check_circle</span>
+                    </div>
+                    <h2 class="text-2xl font-black text-slate-900 mb-3">Almost There!</h2>
+                    <p class="text-sm text-slate-500 mb-8">Please review and confirm your store details in the right panel to complete registration.</p>
+
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-xl">
+                            <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center shrink-0">
+                                <span class="material-icons-outlined text-white text-sm">done</span>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-[10px] font-black text-green-700 uppercase">Mobile Verified</p>
+                                <p class="text-xs text-green-600">+91 98765 43210</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3 p-4 bg-blue-50 border border-blue-200 rounded-xl">
+                            <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center shrink-0">
+                                <span class="material-icons-outlined text-white text-sm">arrow_forward</span>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-[10px] font-black text-blue-700 uppercase">Next Step</p>
+                                <p class="text-xs text-blue-600">Confirm store details →</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="absolute bottom-6 flex items-center gap-2">
+                    <span class="material-icons-outlined text-indigo-400 text-xs">verified_user</span>
+                    <p class="text-[9px] font-black text-indigo-400 uppercase tracking-widest opacity-30">Secure Encryption</p>
+                </div>
+            </div>
+        `;
+    }
+
+    // Steps 1 & 2 show their content
     return `
         <div class="h-full w-full flex flex-col items-center justify-center p-8 bg-white dot-grid relative overflow-hidden text-center">
-            ${step === 1 || step === 2 ? renderStepContent(step) : renderStepContent(3)}
+            ${renderStepContent(step)}
 
             <div class="absolute bottom-6 flex items-center gap-2">
                 <span class="material-icons-outlined text-indigo-400 text-xs">verified_user</span>
