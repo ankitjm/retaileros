@@ -4,6 +4,7 @@ import { renderSettingsRoles } from './roles.js';
 import { renderSettingsAccounting } from './accounting.js';
 import { renderSettingsLedger } from './ledger.js';
 import { renderAISettings } from './ai.js';
+import { renderSettingsStore } from './store.js';
 
 export function renderSettings(mode) {
     const isDesktopSecondary = mode === 'desktop-secondary';
@@ -56,6 +57,9 @@ export function renderSettings(mode) {
         }
         if (state.settingsView === 'ai') {
             return renderAISettings();
+        }
+        if (state.settingsView === 'store') {
+            return renderSettingsStore();
         }
         return '';
     }

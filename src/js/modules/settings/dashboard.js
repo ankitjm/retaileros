@@ -8,7 +8,7 @@ export function renderSettingsDashboard(mode) {
         { n: 'Roles', i: 'admin_panel_settings', k: 'roles' },
         { n: 'Finance', i: 'account_balance', k: 'accounting' },
         { n: 'Ledger', i: 'menu_book', k: 'ledger' },
-        { n: 'Store', i: 'store' },
+        { n: 'Store', i: 'store', k: 'store' },
         { n: 'Security', i: 'security' },
         { n: 'Alerts', i: 'notifications' },
         { n: 'Taxes', i: 'percent' },

@@ -451,6 +451,10 @@ window.finalizeRegistration = async function() {
         // Clear temporary data
         delete window._approvedRetailerData;
 
+        // Sync data to update cache with new retailer
+        const { syncData } = await import('../../utils/sync.js');
+        await syncData();
+
         // Set login status
         window.setLoginStatus(true);
 
