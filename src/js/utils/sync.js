@@ -9,19 +9,37 @@ export async function syncData() {
     console.group("🔄 Synchronizing Data with Turso...");
 
     try {
+        // Multi-tenant: filter tenant-scoped tables by retailer_id
+        const retailerId = localStorage.getItem('retaileros_retailer_id');
+
+        // Helper: build tenant-filtered query
+        const tenantQuery = (table, orderBy = '') => {
+            const order = orderBy ? ` ORDER BY ${orderBy}` : '';
+            return retailerId
+                ? query(`SELECT * FROM ${table} WHERE retailer_id = ?${order}`, [retailerId])
+                : query(`SELECT * FROM ${table}${order}`);
+        };
+
         // Fetch All Application Data in Parallel
         // Every query has .catch() so one failure doesn't break the entire sync
         const [customers, products, sales, saleItems, companies, groups, groupMembers, automations, automationMessages, communications, schemes, retailers] = await Promise.all([
-            query("SELECT * FROM customers").catch(e => { console.error("Sync customers failed:", e); return []; }),
+            // TENANT-SCOPED tables
+            tenantQuery("customers").catch(e => { console.error("Sync customers failed:", e); return []; }),
+            // GLOBAL tables (no tenant filter)
             query("SELECT * FROM products").catch(e => { console.error("Sync products failed:", e); return []; }),
-            query("SELECT * FROM sales ORDER BY date DESC").catch(e => { console.error("Sync sales failed:", e); return []; }),
-            query("SELECT * FROM sale_items").catch(e => { console.error("Sync sale_items failed:", e); return []; }),
-            query("SELECT * FROM companies").catch(e => { console.error("Sync companies failed:", e); return []; }),
-            query("SELECT * FROM groups ORDER BY created_at DESC").catch(e => { console.error("Sync groups failed:", e); return []; }),
-            query("SELECT * FROM group_members").catch(e => { console.error("Sync group_members failed:", e); return []; }),
-            query("SELECT * FROM automations ORDER BY created_at DESC").catch(e => { console.error("Sync automations failed:", e); return []; }),
-            query("SELECT * FROM automation_messages ORDER BY scheduled_date").catch(e => { console.error("Sync automation_messages failed:", e); return []; }),
-            query("SELECT * FROM communication_log ORDER BY sent_at DESC").catch(e => { console.error("Sync communications failed:", e); return []; }),
+            tenantQuery("sales", "date DESC").catch(e => { console.error("Sync sales failed:", e); return []; }),
+            // sale_items: filter through sales join
+            (retailerId
+                ? query("SELECT si.* FROM sale_items si INNER JOIN sales s ON si.sale_id = s.id WHERE s.retailer_id = ?", [retailerId])
+                : query("SELECT * FROM sale_items")
+            ).catch(e => { console.error("Sync sale_items failed:", e); return []; }),
+            tenantQuery("companies").catch(e => { console.error("Sync companies failed:", e); return []; }),
+            tenantQuery("groups", "created_at DESC").catch(e => { console.error("Sync groups failed:", e); return []; }),
+            tenantQuery("group_members").catch(e => { console.error("Sync group_members failed:", e); return []; }),
+            tenantQuery("automations", "created_at DESC").catch(e => { console.error("Sync automations failed:", e); return []; }),
+            tenantQuery("automation_messages", "scheduled_date").catch(e => { console.error("Sync automation_messages failed:", e); return []; }),
+            tenantQuery("communication_log", "sent_at DESC").catch(e => { console.error("Sync communications failed:", e); return []; }),
+            // GLOBAL tables
             query("SELECT * FROM schemes WHERE status = 'active' ORDER BY brand, name").catch(e => { console.error("Sync schemes failed:", e); return []; }),
             query("SELECT * FROM retailers ORDER BY onboarded_at DESC").catch(e => { console.error("Sync retailers failed:", e); return []; })
         ]);

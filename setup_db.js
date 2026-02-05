@@ -37,9 +37,11 @@ async function main() {
                 email TEXT,
                 joined_at TEXT,
                 dob TEXT,
-                location TEXT
+                location TEXT,
+                retailer_id TEXT
             )
         `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_customers_retailer ON customers(retailer_id)`);
 
         // Products (Inventory)
         await client.execute(`
@@ -64,9 +66,11 @@ async function main() {
                 gst_number TEXT,
                 customer_id TEXT,
                 created_at TEXT,
+                retailer_id TEXT,
                 FOREIGN KEY(customer_id) REFERENCES customers(id)
             )
         `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_companies_retailer ON companies(retailer_id)`);
 
         // Sales (Transactions)
         await client.execute(`
@@ -83,10 +87,12 @@ async function main() {
                 company_id TEXT,
                 installation_required INTEGER DEFAULT 0,
                 installation_date TEXT,
+                retailer_id TEXT,
                 FOREIGN KEY(customer_id) REFERENCES customers(id),
                 FOREIGN KEY(company_id) REFERENCES companies(id)
             )
         `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_sales_retailer ON sales(retailer_id)`);
 
         // Sale Items (Line Items)
         await client.execute(`
@@ -143,9 +149,11 @@ async function main() {
                 is_company INTEGER DEFAULT 0,
                 gst_number TEXT,
                 contact_person TEXT,
-                created_at TEXT
+                created_at TEXT,
+                retailer_id TEXT
             )
         `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_groups_retailer ON groups(retailer_id)`);
 
         // Group Members (many-to-many relationship)
         await client.execute(`
@@ -154,10 +162,12 @@ async function main() {
                 group_id TEXT,
                 customer_id TEXT,
                 added_at TEXT,
+                retailer_id TEXT,
                 FOREIGN KEY(group_id) REFERENCES groups(id),
                 FOREIGN KEY(customer_id) REFERENCES customers(id)
             )
         `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_group_members_retailer ON group_members(retailer_id)`);
 
         // Automations (Workflow definitions)
         await client.execute(`
@@ -169,9 +179,11 @@ async function main() {
                 sale_id TEXT,
                 status TEXT DEFAULT 'active',
                 created_at TEXT,
-                completed_at TEXT
+                completed_at TEXT,
+                retailer_id TEXT
             )
         `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_automations_retailer ON automations(retailer_id)`);
 
         // Automation Messages (Scheduled messages in a sequence)
         await client.execute(`
@@ -184,9 +196,11 @@ async function main() {
                 day_offset INTEGER,
                 scheduled_date TEXT,
                 sent_at TEXT,
-                status TEXT DEFAULT 'pending'
+                status TEXT DEFAULT 'pending',
+                retailer_id TEXT
             )
         `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_automation_messages_retailer ON automation_messages(retailer_id)`);
 
         // Communication Log (WhatsApp messages, calls, etc.)
         await client.execute(`
@@ -199,9 +213,11 @@ async function main() {
                 sent_at TEXT,
                 automation_id TEXT,
                 sale_id TEXT,
-                status TEXT DEFAULT 'sent'
+                status TEXT DEFAULT 'sent',
+                retailer_id TEXT
             )
         `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_communication_log_retailer ON communication_log(retailer_id)`);
 
         // Retailers (Onboarded retailers from external approved database)
         await client.execute(`

@@ -1,7 +1,14 @@
 // Check localStorage for existing login status
 const savedLoginStatus = localStorage.getItem('retaileros_logged_in') === 'true';
+const savedRetailerId = localStorage.getItem('retaileros_retailer_id') || null;
+const savedRetailerCode = localStorage.getItem('retaileros_retailer_code') || null;
+const savedRetailerName = localStorage.getItem('retaileros_retailer_name') || null;
 
 export const state = {
+    // Tenant identity
+    retailerId: savedRetailerId,
+    retailerCode: savedRetailerCode,
+    retailerName: savedRetailerName,
     currentApp: window.innerWidth < 768 ? 'launcher' : 'sales',
     currentTab: 'new-sale',
     salesMode: 'default', // default | add-customer
@@ -154,6 +161,29 @@ export function setMarketplaceViewMode(mode) {
     triggerRender();
 }
 
+// Tenant identity management
+export function setRetailer(id, code, name) {
+    state.retailerId = id;
+    state.retailerCode = code;
+    state.retailerName = name;
+    localStorage.setItem('retaileros_retailer_id', id);
+    localStorage.setItem('retaileros_retailer_code', code);
+    localStorage.setItem('retaileros_retailer_name', name);
+}
+
+export function clearRetailer() {
+    state.retailerId = null;
+    state.retailerCode = null;
+    state.retailerName = null;
+    localStorage.removeItem('retaileros_retailer_id');
+    localStorage.removeItem('retaileros_retailer_code');
+    localStorage.removeItem('retaileros_retailer_name');
+}
+
+export function getRetailerId() {
+    return state.retailerId;
+}
+
 export function setLoginStatus(status) {
     state.isLoggedIn = status;
     // Save login status to localStorage
@@ -161,6 +191,7 @@ export function setLoginStatus(status) {
         localStorage.setItem('retaileros_logged_in', 'true');
     } else {
         localStorage.removeItem('retaileros_logged_in');
+        clearRetailer(); // Clear tenant identity on logout
     }
     // Mobile users go to launcher first, desktop users go to sales
     const isMobile = window.innerWidth < 768;
@@ -264,6 +295,9 @@ window.setScheme = setScheme;
 window.toggleSchemeDetails = toggleSchemeDetails;
 window.setMarketplaceTab = setMarketplaceTab;
 window.setMarketplaceViewMode = setMarketplaceViewMode;
+window.setRetailer = setRetailer;
+window.clearRetailer = clearRetailer;
+window.getRetailerId = getRetailerId;
 window.setLoginStatus = setLoginStatus;
 window.setAuthMode = setAuthMode;
 window.setRegistrationStep = setRegistrationStep;

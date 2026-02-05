@@ -442,11 +442,9 @@ window.finalizeRegistration = async function() {
         // Add retailer to app database
         const newRetailer = await db.retailers.add(approvedData);
 
-        // Store in localStorage
+        // Set tenant identity in state + localStorage
+        window.setRetailer(newRetailer.id, newRetailer.retailerCode, approvedData.RetailerName);
         localStorage.setItem('retaileros_logged_in', 'true');
-        localStorage.setItem('retaileros_retailer_id', newRetailer.id);
-        localStorage.setItem('retaileros_retailer_code', newRetailer.retailerCode);
-        localStorage.setItem('retaileros_retailer_name', approvedData.RetailerName);
 
         // Clear temporary data
         delete window._approvedRetailerData;
