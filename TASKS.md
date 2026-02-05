@@ -24,6 +24,18 @@
 - [x] **Missing Tables:** Added inquiries, repairs, inventory_logs tables with retailer_id + indexes (schema + live migration)
 - [x] **Module Fixes:** Replaced all raw db.query() calls in capture.js, resolve.js, intake.js, status.js, inward.js with tenant-safe db helpers
 - [x] **Sync Update:** inquiries, repairs, inventory_logs now synced from DB (no longer empty placeholders)
+- [x] **Settings Sub-Apps:** Built 11 new retailer-centric settings pages:
+  - Security (PIN, 2FA, session management, devices, login history)
+  - Alerts (notification channels, inventory/sales/customer/repair alerts)
+  - Taxes (GSTIN, PAN, tax rates by category, HSN codes, invoice config)
+  - Plugins (WhatsApp, Tally, Razorpay, PhonePe, SMS, printer, Sheets, Shiprocket)
+  - Teams (staff members, roles, module access matrix)
+  - Logs (activity audit trail, grouped by day with filters)
+  - Language (10 Indian languages, communication lang, date/currency/number formats)
+  - Backup (data overview, manual export, auto-backup schedule, history, retention)
+  - Updates & Release Notes (version banner, release timeline, changelog)
+  - Theme (light/dark/system mode, 8 accent colors, density, font size, sidebar, animations)
+  - Help (WhatsApp/call/email/ticket support, guides, FAQ, account info, bug report)
 
 ---
 
