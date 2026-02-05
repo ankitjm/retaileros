@@ -141,7 +141,14 @@ function renderTablet() {
 }
 
 function renderMobile() {
-    if (!state.isLoggedIn) return renderAuth();
+    if (!state.isLoggedIn) {
+        // Full-screen auth for mobile
+        return `
+            <div class="h-full w-full bg-white">
+                ${renderAuth()}
+            </div>
+        `;
+    }
     if (state.currentApp === 'launcher') return renderLauncher('mobile');
 
     // SALES APP MOBILE LOGIC
@@ -259,6 +266,39 @@ export function render() {
         appContainer.innerHTML = `< div class="p-4 text-red-500 font-bold" > Error: ${e.message} <br><small>${e.stack}</small></div>`;
     }
 }
+
+// Partial render function for auth content only (prevents full page reload)
+export function updateAuthContent() {
+    const width = window.innerWidth;
+
+    if (width < 768) {
+        // Mobile: Update entire container (it's a single column)
+        const appContainer = document.getElementById('app');
+        if (appContainer) {
+            appContainer.innerHTML = renderMobile();
+        }
+    } else {
+        // Desktop/Tablet: Only update the auth columns (not sidebar)
+        const primaryCol = document.querySelector('.flex-1.bg-white.h-full.overflow-hidden.flex.flex-col.relative.z-10')
+                        || document.querySelector('.col-span-1.bg-white.h-full.overflow-hidden.flex.flex-col.relative.z-10');
+        const secondaryCol = document.querySelector('.w-\\[30\\%\\].shrink-0.bg-slate-50\\/50.h-full.overflow-hidden.flex.flex-col.relative.dot-grid.border-l.border-slate-200');
+
+        if (primaryCol) {
+            primaryCol.innerHTML = state.authMode === 'register'
+                ? renderRegister('desktop-primary')
+                : `<div class="h-full w-full bg-slate-950 flex flex-col items-center justify-center text-white/5 font-black text-[20vw] leading-none overflow-hidden select-none pointer-events-none"><div>OS</div></div>`;
+        }
+
+        if (secondaryCol && width >= 1024) {
+            secondaryCol.innerHTML = state.authMode === 'register'
+                ? renderRegister('desktop-secondary')
+                : `<div class="h-full w-full bg-slate-950/95 flex flex-col items-center justify-center text-white/5 font-black text-[15vw] leading-none overflow-hidden select-none pointer-events-none"><div>RETAILER</div></div>`;
+        }
+    }
+}
+
+// Make updateAuthContent available globally
+window.updateAuthContent = updateAuthContent;
 
 // Register listeners
 registerRender(render);

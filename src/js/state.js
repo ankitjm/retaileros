@@ -176,7 +176,12 @@ export function setAuthMode(mode) {
 
 export function setRegistrationStep(step) {
     state.registrationStep = step;
-    triggerRender();
+    // Use partial auth render instead of full page render
+    if (window.updateAuthContent) {
+        window.updateAuthContent();
+    } else {
+        triggerRender();
+    }
 }
 
 export function setInquiryViewMode(mode) {
