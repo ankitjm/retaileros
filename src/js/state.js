@@ -1,3 +1,6 @@
+// Check localStorage for existing login status
+const savedLoginStatus = localStorage.getItem('retaileros_logged_in') === 'true';
+
 export const state = {
     currentApp: window.innerWidth < 768 ? 'launcher' : 'sales',
     currentTab: 'new-sale',
@@ -13,6 +16,8 @@ export const state = {
     repairTab: 'active',
     repairViewMode: 'search',
     selectedRepairDevice: null,
+    activeRepairId: null,
+    repairContext: null,
     selectedClient: null,
     selectedClientId: null,
     clientViewMode: 'directory', // directory | profile | add | groups | invoice
@@ -26,6 +31,7 @@ export const state = {
     promoterViewMode: 'performance',
     inventoryTab: 'brands', // brands | categories
     inventoryMode: 'details', // details | inward
+    activeCategory: null,
     settingsView: 'roles', // roles | accounting | ledger
     viewportWidth: window.innerWidth,
     gridCols: window.innerWidth < 768 ? 4 : 3,
@@ -35,7 +41,7 @@ export const state = {
     showSchemeDetails: false,
     marketplaceTab: 'browse', // browse | my-offers
     marketplaceViewMode: 'list', // list | add
-    isLoggedIn: false,
+    isLoggedIn: savedLoginStatus,
     authMode: 'login', // login | register
     registrationStep: 1, // 1 | 2 | 3
     inquiryViewMode: 'list', // list | add | resolve
@@ -150,6 +156,12 @@ export function setMarketplaceViewMode(mode) {
 
 export function setLoginStatus(status) {
     state.isLoggedIn = status;
+    // Save login status to localStorage
+    if (status) {
+        localStorage.setItem('retaileros_logged_in', 'true');
+    } else {
+        localStorage.removeItem('retaileros_logged_in');
+    }
     // Mobile users go to launcher first, desktop users go to sales
     const isMobile = window.innerWidth < 768;
     state.currentApp = status ? (isMobile ? 'launcher' : 'sales') : 'launcher';

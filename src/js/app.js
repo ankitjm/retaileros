@@ -12,7 +12,7 @@ import { renderInventory } from './modules/inventory/index.js';
 import { renderSettings } from './modules/settings/index.js';
 import { renderSchemes } from './modules/schemes/index.js';
 import { renderMarketplace } from './modules/marketplace/index.js';
-import { renderAuth } from './modules/auth/index.js';
+import { renderAuth, renderRegister } from './modules/auth/index.js';
 import { renderInquiries } from './modules/inquiries/index.js';
 import { renderPreBooking } from './modules/prebooking/index.js';
 import { renderAutomation } from './modules/automation/index.js';
@@ -81,7 +81,7 @@ function renderDesktop() {
             <!-- Col 2: Active App (Flexible / Remaining Width ~45%) -->
             <div class="flex-1 bg-white h-full overflow-hidden flex flex-col relative z-10">
                ${!state.isLoggedIn ?
-            `<div class="h-full w-full bg-slate-950 flex flex-col items-center justify-center text-white/5 font-black text-[20vw] leading-none overflow-hidden select-none pointer-events-none"><div>OS</div></div>`
+            (state.authMode === 'register' ? renderRegister('desktop-primary') : `<div class="h-full w-full bg-slate-950 flex flex-col items-center justify-center text-white/5 font-black text-[20vw] leading-none overflow-hidden select-none pointer-events-none"><div>OS</div></div>`)
             : (state.currentApp === 'launcher' ?
                 '<div class="h-full flex items-center justify-center text-slate-300"><div class="text-center"><span class="material-icons-outlined text-4xl mb-4 opacity-20">arrow_back</span><p class="text-[10px] font-black uppercase tracking-widest opacity-40">Select an App from the Menu</p></div></div>'
                 : renderAppPrimary())}
@@ -90,7 +90,7 @@ function renderDesktop() {
             <!-- Col 3: Preview (30% Width) -->
             <div class="w-[30%] shrink-0 bg-slate-50/50 h-full overflow-hidden flex flex-col relative dot-grid border-l border-slate-200">
                 ${!state.isLoggedIn ?
-            `<div class="h-full w-full bg-slate-950/95 flex flex-col items-center justify-center text-white/5 font-black text-[15vw] leading-none overflow-hidden select-none pointer-events-none"><div>RETAILER</div></div>`
+            (state.authMode === 'register' ? renderRegister('desktop-secondary') : `<div class="h-full w-full bg-slate-950/95 flex flex-col items-center justify-center text-white/5 font-black text-[15vw] leading-none overflow-hidden select-none pointer-events-none"><div>RETAILER</div></div>`)
             : (state.currentApp === 'launcher' ?
                 '<div class="h-full flex items-center justify-center text-slate-300"><div class="text-center"><span class="material-icons-outlined text-6xl mb-4 opacity-20">dashboard</span><p class="text-[10px] font-black uppercase tracking-widest opacity-40">Retailer OS Environment</p></div></div>'
                 : renderAppSecondary())}

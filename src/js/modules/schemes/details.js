@@ -6,17 +6,24 @@ export function renderSchemeDetails(mode) {
     const activeScheme = state.activeScheme;
     if (!activeScheme) return `<div class="p-10 text-center">Select a scheme to view details</div>`;
 
-    const cache = window.getCache();
+    const cache = window.getCache ? window.getCache() : { sales: [] };
     // Filter sales that match the scheme's brand (simple logic for now)
-    const transactions = (cache.sales || []).filter(s =>
-        s.product_name.includes(activeScheme.brand) ||
-        (s.items && s.items.some(i => i.name.includes(activeScheme.brand)))
-    );
+    const transactions = (cache.sales || []).filter(s => {
+        const productName = s.product_name || '';
+        const brand = (typeof activeScheme === 'object' && activeScheme.brand) ? activeScheme.brand : '';
+        return productName.includes(brand) ||
+            (s.items && s.items.some(i => (i.name || '').includes(brand)));
+    });
+
+    const brand = (typeof activeScheme === 'object' && activeScheme.brand) ? activeScheme.brand : activeScheme;
+    const schemeName = (typeof activeScheme === 'object' && activeScheme.name) ? activeScheme.name : 'Scheme';
+    const payout = (typeof activeScheme === 'object' && activeScheme.payout) ? activeScheme.payout : '0';
+    const endDate = (typeof activeScheme === 'object' && activeScheme.end_date) ? activeScheme.end_date : new Date();
 
     const activeMetrics = {
         count: transactions.length,
         growth: '+0%', // Placeholder logic
-        color: activeScheme.brand === 'Apple' ? 'bg-indigo-950' : (activeScheme.brand === 'Nothing' ? 'bg-slate-950' : 'bg-emerald-950')
+        color: brand === 'Apple' ? 'bg-indigo-950' : (brand === 'Nothing' ? 'bg-slate-950' : 'bg-emerald-950')
     };
 
     return `
@@ -39,19 +46,19 @@ export function renderSchemeDetails(mode) {
                             <span class="material-icons-outlined text-slate-400 text-left">devices</span>
                         </div>
                         <div class="text-left">
-                            <p class="text-[8px] font-bold text-slate-300 uppercase tracking-widest leading-none mb-1 text-left">BRAND: ${activeScheme.brand.toUpperCase()}</p>
-                            <h3 class="text-sm font-black text-slate-900 text-left">${activeScheme.name}</h3>
+                            <p class="text-[8px] font-bold text-slate-300 uppercase tracking-widest leading-none mb-1 text-left">BRAND: ${brand.toUpperCase()}</p>
+                            <h3 class="text-sm font-black text-slate-900 text-left">${schemeName}</h3>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-3 text-left">
                          <div class="bg-slate-50 border border-slate-100 rounded-xl p-3 text-left">
                             <p class="text-[8px] font-bold text-slate-300 uppercase tracking-widest mb-1 text-left">PAYOUT</p>
-                            <p class="text-[11px] font-black text-slate-900 text-left">₹${parseInt(activeScheme.payout).toLocaleString()}</p>
+                            <p class="text-[11px] font-black text-slate-900 text-left">₹${parseInt(payout).toLocaleString()}</p>
                         </div>
                          <div class="bg-slate-50 border border-slate-100 rounded-xl p-3 text-left">
                             <p class="text-[8px] font-bold text-slate-300 uppercase tracking-widest mb-1 text-left">VALID UNTIL</p>
-                            <p class="text-[11px] font-black text-slate-900 text-left">${new Date(activeScheme.end_date).toLocaleDateString()}</p>
+                            <p class="text-[11px] font-black text-slate-900 text-left">${new Date(endDate).toLocaleDateString()}</p>
                         </div>
                     </div>
                 </div>
@@ -115,7 +122,7 @@ export function renderSchemeDetails(mode) {
                      <span class="material-icons-outlined text-sm relative z-10 transition-transform group-hover:translate-x-1 text-center">send</span>
                      <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                 </button>
-                <p class="text-[7px] font-bold text-slate-400 uppercase text-center mt-3 tracking-widest">COMPILING REPORT FOR ${activeScheme.b.toUpperCase()} SETTLEMENT</p>
+                <p class="text-[7px] font-bold text-slate-400 uppercase text-center mt-3 tracking-widest">COMPILING REPORT FOR ${brand.toUpperCase()} SETTLEMENT</p>
             </div>
         </div>
     `;

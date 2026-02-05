@@ -1,5 +1,5 @@
 export function renderCategories() {
-    const cache = window.getCache();
+    const cache = window.getCache ? window.getCache() : { products: [] };
     const products = cache.products || [];
 
     // Group by category

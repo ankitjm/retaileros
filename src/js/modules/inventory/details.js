@@ -1,4 +1,8 @@
 export function renderInventoryDetails() {
+    // Get cached products
+    const cache = window.getCache ? window.getCache() : { products: [] };
+    const products = cache.products || [];
+
     return `
          <div class="h-full flex flex-col relative bg-white text-left">
             <!-- Header -->
@@ -20,13 +24,13 @@ export function renderInventoryDetails() {
             </div>
 
             <div class="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar bg-slate-50/50 text-left">
-                
-                ${cache.products.length === 0 ? `
+
+                ${products.length === 0 ? `
                     <div class="p-20 text-center opacity-30">
                         <span class="material-icons-outlined text-4xl mb-4">inventory_2</span>
                         <p class="text-[10px] font-black uppercase tracking-widest">No Inventory Found</p>
                     </div>
-                ` : cache.products.map(p => {
+                ` : products.map(p => {
         // Calculate basic metrics (simulated if missing)
         const stock = parseInt(p.stock) || 0;
         const price = parseInt(p.price) || 0; // MOP

@@ -1,9 +1,28 @@
+import { state, triggerRender } from '../../state.js';
+
+// Helper function to set repair customer context
+window.setRepairCustomer = (name, phone) => {
+    state.repairContext = { customer_name: name, customer_phone: phone };
+    triggerRender();
+};
+
 export function renderRepairSearch() {
     const devices = [
         { n: 'iPhone 16 Pro, 256GB', d: 'Sep 24, 2024', w: 'ACTIVE', i: 'smartphone', c: 'text-green-500' },
         { n: 'Watch Ultra 2', d: 'Dec 12, 2023', w: 'EXPIRED', i: 'watch', c: 'text-slate-300' },
         { n: 'AirPods Max', d: 'Jan 05, 2023', w: 'EXPIRED', i: 'headphones', c: 'text-slate-300' }
     ];
+
+    // Get search value from input
+    const searchInput = document.getElementById('repair-search-input');
+    const searchVal = searchInput ? searchInput.value.trim() : '';
+
+    // Get cached customers for search
+    const cache = window.getCache ? window.getCache() : { customers: [] };
+    const filteredCustomers = searchVal ? cache.customers.filter(c =>
+        c.name.toLowerCase().includes(searchVal.toLowerCase()) ||
+        c.phone.includes(searchVal)
+    ) : [];
 
     return `
         <div class="space-y-8 animate-slide-up text-left">

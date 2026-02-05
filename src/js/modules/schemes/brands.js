@@ -10,7 +10,7 @@ export function renderSchemeBrands() {
     return `
         <div class="space-y-4 text-left">
             ${brands.map(b => `
-                <div onclick="selectSchemeBrand('${b.n}')" class="card p-5 border-2 transition-all group cursor-pointer relative overflow-hidden text-left ${state.activeBrand === b.n ? 'border-slate-900 shadow-lg' : 'border-transparent hover:border-slate-200'}">
+                <div onclick="selectSchemeBrand('${b.n}')" class="card p-5 border-2 transition-all group cursor-pointer relative overflow-hidden text-left ${state.activeSchemeBrand === b.n ? 'border-slate-900 shadow-lg' : 'border-transparent hover:border-slate-200'}">
                     <div class="flex items-center justify-between mb-6 text-left">
                         <div class="flex items-center gap-4 text-left">
                             <div class="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center border border-slate-100 text-left">

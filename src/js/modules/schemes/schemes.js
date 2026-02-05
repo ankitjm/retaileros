@@ -9,7 +9,7 @@ export function renderSchemes(mode) {
 
     // Helper to switch views
     window.selectSchemeBrand = (brandName) => {
-        state.activeBrand = brandName;
+        state.activeSchemeBrand = brandName;
         state.schemesTab = 'list';
         triggerRender();
     };

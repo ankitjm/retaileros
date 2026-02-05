@@ -1,8 +1,83 @@
 import { state } from '../../state.js';
 
-export function renderRegister() {
+// Render registration for different layouts
+export function renderRegister(layout = 'mobile') {
+    if (layout === 'desktop-primary') {
+        return renderRegisterPrimary();
+    }
+    if (layout === 'desktop-secondary') {
+        return renderRegisterSecondary();
+    }
+    return renderRegisterMobile();
+}
+
+// Desktop primary column (steps 1 & 2)
+function renderRegisterPrimary() {
     const step = state.registrationStep;
 
+    return `
+        <div class="h-full w-full flex flex-col items-center justify-center p-8 bg-white dot-grid relative overflow-hidden text-center">
+            ${step === 1 || step === 2 ? renderStepContent(step) : renderStepContent(3)}
+
+            <div class="absolute bottom-6 flex items-center gap-2">
+                <span class="material-icons-outlined text-indigo-400 text-xs">verified_user</span>
+                <p class="text-[9px] font-black text-indigo-400 uppercase tracking-widest opacity-30">Secure ${step === 2 ? 'Verification' : 'Encryption'}</p>
+            </div>
+        </div>
+    `;
+}
+
+// Desktop secondary/preview column (step 3 preview)
+function renderRegisterSecondary() {
+    const step = state.registrationStep;
+
+    if (step < 3) {
+        // Show preview of what's coming next
+        return `
+            <div class="h-full w-full flex flex-col items-center justify-center p-8 bg-slate-50/50 dot-grid relative overflow-hidden text-center">
+                <div class="opacity-40 text-center">
+                    <div class="w-20 h-20 bg-slate-200 rounded-2xl flex items-center justify-center shadow-lg mb-6 mx-auto">
+                        <span class="material-icons-outlined text-slate-400 text-4xl">store</span>
+                    </div>
+                    <h2 class="text-xl font-black text-slate-400 mb-2">Store Details</h2>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Coming up next...</p>
+                    <div class="mt-8 space-y-2">
+                        ${['Store Name', 'Owner Details', 'GSTIN', 'Store Type'].map(item => `
+                            <div class="h-12 bg-white/50 border border-slate-200 rounded-xl"></div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    // Show step 3 content
+    return `
+        <div class="h-full w-full flex flex-col p-8 bg-white relative overflow-y-auto custom-scrollbar">
+            ${renderStepContent(3)}
+        </div>
+    `;
+}
+
+// Mobile full-screen view
+function renderRegisterMobile() {
+    const step = state.registrationStep;
+
+    return `
+        <div class="h-full w-full flex flex-col items-center justify-center p-6 bg-white dot-grid relative overflow-hidden text-center">
+            ${renderStepContent(step)}
+
+            <div class="absolute bottom-6 flex items-center gap-2">
+                <span class="material-icons-outlined text-indigo-400 text-xs">verified_user</span>
+                <p class="text-[9px] font-black text-indigo-400 uppercase tracking-widest opacity-30">Secure ${step === 2 ? 'Verification' : step === 3 ? 'Encryption' : 'Encryption'}</p>
+            </div>
+            <div class="w-40 h-1 bg-slate-100 absolute bottom-3 rounded-full"></div>
+        </div>
+    `;
+}
+
+// Shared step content generator
+function renderStepContent(step) {
     let stepContent = '';
 
     if (step === 1) {
@@ -118,15 +193,5 @@ export function renderRegister() {
         `;
     }
 
-    return `
-        <div class="h-full w-full flex flex-col items-center justify-center p-6 bg-white dot-grid relative overflow-hidden text-center">
-            ${stepContent}
-            
-            <div class="absolute bottom-6 flex items-center gap-2">
-                <span class="material-icons-outlined text-indigo-400 text-xs">verified_user</span>
-                <p class="text-[9px] font-black text-indigo-400 uppercase tracking-widest opacity-30">Secure ${step === 2 ? 'Verification' : step === 3 ? 'Encryption' : 'Encryption'}</p>
-            </div>
-            <div class="w-40 h-1 bg-slate-100 absolute bottom-3 rounded-full"></div>
-        </div>
-    `;
+    return stepContent;
 }

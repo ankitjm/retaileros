@@ -1,7 +1,18 @@
-import { state } from '../../state.js';
+import { state, triggerRender } from '../../state.js';
+
+// Helper functions for scheme selection
+window.setSchemeViewMode = (mode) => {
+    state.showSchemeDetails = mode === 'details';
+    triggerRender();
+};
+
+window.setActiveScheme = (scheme) => {
+    state.activeScheme = scheme;
+    triggerRender();
+};
 
 export function renderSchemesList() {
-    const cache = window.getCache();
+    const cache = window.getCache ? window.getCache() : { schemes: [] };
     const schemes = cache.schemes || [];
 
     return `
