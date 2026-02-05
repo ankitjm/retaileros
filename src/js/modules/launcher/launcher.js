@@ -1,5 +1,5 @@
 import { state } from '../../state.js';
-import { renderAuth } from '../auth/index.js';
+import { renderAuth, renderLogin } from '../auth/index.js';
 import { renderAppsGrid } from './apps-grid.js';
 import { renderLauncherFooter } from './footer.js';
 
@@ -38,9 +38,9 @@ export function renderLauncher(mode) {
                         </div>
                     </div>` : ''}
                 ` : `
-                    <!-- Auth View (Login/Register) when logged out -->
+                    <!-- Auth View (Login only in desktop, full auth in mobile) -->
                     <div id="auth-container" class="h-full w-full py-10">
-                         ${renderAuth()}
+                         ${isMob ? renderAuth() : renderLogin()}
                     </div>
                 `}
             </div>
