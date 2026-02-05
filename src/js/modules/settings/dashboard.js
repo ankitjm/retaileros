@@ -9,20 +9,20 @@ export function renderSettingsDashboard(mode) {
         { n: 'Finance', i: 'account_balance', k: 'accounting' },
         { n: 'Ledger', i: 'menu_book', k: 'ledger' },
         { n: 'Store', i: 'store', k: 'store' },
-        { n: 'Security', i: 'security' },
-        { n: 'Alerts', i: 'notifications' },
-        { n: 'Taxes', i: 'percent' },
-        { n: 'Plugins', i: 'grid_view' },
-        { n: 'Teams', i: 'hub' },
-        { n: 'Logs', i: 'history' },
-        { n: 'Lang', i: 'language' },
-        { n: 'Backup', i: 'cloud_upload' },
+        { n: 'Security', i: 'security', k: 'security' },
+        { n: 'Alerts', i: 'notifications', k: 'alerts' },
+        { n: 'Taxes', i: 'percent', k: 'taxes' },
+        { n: 'Plugins', i: 'grid_view', k: 'plugins' },
+        { n: 'Teams', i: 'hub', k: 'teams' },
+        { n: 'Logs', i: 'history', k: 'logs' },
+        { n: 'Lang', i: 'language', k: 'lang' },
+        { n: 'Backup', i: 'cloud_upload', k: 'backup' },
         { n: 'Bills', i: 'description' },
         { n: 'AI Config', i: 'smart_toy', k: 'ai' },
-        { n: 'Updates', i: 'update' },
+        { n: 'Updates', i: 'update', k: 'updates' },
         { n: 'API', i: 'key' },
-        { n: 'Theme', i: 'palette' },
-        { n: 'Help', i: 'support' }
+        { n: 'Theme', i: 'palette', k: 'theme' },
+        { n: 'Help', i: 'support', k: 'help' }
     ];
 
     return `
