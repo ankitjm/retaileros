@@ -217,8 +217,20 @@ export function renderOrderDetail() {
     window._printOrder = () => { window.print(); };
 
     return `
-        <div id="order-detail" class="card p-6 sm:p-8 bg-white text-slate-900 leading-relaxed shadow-sm relative h-full flex flex-col border border-slate-100 print:shadow-none print:border-0">
-            <!-- Header -->
+        <div id="order-detail" class="bg-white text-slate-900 leading-relaxed relative h-full flex flex-col print:shadow-none print:border-0">
+            <!-- Back Button -->
+            <header class="p-4 shrink-0 flex items-center gap-3 border-b border-slate-100 bg-white sticky top-0 z-20 print:hidden">
+                <button onclick="window.setMyStoreViewMode('orders')" class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-900">
+                    <span class="material-icons-outlined">arrow_back</span>
+                </button>
+                <div>
+                    <h3 class="text-xs font-black text-slate-900 uppercase tracking-widest">Order Detail</h3>
+                    <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest">#${order.order_number}</p>
+                </div>
+            </header>
+
+            <div class="flex-1 overflow-y-auto p-6 sm:p-8">
+            <!-- Invoice Header -->
             <div class="text-center border-b border-dashed border-slate-200 pb-6 mb-6">
                 <h2 class="text-2xl font-black tracking-tighter mb-1">${isDelivered ? 'Invoice' : isCancelled ? 'Cancelled Order' : 'Order'}</h2>
                 <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">RetailerOS • Online Order</p>
@@ -417,6 +429,7 @@ export function renderOrderDetail() {
                 <button type="button" onclick="window._printOrder()" class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-all" title="Print">
                     <span class="material-icons-outlined text-lg">print</span>
                 </button>
+            </div>
             </div>
         </div>
     `;

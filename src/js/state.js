@@ -39,7 +39,7 @@ export const state = {
     inventoryTab: 'brands', // brands | categories
     inventoryMode: 'details', // details | inward
     activeCategory: null,
-    settingsView: 'roles', // roles | accounting | ledger
+    settingsView: null, // null = dashboard | roles | accounting | ledger | etc.
     viewportWidth: window.innerWidth,
     gridCols: window.innerWidth < 768 ? 4 : 3,
     schemesTab: 'list', // brands | list
