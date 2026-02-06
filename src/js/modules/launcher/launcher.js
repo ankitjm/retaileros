@@ -11,10 +11,10 @@ export function renderLauncher(mode) {
             <header class="p-4 sm:p-8 pb-4 shrink-0">
                 <div class="flex items-center justify-between mb-2">
                      <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow"><div class="w-2 h-2 bg-white rounded-full"></div></div>
+                        <img src="/ros-logo.jpeg" alt="RetailerOS" class="w-10 h-10 rounded-xl object-cover shadow-lg hover:shadow-xl transition-shadow">
                         <div class="text-left">
                             <h1 class="text-xl font-black tracking-tighter text-slate-900">RetailerOS</h1>
-                            <p class="text-[9px] font-bold text-slate-300 uppercase tracking-[0.2em] -mt-1">App Launcher</p>
+                            <p class="text-[9px] font-bold text-slate-300 uppercase tracking-[0.2em] -mt-1">${new Date().toLocaleDateString('en-GB', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' })}</p>
                         </div>
                      </div>
                      ${!isMob ? '' : `
