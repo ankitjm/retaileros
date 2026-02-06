@@ -45,11 +45,11 @@ export function renderDashboard(isMobile) {
 
     const getStatusBadge = (status) => {
         switch (status) {
-            case 'pending': return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-amber-50 text-amber-500">Pending</span>';
-            case 'confirmed': return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-blue-50 text-blue-500">Confirmed</span>';
-            case 'shipped': return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-purple-50 text-purple-500">Shipped</span>';
-            case 'delivered': return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-green-50 text-green-500">Delivered</span>';
-            case 'cancelled': return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-red-50 text-red-500">Cancelled</span>';
+            case 'pending': return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-slate-200 text-slate-600">Pending</span>';
+            case 'confirmed': return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-slate-300 text-slate-700">Confirmed</span>';
+            case 'shipped': return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-slate-300 text-slate-700">Shipped</span>';
+            case 'delivered': return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-slate-900 text-white">Delivered</span>';
+            case 'cancelled': return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-400">Cancelled</span>';
             default: return '';
         }
     };
@@ -76,8 +76,8 @@ export function renderDashboard(isMobile) {
                     </button>
                 </div>
                 <div class="flex items-center gap-4 mt-3 text-left">
-                    <span class="text-[8px] font-bold text-green-500 flex items-center gap-1">
-                        <span class="w-1.5 h-1.5 bg-green-400 rounded-full"></span> Store Live
+                    <span class="text-[8px] font-bold text-slate-500 flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 bg-slate-900 rounded-full"></span> Store Live
                     </span>
                     <span class="text-[8px] font-bold text-slate-400">${activeListings} products listed</span>
                 </div>
@@ -87,30 +87,30 @@ export function renderDashboard(isMobile) {
             <div class="grid grid-cols-2 gap-3 text-left">
                 <div class="card p-4 text-left">
                     <div class="flex items-center justify-between mb-2 text-left">
-                        <span class="material-icons-outlined text-lg text-green-500">inventory_2</span>
-                        <span class="text-[8px] font-black text-green-500 uppercase">Active</span>
+                        <span class="material-icons-outlined text-lg text-slate-400">inventory_2</span>
+                        <span class="text-[8px] font-black text-slate-500 uppercase">Active</span>
                     </div>
                     <p class="text-2xl font-black text-slate-900 tracking-tighter">${activeListings}</p>
                     <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mt-1">Listings</p>
                 </div>
                 <div class="card p-4 text-left">
                     <div class="flex items-center justify-between mb-2 text-left">
-                        <span class="material-icons-outlined text-lg text-blue-500">shopping_bag</span>
-                        <span class="text-[8px] font-black text-blue-500 uppercase">${pendingOrders > 0 ? pendingOrders + ' new' : 'All'}</span>
+                        <span class="material-icons-outlined text-lg text-slate-400">shopping_bag</span>
+                        <span class="text-[8px] font-black text-slate-500 uppercase">${pendingOrders > 0 ? pendingOrders + ' new' : 'All'}</span>
                     </div>
                     <p class="text-2xl font-black text-slate-900 tracking-tighter">${totalOrders}</p>
                     <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mt-1">Orders</p>
                 </div>
                 <div class="card p-4 text-left">
                     <div class="flex items-center justify-between mb-2 text-left">
-                        <span class="material-icons-outlined text-lg text-emerald-500">payments</span>
+                        <span class="material-icons-outlined text-lg text-slate-400">payments</span>
                     </div>
                     <p class="text-2xl font-black text-slate-900 tracking-tighter">${onlineRevenue > 0 ? '₹' + onlineRevenue.toLocaleString() : '₹0'}</p>
                     <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mt-1">Online Revenue</p>
                 </div>
                 <div class="card p-4 text-left">
                     <div class="flex items-center justify-between mb-2 text-left">
-                        <span class="material-icons-outlined text-lg text-amber-500">pending_actions</span>
+                        <span class="material-icons-outlined text-lg text-slate-400">pending_actions</span>
                     </div>
                     <p class="text-2xl font-black text-slate-900 tracking-tighter">${pendingOrders + confirmedOrders + shippedOrders}</p>
                     <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mt-1">In Progress</p>

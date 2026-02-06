@@ -127,12 +127,12 @@ export function renderSettingsSecurity() {
                     <div class="space-y-3 text-left">
                         <div class="card p-4 flex items-center justify-between text-left">
                             <div class="flex items-center gap-3 text-left">
-                                <div class="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center">
-                                    <span class="material-icons-outlined text-green-500">computer</span>
+                                <div class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center">
+                                    <span class="material-icons-outlined text-white">computer</span>
                                 </div>
                                 <div class="text-left">
                                     <p class="text-xs font-black text-slate-900">This Browser</p>
-                                    <p class="text-[9px] font-bold text-green-500">Active Now</p>
+                                    <p class="text-[9px] font-bold text-slate-900">Active Now</p>
                                 </div>
                             </div>
                             <span class="text-[8px] font-bold text-slate-300 uppercase">Current</span>
@@ -147,7 +147,7 @@ export function renderSettingsSecurity() {
                                     <p class="text-[9px] font-bold text-slate-400">Last active 2 hours ago</p>
                                 </div>
                             </div>
-                            <button onclick="window.toast.info('Device revoked')" class="px-3 py-1.5 bg-red-50 text-red-500 rounded-lg text-[8px] font-black uppercase tracking-widest hover:bg-red-100 transition-all">Revoke</button>
+                            <button onclick="window.toast.info('Device revoked')" class="px-3 py-1.5 bg-slate-100 text-slate-400 rounded-lg text-[8px] font-black uppercase tracking-widest hover:bg-slate-200 transition-all">Revoke</button>
                         </div>
                     </div>
                 </div>
@@ -169,7 +169,7 @@ export function renderSettingsSecurity() {
                                     <p class="text-[10px] font-bold text-slate-900">${l.device}</p>
                                     <p class="text-[8px] font-bold text-slate-400">${l.time} &middot; ${l.ip}</p>
                                 </div>
-                                <span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full ${l.status === 'success' ? 'bg-green-50 text-green-500' : 'bg-red-50 text-red-500'}">${l.status}</span>
+                                <span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full ${l.status === 'success' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-400'}">${l.status}</span>
                             </div>
                         `).join('')}
                     </div>

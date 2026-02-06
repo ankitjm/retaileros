@@ -33,12 +33,12 @@ export function renderMyStoreHeader() {
                 <button type="button" onclick="window.setMyStoreTab('orders')" class="flex-1 py-3 text-[10px] font-black uppercase rounded-lg transition-all flex items-center justify-center gap-1.5 relative ${state.myStoreTab === 'orders' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-400'}">
                     <span class="material-icons-outlined text-sm">shopping_bag</span>
                     <span class="hidden sm:inline">Orders</span>
-                    ${pendingCount > 0 ? `<span class="absolute -top-1 right-2 w-4 h-4 bg-red-500 text-white text-[7px] font-black rounded-full flex items-center justify-center">${pendingCount}</span>` : ''}
+                    ${pendingCount > 0 ? `<span class="absolute -top-1 right-2 w-4 h-4 bg-slate-900 text-white text-[7px] font-black rounded-full flex items-center justify-center">${pendingCount}</span>` : ''}
                 </button>
                 <button type="button" onclick="window.setMyStoreTab('shipping')" class="flex-1 py-3 text-[10px] font-black uppercase rounded-lg transition-all flex items-center justify-center gap-1.5 relative ${state.myStoreTab === 'shipping' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-400'}">
                     <span class="material-icons-outlined text-sm">local_shipping</span>
                     <span class="hidden sm:inline">Shipping</span>
-                    ${shippingCount > 0 ? `<span class="absolute -top-1 right-2 w-4 h-4 bg-amber-500 text-white text-[7px] font-black rounded-full flex items-center justify-center">${shippingCount}</span>` : ''}
+                    ${shippingCount > 0 ? `<span class="absolute -top-1 right-2 w-4 h-4 bg-slate-900 text-white text-[7px] font-black rounded-full flex items-center justify-center">${shippingCount}</span>` : ''}
                 </button>
             </div>
         </header>

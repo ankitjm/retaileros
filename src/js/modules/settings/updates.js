@@ -4,7 +4,7 @@ export function renderSettingsUpdates() {
             version: '2.1.0',
             date: 'February 6, 2026',
             tag: 'Latest',
-            tagColor: 'green',
+            tagColor: 'slate',
             highlights: [
                 { icon: 'shield', title: 'Complete Multi-Tenant Isolation', desc: 'Every table now filtered by retailer_id — your data is fully isolated from other stores.' },
                 { icon: 'table_chart', title: '3 New Modules', desc: 'Inquiries, Repairs, and Inventory Logs now fully integrated with tenant architecture.' },
@@ -22,7 +22,7 @@ export function renderSettingsUpdates() {
             version: '2.0.0',
             date: 'February 5, 2026',
             tag: 'Major',
-            tagColor: 'indigo',
+            tagColor: 'slate',
             highlights: [
                 { icon: 'store', title: 'Multi-Tenant Architecture', desc: 'Full SaaS multi-tenant design with row-level data isolation per retailer.' },
                 { icon: 'login', title: 'Real Authentication', desc: 'DB-backed login via mobile number or store code. No more mock login.' },
@@ -87,7 +87,7 @@ export function renderSettingsUpdates() {
                                 <p class="text-[9px] font-bold text-slate-400 mt-1">${releases[0].date}</p>
                             </div>
                             <div class="text-right">
-                                <span class="inline-block px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-[8px] font-black uppercase tracking-widest">Up to date</span>
+                                <span class="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-[8px] font-black uppercase tracking-widest">Up to date</span>
                                 <p class="text-[8px] font-bold text-slate-500 mt-2">RetailerOS by DigitalHues</p>
                             </div>
                         </div>
@@ -109,8 +109,8 @@ export function renderSettingsUpdates() {
                             <div class="space-y-3 mb-4 text-left">
                                 ${rel.highlights.map(h => `
                                     <div class="card p-4 flex items-start gap-3 text-left">
-                                        <div class="w-8 h-8 bg-indigo-50 rounded-lg flex items-center justify-center shrink-0">
-                                            <span class="material-icons-outlined text-indigo-500 text-sm">${h.icon}</span>
+                                        <div class="w-8 h-8 bg-slate-50 rounded-lg flex items-center justify-center shrink-0">
+                                            <span class="material-icons-outlined text-slate-500 text-sm">${h.icon}</span>
                                         </div>
                                         <div class="text-left">
                                             <p class="text-[11px] font-black text-slate-900">${h.title}</p>

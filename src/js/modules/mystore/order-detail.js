@@ -51,11 +51,11 @@ export function renderOrderDetail() {
 
     const getStatusColor = (status) => {
         switch (status) {
-            case 'pending': return 'amber';
-            case 'confirmed': return 'blue';
-            case 'shipped': return 'purple';
-            case 'delivered': return 'green';
-            case 'cancelled': return 'red';
+            case 'pending': return 'slate';
+            case 'confirmed': return 'slate';
+            case 'shipped': return 'slate';
+            case 'delivered': return 'slate';
+            case 'cancelled': return 'slate';
             default: return 'slate';
         }
     };
@@ -224,7 +224,7 @@ export function renderOrderDetail() {
                 <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">RetailerOS • Online Order</p>
                 <div class="mt-4 flex justify-between text-[8px] font-bold text-slate-400 uppercase tracking-widest px-4">
                     <span>Order #${order.order_number}</span>
-                    <span class="text-${getStatusColor(order.order_status)}-500 font-black">${order.order_status.toUpperCase()}</span>
+                    <span class="text-slate-500 font-black">${order.order_status.toUpperCase()}</span>
                 </div>
             </div>
 
@@ -261,7 +261,7 @@ export function renderOrderDetail() {
             <!-- Tracking Info -->
             ${order.tracking_number ? `
                 <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl mb-6 flex items-center gap-3">
-                    <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 shrink-0">
+                    <div class="w-8 h-8 bg-slate-200 rounded-full flex items-center justify-center text-slate-500 shrink-0">
                         <span class="material-icons-outlined text-sm">local_shipping</span>
                     </div>
                     <div class="flex-1 text-left">
@@ -272,7 +272,7 @@ export function renderOrderDetail() {
                         </div>
                         <div class="flex items-center gap-4 mt-1">
                             ${order.shipped_date ? `<span class="text-[9px] font-bold text-slate-400">Shipped: ${formatDate(order.shipped_date)}</span>` : ''}
-                            ${order.delivered_date ? `<span class="text-[9px] font-bold text-green-500">Delivered: ${formatDate(order.delivered_date)}</span>` : ''}
+                            ${order.delivered_date ? `<span class="text-[9px] font-bold text-slate-500">Delivered: ${formatDate(order.delivered_date)}</span>` : ''}
                         </div>
                     </div>
                 </div>
@@ -283,7 +283,7 @@ export function renderOrderDetail() {
                 <div class="flex items-center justify-between mb-6 px-2">
                     ${statusSteps.map((step, i) => `
                         <div class="flex flex-col items-center gap-1">
-                            <div class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] ${i <= currentStepIdx ? `bg-${getStatusColor(step)}-500 text-white` : 'bg-slate-100 text-slate-300'}">
+                            <div class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] ${i <= currentStepIdx ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-300'}">
                                 ${i <= currentStepIdx ? '<span class="material-icons-outlined text-xs">check</span>' : '<span class="material-icons-outlined text-xs">circle</span>'}
                             </div>
                             <p class="text-[6px] font-black uppercase tracking-widest ${i <= currentStepIdx ? 'text-slate-700' : 'text-slate-300'}">${step}</p>
@@ -335,13 +335,13 @@ export function renderOrderDetail() {
                     <span class="text-[9px] font-black bg-white text-slate-900 px-2 py-1 rounded uppercase tracking-widest">Paid</span>
                 </div>
             ` : isCancelled ? `
-                <div class="bg-red-50 border border-red-200 p-4 rounded-xl mt-6 flex items-center gap-3">
-                    <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center text-red-500">
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl mt-6 flex items-center gap-3">
+                    <div class="w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center text-slate-400">
                         <span class="material-icons-outlined text-sm">cancel</span>
                     </div>
                     <div>
-                        <p class="text-[9px] font-black text-red-600 uppercase tracking-widest">Order Cancelled</p>
-                        <p class="text-[8px] font-bold text-red-400">This order has been cancelled</p>
+                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Order Cancelled</p>
+                        <p class="text-[8px] font-bold text-slate-400">This order has been cancelled</p>
                     </div>
                 </div>
             ` : `
@@ -377,34 +377,34 @@ export function renderOrderDetail() {
             ${!isCancelled && !isDelivered ? `
                 <div class="space-y-3 mt-6 no-print">
                     ${order.order_status === 'pending' ? `
-                        <button type="button" onclick="window._confirmOrder('${order.id}')" class="w-full py-4 bg-blue-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                        <button type="button" onclick="window._confirmOrder('${order.id}')" class="w-full py-4 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2">
                             <span class="material-icons-outlined text-sm">thumb_up</span> Confirm Order
                         </button>
                     ` : ''}
                     ${order.order_status === 'confirmed' ? `
-                        <button type="button" onclick="window._shipOrder('${order.id}')" class="w-full py-4 bg-purple-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                        <button type="button" onclick="window._shipOrder('${order.id}')" class="w-full py-4 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2">
                             <span class="material-icons-outlined text-sm">local_shipping</span> Mark as Shipped
                         </button>
                     ` : ''}
                     ${order.order_status === 'shipped' ? `
-                        <button type="button" onclick="window._deliverOrder('${order.id}')" class="w-full py-4 bg-green-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                        <button type="button" onclick="window._deliverOrder('${order.id}')" class="w-full py-4 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2">
                             <span class="material-icons-outlined text-sm">check_circle</span> Mark as Delivered
                         </button>
                     ` : ''}
-                    <button type="button" onclick="window._cancelOrder('${order.id}')" class="w-full py-3 bg-white border border-red-200 text-red-500 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-red-50 transition-all flex items-center justify-center gap-2">
+                    <button type="button" onclick="window._cancelOrder('${order.id}')" class="w-full py-3 bg-white border border-slate-200 text-slate-400 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-slate-50 transition-all flex items-center justify-center gap-2">
                         <span class="material-icons-outlined text-sm">cancel</span> Cancel Order
                     </button>
                 </div>
             ` : ''}
 
             ${isDelivered && order.sale_id ? `
-                <div class="bg-green-50 border border-green-200 p-4 rounded-xl mt-6 flex items-center gap-3 text-left">
-                    <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center text-green-600 shrink-0">
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl mt-6 flex items-center gap-3 text-left">
+                    <div class="w-8 h-8 bg-slate-200 rounded-full flex items-center justify-center text-slate-500 shrink-0">
                         <span class="material-icons-outlined text-sm">receipt_long</span>
                     </div>
                     <div class="text-left">
-                        <p class="text-[9px] font-black text-green-700 uppercase tracking-widest">Invoice Created in Sales Desk</p>
-                        <p class="text-[8px] font-bold text-green-500">Sale ID: ${order.sale_id}</p>
+                        <p class="text-[9px] font-black text-slate-700 uppercase tracking-widest">Invoice Created in Sales Desk</p>
+                        <p class="text-[8px] font-bold text-slate-500">Sale ID: ${order.sale_id}</p>
                     </div>
                 </div>
             ` : ''}

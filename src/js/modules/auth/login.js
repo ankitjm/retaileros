@@ -3,7 +3,7 @@ export function renderLogin() {
         <div class="h-full w-full flex flex-col items-center justify-center p-0 animate-slide-up">
             <!-- Header Section (Subtle for Sidebar) -->
             <div class="text-center mb-8">
-                <p class="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em]">Enterprise Authentication</p>
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Enterprise Authentication</p>
             </div>
 
             <!-- Login Content -->
@@ -17,8 +17,8 @@ export function renderLogin() {
                 </div>
 
                 <div id="login-error" class="hidden">
-                    <div class="p-3 bg-red-50 border border-red-200 rounded-xl">
-                        <p class="text-[10px] font-bold text-red-600" id="login-error-text"></p>
+                    <div class="p-3 bg-slate-100 border border-slate-200 rounded-xl">
+                        <p class="text-[10px] font-bold text-slate-600" id="login-error-text"></p>
                     </div>
                 </div>
 
@@ -38,8 +38,8 @@ export function renderLogin() {
 
             <!-- Bottom Footnote -->
             <div class="mt-12 flex items-center gap-2 opacity-30">
-                <span class="material-icons-outlined text-indigo-400 text-sm">verified_user</span>
-                <p class="text-[8px] font-black text-indigo-400 uppercase tracking-widest">End-to-end Encrypted</p>
+                <span class="material-icons-outlined text-slate-400 text-sm">verified_user</span>
+                <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest">End-to-end Encrypted</p>
             </div>
         </div>
     `;

@@ -8,7 +8,7 @@ window.setRepairCustomer = (name, phone) => {
 
 export function renderRepairSearch() {
     const devices = [
-        { n: 'iPhone 16 Pro, 256GB', d: 'Sep 24, 2024', w: 'ACTIVE', i: 'smartphone', c: 'text-green-500' },
+        { n: 'iPhone 16 Pro, 256GB', d: 'Sep 24, 2024', w: 'ACTIVE', i: 'smartphone', c: 'text-slate-900' },
         { n: 'Watch Ultra 2', d: 'Dec 12, 2023', w: 'EXPIRED', i: 'watch', c: 'text-slate-300' },
         { n: 'AirPods Max', d: 'Jan 05, 2023', w: 'EXPIRED', i: 'headphones', c: 'text-slate-300' }
     ];

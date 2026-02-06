@@ -58,7 +58,7 @@ export function renderCategories() {
                     </div>
                      <div class="text-right">
                         <p class="text-[7px] font-black text-slate-400 uppercase tracking-widest mb-0.5 text-right">EXPECTED MARGIN</p>
-                        <h4 class="text-sm font-black text-green-500 tracking-tight text-right">₹${s.margin.toLocaleString()}</h4>
+                        <h4 class="text-sm font-black text-slate-900 tracking-tight text-right">₹${s.margin.toLocaleString()}</h4>
                     </div>
                 </div>
                 `;

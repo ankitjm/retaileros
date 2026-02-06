@@ -61,8 +61,8 @@ export function renderSettingsDashboard(mode) {
                      <div class="bg-white border border-slate-100 rounded-2xl p-4 flex gap-8 shadow-sm text-left">
                         <div class="text-left">
                              <p class="text-[7px] font-black text-slate-300 uppercase tracking-widest mb-1 text-left">SERVER STATUS</p>
-                             <div class="flex items-center gap-1.5 text-[9px] font-black text-green-600 uppercase tracking-wide text-left">
-                                <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse text-left"></span> Optimal
+                             <div class="flex items-center gap-1.5 text-[9px] font-black text-slate-900 uppercase tracking-wide text-left">
+                                <span class="w-1.5 h-1.5 bg-slate-900 rounded-full animate-pulse text-left"></span> Optimal
                              </div>
                         </div>
                          <div class="text-left">

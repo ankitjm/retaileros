@@ -35,8 +35,8 @@ export function renderMyStore(mode) {
                 </div>
                 <div class="space-y-3 flex-1 text-left">
                     <button type="button" onclick="window.setMyStoreTab('listings'); window.setMyStoreViewMode('add-listing')" class="card p-4 w-full border-2 border-transparent hover:border-slate-200 transition-all cursor-pointer text-left flex items-center gap-3">
-                        <div class="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center">
-                            <span class="material-icons-outlined text-green-500">add_circle</span>
+                        <div class="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center">
+                            <span class="material-icons-outlined text-slate-500">add_circle</span>
                         </div>
                         <div class="text-left">
                             <p class="text-xs font-black text-slate-900">Add New Listing</p>
@@ -44,8 +44,8 @@ export function renderMyStore(mode) {
                         </div>
                     </button>
                     <button type="button" onclick="window.setMyStoreTab('orders')" class="card p-4 w-full border-2 border-transparent hover:border-slate-200 transition-all cursor-pointer text-left flex items-center gap-3">
-                        <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
-                            <span class="material-icons-outlined text-blue-500">shopping_bag</span>
+                        <div class="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center">
+                            <span class="material-icons-outlined text-slate-500">shopping_bag</span>
                         </div>
                         <div class="text-left">
                             <p class="text-xs font-black text-slate-900">Manage Orders</p>
@@ -53,8 +53,8 @@ export function renderMyStore(mode) {
                         </div>
                     </button>
                     <button type="button" onclick="window.setMyStoreTab('shipping')" class="card p-4 w-full border-2 border-transparent hover:border-slate-200 transition-all cursor-pointer text-left flex items-center gap-3">
-                        <div class="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center">
-                            <span class="material-icons-outlined text-purple-500">local_shipping</span>
+                        <div class="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center">
+                            <span class="material-icons-outlined text-slate-500">local_shipping</span>
                         </div>
                         <div class="text-left">
                             <p class="text-xs font-black text-slate-900">Shipping Queue</p>
@@ -65,7 +65,7 @@ export function renderMyStore(mode) {
                 <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl mt-4">
                     <div class="grid grid-cols-2 gap-4 text-center">
                         <div>
-                            <p class="text-lg font-black text-green-600">${activeCount}</p>
+                            <p class="text-lg font-black text-slate-900">${activeCount}</p>
                             <p class="text-[7px] font-black text-slate-400 uppercase tracking-widest">Live Products</p>
                         </div>
                         <div>

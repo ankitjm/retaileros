@@ -6,10 +6,10 @@ export function renderInquiriesList() {
 
     const getStatusClass = (status) => {
         switch (status) {
-            case 'PENDING': return 'bg-orange-50 text-orange-400';
-            case 'FULFILLED': return 'bg-green-50 text-green-500';
-            case 'CONTACTED': return 'bg-blue-50 text-blue-500';
-            case 'LOST SALE': return 'bg-red-50 text-red-400';
+            case 'PENDING': return 'bg-slate-200 text-slate-600';
+            case 'FULFILLED': return 'bg-slate-900 text-white';
+            case 'CONTACTED': return 'bg-slate-300 text-slate-700';
+            case 'LOST SALE': return 'bg-slate-100 text-slate-400';
             default: return 'bg-slate-50 text-slate-400';
         }
     };

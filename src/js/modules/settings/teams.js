@@ -24,10 +24,10 @@ export function renderSettingsTeams() {
             return { ...r, permissions: perms, count: members.filter(m => m.role === r.name).length };
         })
         : [
-            { name: 'Owner', count: members.filter(m => m.role === 'Owner').length || 1, color: 'indigo', description: 'Full access to all modules, settings & billing' },
-            { name: 'Store Manager', count: members.filter(m => m.role === 'Store Manager').length, color: 'blue', description: 'Sales, inventory, customers, reports. No billing or team settings' },
-            { name: 'Sales Executive', count: members.filter(m => m.role === 'Sales Executive').length, color: 'green', description: 'New sales, customer lookup, inquiries. No reports or settings' },
-            { name: 'Technician', count: members.filter(m => m.role === 'Technician').length, color: 'amber', description: 'Repairs module only. View assigned jobs, update status' },
+            { name: 'Owner', count: members.filter(m => m.role === 'Owner').length || 1, color: 'slate', description: 'Full access to all modules, settings & billing' },
+            { name: 'Store Manager', count: members.filter(m => m.role === 'Store Manager').length, color: 'slate', description: 'Sales, inventory, customers, reports. No billing or team settings' },
+            { name: 'Sales Executive', count: members.filter(m => m.role === 'Sales Executive').length, color: 'slate', description: 'New sales, customer lookup, inquiries. No reports or settings' },
+            { name: 'Technician', count: members.filter(m => m.role === 'Technician').length, color: 'slate', description: 'Repairs module only. View assigned jobs, update status' },
         ];
 
     const roleNames = roles.length > 0 ? roles.map(r => r.name) : ['Owner', 'Store Manager', 'Sales Executive', 'Technician'];
@@ -46,7 +46,7 @@ export function renderSettingsTeams() {
             if (!window._db_cache.teamMembers) window._db_cache.teamMembers = [];
             window._db_cache.teamMembers.push({ id, name: name.trim(), role, phone, status: 'invited' });
             const r = (() => { const c = window.getCache(); const rid = localStorage.getItem('retaileros_retailer_id'); return c.retailers?.find(x => x.id === rid) || {}; })();
-            db.activityLogs.add({ action: 'team', detail: `Added team member ${name.trim()}`, user_name: r.contact_person || 'Owner', icon: 'person_add', color: 'blue' });
+            db.activityLogs.add({ action: 'team', detail: `Added team member ${name.trim()}`, user_name: r.contact_person || 'Owner', icon: 'person_add', color: 'slate' });
             if (window.toast) window.toast.success(`${name.trim()} invited`);
             if (window.setSettingsView) window.setSettingsView('teams');
         } catch (err) {
@@ -64,7 +64,7 @@ export function renderSettingsTeams() {
                 window._db_cache.teamMembers = window._db_cache.teamMembers.filter(m => m.id !== id);
             }
             const r = (() => { const c = window.getCache(); const rid = localStorage.getItem('retaileros_retailer_id'); return c.retailers?.find(x => x.id === rid) || {}; })();
-            db.activityLogs.add({ action: 'team', detail: `Removed team member ${name}`, user_name: r.contact_person || 'Owner', icon: 'person_remove', color: 'red' });
+            db.activityLogs.add({ action: 'team', detail: `Removed team member ${name}`, user_name: r.contact_person || 'Owner', icon: 'person_remove', color: 'slate' });
             if (window.toast) window.toast.success(`${name} removed`);
             if (window.setSettingsView) window.setSettingsView('teams');
         } catch (err) {
@@ -73,7 +73,7 @@ export function renderSettingsTeams() {
         }
     };
 
-    const roleColorMap = { 'Owner': 'indigo', 'Store Manager': 'blue', 'Sales Executive': 'green', 'Technician': 'amber' };
+    const roleColorMap = { 'Owner': 'slate', 'Store Manager': 'slate', 'Sales Executive': 'slate', 'Technician': 'slate' };
 
     return `
         <div class="h-full flex flex-col relative bg-white animate-slide-up text-left">
@@ -102,7 +102,7 @@ export function renderSettingsTeams() {
                             <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mt-1">Active</p>
                         </div>
                         <div class="card p-4 text-center">
-                            <p class="text-2xl font-black text-amber-500">${members.filter(m => m.status === 'invited').length}</p>
+                            <p class="text-2xl font-black text-slate-400">${members.filter(m => m.status === 'invited').length}</p>
                             <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mt-1">Pending</p>
                         </div>
                         <div class="card p-4 text-center">
@@ -123,7 +123,7 @@ export function renderSettingsTeams() {
                         ${members.map((m, i) => {
                             const isOwner = m.role === 'Owner' && i === 0;
                             return `
-                            <div class="card p-4 flex items-center justify-between text-left ${m.status === 'invited' ? 'border-dashed border-amber-200 bg-amber-50/20' : ''}">
+                            <div class="card p-4 flex items-center justify-between text-left ${m.status === 'invited' ? 'border-dashed border-slate-200 bg-slate-50/20' : ''}">
                                 <div class="flex items-center gap-3 text-left">
                                     <div class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center">
                                         <span class="material-icons-outlined ${isOwner ? 'text-slate-500' : 'text-slate-400'}">person</span>
@@ -138,10 +138,10 @@ export function renderSettingsTeams() {
                                 </div>
                                 <div class="flex items-center gap-2 text-left">
                                     ${m.status === 'invited'
-                                        ? '<span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-amber-100 text-amber-600">Invited</span>'
-                                        : '<span class="w-2 h-2 bg-green-400 rounded-full"></span>'
+                                        ? '<span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-slate-200 text-slate-600">Invited</span>'
+                                        : '<span class="w-2 h-2 bg-slate-900 rounded-full"></span>'
                                     }
-                                    ${!isOwner ? `<button onclick="window._removeTeamMember('${m.id}','${(m.name || '').replace(/'/g, "\\'")}')" class="text-slate-300 hover:text-red-500 transition-colors"><span class="material-icons-outlined text-sm">close</span></button>` : ''}
+                                    ${!isOwner ? `<button onclick="window._removeTeamMember('${m.id}','${(m.name || '').replace(/'/g, "\\'")}')" class="text-slate-300 hover:text-slate-900 transition-colors"><span class="material-icons-outlined text-sm">close</span></button>` : ''}
                                 </div>
                             </div>
                         `;}).join('')}
@@ -201,10 +201,10 @@ export function renderSettingsTeams() {
                                 ].map(r => `
                                     <tr class="border-t border-slate-50">
                                         <td class="py-2.5 pr-4 text-[10px] font-bold text-slate-900">${r.mod}</td>
-                                        <td class="py-2.5 text-center"><span class="material-icons-outlined text-sm ${r.o ? 'text-green-500' : 'text-slate-200'}">${r.o ? 'check_circle' : 'cancel'}</span></td>
-                                        <td class="py-2.5 text-center"><span class="material-icons-outlined text-sm ${r.m ? 'text-green-500' : 'text-slate-200'}">${r.m ? 'check_circle' : 'cancel'}</span></td>
-                                        <td class="py-2.5 text-center"><span class="material-icons-outlined text-sm ${r.s ? 'text-green-500' : 'text-slate-200'}">${r.s ? 'check_circle' : 'cancel'}</span></td>
-                                        <td class="py-2.5 text-center"><span class="material-icons-outlined text-sm ${r.t ? 'text-green-500' : 'text-slate-200'}">${r.t ? 'check_circle' : 'cancel'}</span></td>
+                                        <td class="py-2.5 text-center"><span class="material-icons-outlined text-sm ${r.o ? 'text-slate-900' : 'text-slate-300'}">${r.o ? 'check_circle' : 'cancel'}</span></td>
+                                        <td class="py-2.5 text-center"><span class="material-icons-outlined text-sm ${r.m ? 'text-slate-900' : 'text-slate-300'}">${r.m ? 'check_circle' : 'cancel'}</span></td>
+                                        <td class="py-2.5 text-center"><span class="material-icons-outlined text-sm ${r.s ? 'text-slate-900' : 'text-slate-300'}">${r.s ? 'check_circle' : 'cancel'}</span></td>
+                                        <td class="py-2.5 text-center"><span class="material-icons-outlined text-sm ${r.t ? 'text-slate-900' : 'text-slate-300'}">${r.t ? 'check_circle' : 'cancel'}</span></td>
                                     </tr>
                                 `).join('')}
                             </tbody>

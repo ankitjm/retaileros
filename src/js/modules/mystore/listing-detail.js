@@ -17,9 +17,9 @@ export function renderListingDetail() {
 
     const getStatusBadge = (status) => {
         switch (status) {
-            case 'active': return '<span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-green-50 text-green-500">Active</span>';
-            case 'draft': return '<span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-slate-100 text-slate-500">Draft</span>';
-            case 'inactive': return '<span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-red-50 text-red-500">Inactive</span>';
+            case 'active': return '<span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-slate-900 text-white">Active</span>';
+            case 'draft': return '<span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-slate-200 text-slate-600">Draft</span>';
+            case 'inactive': return '<span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-slate-100 text-slate-400">Inactive</span>';
             default: return '';
         }
     };
@@ -142,11 +142,11 @@ export function renderListingDetail() {
 
             <!-- Action Buttons -->
             <div class="flex gap-2 mt-4">
-                <button type="button" onclick="window._toggleListingStatus('${listing.id}','${listing.status}')" class="flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${listing.status === 'active' ? 'bg-red-50 text-red-500 border border-red-200 hover:bg-red-100' : 'bg-green-50 text-green-600 border border-green-200 hover:bg-green-100'}">
+                <button type="button" onclick="window._toggleListingStatus('${listing.id}','${listing.status}')" class="flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${listing.status === 'active' ? 'bg-white border border-slate-200 text-slate-400 hover:bg-slate-50' : 'bg-slate-900 text-white border border-slate-900 hover:bg-slate-800'}">
                     <span class="material-icons-outlined text-sm">${listing.status === 'active' ? 'pause_circle' : 'play_circle'}</span>
                     ${listing.status === 'active' ? 'Deactivate' : 'Activate'}
                 </button>
-                <button type="button" onclick="window._deleteStoreListing('${listing.id}','${(listing.product_name || '').replace(/'/g, "\\'")}')" class="py-3 px-4 rounded-xl text-[10px] font-black uppercase tracking-widest bg-white border border-slate-200 text-slate-400 hover:text-red-500 hover:border-red-200 transition-all flex items-center justify-center gap-2">
+                <button type="button" onclick="window._deleteStoreListing('${listing.id}','${(listing.product_name || '').replace(/'/g, "\\'")}')" class="py-3 px-4 rounded-xl text-[10px] font-black uppercase tracking-widest bg-white border border-slate-200 text-slate-400 hover:text-slate-400 hover:border-slate-300 transition-all flex items-center justify-center gap-2">
                     <span class="material-icons-outlined text-sm">delete</span>
                 </button>
             </div>

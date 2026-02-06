@@ -269,7 +269,7 @@ export function render() {
         }
     } catch (e) {
         console.error(e);
-        appContainer.innerHTML = `< div class="p-4 text-red-500 font-bold" > Error: ${e.message} <br><small>${e.stack}</small></div>`;
+        appContainer.innerHTML = `< div class="p-4 text-slate-500 font-bold" > Error: ${e.message} <br><small>${e.stack}</small></div>`;
     }
 }
 

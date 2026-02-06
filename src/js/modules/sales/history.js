@@ -147,7 +147,7 @@ export function renderHistory() {
                     <button type="button" onclick="window.setHistoryViewMode('online')" class="flex-1 py-3 text-[10px] font-black uppercase rounded-lg transition-all flex items-center justify-center gap-2 relative ${viewMode === 'online' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-400'}">
                         <span class="material-icons-outlined text-sm">public</span>
                         <span class="hidden sm:inline">Online</span> (${storeOrders.length})
-                        ${storeOrders.filter(o => o.order_status === 'pending').length > 0 ? `<span class="absolute -top-1 right-1 w-4 h-4 bg-red-500 text-white text-[7px] font-black rounded-full flex items-center justify-center">${storeOrders.filter(o => o.order_status === 'pending').length}</span>` : ''}
+                        ${storeOrders.filter(o => o.order_status === 'pending').length > 0 ? `<span class="absolute -top-1 right-1 w-4 h-4 bg-slate-900 text-white text-[7px] font-black rounded-full flex items-center justify-center">${storeOrders.filter(o => o.order_status === 'pending').length}</span>` : ''}
                     </button>
                     <button type="button" onclick="window.setHistoryViewMode('drafts')" class="flex-1 py-3 text-[10px] font-black uppercase rounded-lg transition-all flex items-center justify-center gap-2 ${viewMode === 'drafts' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-400'}">
                         <span class="material-icons-outlined text-sm">edit_note</span>
@@ -230,9 +230,9 @@ export function renderHistory() {
 
                             const getOrderStatusBadge = (status) => {
                                 switch (status) {
-                                    case 'pending': return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-amber-50 text-amber-500">Pending</span>';
-                                    case 'confirmed': return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-blue-50 text-blue-500">Confirmed</span>';
-                                    case 'shipped': return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-purple-50 text-purple-500">Shipped</span>';
+                                    case 'pending': return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-slate-200 text-slate-600">Pending</span>';
+                                    case 'confirmed': return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-slate-300 text-slate-700">Confirmed</span>';
+                                    case 'shipped': return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-slate-300 text-slate-700">Shipped</span>';
                                     default: return '';
                                 }
                             };
@@ -243,11 +243,11 @@ export function renderHistory() {
                                         <div class="text-left flex-1 min-w-0">
                                             <div class="flex items-center gap-2 mb-1 text-left flex-wrap">
                                                 <p class="text-[9px] font-black text-slate-400 uppercase tracking-tighter text-left">${o.order_number}</p>
-                                                <span class="bg-blue-50 px-1.5 py-0.5 rounded text-[7px] font-black text-blue-500 flex items-center gap-1 uppercase tracking-tighter">
+                                                <span class="bg-slate-900 px-1.5 py-0.5 rounded text-[7px] font-black text-white flex items-center gap-1 uppercase tracking-tighter">
                                                     <span class="material-icons-outlined text-[10px]">public</span> Online
                                                 </span>
                                                 ${getOrderStatusBadge(o.order_status)}
-                                                ${o.payment_status === 'paid' ? '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded bg-green-100 text-green-600">Paid</span>' : o.payment_mode === 'cod' ? '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded bg-slate-100 text-slate-500">COD</span>' : ''}
+                                                ${o.payment_status === 'paid' ? '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded bg-slate-900 text-white">Paid</span>' : o.payment_mode === 'cod' ? '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded bg-slate-200 text-slate-600">COD</span>' : ''}
                                             </div>
                                             <h4 class="text-lg sm:text-xl font-black text-slate-900 tracking-tighter text-left truncate">${o.customer_name}</h4>
                                         </div>
@@ -320,7 +320,7 @@ export function renderHistory() {
                                         <div class="text-left flex-1 min-w-0">
                                             <div class="flex items-center gap-2 mb-1 text-left flex-wrap">
                                                 <p class="text-[9px] font-black text-slate-400 uppercase tracking-tighter text-left">Order #${s.id}</p>
-                                                <span class="bg-slate-100 px-1.5 py-0.5 rounded text-[7px] font-black ${s.source === 'online' ? 'text-blue-500 bg-blue-50' : 'text-slate-400'} flex items-center gap-1 uppercase tracking-tighter text-left">
+                                                <span class="px-1.5 py-0.5 rounded text-[7px] font-black ${s.source === 'online' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-400'} flex items-center gap-1 uppercase tracking-tighter text-left">
                                                     <span class="material-icons-outlined text-[10px] text-left">${s.source === 'online' ? 'public' : 'store'}</span> ${s.source === 'online' ? 'Online' : 'In-Store'}
                                                 </span>
                                                 ${s.gst_required ? `

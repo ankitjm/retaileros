@@ -23,7 +23,7 @@ export function renderSchemeDetails(mode) {
     const activeMetrics = {
         count: transactions.length,
         growth: '+0%', // Placeholder logic
-        color: brand === 'Apple' ? 'bg-indigo-950' : (brand === 'Nothing' ? 'bg-slate-950' : 'bg-emerald-950')
+        color: 'bg-slate-950'
     };
 
     return `
@@ -68,7 +68,7 @@ export function renderSchemeDetails(mode) {
                     <p class="text-[8px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2 text-left">TOTAL ORDERS UNDER SCHEME</p>
                     <div class="flex items-end gap-3 text-left">
                         <h2 class="text-5xl font-black tracking-tighter text-left">${activeMetrics.count}</h2>
-                        <p class="text-[10px] font-bold text-green-400 mb-2 text-left">${activeMetrics.growth} this week</p>
+                        <p class="text-[10px] font-bold text-slate-900 mb-2 text-left">${activeMetrics.growth} this week</p>
                     </div>
                     <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-white/5 rounded-full text-left"></div>
                 </div>

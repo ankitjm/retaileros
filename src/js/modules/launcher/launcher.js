@@ -33,7 +33,7 @@ export function renderLauncher(mode) {
                     <div class="news-ticker-container mt-6">
                         <div class="news-ticker">
                             <span class="text-[9px] font-black uppercase tracking-widest text-slate-900 flex items-center gap-6">
-                                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></div> TELECOM: 5G rollout reaches 92% urban coverage</span>
+                                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-slate-900 rounded-full animate-pulse"></div> TELECOM: 5G rollout reaches 92% urban coverage</span>
                             </span>
                         </div>
                     </div>` : ''}

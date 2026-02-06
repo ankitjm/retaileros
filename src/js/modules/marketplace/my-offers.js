@@ -15,7 +15,7 @@ export function renderMarketplaceMyOffers() {
                     <div class="flex-1 text-left">
                         <div class="flex justify-between items-start mb-1 text-left">
                             <h3 class="text-sm font-black text-slate-900 text-left">${o.t}</h3>
-                            <span class="px-2 py-0.5 rounded-full text-[7px] font-black uppercase text-right ${o.st === 'ACTIVE' ? 'bg-green-50 text-green-500' : 'bg-orange-50 text-orange-400'}">${o.st}</span>
+                            <span class="px-2 py-0.5 rounded-full text-[7px] font-black uppercase text-right ${o.st === 'ACTIVE' ? 'bg-slate-900 text-white' : 'bg-slate-200 text-slate-600'}">${o.st}</span>
                         </div>
                         <p class="text-[10px] font-bold text-slate-400 text-left">${o.d}</p>
                         <div class="flex gap-4 mt-3 pt-3 border-t border-slate-50 text-left">
@@ -25,7 +25,7 @@ export function renderMarketplaceMyOffers() {
                             </div>
                             <div class="text-left">
                                 <p class="text-[7px] font-bold text-slate-300 uppercase tracking-widest mb-0.5 text-left">INQUIRIES</p>
-                                <p class="text-[10px] font-black text-indigo-500 text-left">${o.inq}</p>
+                                <p class="text-[10px] font-black text-slate-900 text-left">${o.inq}</p>
                             </div>
                         </div>
                     </div>

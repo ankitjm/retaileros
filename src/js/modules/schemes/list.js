@@ -22,7 +22,7 @@ export function renderSchemesList() {
                     <div class="flex justify-between items-start mb-4 text-left">
                         <div class="text-left">
                             <h3 class="text-lg font-black text-slate-900 text-left">${s.name}</h3>
-                            <span class="bg-indigo-50 text-indigo-600 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-wide inline-block mt-1 text-left">${s.brand}</span>
+                            <span class="bg-slate-100 text-slate-600 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-wide inline-block mt-1 text-left">${s.brand}</span>
                         </div>
                         <div class="text-right">
                             <p class="text-[7px] font-black text-slate-300 uppercase tracking-widest mb-0.5 text-right">PAYOUT</p>

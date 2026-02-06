@@ -8,7 +8,7 @@ export function renderMarketplaceList() {
                 <div class="card bg-white border-slate-100 hover:border-slate-300 transition-all cursor-pointer overflow-hidden p-0 h-fit text-left">
                     <div class="aspect-square bg-slate-50/50 flex items-center justify-center py-8 relative text-left">
                         <span class="material-icons-outlined text-4xl text-slate-200 text-left">shopping_bag</span>
-                        <span class="absolute top-2 right-2 px-1.5 py-0.5 rounded-[4px] text-[6px] font-black uppercase tracking-wider text-left bg-green-100 text-green-600">LIVE</span>
+                        <span class="absolute top-2 right-2 px-1.5 py-0.5 rounded-[4px] text-[6px] font-black uppercase tracking-wider text-left bg-slate-900 text-white">LIVE</span>
                     </div>
                     <div class="p-4 space-y-3 text-left">
                         <h3 class="text-[11px] font-black text-slate-900 leading-tight h-8 overflow-hidden line-clamp-2 text-left">${l.product_name}</h3>

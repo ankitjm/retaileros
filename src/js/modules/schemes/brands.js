@@ -43,11 +43,11 @@ export function renderSchemeBrands() {
 
                         <div class="flex items-center gap-4 pt-4 border-t border-slate-50 text-left">
                             <div class="flex items-center gap-1.5 grayscale opacity-50 text-left">
-                                <div class="w-1.5 h-1.5 bg-green-500 rounded-full text-left"></div>
+                                <div class="w-1.5 h-1.5 bg-slate-900 rounded-full text-left"></div>
                                 <p class="text-[8px] font-black text-slate-900 uppercase tracking-widest text-left">Settled: ${b.set}</p>
                             </div>
                             <div class="flex items-center gap-1.5 text-left">
-                                <div class="w-1.5 h-1.5 bg-orange-500 rounded-full text-left"></div>
+                                <div class="w-1.5 h-1.5 bg-slate-300 rounded-full text-left"></div>
                                 <p class="text-[8px] font-black text-slate-900 uppercase tracking-widest text-left">Not Settled: ${b.nSet}</p>
                             </div>
                         </div>

@@ -47,23 +47,23 @@ export function renderSettingsHelp() {
                         <span class="w-1.5 h-1.5 bg-slate-400 rounded-full"></span> Quick Support
                     </p>
                     <div class="grid grid-cols-2 gap-3 text-left">
-                        <button onclick="window.toast.info('Opening WhatsApp support...')" class="card p-4 text-center hover:border-green-300 hover:bg-green-50/30 transition-all">
-                            <span class="material-icons-outlined text-green-500 text-2xl mb-2">chat</span>
+                        <button onclick="window.toast.info('Opening WhatsApp support...')" class="card p-4 text-center border-slate-200 hover:border-slate-900 hover:text-slate-900 transition-all">
+                            <span class="material-icons-outlined text-slate-500 text-2xl mb-2">chat</span>
                             <p class="text-[10px] font-black text-slate-900">WhatsApp</p>
                             <p class="text-[8px] font-bold text-slate-400 mt-0.5">Chat with us</p>
                         </button>
-                        <button onclick="window.toast.info('Calling support...')" class="card p-4 text-center hover:border-blue-300 hover:bg-blue-50/30 transition-all">
-                            <span class="material-icons-outlined text-blue-500 text-2xl mb-2">call</span>
+                        <button onclick="window.toast.info('Calling support...')" class="card p-4 text-center border-slate-200 hover:border-slate-900 hover:text-slate-900 transition-all">
+                            <span class="material-icons-outlined text-slate-500 text-2xl mb-2">call</span>
                             <p class="text-[10px] font-black text-slate-900">Call Us</p>
                             <p class="text-[8px] font-bold text-slate-400 mt-0.5">1800-XXX-XXXX</p>
                         </button>
-                        <button onclick="window.toast.info('Opening email...')" class="card p-4 text-center hover:border-indigo-300 hover:bg-indigo-50/30 transition-all">
-                            <span class="material-icons-outlined text-indigo-500 text-2xl mb-2">email</span>
+                        <button onclick="window.toast.info('Opening email...')" class="card p-4 text-center border-slate-200 hover:border-slate-900 hover:text-slate-900 transition-all">
+                            <span class="material-icons-outlined text-slate-500 text-2xl mb-2">email</span>
                             <p class="text-[10px] font-black text-slate-900">Email</p>
                             <p class="text-[8px] font-bold text-slate-400 mt-0.5">support@retaileros.in</p>
                         </button>
-                        <button onclick="window.toast.info('Opening ticket system...')" class="card p-4 text-center hover:border-amber-300 hover:bg-amber-50/30 transition-all">
-                            <span class="material-icons-outlined text-amber-500 text-2xl mb-2">confirmation_number</span>
+                        <button onclick="window.toast.info('Opening ticket system...')" class="card p-4 text-center border-slate-200 hover:border-slate-900 hover:text-slate-900 transition-all">
+                            <span class="material-icons-outlined text-slate-500 text-2xl mb-2">confirmation_number</span>
                             <p class="text-[10px] font-black text-slate-900">Raise Ticket</p>
                             <p class="text-[8px] font-bold text-slate-400 mt-0.5">Track your issue</p>
                         </button>
@@ -128,7 +128,7 @@ export function renderSettingsHelp() {
                             </div>
                             <div class="text-left">
                                 <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest">Plan</p>
-                                <p class="text-xs font-bold text-green-600">Professional</p>
+                                <p class="text-xs font-bold text-slate-900">Professional</p>
                             </div>
                             <div class="text-left">
                                 <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest">Version</p>

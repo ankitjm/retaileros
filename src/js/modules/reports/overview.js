@@ -55,9 +55,9 @@ export function renderReportOverview() {
         <div class="flex items-center gap-12 text-[13px] font-bold text-slate-600 pr-12 text-left">
             <span><strong class="text-slate-900 uppercase tracking-widest text-[10px]">Real-time Intelligence:</strong> Connected to Turso DB. Syncing ${metrics.reduce((acc, m) => acc + parseInt(m.v.toString().replace(/[^0-9]/g, '') || 0), 0).toLocaleString()} data points.</span>
             <span class="w-1.5 h-1.5 bg-slate-200 rounded-full shrink-0"></span>
-            <span><strong class="text-slate-900 uppercase tracking-widest text-[10px]">Sales Performance:</strong> Weekend footfall has surged by <strong class="text-green-600">14.5%</strong> compared to the previous cycle.</span>
+            <span><strong class="text-slate-900 uppercase tracking-widest text-[10px]">Sales Performance:</strong> Weekend footfall has surged by <strong class="text-slate-900">14.5%</strong> compared to the previous cycle.</span>
             <span class="w-1.5 h-1.5 bg-slate-200 rounded-full shrink-0"></span>
-            <span><strong class="text-slate-900 uppercase tracking-widest text-[10px]">Automations:</strong> Lead generation is currently processing <strong class="text-indigo-600">${cache.inquiries?.length || 0} active inquiries</strong>.</span>
+            <span><strong class="text-slate-900 uppercase tracking-widest text-[10px]">Automations:</strong> Lead generation is currently processing <strong class="text-slate-900">${cache.inquiries?.length || 0} active inquiries</strong>.</span>
         </div>
     `;
 
@@ -82,7 +82,7 @@ export function renderReportOverview() {
                         <div class="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center">
                             <span class="material-icons-outlined text-sm text-slate-400">${m.i}</span>
                         </div>
-                        <span class="text-[8px] font-black uppercase tracking-tighter ${m.p === 'Live' || m.p.startsWith('+') ? 'text-green-500' : 'text-slate-400'}">${m.p}</span>
+                        <span class="text-[8px] font-black uppercase tracking-tighter ${m.p === 'Live' || m.p.startsWith('+') ? 'text-slate-900' : 'text-slate-400'}">${m.p}</span>
                     </div>
                     <div>
                         <h4 class="text-[8px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1 text-left">${m.t}</h4>

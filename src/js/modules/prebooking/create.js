@@ -16,7 +16,7 @@ export function renderPreBookingCreate(isMobile) {
 
             <div class="flex-1 overflow-y-auto p-8 pt-4 space-y-8 custom-scrollbar pb-32 text-left">
                 <div class="space-y-6 text-left">
-                    <p class="text-[9px] font-black text-indigo-400 uppercase tracking-widest -mb-2 text-left">Campaign Details</p>
+                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest -mb-2 text-left">Campaign Details</p>
                     
                     <div class="text-left">
                         <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-3 text-left">Campaign Title</label>
@@ -50,7 +50,7 @@ export function renderPreBookingCreate(isMobile) {
                 </div>
 
                 <div class="space-y-6 text-left">
-                    <p class="text-[9px] font-black text-indigo-400 uppercase tracking-widest -mb-2 text-left">Landing Page Customization</p>
+                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest -mb-2 text-left">Landing Page Customization</p>
                     
                     <div class="text-left">
                         <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-3 text-left">Hero Image</label>

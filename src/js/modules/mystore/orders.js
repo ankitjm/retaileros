@@ -28,19 +28,19 @@ export function renderOrders(isMobile) {
 
     const getStatusBadge = (status) => {
         switch (status) {
-            case 'pending': return '<span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-amber-50 text-amber-500">Pending</span>';
-            case 'confirmed': return '<span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-blue-50 text-blue-500">Confirmed</span>';
-            case 'shipped': return '<span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-purple-50 text-purple-500">Shipped</span>';
-            case 'delivered': return '<span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-green-50 text-green-500">Delivered</span>';
-            case 'cancelled': return '<span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-red-50 text-red-500">Cancelled</span>';
+            case 'pending': return '<span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-slate-200 text-slate-600">Pending</span>';
+            case 'confirmed': return '<span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-slate-300 text-slate-700">Confirmed</span>';
+            case 'shipped': return '<span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-slate-300 text-slate-700">Shipped</span>';
+            case 'delivered': return '<span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-slate-900 text-white">Delivered</span>';
+            case 'cancelled': return '<span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-slate-100 text-slate-400">Cancelled</span>';
             default: return '';
         }
     };
 
     const getPaymentBadge = (status) => {
-        if (status === 'paid') return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded bg-green-100 text-green-600">Paid</span>';
-        if (status === 'failed') return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded bg-red-100 text-red-500">Failed</span>';
-        return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded bg-slate-100 text-slate-500">COD</span>';
+        if (status === 'paid') return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded bg-slate-900 text-white">Paid</span>';
+        if (status === 'failed') return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded bg-slate-100 text-slate-400">Failed</span>';
+        return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded bg-slate-200 text-slate-600">COD</span>';
     };
 
     // Create test order handler (for demo/testing)

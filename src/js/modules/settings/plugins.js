@@ -94,7 +94,7 @@ export function renderSettingsPlugins() {
                 window._db_cache.retailerPlugins.push({ plugin_key: pluginKey, status: newStatus });
             }
             const r = (() => { const c = window.getCache(); const rid = localStorage.getItem('retaileros_retailer_id'); return c.retailers?.find(x => x.id === rid) || {}; })();
-            db.activityLogs.add({ action: 'plugin', detail: `${newStatus === 'connected' ? 'Connected' : 'Disconnected'} ${pluginName}`, user_name: r.contact_person || 'Owner', icon: 'extension', color: newStatus === 'connected' ? 'green' : 'slate' });
+            db.activityLogs.add({ action: 'plugin', detail: `${newStatus === 'connected' ? 'Connected' : 'Disconnected'} ${pluginName}`, user_name: r.contact_person || 'Owner', icon: 'extension', color: 'slate' });
             if (window.toast) window.toast.success(newStatus === 'connected' ? `${pluginName} connected` : `${pluginName} disconnected`);
             // Re-render
             if (window.setSettingsView) window.setSettingsView('plugins');
@@ -110,8 +110,8 @@ export function renderSettingsPlugins() {
             <div class="card p-5 ${isConnected ? 'border-slate-200 bg-slate-50/30' : 'hover:border-slate-300'} transition-all text-left">
                 <div class="flex items-start justify-between text-left">
                     <div class="flex items-start gap-4 text-left">
-                        <div class="w-12 h-12 ${isConnected ? `bg-${p.color}-100` : `bg-${p.color}-50`} rounded-2xl flex items-center justify-center shrink-0">
-                            <span class="material-icons-outlined text-${p.color}-500 text-xl">${p.icon}</span>
+                        <div class="w-12 h-12 ${isConnected ? 'bg-slate-100' : 'bg-slate-50'} rounded-2xl flex items-center justify-center shrink-0">
+                            <span class="material-icons-outlined text-slate-500 text-xl">${p.icon}</span>
                         </div>
                         <div class="text-left">
                             <p class="text-sm font-black text-slate-900">${p.name}</p>
@@ -119,14 +119,14 @@ export function renderSettingsPlugins() {
                         </div>
                     </div>
                     ${isConnected
-                        ? `<span class="shrink-0 ml-3 text-[8px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full bg-green-100 text-green-600">Active</span>`
+                        ? `<span class="shrink-0 ml-3 text-[8px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full bg-slate-900 text-white">Active</span>`
                         : `<button onclick="window._togglePlugin('${p.key}','${p.name.replace(/'/g, "\\'")}','available')" class="shrink-0 ml-3 text-[8px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg bg-slate-900 text-white hover:bg-slate-800 transition-all">Connect</button>`
                     }
                 </div>
                 ${isConnected ? `
                     <div class="flex gap-2 mt-4 pl-16 text-left">
                         <button onclick="window.toast.info('Plugin settings coming soon')" class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-[8px] font-black text-slate-900 uppercase tracking-widest hover:bg-slate-50 transition-all">Configure</button>
-                        <button onclick="window._togglePlugin('${p.key}','${p.name.replace(/'/g, "\\'")}','connected')" class="px-4 py-2 bg-white border border-red-200 rounded-lg text-[8px] font-black text-red-500 uppercase tracking-widest hover:bg-red-50 transition-all">Disconnect</button>
+                        <button onclick="window._togglePlugin('${p.key}','${p.name.replace(/'/g, "\\'")}','connected')" class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-[8px] font-black text-slate-400 uppercase tracking-widest hover:bg-slate-50 transition-all">Disconnect</button>
                     </div>
                 ` : ''}
             </div>
@@ -154,7 +154,7 @@ export function renderSettingsPlugins() {
                 <div class="p-6 pb-0 text-left">
                     <div class="grid grid-cols-2 gap-3 text-left">
                         <div class="card p-4 text-center">
-                            <p class="text-2xl font-black text-green-600">${connectedCount}</p>
+                            <p class="text-2xl font-black text-slate-900">${connectedCount}</p>
                             <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mt-1">Connected</p>
                         </div>
                         <div class="card p-4 text-center">

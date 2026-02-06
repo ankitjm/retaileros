@@ -55,7 +55,7 @@ export function renderInventoryDetails() {
                             </div>
                              <div class="text-right">
                                 <p class="text-[7px] font-black text-slate-400 uppercase tracking-widest mb-0.5 text-right">EXPECTED MARGIN</p>
-                                <h4 class="text-sm font-black text-green-500 tracking-tight text-right">₹${margin.toLocaleString()}</h4>
+                                <h4 class="text-sm font-black text-slate-900 tracking-tight text-right">₹${margin.toLocaleString()}</h4>
                             </div>
                         </div>
                         <div class="flex justify-between items-center text-center bg-slate-50 rounded-lg p-2 border border-slate-100">

@@ -7,8 +7,8 @@ let toastTimeout = null;
 // Toast types with icons
 const TOAST_TYPES = {
     success: { icon: 'check_circle', bg: 'bg-slate-900', text: 'text-white' },
-    error: { icon: 'error', bg: 'bg-red-600', text: 'text-white' },
-    warning: { icon: 'warning', bg: 'bg-amber-500', text: 'text-white' },
+    error: { icon: 'error', bg: 'bg-slate-800', text: 'text-white' },
+    warning: { icon: 'warning', bg: 'bg-slate-600', text: 'text-white' },
     info: { icon: 'info', bg: 'bg-slate-700', text: 'text-white' }
 };
 

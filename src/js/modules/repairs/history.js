@@ -20,7 +20,7 @@ export function renderRepairHistory() {
                             <p class="text-[10px] font-bold text-slate-400 lowercase -mt-0.5 text-left">${j.customer_name}</p>
                         </div>
                         <div class="text-right">
-                            <span class="text-[9px] font-black uppercase text-right ${j.status === 'COMPLETED' ? 'text-green-500' : 'text-slate-400'}">${j.status}</span>
+                            <span class="text-[9px] font-black uppercase text-right ${j.status === 'COMPLETED' ? 'text-slate-900' : 'text-slate-400'}">${j.status}</span>
                         </div>
                     </div>
                     <div class="flex items-center justify-between border-t border-slate-50 pt-4 text-left">

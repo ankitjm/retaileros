@@ -12,9 +12,9 @@ export function renderListings(isMobile) {
 
     const getStatusBadge = (status) => {
         switch (status) {
-            case 'active': return '<span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-green-50 text-green-500">Active</span>';
-            case 'draft': return '<span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-slate-100 text-slate-500">Draft</span>';
-            case 'inactive': return '<span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-red-50 text-red-500">Inactive</span>';
+            case 'active': return '<span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-slate-900 text-white">Active</span>';
+            case 'draft': return '<span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-slate-200 text-slate-600">Draft</span>';
+            case 'inactive': return '<span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-slate-100 text-slate-400">Inactive</span>';
             default: return '';
         }
     };
@@ -65,7 +65,7 @@ export function renderListings(isMobile) {
             <!-- Stats -->
             <div class="grid grid-cols-3 gap-3 text-left">
                 <div class="card p-4 text-center">
-                    <p class="text-2xl font-black text-green-600">${activeCount}</p>
+                    <p class="text-2xl font-black text-slate-900">${activeCount}</p>
                     <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mt-1">Live</p>
                 </div>
                 <div class="card p-4 text-center">
@@ -120,10 +120,10 @@ export function renderListings(isMobile) {
                                     </span>
                                 </div>
                                 <div class="flex items-center gap-2">
-                                    <button type="button" onclick="window._toggleListingStatus('${l.id}','${l.status}')" class="px-3 py-1.5 rounded-lg text-[8px] font-black uppercase tracking-widest transition-all ${l.status === 'active' ? 'bg-red-50 text-red-500 hover:bg-red-100' : 'bg-green-50 text-green-600 hover:bg-green-100'}">
+                                    <button type="button" onclick="window._toggleListingStatus('${l.id}','${l.status}')" class="px-3 py-1.5 rounded-lg text-[8px] font-black uppercase tracking-widest transition-all ${l.status === 'active' ? 'bg-white text-slate-400 border border-slate-200 hover:bg-slate-50' : 'bg-slate-900 text-white hover:bg-slate-800'}">
                                         ${l.status === 'active' ? 'Deactivate' : 'Activate'}
                                     </button>
-                                    <button type="button" onclick="window._deleteStoreListing('${l.id}','${(l.product_name || '').replace(/'/g, "\\'")}')" class="p-1.5 rounded-lg text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all">
+                                    <button type="button" onclick="window._deleteStoreListing('${l.id}','${(l.product_name || '').replace(/'/g, "\\'")}')" class="p-1.5 rounded-lg text-slate-300 hover:text-slate-400 hover:bg-slate-50 transition-all">
                                         <span class="material-icons-outlined text-sm">delete</span>
                                     </button>
                                 </div>

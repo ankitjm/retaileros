@@ -97,7 +97,7 @@ export function renderAddListing() {
                             `).join('')}
                         </select>
                         ${availableProducts.length === 0 ? `
-                            <p class="text-[9px] font-bold text-amber-500 mt-2">All products are already listed on your store</p>
+                            <p class="text-[9px] font-bold text-slate-500 mt-2">All products are already listed on your store</p>
                         ` : ''}
                     </div>
                 </div>

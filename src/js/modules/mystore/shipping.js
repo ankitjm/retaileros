@@ -26,10 +26,10 @@ export function renderShipping(isMobile) {
                     <p class="text-[10px] font-bold text-slate-500 truncate">${topItem}</p>
                     <div class="flex items-center gap-2 shrink-0 ml-2">
                         ${section === 'transit' && o.courier_name ? `
-                            <span class="text-[8px] font-bold text-purple-500">${o.courier_name}</span>
+                            <span class="text-[8px] font-bold text-slate-500">${o.courier_name}</span>
                         ` : ''}
                         ${section === 'delivered' ? `
-                            <span class="text-[8px] font-bold text-green-500">${o.delivered_date ? new Date(o.delivered_date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }) : 'Delivered'}</span>
+                            <span class="text-[8px] font-bold text-slate-500">${o.delivered_date ? new Date(o.delivered_date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }) : 'Delivered'}</span>
                         ` : ''}
                         <p class="text-[9px] font-black text-slate-300">${[o.shipping_city, o.shipping_pincode].filter(Boolean).join(' ')}</p>
                     </div>
@@ -43,15 +43,15 @@ export function renderShipping(isMobile) {
             <!-- Stats -->
             <div class="grid grid-cols-3 gap-3 text-left">
                 <div class="card p-4 text-center">
-                    <p class="text-2xl font-black text-amber-500">${readyToShip.length}</p>
+                    <p class="text-2xl font-black text-slate-900">${readyToShip.length}</p>
                     <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mt-1">Ready</p>
                 </div>
                 <div class="card p-4 text-center">
-                    <p class="text-2xl font-black text-purple-500">${inTransit.length}</p>
+                    <p class="text-2xl font-black text-slate-900">${inTransit.length}</p>
                     <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mt-1">In Transit</p>
                 </div>
                 <div class="card p-4 text-center">
-                    <p class="text-2xl font-black text-green-500">${delivered.length}</p>
+                    <p class="text-2xl font-black text-slate-900">${delivered.length}</p>
                     <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mt-1">Delivered</p>
                 </div>
             </div>
@@ -59,7 +59,7 @@ export function renderShipping(isMobile) {
             <!-- Ready to Ship -->
             <section class="space-y-3 text-left">
                 <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                    <span class="w-1.5 h-1.5 bg-amber-400 rounded-full"></span> Ready to Ship (${readyToShip.length})
+                    <span class="w-1.5 h-1.5 bg-slate-400 rounded-full"></span> Ready to Ship (${readyToShip.length})
                 </p>
                 ${readyToShip.length === 0 ? `
                     <div class="card p-8 border-dashed border-slate-200 text-center bg-slate-50/20">
@@ -72,7 +72,7 @@ export function renderShipping(isMobile) {
             <!-- In Transit -->
             <section class="space-y-3 text-left">
                 <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                    <span class="w-1.5 h-1.5 bg-purple-400 rounded-full"></span> In Transit (${inTransit.length})
+                    <span class="w-1.5 h-1.5 bg-slate-400 rounded-full"></span> In Transit (${inTransit.length})
                 </p>
                 ${inTransit.length === 0 ? `
                     <div class="card p-8 border-dashed border-slate-200 text-center bg-slate-50/20">
@@ -86,7 +86,7 @@ export function renderShipping(isMobile) {
             ${delivered.length > 0 ? `
                 <section class="space-y-3 text-left">
                     <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                        <span class="w-1.5 h-1.5 bg-green-400 rounded-full"></span> Recently Delivered (${delivered.length})
+                        <span class="w-1.5 h-1.5 bg-slate-900 rounded-full"></span> Recently Delivered (${delivered.length})
                     </p>
                     ${delivered.slice(0, 5).map(o => renderOrderCard(o, 'delivered')).join('')}
                 </section>

@@ -60,12 +60,12 @@ export function renderMarketingPreview() {
     if (mState.lastError && !mState.generatedImageUrl) {
         return `
             <div class="h-full flex flex-col items-center justify-center p-8 text-center space-y-4">
-                <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center">
-                    <span class="material-icons-outlined text-2xl text-red-400">error_outline</span>
+                <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center">
+                    <span class="material-icons-outlined text-2xl text-slate-400">error_outline</span>
                 </div>
                 <div class="text-center">
                     <h3 class="text-sm font-black text-slate-900 tracking-tighter mb-1">Generation Failed</h3>
-                    <p class="text-[10px] font-bold text-red-400 max-w-xs">${mState.lastError}</p>
+                    <p class="text-[10px] font-bold text-slate-400 max-w-xs">${mState.lastError}</p>
                 </div>
                 <button type="button" onclick="window._regenerateCreative()" class="px-6 py-3 bg-slate-900 text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all">
                     Try Again

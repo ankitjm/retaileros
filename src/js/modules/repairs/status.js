@@ -73,11 +73,11 @@ export function renderRepairStatus() {
         const isActive = idx === currentIdx;
         return `
                         <div class="flex items-start gap-8 relative text-left">
-                            <div class="w-5 h-5 rounded-full flex items-center justify-center z-10 shrink-0 text-left ${isDone ? 'bg-blue-500 text-white' : 'bg-slate-100 border border-slate-200'}">
+                            <div class="w-5 h-5 rounded-full flex items-center justify-center z-10 shrink-0 text-left ${isDone ? 'bg-slate-900 text-white' : 'bg-slate-100 border border-slate-200'}">
                                 <span class="material-icons-outlined text-[12px] font-black text-left">${isDone ? 'done' : ''}</span>
                             </div>
                             <div class="text-left ${!isDone ? 'opacity-30' : ''}">
-                                <h4 class="text-xs font-black text-slate-900 text-left ${isActive ? 'text-blue-500 underline underline-offset-4' : ''}">${s.l}</h4>
+                                <h4 class="text-xs font-black text-slate-900 text-left ${isActive ? 'text-slate-900 underline underline-offset-4' : ''}">${s.l}</h4>
                                 <p class="text-[9px] font-bold text-slate-400 mt-1 uppercase tracking-tighter text-left">
                                     ${isActive ? 'CURRENT STATUS' : (isDone ? 'COMPLETED' : 'PENDING')}
                                 </p>

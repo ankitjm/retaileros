@@ -191,13 +191,13 @@ export function renderMarketingGenerator() {
         <div class="scrolling-content px-4 sm:px-8 space-y-6 sm:space-y-8 pb-32">
             <!-- API Key Check -->
             ${!hasKey ? `
-                <div class="card p-5 border-amber-200 bg-amber-50 text-left">
+                <div class="card p-5 border border-slate-200 bg-slate-100 text-left">
                     <div class="flex items-start gap-3 text-left">
-                        <span class="material-icons-outlined text-amber-500 text-xl mt-0.5">warning</span>
+                        <span class="material-icons-outlined text-slate-500 text-xl mt-0.5">warning</span>
                         <div class="text-left">
-                            <p class="text-xs font-black text-amber-700 mb-1">OpenAI API Key Required</p>
-                            <p class="text-[10px] font-bold text-amber-600">Configure your API key in Settings → AI Config to generate creatives.</p>
-                            <button type="button" onclick="window.setApp('settings'); window.setSettingsView && window.setSettingsView('ai')" class="mt-2 px-4 py-2 bg-amber-600 text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-amber-700 transition-all">
+                            <p class="text-xs font-black text-slate-600 mb-1">OpenAI API Key Required</p>
+                            <p class="text-[10px] font-bold text-slate-500">Configure your API key in Settings → AI Config to generate creatives.</p>
+                            <button type="button" onclick="window.setApp('settings'); window.setSettingsView && window.setSettingsView('ai')" class="mt-2 px-4 py-2 bg-slate-600 text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-slate-700 transition-all">
                                 Go to AI Config
                             </button>
                         </div>
@@ -268,7 +268,7 @@ export function renderMarketingGenerator() {
                         ${mState.uploadedImages.map((img, idx) => `
                             <div class="relative w-20 h-20 rounded-xl overflow-hidden border border-slate-200 group">
                                 <img src="${img.base64}" alt="${img.name}" class="w-full h-full object-cover">
-                                <button type="button" onclick="window._removeMarketingImage(${idx})" class="absolute top-1 right-1 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button type="button" onclick="window._removeMarketingImage(${idx})" class="absolute top-1 right-1 w-5 h-5 bg-slate-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                     <span class="material-icons-outlined text-xs">close</span>
                                 </button>
                                 <div class="absolute bottom-0 left-0 right-0 bg-black/50 px-1 py-0.5">
