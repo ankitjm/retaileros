@@ -97,7 +97,7 @@ export function renderListings(isMobile) {
                     </div>
                 ` : `
                     ${listings.map(l => `
-                        <div class="card p-4 sm:p-5 border-2 border-transparent hover:border-slate-200 transition-all text-left">
+                        <button type="button" onclick="window.setActiveListing('${l.id}')" class="card p-4 sm:p-5 border-2 transition-all cursor-pointer text-left w-full ${state.activeListingId === l.id ? 'border-slate-900 shadow-lg' : 'border-transparent hover:border-slate-200'}">
                             <div class="flex items-start justify-between text-left">
                                 <div class="flex-1 min-w-0 text-left">
                                     <div class="flex items-center gap-2 mb-1 flex-wrap text-left">
@@ -128,7 +128,7 @@ export function renderListings(isMobile) {
                                     </button>
                                 </div>
                             </div>
-                        </div>
+                        </button>
                     `).join('')}
                 `}
             </section>

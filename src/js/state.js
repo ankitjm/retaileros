@@ -48,7 +48,7 @@ export const state = {
     showSchemeDetails: false,
     marketplaceTab: 'browse', // browse | my-offers
     marketplaceViewMode: 'list', // list | add
-    myStoreTab: 'listings', // listings | orders | shipping
+    myStoreTab: 'dashboard', // dashboard | listings | orders | shipping
     myStoreViewMode: 'list', // list | add-listing | order-detail
     activeStoreOrderId: null,
     activeListingId: null,

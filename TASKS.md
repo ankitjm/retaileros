@@ -44,14 +44,26 @@
   - Wired 3 relational pages: plugins (connect/disconnect with DB), teams (add/remove members from DB), logs (read from activity_logs table)
   - Custom save functions for taxes (nested GST/HSN JSON) and theme (dual localStorage + DB write)
   - All settings persist per retailer with zero-migration defaults strategy
-- [x] **My Store App:** Full ecommerce management module with 3 tabs:
-  - **Listings:** List inventory products on online store (add/activate/deactivate/delete)
+- [x] **My Store App:** Full ecommerce management module with 4 tabs:
+  - **Dashboard:** Store URL with copy button, quick stats (active listings, orders, revenue, in-progress), recent orders, top products
+  - **Listings:** List inventory products on online store (add/activate/deactivate/delete), click listing → detail in preview pane with inline edit
   - **Orders:** Track online orders with status workflow (pending → confirmed → shipped → delivered)
   - **Shipping:** Manage shipments with courier/tracking info, ready-to-ship queue
   - 3 new DB tables: `store_listings`, `store_orders`, `store_order_items`
   - Order-to-sale conversion: delivered orders auto-create sale records with `source='online'`
   - Sales Desk integration: online sales show "Online" badge (blue) vs "In-Store" badge in history
+  - Sales Desk history: "Online" tab shows pending/confirmed/shipped store orders, click → navigates to My Store
+  - Order detail restyled to match Sales Desk invoice preview (card layout, dashed borders, payment block, WhatsApp share, print)
+  - Desktop preview pane: contextual content (listing detail, order invoice, dashboard quick actions)
   - Test order generator for demo/testing purposes
+- [x] **Marketing AI Creative Generator:** OpenAI-powered marketing creative generation:
+  - DALL-E 3 image generation from text prompts
+  - 5 rotating long-tail keyword suggestions (pool of 20 Indian retail-specific prompts)
+  - Reference image upload with GPT-4o-mini Vision enhancement
+  - Upload tips: store front, product images, brand logos, festival photos
+  - Preview pane: generated image display, download, re-generate, refine input
+  - Creative tips guide in empty state
+  - Uses existing OpenAI API key from Settings > AI Config
 
 ---
 
@@ -111,3 +123,7 @@ _(none currently)_
 - `migrate_add_settings_tables.js` — adds retailer_settings, team_members, team_roles, retailer_plugins, activity_logs
 - `migrate_add_store_tables.js` — adds store_listings, store_orders, store_order_items + sales.source column
 - `seed_demo_retailers.js` — demo data seeding
+- `src/js/modules/mystore/dashboard.js` — store URL, analytics stats, recent orders, top products
+- `src/js/modules/mystore/listing-detail.js` — listing preview pane with inline edit
+- `src/js/modules/marketing/generator.js` — AI creative prompt, suggestions, image upload, DALL-E generation
+- `src/js/modules/marketing/preview.js` — generated image display, download, refine

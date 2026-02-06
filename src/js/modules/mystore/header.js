@@ -22,18 +22,22 @@ export function renderMyStoreHeader() {
 
             <!-- Tabs -->
             <div class="flex bg-slate-100 p-1 rounded-xl gap-1">
+                <button type="button" onclick="window.setMyStoreTab('dashboard')" class="flex-1 py-3 text-[10px] font-black uppercase rounded-lg transition-all flex items-center justify-center gap-1.5 ${state.myStoreTab === 'dashboard' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-400'}">
+                    <span class="material-icons-outlined text-sm">dashboard</span>
+                    <span class="hidden sm:inline">Dashboard</span>
+                </button>
                 <button type="button" onclick="window.setMyStoreTab('listings')" class="flex-1 py-3 text-[10px] font-black uppercase rounded-lg transition-all flex items-center justify-center gap-1.5 ${state.myStoreTab === 'listings' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-400'}">
                     <span class="material-icons-outlined text-sm">inventory_2</span>
-                    Listings
+                    <span class="hidden sm:inline">Listings</span>
                 </button>
                 <button type="button" onclick="window.setMyStoreTab('orders')" class="flex-1 py-3 text-[10px] font-black uppercase rounded-lg transition-all flex items-center justify-center gap-1.5 relative ${state.myStoreTab === 'orders' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-400'}">
                     <span class="material-icons-outlined text-sm">shopping_bag</span>
-                    Orders
+                    <span class="hidden sm:inline">Orders</span>
                     ${pendingCount > 0 ? `<span class="absolute -top-1 right-2 w-4 h-4 bg-red-500 text-white text-[7px] font-black rounded-full flex items-center justify-center">${pendingCount}</span>` : ''}
                 </button>
                 <button type="button" onclick="window.setMyStoreTab('shipping')" class="flex-1 py-3 text-[10px] font-black uppercase rounded-lg transition-all flex items-center justify-center gap-1.5 relative ${state.myStoreTab === 'shipping' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-400'}">
                     <span class="material-icons-outlined text-sm">local_shipping</span>
-                    Shipping
+                    <span class="hidden sm:inline">Shipping</span>
                     ${shippingCount > 0 ? `<span class="absolute -top-1 right-2 w-4 h-4 bg-amber-500 text-white text-[7px] font-black rounded-full flex items-center justify-center">${shippingCount}</span>` : ''}
                 </button>
             </div>

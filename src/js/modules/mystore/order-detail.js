@@ -2,6 +2,27 @@ import { state } from '../../state.js';
 import { db } from '../../utils/db.js';
 import { syncData } from '../../utils/sync.js';
 
+// Get payment mode icon
+function getPaymentIcon(mode) {
+    switch (mode) {
+        case 'cash': case 'cod': return 'payments';
+        case 'card': return 'credit_card';
+        case 'upi': return 'qr_code';
+        case 'online': return 'language';
+        default: return 'account_balance_wallet';
+    }
+}
+
+function getPaymentLabel(mode) {
+    switch (mode) {
+        case 'cash': case 'cod': return 'Cash on Delivery';
+        case 'card': return 'Card';
+        case 'upi': return 'UPI';
+        case 'online': return 'Online Payment';
+        default: return 'Payment';
+    }
+}
+
 export function renderOrderDetail() {
     const cache = window.getCache();
     const orders = cache.storeOrders || [];
@@ -12,16 +33,21 @@ export function renderOrderDetail() {
         return `<div class="h-full flex items-center justify-center text-slate-300">
             <div class="text-center">
                 <span class="material-icons-outlined text-4xl mb-2 opacity-50">search_off</span>
-                <p class="text-[10px] font-black uppercase tracking-widest">Order not found</p>
+                <p class="text-[10px] font-black uppercase tracking-widest">Select an order to view details</p>
             </div>
         </div>`;
     }
 
     const items = orderItems.filter(i => i.order_id === order.id);
+    const isCancelled = order.order_status === 'cancelled';
+    const isDelivered = order.order_status === 'delivered';
+    const isPaid = order.payment_status === 'paid';
+    const totalAmount = parseInt(order.total_amount) || 0;
+    const subtotal = totalAmount / 1.18;
+    const gst = totalAmount - subtotal;
 
     const statusSteps = ['pending', 'confirmed', 'shipped', 'delivered'];
     const currentStepIdx = statusSteps.indexOf(order.order_status);
-    const isCancelled = order.order_status === 'cancelled';
 
     const getStatusColor = (status) => {
         switch (status) {
@@ -34,7 +60,8 @@ export function renderOrderDetail() {
         }
     };
 
-    const statusColor = getStatusColor(order.order_status);
+    const formatDate = (d) => d ? new Date(d).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : '—';
+    const formatTime = (d) => d ? new Date(d).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) : '';
 
     // Action handlers
     window._confirmOrder = async (orderId) => {
@@ -166,203 +193,230 @@ export function renderOrderDetail() {
         }
     };
 
-    const formatDate = (d) => d ? new Date(d).toLocaleString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }) : '—';
+    // Share order via WhatsApp
+    window._shareOrderWhatsApp = () => {
+        let text = `ORDER #${order.order_number}\n`;
+        text += `━━━━━━━━━━━━━━━━━━━━\n`;
+        text += `${formatDate(order.order_date)}\n\n`;
+        text += `Customer: ${order.customer_name}\n`;
+        text += `Phone: ${order.customer_phone || 'N/A'}\n`;
+        if (order.shipping_city) text += `City: ${order.shipping_city}\n`;
+        text += `\n━━━━━━━━━━━━━━━━━━━━\nITEMS:\n`;
+        items.forEach(item => {
+            text += `• ${item.product_name} - ₹${parseInt(item.final_price).toLocaleString()}\n`;
+        });
+        text += `\n━━━━━━━━━━━━━━━━━━━━\n`;
+        text += `TOTAL: ₹${totalAmount.toLocaleString()}\n`;
+        text += `Status: ${order.order_status.toUpperCase()}\n`;
+        if (order.tracking_number) text += `Tracking: ${order.tracking_number}\n`;
+        text += `\nPowered by RetailerOS`;
+        window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+    };
+
+    // Print order
+    window._printOrder = () => { window.print(); };
 
     return `
-        <div class="h-full flex flex-col relative bg-white animate-slide-up">
-            <header class="p-4 sm:p-8 pb-4 shrink-0">
-                <div class="flex items-center justify-between mb-2">
-                    <button type="button" onclick="window.setMyStoreViewMode('list')" class="flex items-center gap-1 text-slate-400 hover:text-slate-900 transition-colors">
-                        <span class="material-icons-outlined">chevron_left</span>
-                        <span class="text-xs font-black uppercase tracking-widest hidden sm:block">Back</span>
-                    </button>
-                    <div class="text-center">
-                        <h2 class="text-lg font-black tracking-tighter text-slate-900">${order.order_number}</h2>
-                        <p class="text-[9px] font-bold text-slate-300 uppercase tracking-[0.2em] -mt-1">Order Details</p>
-                    </div>
-                    <div class="w-8"></div>
+        <div id="order-detail" class="card p-6 sm:p-8 bg-white text-slate-900 leading-relaxed shadow-sm relative h-full flex flex-col border border-slate-100 print:shadow-none print:border-0">
+            <!-- Header -->
+            <div class="text-center border-b border-dashed border-slate-200 pb-6 mb-6">
+                <h2 class="text-2xl font-black tracking-tighter mb-1">${isDelivered ? 'Invoice' : isCancelled ? 'Cancelled Order' : 'Order'}</h2>
+                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">RetailerOS • Online Order</p>
+                <div class="mt-4 flex justify-between text-[8px] font-bold text-slate-400 uppercase tracking-widest px-4">
+                    <span>Order #${order.order_number}</span>
+                    <span class="text-${getStatusColor(order.order_status)}-500 font-black">${order.order_status.toUpperCase()}</span>
                 </div>
-            </header>
+            </div>
 
-            <div class="flex-1 overflow-y-auto custom-scrollbar px-4 sm:px-8 space-y-6 pb-12 text-left">
-                <!-- Status Banner -->
-                <div class="card p-4 bg-${statusColor}-50 border-${statusColor}-200 text-left">
-                    <div class="flex items-center justify-between text-left">
-                        <div class="flex items-center gap-3 text-left">
-                            <div class="w-10 h-10 bg-${statusColor}-100 rounded-xl flex items-center justify-center">
-                                <span class="material-icons-outlined text-${statusColor}-500">${isCancelled ? 'cancel' : order.order_status === 'delivered' ? 'check_circle' : order.order_status === 'shipped' ? 'local_shipping' : order.order_status === 'confirmed' ? 'thumb_up' : 'schedule'}</span>
+            <!-- Info Grid -->
+            <div class="grid grid-cols-2 gap-4 sm:gap-8 mb-6">
+                <div class="text-left">
+                    <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-1 text-left">Customer</p>
+                    <p class="text-sm font-black text-slate-900 text-left">${order.customer_name}</p>
+                    <p class="text-[10px] font-bold text-slate-400 text-left">${order.customer_phone || '—'}</p>
+                    ${order.customer_email ? `<p class="text-[10px] font-bold text-slate-400 text-left">${order.customer_email}</p>` : ''}
+                </div>
+                <div class="text-right">
+                    <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-1 text-right">Order Date</p>
+                    <p class="text-sm font-black text-slate-900 text-right">${formatDate(order.order_date)}</p>
+                    <p class="text-[10px] font-bold text-slate-400 text-right">${formatTime(order.order_date)}</p>
+                </div>
+            </div>
+
+            <!-- Shipping Address -->
+            ${order.shipping_address_line1 || order.shipping_city ? `
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl mb-6 flex items-start gap-3">
+                    <div class="w-8 h-8 bg-slate-200 rounded-full flex items-center justify-center text-slate-600 shrink-0 mt-0.5">
+                        <span class="material-icons-outlined text-sm">location_on</span>
+                    </div>
+                    <div class="text-left">
+                        <p class="text-[9px] font-black text-slate-600 uppercase tracking-widest mb-1">Shipping Address</p>
+                        <p class="text-xs font-bold text-slate-900">${order.shipping_address_line1 || ''}</p>
+                        ${order.shipping_address_line2 ? `<p class="text-xs font-bold text-slate-700">${order.shipping_address_line2}</p>` : ''}
+                        <p class="text-[10px] font-bold text-slate-500">${[order.shipping_city, order.shipping_state, order.shipping_pincode].filter(Boolean).join(', ')}</p>
+                    </div>
+                </div>
+            ` : ''}
+
+            <!-- Tracking Info -->
+            ${order.tracking_number ? `
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl mb-6 flex items-center gap-3">
+                    <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 shrink-0">
+                        <span class="material-icons-outlined text-sm">local_shipping</span>
+                    </div>
+                    <div class="flex-1 text-left">
+                        <p class="text-[9px] font-black text-slate-600 uppercase tracking-widest">Shipment Details</p>
+                        <div class="flex items-center gap-4 mt-1">
+                            <span class="text-xs font-bold text-slate-900">${order.courier_name || '—'}</span>
+                            <span class="text-xs font-black text-slate-900 font-mono">${order.tracking_number}</span>
+                        </div>
+                        <div class="flex items-center gap-4 mt-1">
+                            ${order.shipped_date ? `<span class="text-[9px] font-bold text-slate-400">Shipped: ${formatDate(order.shipped_date)}</span>` : ''}
+                            ${order.delivered_date ? `<span class="text-[9px] font-bold text-green-500">Delivered: ${formatDate(order.delivered_date)}</span>` : ''}
+                        </div>
+                    </div>
+                </div>
+            ` : ''}
+
+            <!-- Status Progress (compact) -->
+            ${!isCancelled ? `
+                <div class="flex items-center justify-between mb-6 px-2">
+                    ${statusSteps.map((step, i) => `
+                        <div class="flex flex-col items-center gap-1">
+                            <div class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] ${i <= currentStepIdx ? `bg-${getStatusColor(step)}-500 text-white` : 'bg-slate-100 text-slate-300'}">
+                                ${i <= currentStepIdx ? '<span class="material-icons-outlined text-xs">check</span>' : '<span class="material-icons-outlined text-xs">circle</span>'}
                             </div>
-                            <div class="text-left">
-                                <p class="text-xs font-black text-${statusColor}-700 uppercase">${isCancelled ? 'Cancelled' : order.order_status}</p>
-                                <p class="text-[9px] font-bold text-${statusColor}-400">${formatDate(order.order_date)}</p>
+                            <p class="text-[6px] font-black uppercase tracking-widest ${i <= currentStepIdx ? 'text-slate-700' : 'text-slate-300'}">${step}</p>
+                        </div>
+                        ${i < statusSteps.length - 1 ? `<div class="flex-1 h-0.5 mx-1 ${i < currentStepIdx ? 'bg-slate-900' : 'bg-slate-100'}"></div>` : ''}
+                    `).join('')}
+                </div>
+            ` : ''}
+
+            <!-- Items -->
+            <div class="space-y-4 flex-1 overflow-y-auto custom-scrollbar pr-2 text-left">
+                ${items.map(item => `
+                    <div class="pb-4 border-b border-slate-100 last:border-0">
+                        <div class="flex justify-between items-start mb-1 text-left">
+                            <div class="text-left flex-1 min-w-0">
+                                <h4 class="text-sm font-black text-slate-900 text-left truncate">${item.product_name}</h4>
+                                <p class="text-[9px] font-bold text-slate-400 uppercase mt-0.5 text-left">${item.category || 'Standard'} · Qty: ${item.quantity}</p>
+                            </div>
+                            <div class="text-right shrink-0 ml-2">
+                                <p class="text-sm font-black text-slate-900">₹${parseInt(item.final_price).toLocaleString()}</p>
                             </div>
                         </div>
-                        <p class="text-xl font-black text-${statusColor}-700 tracking-tighter">₹${parseInt(order.total_amount).toLocaleString()}</p>
                     </div>
-                </div>
+                `).join('')}
+            </div>
 
-                <!-- Status Timeline -->
-                ${!isCancelled ? `
-                    <div class="space-y-4 text-left">
-                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                            <span class="w-1.5 h-1.5 bg-slate-400 rounded-full"></span> Order Progress
-                        </p>
-                        <div class="card p-5 text-left">
-                            <div class="flex items-center justify-between text-left">
-                                ${statusSteps.map((step, i) => `
-                                    <div class="flex flex-col items-center gap-1 text-left">
-                                        <div class="w-8 h-8 rounded-full flex items-center justify-center ${i <= currentStepIdx ? `bg-${getStatusColor(step)}-500 text-white` : 'bg-slate-100 text-slate-300'}">
-                                            <span class="material-icons-outlined text-sm">${i <= currentStepIdx ? 'check' : i === currentStepIdx + 1 ? 'radio_button_unchecked' : 'circle'}</span>
-                                        </div>
-                                        <p class="text-[7px] font-black uppercase tracking-widest ${i <= currentStepIdx ? 'text-slate-900' : 'text-slate-300'}">${step}</p>
-                                    </div>
-                                    ${i < statusSteps.length - 1 ? `<div class="flex-1 h-0.5 mx-1 ${i < currentStepIdx ? 'bg-slate-900' : 'bg-slate-100'}"></div>` : ''}
-                                `).join('')}
-                            </div>
+            <!-- Totals -->
+            <div class="border-t border-dashed border-slate-200 pt-6 mt-4 space-y-2">
+                <div class="flex justify-between text-[10px] font-bold text-slate-500 uppercase"><span class="tracking-widest">Subtotal</span><span>₹${subtotal.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span></div>
+                <div class="flex justify-between text-[10px] font-bold text-slate-500 uppercase"><span class="tracking-widest">GST (18%)</span><span>₹${gst.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span></div>
+                <div class="flex justify-between text-xl font-black text-slate-900 mt-4 items-center">
+                    <span>Grand Total</span>
+                    <span class="text-slate-900">₹${totalAmount.toLocaleString()}</span>
+                </div>
+            </div>
+
+            <!-- Payment Status -->
+            ${isPaid ? `
+                <div class="bg-slate-900 text-white p-4 rounded-xl mt-6 flex justify-between items-center text-left">
+                    <div class="flex items-center gap-3 text-left">
+                        <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                            <span class="material-icons-outlined text-sm">${getPaymentIcon(order.payment_mode)}</span>
+                        </div>
+                        <div class="text-left">
+                            <p class="text-[9px] font-black uppercase tracking-widest text-left">Paid via ${getPaymentLabel(order.payment_mode)}</p>
+                            ${order.payment_reference ? `<p class="text-[8px] font-bold text-white/60 tracking-widest uppercase text-left">Ref: ${order.payment_reference}</p>` : ''}
                         </div>
                     </div>
-                ` : ''}
+                    <span class="text-[9px] font-black bg-white text-slate-900 px-2 py-1 rounded uppercase tracking-widest">Paid</span>
+                </div>
+            ` : isCancelled ? `
+                <div class="bg-red-50 border border-red-200 p-4 rounded-xl mt-6 flex items-center gap-3">
+                    <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center text-red-500">
+                        <span class="material-icons-outlined text-sm">cancel</span>
+                    </div>
+                    <div>
+                        <p class="text-[9px] font-black text-red-600 uppercase tracking-widest">Order Cancelled</p>
+                        <p class="text-[8px] font-bold text-red-400">This order has been cancelled</p>
+                    </div>
+                </div>
+            ` : `
+                <div class="bg-slate-100 border border-slate-200 p-4 rounded-xl mt-6 flex items-center gap-3">
+                    <div class="w-8 h-8 bg-slate-200 rounded-full flex items-center justify-center text-slate-500">
+                        <span class="material-icons-outlined text-sm">pending</span>
+                    </div>
+                    <div>
+                        <p class="text-[9px] font-black text-slate-600 uppercase tracking-widest">Payment ${order.payment_mode === 'cod' ? 'on Delivery' : 'Pending'}</p>
+                        <p class="text-[8px] font-bold text-slate-400">${order.payment_mode === 'cod' ? 'Cash on Delivery' : 'Awaiting payment confirmation'}</p>
+                    </div>
+                </div>
+            `}
 
-                <!-- Customer Info -->
-                <div class="space-y-4 text-left">
+            <!-- Shipping Form (when confirmed, ready to ship) -->
+            ${order.order_status === 'confirmed' ? `
+                <div id="shipping-form" class="space-y-3 mt-6 no-print">
                     <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                        <span class="w-1.5 h-1.5 bg-slate-400 rounded-full"></span> Customer
+                        <span class="material-icons-outlined text-xs">local_shipping</span> Ship This Order
                     </p>
-                    <div class="card p-4 text-left">
-                        <div class="flex items-center gap-3 text-left">
-                            <div class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center">
-                                <span class="material-icons-outlined text-slate-400">person</span>
-                            </div>
-                            <div class="text-left">
-                                <p class="text-sm font-black text-slate-900">${order.customer_name}</p>
-                                <p class="text-[9px] font-bold text-slate-400">${order.customer_phone || '—'} ${order.customer_email ? ' · ' + order.customer_email : ''}</p>
-                            </div>
-                        </div>
+                    <div>
+                        <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Courier Name</p>
+                        <input type="text" data-field="courier_name" placeholder="e.g. BlueDart, Delhivery, DTDC" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-900 focus:outline-none focus:border-slate-900">
+                    </div>
+                    <div>
+                        <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Tracking Number</p>
+                        <input type="text" data-field="tracking_number" placeholder="e.g. AWB123456789" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-900 focus:outline-none focus:border-slate-900 font-mono">
                     </div>
                 </div>
+            ` : ''}
 
-                <!-- Shipping Address -->
-                ${order.shipping_address_line1 || order.shipping_city ? `
-                    <div class="space-y-4 text-left">
-                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                            <span class="w-1.5 h-1.5 bg-slate-400 rounded-full"></span> Shipping Address
-                        </p>
-                        <div class="card p-4 text-left">
-                            <div class="flex items-start gap-3 text-left">
-                                <span class="material-icons-outlined text-slate-400 text-lg mt-0.5">location_on</span>
-                                <div class="text-left">
-                                    <p class="text-xs font-bold text-slate-900">${order.shipping_address_line1 || ''}</p>
-                                    ${order.shipping_address_line2 ? `<p class="text-xs font-bold text-slate-700">${order.shipping_address_line2}</p>` : ''}
-                                    <p class="text-[10px] font-bold text-slate-500">${[order.shipping_city, order.shipping_state, order.shipping_pincode].filter(Boolean).join(', ')}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ` : ''}
-
-                <!-- Order Items -->
-                <div class="space-y-4 text-left">
-                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                        <span class="w-1.5 h-1.5 bg-slate-400 rounded-full"></span> Items (${items.length})
-                    </p>
-                    <div class="card p-4 space-y-3 text-left">
-                        ${items.map(item => `
-                            <div class="flex items-center justify-between py-2 border-b border-slate-50 last:border-0 text-left">
-                                <div class="text-left flex-1 min-w-0">
-                                    <p class="text-xs font-black text-slate-900 truncate">${item.product_name}</p>
-                                    <p class="text-[9px] font-bold text-slate-400">${item.category || ''} · Qty: ${item.quantity}</p>
-                                </div>
-                                <p class="text-sm font-black text-slate-900 shrink-0 ml-2">₹${parseInt(item.final_price).toLocaleString()}</p>
-                            </div>
-                        `).join('')}
-                        <div class="flex items-center justify-between pt-2 border-t border-slate-200 text-left">
-                            <p class="text-xs font-black text-slate-900 uppercase">Total</p>
-                            <p class="text-lg font-black text-slate-900">₹${parseInt(order.total_amount).toLocaleString()}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tracking Info (if shipped) -->
-                ${order.tracking_number ? `
-                    <div class="space-y-4 text-left">
-                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                            <span class="w-1.5 h-1.5 bg-slate-400 rounded-full"></span> Shipping Details
-                        </p>
-                        <div class="card p-4 text-left">
-                            <div class="grid grid-cols-2 gap-4 text-left">
-                                <div class="text-left">
-                                    <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Courier</p>
-                                    <p class="text-xs font-bold text-slate-900">${order.courier_name || '—'}</p>
-                                </div>
-                                <div class="text-left">
-                                    <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Tracking #</p>
-                                    <p class="text-xs font-bold text-slate-900 font-mono">${order.tracking_number}</p>
-                                </div>
-                                <div class="text-left">
-                                    <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Shipped On</p>
-                                    <p class="text-xs font-bold text-slate-900">${order.shipped_date ? formatDate(order.shipped_date) : '—'}</p>
-                                </div>
-                                ${order.delivered_date ? `
-                                    <div class="text-left">
-                                        <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Delivered On</p>
-                                        <p class="text-xs font-bold text-slate-900">${formatDate(order.delivered_date)}</p>
-                                    </div>
-                                ` : ''}
-                            </div>
-                        </div>
-                    </div>
-                ` : ''}
-
-                <!-- Shipping Form (when confirmed, ready to ship) -->
-                ${order.order_status === 'confirmed' ? `
-                    <div id="shipping-form" class="space-y-4 text-left">
-                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                            <span class="w-1.5 h-1.5 bg-blue-400 rounded-full"></span> Ship This Order
-                        </p>
-                        <div class="card p-4 space-y-3 text-left">
-                            <div class="text-left">
-                                <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Courier Name</p>
-                                <input type="text" data-field="courier_name" placeholder="e.g. BlueDart, Delhivery, DTDC" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-900 focus:outline-none focus:border-slate-900">
-                            </div>
-                            <div class="text-left">
-                                <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Tracking Number</p>
-                                <input type="text" data-field="tracking_number" placeholder="e.g. AWB123456789" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-900 focus:outline-none focus:border-slate-900 font-mono">
-                            </div>
-                        </div>
-                    </div>
-                ` : ''}
-
-                <!-- Action Buttons -->
-                ${!isCancelled && order.order_status !== 'delivered' ? `
-                    <div class="space-y-3 text-left">
-                        ${order.order_status === 'pending' ? `
-                            <button type="button" onclick="window._confirmOrder('${order.id}')" class="w-full py-4 bg-blue-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2">
-                                <span class="material-icons-outlined text-sm">thumb_up</span> Confirm Order
-                            </button>
-                        ` : ''}
-                        ${order.order_status === 'confirmed' ? `
-                            <button type="button" onclick="window._shipOrder('${order.id}')" class="w-full py-4 bg-purple-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2">
-                                <span class="material-icons-outlined text-sm">local_shipping</span> Mark as Shipped
-                            </button>
-                        ` : ''}
-                        ${order.order_status === 'shipped' ? `
-                            <button type="button" onclick="window._deliverOrder('${order.id}')" class="w-full py-4 bg-green-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2">
-                                <span class="material-icons-outlined text-sm">check_circle</span> Mark as Delivered
-                            </button>
-                        ` : ''}
-                        <button type="button" onclick="window._cancelOrder('${order.id}')" class="w-full py-3 bg-white border border-red-200 text-red-500 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-red-50 transition-all flex items-center justify-center gap-2">
-                            <span class="material-icons-outlined text-sm">cancel</span> Cancel Order
+            <!-- Action Buttons -->
+            ${!isCancelled && !isDelivered ? `
+                <div class="space-y-3 mt-6 no-print">
+                    ${order.order_status === 'pending' ? `
+                        <button type="button" onclick="window._confirmOrder('${order.id}')" class="w-full py-4 bg-blue-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                            <span class="material-icons-outlined text-sm">thumb_up</span> Confirm Order
                         </button>
-                    </div>
-                ` : ''}
+                    ` : ''}
+                    ${order.order_status === 'confirmed' ? `
+                        <button type="button" onclick="window._shipOrder('${order.id}')" class="w-full py-4 bg-purple-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                            <span class="material-icons-outlined text-sm">local_shipping</span> Mark as Shipped
+                        </button>
+                    ` : ''}
+                    ${order.order_status === 'shipped' ? `
+                        <button type="button" onclick="window._deliverOrder('${order.id}')" class="w-full py-4 bg-green-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                            <span class="material-icons-outlined text-sm">check_circle</span> Mark as Delivered
+                        </button>
+                    ` : ''}
+                    <button type="button" onclick="window._cancelOrder('${order.id}')" class="w-full py-3 bg-white border border-red-200 text-red-500 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-red-50 transition-all flex items-center justify-center gap-2">
+                        <span class="material-icons-outlined text-sm">cancel</span> Cancel Order
+                    </button>
+                </div>
+            ` : ''}
 
-                ${order.order_status === 'delivered' && order.sale_id ? `
-                    <div class="card p-4 bg-green-50 border-green-200 text-center">
-                        <span class="material-icons-outlined text-green-500 text-2xl mb-1">receipt_long</span>
-                        <p class="text-[10px] font-black text-green-700">Invoice created in Sales Desk</p>
-                        <p class="text-[9px] font-bold text-green-500">Sale ID: ${order.sale_id}</p>
+            ${isDelivered && order.sale_id ? `
+                <div class="bg-green-50 border border-green-200 p-4 rounded-xl mt-6 flex items-center gap-3 text-left">
+                    <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center text-green-600 shrink-0">
+                        <span class="material-icons-outlined text-sm">receipt_long</span>
                     </div>
-                ` : ''}
+                    <div class="text-left">
+                        <p class="text-[9px] font-black text-green-700 uppercase tracking-widest">Invoice Created in Sales Desk</p>
+                        <p class="text-[8px] font-bold text-green-500">Sale ID: ${order.sale_id}</p>
+                    </div>
+                </div>
+            ` : ''}
+
+            <!-- Footer Action Icons -->
+            <div class="flex justify-end gap-2 mt-4 no-print">
+                <button type="button" onclick="window._shareOrderWhatsApp()" class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-all" title="Share via WhatsApp">
+                    <span class="material-icons-outlined text-lg">chat</span>
+                </button>
+                <button type="button" onclick="window._printOrder()" class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-all" title="Print">
+                    <span class="material-icons-outlined text-lg">print</span>
+                </button>
             </div>
         </div>
     `;

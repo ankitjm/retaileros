@@ -82,6 +82,9 @@ export function renderHistory() {
     const allSales = cache.sales || [];
     const cacheItems = cache.saleItems || [];
 
+    // Store orders (online, not yet delivered)
+    const storeOrders = (cache.storeOrders || []).filter(o => o.order_status !== 'delivered' && o.order_status !== 'cancelled');
+
     // Separate drafts and completed sales
     const allDrafts = allSales.filter(s => s.status === 'draft');
     const allCompleted = allSales.filter(s => s.status !== 'draft');
@@ -89,12 +92,15 @@ export function renderHistory() {
     // Apply date filter based on current view
     const viewMode = state.historyViewMode || 'completed';
     const dateFilter = state.historyDateFilter || 'all';
-    
+
     const filteredDrafts = filterByDate(allDrafts, dateFilter, state.historyFromDate, state.historyToDate);
     const filteredCompleted = filterByDate(allCompleted, dateFilter, state.historyFromDate, state.historyToDate);
-    
+
+    // Filter store orders by date (use order_date field)
+    const filteredStoreOrders = filterByDate(storeOrders.map(o => ({ ...o, date: o.order_date })), dateFilter, state.historyFromDate, state.historyToDate);
+
     // Get current display list based on view mode
-    const displayList = viewMode === 'drafts' ? filteredDrafts : filteredCompleted;
+    const displayList = viewMode === 'drafts' ? filteredDrafts : viewMode === 'online' ? filteredStoreOrders : filteredCompleted;
 
     // Get filter label
     const getFilterLabel = () => {
@@ -136,11 +142,16 @@ export function renderHistory() {
                 <div class="flex bg-slate-100 p-1 rounded-xl gap-1">
                     <button type="button" onclick="window.setHistoryViewMode('completed')" class="flex-1 py-3 text-[10px] font-black uppercase rounded-lg transition-all flex items-center justify-center gap-2 ${viewMode === 'completed' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-400'}">
                         <span class="material-icons-outlined text-sm">check_circle</span>
-                        Completed (${allCompleted.length})
+                        <span class="hidden sm:inline">Completed</span> (${allCompleted.length})
+                    </button>
+                    <button type="button" onclick="window.setHistoryViewMode('online')" class="flex-1 py-3 text-[10px] font-black uppercase rounded-lg transition-all flex items-center justify-center gap-2 relative ${viewMode === 'online' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-400'}">
+                        <span class="material-icons-outlined text-sm">public</span>
+                        <span class="hidden sm:inline">Online</span> (${storeOrders.length})
+                        ${storeOrders.filter(o => o.order_status === 'pending').length > 0 ? `<span class="absolute -top-1 right-1 w-4 h-4 bg-red-500 text-white text-[7px] font-black rounded-full flex items-center justify-center">${storeOrders.filter(o => o.order_status === 'pending').length}</span>` : ''}
                     </button>
                     <button type="button" onclick="window.setHistoryViewMode('drafts')" class="flex-1 py-3 text-[10px] font-black uppercase rounded-lg transition-all flex items-center justify-center gap-2 ${viewMode === 'drafts' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-400'}">
                         <span class="material-icons-outlined text-sm">edit_note</span>
-                        Saved Drafts (${allDrafts.length})
+                        <span class="hidden sm:inline">Drafts</span> (${allDrafts.length})
                     </button>
                 </div>
 
@@ -200,17 +211,62 @@ export function renderHistory() {
             <!-- Transactions List -->
             ${displayList.length === 0 ? `
                 <div class="card p-12 border-dashed border-slate-200 flex flex-col items-center gap-3 bg-slate-50/20 text-center">
-                    <span class="material-icons-outlined text-3xl text-slate-200">${viewMode === 'drafts' ? 'edit_note' : 'receipt_long'}</span>
+                    <span class="material-icons-outlined text-3xl text-slate-200">${viewMode === 'drafts' ? 'edit_note' : viewMode === 'online' ? 'public' : 'receipt_long'}</span>
                     <span class="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em]">
-                        No ${viewMode === 'drafts' ? 'saved drafts' : 'transactions'} found
+                        No ${viewMode === 'drafts' ? 'saved drafts' : viewMode === 'online' ? 'pending online orders' : 'transactions'} found
                     </span>
                     <span class="text-[9px] font-bold text-slate-300">
-                        ${dateFilter !== 'all' ? 'Try adjusting your date filter' : ''}
+                        ${viewMode === 'online' ? 'Delivered orders appear in Completed tab' : dateFilter !== 'all' ? 'Try adjusting your date filter' : ''}
                     </span>
                 </div>
             ` : `
                 <section class="space-y-3 text-left">
-                    ${viewMode === 'drafts' ? `
+                    ${viewMode === 'online' ? `
+                        <!-- Online Orders List -->
+                        ${filteredStoreOrders.map(o => {
+                            const oItems = (cache.storeOrderItems || []).filter(i => i.order_id === o.id);
+                            const topItem = oItems[0] ? oItems[0].product_name : 'Order items';
+                            const moreCount = oItems.length > 1 ? `+ ${oItems.length - 1} more` : '';
+
+                            const getOrderStatusBadge = (status) => {
+                                switch (status) {
+                                    case 'pending': return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-amber-50 text-amber-500">Pending</span>';
+                                    case 'confirmed': return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-blue-50 text-blue-500">Confirmed</span>';
+                                    case 'shipped': return '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-purple-50 text-purple-500">Shipped</span>';
+                                    default: return '';
+                                }
+                            };
+
+                            return `
+                                <button type="button" onclick="window.setApp('mystore'); window.setActiveStoreOrder('${o.id}')" class="card p-4 sm:p-6 border-2 transition-all cursor-pointer text-left w-full border-transparent hover:border-slate-200">
+                                    <div class="flex justify-between items-start mb-4 text-left">
+                                        <div class="text-left flex-1 min-w-0">
+                                            <div class="flex items-center gap-2 mb-1 text-left flex-wrap">
+                                                <p class="text-[9px] font-black text-slate-400 uppercase tracking-tighter text-left">${o.order_number}</p>
+                                                <span class="bg-blue-50 px-1.5 py-0.5 rounded text-[7px] font-black text-blue-500 flex items-center gap-1 uppercase tracking-tighter">
+                                                    <span class="material-icons-outlined text-[10px]">public</span> Online
+                                                </span>
+                                                ${getOrderStatusBadge(o.order_status)}
+                                                ${o.payment_status === 'paid' ? '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded bg-green-100 text-green-600">Paid</span>' : o.payment_mode === 'cod' ? '<span class="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded bg-slate-100 text-slate-500">COD</span>' : ''}
+                                            </div>
+                                            <h4 class="text-lg sm:text-xl font-black text-slate-900 tracking-tighter text-left truncate">${o.customer_name}</h4>
+                                        </div>
+                                        <p class="text-lg sm:text-xl font-black text-slate-900 tracking-tighter text-right shrink-0 ml-2">₹${o.total_amount ? parseInt(o.total_amount).toLocaleString() : 0}</p>
+                                    </div>
+                                    <div class="space-y-1 text-left">
+                                        <p class="text-[10px] font-bold text-slate-500 uppercase text-left truncate">${topItem} ${moreCount}</p>
+                                        <div class="flex items-center justify-between text-left">
+                                            <p class="text-[9px] font-black text-slate-500 uppercase text-left flex items-center gap-1">
+                                                <span class="material-icons-outlined text-xs">language</span>
+                                                ${o.payment_mode === 'cod' ? 'COD' : o.payment_mode === 'upi' ? 'UPI' : 'Online'} • ${o.shipping_city || 'Ship pending'}
+                                            </p>
+                                            <p class="text-[9px] font-black text-slate-300 uppercase text-right">${new Date(o.order_date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
+                                        </div>
+                                    </div>
+                                </button>
+                            `;
+                        }).join('')}
+                    ` : viewMode === 'drafts' ? `
                         <!-- Drafts List -->
                         ${filteredDrafts.map(s => {
                             const items = cacheItems.filter(i => i.sale_id === s.id);
