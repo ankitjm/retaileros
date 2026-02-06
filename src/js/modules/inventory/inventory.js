@@ -26,6 +26,12 @@ export function renderInventory(mode) {
         return renderInventoryDetails();
     }
 
+    // Mobile: route to sub-views
+    if (mode === 'mobile') {
+        if (state.inventoryMode === 'inward') return renderInwardShipment();
+        if (state.inventoryMode === 'details') return renderInventoryDetails();
+    }
+
     // Default Primary View
     return `
         <div class="h-full flex flex-col relative bg-white">

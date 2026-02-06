@@ -65,7 +65,7 @@ export function renderInwardShipment() {
                         <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest -mt-0.5 text-left">Scanning & Details</p>
                     </div>
                 </div>
-                 <button onclick="setInventoryMode('details')" class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-900 bg-slate-50 rounded-full text-left">
+                 <button onclick="setInventoryMode('list')" class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-900 bg-slate-50 rounded-full text-left">
                     <span class="material-icons-outlined text-lg text-left">close</span>
                  </button>
             </div>

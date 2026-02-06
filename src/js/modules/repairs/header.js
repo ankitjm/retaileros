@@ -3,7 +3,7 @@ import { state } from '../../state.js';
 export const renderRepairHeader = (title, subtitle, extra = '', showToggle = false) => `
     <header class="p-4 sm:p-8 pb-4 shrink-0 px-8">
         <div class="flex items-center justify-between mb-6">
-            <button onclick="setRepairMode('search')" class="flex items-center gap-1 text-slate-400 hover:text-slate-900 transition-colors">
+            <button onclick="${showToggle ? "setApp('launcher')" : "setRepairMode('search')"}" class="flex items-center gap-1 text-slate-400 hover:text-slate-900 transition-colors">
                 <span class="material-icons-outlined">chevron_left</span>
                 <span class="text-xs font-black uppercase tracking-widest hidden sm:block">Back</span>
             </button>

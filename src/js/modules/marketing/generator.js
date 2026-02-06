@@ -166,10 +166,23 @@ window._generateCreative = async () => {
         }
 
         const dalleData = await dalleResponse.json();
-        mState.generatedImageUrl = dalleData.data?.[0]?.url || null;
+        const tempUrl = dalleData.data?.[0]?.url || null;
         mState.generatedPrompt = prompt;
 
-        if (mState.generatedImageUrl) {
+        if (tempUrl) {
+            // Convert to persistent data URL (DALL-E URLs expire quickly)
+            try {
+                const imgResponse = await fetch(tempUrl);
+                const blob = await imgResponse.blob();
+                const reader = new FileReader();
+                mState.generatedImageUrl = await new Promise((resolve) => {
+                    reader.onloadend = () => resolve(reader.result);
+                    reader.readAsDataURL(blob);
+                });
+            } catch (e) {
+                // Fallback to direct URL if conversion fails
+                mState.generatedImageUrl = tempUrl;
+            }
             if (window.toast) window.toast.success('Creative generated!');
         } else {
             throw new Error('No image returned from API');

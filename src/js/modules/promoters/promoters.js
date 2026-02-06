@@ -19,5 +19,11 @@ export function renderPromoters(mode) {
         return renderPromoterPerformance();
     }
 
+    // Mobile: route to sub-views
+    if (mode === 'mobile') {
+        if (state.promoterViewMode === 'onboarding') return renderPromoterOnboarding();
+        if (state.promoterViewMode === 'performance') return renderPromoterPerformance();
+    }
+
     return renderPromoterList();
 }

@@ -120,8 +120,8 @@ function getNotificationGroups() {
         });
     }
 
-    // 5. Active repairs
-    const activeRepairs = (cache.repairs || []).filter(r => r.status === 'active');
+    // 5. Active repairs (not completed/delivered)
+    const activeRepairs = (cache.repairs || []).filter(r => r.status && r.status !== 'COMPLETED' && r.status !== 'DELIVERED');
     if (activeRepairs.length > 0) {
         groups.push({
             key: 'repairs',
@@ -133,7 +133,7 @@ function getNotificationGroups() {
                 return {
                     id: r.id,
                     primary: r.customer_name || 'Walk-in',
-                    secondary: `${r.device_name || r.device_type || 'Device'} — ${r.issue || 'Repair'}`,
+                    secondary: `${r.device || 'Device'} — ${r.issue || 'Repair'}`,
                     amount: r.estimated_cost ? `₹${Number(r.estimated_cost).toLocaleString()}` : '',
                     date: dateStr,
                     status: 'In Progress',
@@ -252,7 +252,14 @@ if (!window._notifExpanded) window._notifExpanded = {};
 
 window._toggleNotifGroup = function(key) {
     window._notifExpanded[key] = !window._notifExpanded[key];
+    // Preserve scroll position across re-render
+    const scrollEl = document.getElementById('notif-scroll');
+    const scrollTop = scrollEl ? scrollEl.scrollTop : 0;
     window.triggerRender();
+    requestAnimationFrame(() => {
+        const newScrollEl = document.getElementById('notif-scroll');
+        if (newScrollEl) newScrollEl.scrollTop = scrollTop;
+    });
 };
 
 // Store actions globally for onclick
@@ -433,7 +440,7 @@ export function renderNotifications(mode) {
         <div class="h-full flex flex-col relative bg-white animate-slide-up text-left">
             ${renderHeader()}
 
-            <div class="scrolling-content flex-1 overflow-y-auto pb-32 text-left">
+            <div id="notif-scroll" class="scrolling-content flex-1 overflow-y-auto pb-32 text-left">
                 ${groups.length > 0 ? `
                     <!-- Summary Strip -->
                     <div class="mb-5">

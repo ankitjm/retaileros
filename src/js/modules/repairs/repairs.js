@@ -44,12 +44,15 @@ export function renderRepairs(layout) {
     // Mobile logic
     const currentMode = state.repairTab === 'history' ? 'history' : state.repairViewMode;
     const mobileHeader = hMap[currentMode];
+    const isMainView = currentMode === 'search' || currentMode === 'history';
     const extraMobile = currentMode === 'intake' ? `<span class="text-[8px] font-black text-slate-300 bg-slate-50 px-2 py-1 rounded">${mobileHeader.txn}</span>` : (currentMode === 'status' ? `<span class="bg-slate-200 text-slate-600 text-[8px] font-black px-2 py-1 rounded-full">${mobileHeader.badge}</span>` : '<button class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-slate-900"><span class="material-icons-outlined text-xl">notifications</span></button>');
 
     return `
-        ${renderRepairHeader(mobileHeader.t, mobileHeader.s, extraMobile, true)}
-        <div class="scrolling-content px-8 space-y-8 pb-12">
-            ${state.repairTab === 'history' ? renderRepairHistory() : contentMap[state.repairViewMode]}
+        <div class="h-full flex flex-col bg-white overflow-hidden">
+            ${renderRepairHeader(mobileHeader.t, mobileHeader.s, extraMobile, isMainView)}
+            <div class="scrolling-content px-8 space-y-8 pb-12">
+                ${state.repairTab === 'history' ? renderRepairHistory() : contentMap[state.repairViewMode]}
+            </div>
         </div>
     `;
 }

@@ -24,7 +24,7 @@ export function renderRepairHistory() {
                         </div>
                     </div>
                     <div class="flex items-center justify-between border-t border-slate-50 pt-4 text-left">
-                        <p class="text-[10px] font-black text-slate-900 text-left">₹${parseInt(j.estimated_cost).toLocaleString()}</p>
+                        <p class="text-[10px] font-black text-slate-900 text-left">${j.estimated_cost ? `₹${parseInt(j.estimated_cost).toLocaleString()}` : 'Estimate pending'}</p>
                         <p class="text-[8px] font-black text-slate-300 uppercase italic text-right">${new Date(j.created_at).toLocaleDateString()}</p>
                     </div>
                 </div>

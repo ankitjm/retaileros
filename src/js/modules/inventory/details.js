@@ -7,6 +7,10 @@ export function renderInventoryDetails() {
          <div class="h-full flex flex-col relative bg-white text-left">
             <!-- Header -->
             <div class="p-6 border-b border-slate-100 shrink-0 text-left">
+                <button onclick="setInventoryMode('list')" class="flex items-center gap-1 text-slate-400 hover:text-slate-900 transition-colors mb-2">
+                    <span class="material-icons-outlined text-lg">chevron_left</span>
+                    <span class="text-[10px] font-black uppercase tracking-widest">Back</span>
+                </button>
                 <div class="flex items-center gap-2 text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1 text-left">
                     <span class="text-left">Inventory</span>
                     <span class="material-icons-outlined text-[10px] text-left">chevron_right</span>
