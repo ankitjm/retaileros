@@ -281,7 +281,10 @@ Error: `+s.message)}};window.verifyOtp=function(){const e=[];for(let a=0;a<6;a++
                 <div class="flex items-center justify-between">
                      <div class="flex items-center gap-3.5">
                         <img src="/ros-logo.jpeg" alt="RetailerOS" class="w-14 h-14 rounded-2xl object-cover shadow-lg hover:shadow-xl transition-shadow">
-                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em]">${new Date().toLocaleDateString("en-GB",{weekday:"short",day:"2-digit",month:"short",year:"numeric"})}</p>
+                        <div class="text-left">
+                            ${p.isLoggedIn&&p.retailerName?`<p class="text-xs font-black text-slate-900 tracking-tight leading-tight">${p.retailerName}</p>`:""}
+                            <p class="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] ${p.isLoggedIn&&p.retailerName?"mt-0.5":""}">${new Date().toLocaleDateString("en-GB",{weekday:"short",day:"2-digit",month:"short",year:"numeric"})}</p>
+                        </div>
                      </div>
                      ${t?`
                      <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 transition-all">

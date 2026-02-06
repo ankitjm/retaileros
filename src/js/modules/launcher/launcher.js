@@ -12,7 +12,10 @@ export function renderLauncher(mode) {
                 <div class="flex items-center justify-between">
                      <div class="flex items-center gap-3.5">
                         <img src="/ros-logo.jpeg" alt="RetailerOS" class="w-14 h-14 rounded-2xl object-cover shadow-lg hover:shadow-xl transition-shadow">
-                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em]">${new Date().toLocaleDateString('en-GB', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' })}</p>
+                        <div class="text-left">
+                            ${state.isLoggedIn && state.retailerName ? `<p class="text-xs font-black text-slate-900 tracking-tight leading-tight">${state.retailerName}</p>` : ''}
+                            <p class="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] ${state.isLoggedIn && state.retailerName ? 'mt-0.5' : ''}">${new Date().toLocaleDateString('en-GB', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' })}</p>
+                        </div>
                      </div>
                      ${!isMob ? '' : `
                      <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 transition-all">
