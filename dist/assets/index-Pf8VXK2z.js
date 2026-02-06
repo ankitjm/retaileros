@@ -280,7 +280,7 @@ Error: `+s.message)}};window.verifyOtp=function(){const e=[];for(let a=0;a<6;a++
             <header class="px-5 sm:px-8 pt-5 sm:pt-8 pb-3 shrink-0">
                 <div class="flex items-center justify-between">
                      <div class="flex items-center gap-3.5">
-                        <img src="/ros-logo.jpeg" alt="RetailerOS" class="w-12 h-12 rounded-2xl object-cover shadow-lg hover:shadow-xl transition-shadow">
+                        <img src="/ros-logo.jpeg" alt="RetailerOS" class="w-14 h-14 rounded-2xl object-cover shadow-lg hover:shadow-xl transition-shadow">
                         <p class="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em]">${new Date().toLocaleDateString("en-GB",{weekday:"short",day:"2-digit",month:"short",year:"numeric"})}</p>
                      </div>
                      ${t?`
