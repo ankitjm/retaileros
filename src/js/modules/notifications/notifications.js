@@ -193,6 +193,14 @@ function getNotificationCount() {
 
 window.getNotificationCount = getNotificationCount;
 
+// Track which accordion sections are expanded (none by default)
+if (!window._notifExpanded) window._notifExpanded = {};
+
+window._toggleNotifGroup = function(key) {
+    window._notifExpanded[key] = !window._notifExpanded[key];
+    window.triggerRender();
+};
+
 // Store actions globally for onclick
 window._notifActions = [];
 
@@ -207,7 +215,6 @@ function renderHeader(isMobile) {
                 </button>
                 <div class="text-center translate-x-1">
                     <h1 class="text-xl font-black tracking-tighter text-slate-900 text-center">Alerts</h1>
-                    <p class="text-[9px] font-bold text-slate-300 uppercase tracking-[0.2em] -mt-1 text-center">RetailerOS</p>
                 </div>
                 <button onclick="window.togglePushNotifications()" class="p-2 text-left" title="Push Notifications">
                     <span class="material-icons-outlined text-xl ${enabled ? 'text-slate-900' : 'text-slate-300'}">${enabled ? 'notifications_active' : 'notifications_off'}</span>
@@ -218,36 +225,44 @@ function renderHeader(isMobile) {
 }
 
 function renderGroupSection(group, actionOffset) {
+    const isExpanded = window._notifExpanded[group.key] || false;
     return `
-        <section class="space-y-2 text-left">
-            <div class="flex items-center justify-between px-1 text-left">
-                <h3 class="text-[9px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2 text-left">
-                    <span class="${group.iconSymbol ? 'material-symbols-outlined' : 'material-icons-outlined'} text-xs">${group.icon}</span>
-                    ${group.title}
-                </h3>
-                <span class="text-[8px] font-black text-slate-300 uppercase">${group.items.length} ${group.items.length === 1 ? 'item' : 'items'}</span>
-            </div>
-            <div class="space-y-2 text-left">
-                ${group.items.map((item, i) => {
-                    const idx = actionOffset + i;
-                    return `
-                        <button type="button" onclick="window._notifActions[${idx}]()" class="card p-4 border-2 border-transparent hover:border-slate-100 transition-all text-left w-full cursor-pointer">
-                            <div class="flex items-center gap-3 text-left">
-                                <div class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-center shrink-0">
-                                    <span class="${group.iconSymbol ? 'material-symbols-outlined' : 'material-icons-outlined'} text-white text-sm">${group.icon}</span>
+        <section class="text-left">
+            <button type="button" onclick="window._toggleNotifGroup('${group.key}')" class="w-full flex items-center justify-between px-3 py-3 bg-white border border-slate-100 rounded-2xl hover:border-slate-200 transition-all cursor-pointer">
+                <div class="flex items-center gap-2 text-left">
+                    <div class="w-8 h-8 bg-slate-900 rounded-xl flex items-center justify-center shrink-0">
+                        <span class="${group.iconSymbol ? 'material-symbols-outlined' : 'material-icons-outlined'} text-white text-xs">${group.icon}</span>
+                    </div>
+                    <h3 class="text-[10px] font-black text-slate-900 uppercase tracking-wider text-left">${group.title}</h3>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-5 h-5 bg-slate-900 text-white rounded-full flex items-center justify-center text-[8px] font-black">${group.items.length}</span>
+                    <span class="material-icons-outlined text-sm text-slate-400 transition-transform ${isExpanded ? 'rotate-180' : ''}">${isExpanded ? 'expand_less' : 'expand_more'}</span>
+                </div>
+            </button>
+            ${isExpanded ? `
+                <div class="space-y-2 mt-2 text-left">
+                    ${group.items.map((item, i) => {
+                        const idx = actionOffset + i;
+                        return `
+                            <button type="button" onclick="window._notifActions[${idx}]()" class="card p-4 border-2 border-transparent hover:border-slate-100 transition-all text-left w-full cursor-pointer">
+                                <div class="flex items-center gap-3 text-left">
+                                    <div class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-center shrink-0">
+                                        <span class="${group.iconSymbol ? 'material-symbols-outlined' : 'material-icons-outlined'} text-white text-sm">${group.icon}</span>
+                                    </div>
+                                    <div class="flex-1 min-w-0 text-left">
+                                        <h4 class="text-xs font-black text-slate-900 tracking-tight truncate text-left">${item.primary}</h4>
+                                        <p class="text-[9px] font-bold text-slate-400 truncate text-left">${item.secondary}</p>
+                                    </div>
+                                    <div class="text-right shrink-0">
+                                        <p class="text-[9px] font-black ${item.metaWarn ? 'text-red-500' : 'text-slate-400'} uppercase">${item.meta}</p>
+                                    </div>
                                 </div>
-                                <div class="flex-1 min-w-0 text-left">
-                                    <h4 class="text-xs font-black text-slate-900 tracking-tight truncate text-left">${item.primary}</h4>
-                                    <p class="text-[9px] font-bold text-slate-400 truncate text-left">${item.secondary}</p>
-                                </div>
-                                <div class="text-right shrink-0">
-                                    <p class="text-[9px] font-black ${item.metaWarn ? 'text-red-500' : 'text-slate-400'} uppercase">${item.meta}</p>
-                                </div>
-                            </div>
-                        </button>
-                    `;
-                }).join('')}
-            </div>
+                            </button>
+                        `;
+                    }).join('')}
+                </div>
+            ` : ''}
         </section>
     `;
 }

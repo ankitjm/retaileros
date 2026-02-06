@@ -30,6 +30,7 @@ export function renderLauncherFooter(isMob) {
                     </button>
                 `}
             `}
+            <p class="text-center text-[7px] font-bold text-slate-300 uppercase tracking-[0.15em] mt-3">A product of Khosha Systems</p>
         </footer>
     `;
 }
