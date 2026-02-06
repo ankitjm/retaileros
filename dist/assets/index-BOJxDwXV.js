@@ -246,6 +246,7 @@ Error: `+s.message)}};window.verifyOtp=function(){const e=[];for(let a=0;a<6;a++
     `}function lo(e){return`
         <footer class="p-4 bg-[#F8FAFC]/95 backdrop-blur-md border-t border-slate-100 shrink-0 mt-auto sticky bottom-0 z-20">
             ${p.isLoggedIn?`
+                <p class="text-center text-[11px] font-black text-slate-900/[0.04] uppercase tracking-[0.35em] mb-2 select-none pointer-events-none">RetailerOS</p>
                 <div class="card p-3 flex items-center justify-between border-slate-200/50 shadow-sm hover:shadow-md transition-shadow cursor-pointer bg-white">
                     <div class="flex items-center gap-3">
                         <div class="w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center font-black text-[10px] text-slate-900 shadow-inner">AM</div>
