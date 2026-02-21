@@ -1,7 +1,18 @@
 // Check localStorage for existing login status
 const savedLoginStatus = localStorage.getItem('retaileros_logged_in') === 'true';
+const savedRetailerId = localStorage.getItem('retaileros_retailer_id') || null;
+const savedRetailerCode = localStorage.getItem('retaileros_retailer_code') || null;
+const savedRetailerName = localStorage.getItem('retaileros_retailer_name') || null;
+
+// Push notifications preference
+const savedPushPref = localStorage.getItem('retaileros_push_notifications') !== 'false';
+window._pushNotificationsEnabled = savedPushPref;
 
 export const state = {
+    // Tenant identity
+    retailerId: savedRetailerId,
+    retailerCode: savedRetailerCode,
+    retailerName: savedRetailerName,
     currentApp: window.innerWidth < 768 ? 'launcher' : 'sales',
     currentTab: 'new-sale',
     salesMode: 'default', // default | add-customer
@@ -32,7 +43,7 @@ export const state = {
     inventoryTab: 'brands', // brands | categories
     inventoryMode: 'details', // details | inward
     activeCategory: null,
-    settingsView: 'roles', // roles | accounting | ledger
+    settingsView: null, // null = dashboard | roles | accounting | ledger | etc.
     viewportWidth: window.innerWidth,
     gridCols: window.innerWidth < 768 ? 4 : 3,
     schemesTab: 'list', // brands | list
@@ -41,6 +52,10 @@ export const state = {
     showSchemeDetails: false,
     marketplaceTab: 'browse', // browse | my-offers
     marketplaceViewMode: 'list', // list | add
+    myStoreTab: 'dashboard', // dashboard | listings | orders | shipping
+    myStoreViewMode: 'list', // list | add-listing | order-detail
+    activeStoreOrderId: null,
+    activeListingId: null,
     isLoggedIn: savedLoginStatus,
     authMode: 'login', // login | register
     registrationStep: 1, // 1 | 2 | 3
@@ -154,6 +169,29 @@ export function setMarketplaceViewMode(mode) {
     triggerRender();
 }
 
+// Tenant identity management
+export function setRetailer(id, code, name) {
+    state.retailerId = id;
+    state.retailerCode = code;
+    state.retailerName = name;
+    localStorage.setItem('retaileros_retailer_id', id);
+    localStorage.setItem('retaileros_retailer_code', code);
+    localStorage.setItem('retaileros_retailer_name', name);
+}
+
+export function clearRetailer() {
+    state.retailerId = null;
+    state.retailerCode = null;
+    state.retailerName = null;
+    localStorage.removeItem('retaileros_retailer_id');
+    localStorage.removeItem('retaileros_retailer_code');
+    localStorage.removeItem('retaileros_retailer_name');
+}
+
+export function getRetailerId() {
+    return state.retailerId;
+}
+
 export function setLoginStatus(status) {
     state.isLoggedIn = status;
     // Save login status to localStorage
@@ -161,6 +199,7 @@ export function setLoginStatus(status) {
         localStorage.setItem('retaileros_logged_in', 'true');
     } else {
         localStorage.removeItem('retaileros_logged_in');
+        clearRetailer(); // Clear tenant identity on logout
     }
     // Mobile users go to launcher first, desktop users go to sales
     const isMobile = window.innerWidth < 768;
@@ -264,6 +303,36 @@ window.setScheme = setScheme;
 window.toggleSchemeDetails = toggleSchemeDetails;
 window.setMarketplaceTab = setMarketplaceTab;
 window.setMarketplaceViewMode = setMarketplaceViewMode;
+
+export function setMyStoreTab(tab) {
+    state.myStoreTab = tab;
+    state.myStoreViewMode = 'list';
+    triggerRender();
+}
+
+export function setMyStoreViewMode(mode) {
+    state.myStoreViewMode = mode;
+    triggerRender();
+}
+
+export function setActiveStoreOrder(orderId) {
+    state.activeStoreOrderId = orderId;
+    state.myStoreViewMode = 'order-detail';
+    triggerRender();
+}
+
+export function setActiveListing(listingId) {
+    state.activeListingId = listingId;
+    triggerRender();
+}
+
+window.setMyStoreTab = setMyStoreTab;
+window.setMyStoreViewMode = setMyStoreViewMode;
+window.setActiveStoreOrder = setActiveStoreOrder;
+window.setActiveListing = setActiveListing;
+window.setRetailer = setRetailer;
+window.clearRetailer = clearRetailer;
+window.getRetailerId = getRetailerId;
 window.setLoginStatus = setLoginStatus;
 window.setAuthMode = setAuthMode;
 window.setRegistrationStep = setRegistrationStep;
@@ -287,3 +356,12 @@ export function setSelectedGroup(id) {
 
 window.setGroupViewMode = setGroupViewMode;
 window.setSelectedGroup = setSelectedGroup;
+
+// Push notifications toggle
+export function togglePushNotifications() {
+    const current = window._pushNotificationsEnabled !== false;
+    window._pushNotificationsEnabled = !current;
+    localStorage.setItem('retaileros_push_notifications', !current ? 'true' : 'false');
+    triggerRender();
+}
+window.togglePushNotifications = togglePushNotifications;

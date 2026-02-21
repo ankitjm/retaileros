@@ -34,6 +34,9 @@ export function syncStateToUrl(syncUrl = true) {
         parts.push(state.schemesTab);
     } else if (state.currentApp === 'settings') {
         parts.push(state.settingsView);
+    } else if (state.currentApp === 'mystore') {
+        parts.push(state.myStoreTab);
+        if (state.myStoreViewMode !== 'list') parts.push(state.myStoreViewMode);
     }
 
     const hash = '#/' + parts.filter(Boolean).join('/');
@@ -77,6 +80,9 @@ export function syncUrlToState() {
         if (parts[1]) state.schemesTab = parts[1];
     } else if (app === 'settings') {
         if (parts[1]) state.settingsView = parts[1];
+    } else if (app === 'mystore') {
+        if (parts[1]) state.myStoreTab = parts[1];
+        if (parts[2]) state.myStoreViewMode = parts[2];
     }
 
     triggerRender(false); // Render without re-syncing to URL to avoid loops

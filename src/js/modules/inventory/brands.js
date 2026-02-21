@@ -8,7 +8,7 @@ export function renderBrands() {
                 <div class="flex justify-between items-start mb-4">
                     <div class="text-left">
                         <h3 class="text-lg font-black text-slate-900">Apple</h3>
-                        <span class="bg-green-50 text-green-600 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-wide inline-block mt-1">Premium</span>
+                        <span class="bg-slate-100 text-slate-600 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-wide inline-block mt-1">Premium</span>
                     </div>
                     <div class="text-right">
                         <p class="text-[7px] font-black text-slate-300 uppercase tracking-widest mb-0.5">AVG MARGIN</p>
@@ -43,7 +43,7 @@ export function renderBrands() {
                 <div class="flex justify-between items-start mb-4">
                     <div class="text-left">
                         <h3 class="text-lg font-black text-slate-900">OnePlus</h3>
-                        <span class="bg-blue-50 text-blue-600 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-wide inline-block mt-1">Electronics</span>
+                        <span class="bg-slate-100 text-slate-600 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-wide inline-block mt-1">Electronics</span>
                     </div>
                      <div class="text-right">
                         <p class="text-[7px] font-black text-slate-300 uppercase tracking-widest mb-0.5">AVG MARGIN</p>
@@ -78,7 +78,7 @@ export function renderBrands() {
                 <div class="flex justify-between items-start mb-4">
                     <div class="text-left">
                         <h3 class="text-lg font-black text-slate-900">Nothing</h3>
-                        <span class="bg-orange-50 text-orange-600 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-wide inline-block mt-1">Audio & Mobile</span>
+                        <span class="bg-slate-100 text-slate-600 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-wide inline-block mt-1">Audio & Mobile</span>
                     </div>
                      <div class="text-right">
                         <p class="text-[7px] font-black text-slate-300 uppercase tracking-widest mb-0.5">AVG MARGIN</p>

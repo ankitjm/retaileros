@@ -82,7 +82,7 @@ export function renderAISettings() {
             <header class="p-6 border-b border-slate-100 shrink-0">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-4">
-                        <button onclick="window.setSettingsView('roles')" class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-slate-900 bg-slate-100 rounded-full">
+                        <button onclick="window.setSettingsView(null)" class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-slate-900 bg-slate-100 rounded-full">
                             <span class="material-icons-outlined">arrow_back</span>
                         </button>
                         <div>

@@ -3,7 +3,7 @@ export function renderSettingsLedger() {
          <div class="h-full flex flex-col relative bg-white animate-slide-up text-left">
             <header class="p-4 sm:p-8 pb-4 shrink-0 text-left">
                 <div class="flex items-center justify-between mb-6 text-left">
-                     <button onclick="setApp('launcher')" class="flex items-center gap-1 text-slate-400 hover:text-slate-900 transition-colors text-left">
+                     <button onclick="window.setSettingsView(null)" class="flex items-center gap-1 text-slate-400 hover:text-slate-900 transition-colors text-left">
                         <span class="material-icons-outlined text-left">chevron_left</span>
                         <span class="text-xs font-black uppercase tracking-widest hidden sm:block text-left">Back</span>
                     </button>
@@ -36,7 +36,7 @@ export function renderSettingsLedger() {
                         </div>
                         <div class="text-right">
                             <h3 class="text-sm font-black text-slate-900 text-right">₹2,44,500.00</h3>
-                            <p class="text-[8px] font-black text-green-500 uppercase tracking-wide text-right">CR BALANCE</p>
+                            <p class="text-[8px] font-black text-slate-900 uppercase tracking-wide text-right">CR BALANCE</p>
                         </div>
                      </div>
 
@@ -63,7 +63,7 @@ export function renderSettingsLedger() {
                                   <p class="text-[8px] text-slate-400 text-left">Vendor Credit Return -...</p>
                               </div>
                               <div class="flex gap-8 text-[9px] font-black tabular-nums text-right">
-                                <span class="text-red-500 text-right">₹12,400</span>
+                                <span class="text-slate-400 text-right">₹12,400</span>
                                 <span class="text-slate-300 text-right">---</span>
                               </div>
                          </div>
@@ -116,7 +116,7 @@ export function renderSettingsLedger() {
                          </div>
                          <div class="flex items-center gap-3 text-right">
                              <div class="text-right">
-                                 <p class="text-xs font-black text-red-500 text-right">₹(5,92,000.00)</p>
+                                 <p class="text-xs font-black text-slate-400 text-right">₹(5,92,000.00)</p>
                                  <p class="text-[7px] font-black text-slate-300 uppercase text-right">CR</p>
                              </div>
                              <span class="material-icons-outlined text-slate-300 text-sm text-right">chevron_right</span>

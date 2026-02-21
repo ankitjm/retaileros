@@ -1,3 +1,31 @@
+// Publish campaign
+window._publishCampaign = () => {
+    const title = document.getElementById('pb-title')?.value?.trim();
+    const product = document.getElementById('pb-product')?.value?.trim();
+    const deposit = document.getElementById('pb-deposit')?.value?.trim();
+    const duration = document.getElementById('pb-duration')?.value?.trim();
+
+    if (!title) {
+        if (window.toast) window.toast.error('Enter a campaign title');
+        return;
+    }
+
+    // Generate shareable URL
+    const slug = (title || 'campaign').toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    const retailerCode = localStorage.getItem('retaileros_retailer_code') || 'store';
+    const campaignUrl = `https://store.retaileros.in/${retailerCode}/prebook/${slug}`;
+
+    // Copy to clipboard
+    navigator.clipboard.writeText(campaignUrl).then(() => {
+        if (window.toast) window.toast.success('Campaign published! Link copied to clipboard');
+    }).catch(() => {
+        if (window.toast) window.toast.success('Campaign published!');
+    });
+
+    // Navigate back
+    window.setPreBookingViewMode('dashboard');
+};
+
 export function renderPreBookingCreate(isMobile) {
     return `
         <div class="h-full flex flex-col bg-white dot-grid relative animate-slide-up text-left">
@@ -16,18 +44,18 @@ export function renderPreBookingCreate(isMobile) {
 
             <div class="flex-1 overflow-y-auto p-8 pt-4 space-y-8 custom-scrollbar pb-32 text-left">
                 <div class="space-y-6 text-left">
-                    <p class="text-[9px] font-black text-indigo-400 uppercase tracking-widest -mb-2 text-left">Campaign Details</p>
+                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest -mb-2 text-left">Campaign Details</p>
                     
                     <div class="text-left">
                         <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-3 text-left">Campaign Title</label>
-                        <input type="text" placeholder="e.g., Flagship Smartphone 16 Pro Launch" class="w-full h-14 px-5 bg-white border border-slate-100 rounded-2xl text-[11px] font-black text-slate-900 focus:ring-4 focus:ring-slate-950/5 focus:border-slate-950 shadow-sm transition-all focus:outline-none text-left">
+                        <input type="text" id="pb-title" placeholder="e.g., Flagship Smartphone 16 Pro Launch" class="w-full h-14 px-5 bg-white border border-slate-100 rounded-2xl text-[11px] font-black text-slate-900 focus:ring-4 focus:ring-slate-950/5 focus:border-slate-950 shadow-sm transition-all focus:outline-none text-left">
                     </div>
 
                     <div class="text-left">
                         <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-3 text-left">Product Selection</label>
                         <div class="relative text-left">
                             <span class="material-icons-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 text-left">search</span>
-                            <input type="text" placeholder="Search from inventory..." class="w-full h-14 pl-12 pr-4 bg-white border border-slate-100 rounded-2xl text-[11px] font-black text-slate-900 focus:ring-4 focus:ring-slate-950/5 focus:border-slate-950 shadow-sm transition-all focus:outline-none text-left">
+                            <input type="text" id="pb-product" placeholder="Search from inventory..." class="w-full h-14 pl-12 pr-4 bg-white border border-slate-100 rounded-2xl text-[11px] font-black text-slate-900 focus:ring-4 focus:ring-slate-950/5 focus:border-slate-950 shadow-sm transition-all focus:outline-none text-left">
                         </div>
                     </div>
 
@@ -36,21 +64,21 @@ export function renderPreBookingCreate(isMobile) {
                             <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-3 text-left">Deposit Amount</label>
                             <div class="relative text-left">
                                 <span class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 font-black text-[11px] text-left">₹</span>
-                                <input type="number" placeholder="2,000" class="w-full h-14 pl-10 pr-5 bg-white border border-slate-100 rounded-2xl text-[11px] font-black text-slate-900 focus:ring-4 focus:ring-slate-950/5 focus:border-slate-950 shadow-sm transition-all focus:outline-none text-left">
+                                <input type="number" id="pb-deposit" placeholder="2000" class="w-full h-14 pl-10 pr-5 bg-white border border-slate-100 rounded-2xl text-[11px] font-black text-slate-900 focus:ring-4 focus:ring-slate-950/5 focus:border-slate-950 shadow-sm transition-all focus:outline-none text-left">
                             </div>
                         </div>
                         <div class="text-left">
                             <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-3 text-left">Duration (Days)</label>
                             <div class="relative text-left">
                                 <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg text-left">calendar_today</span>
-                                <input type="text" placeholder="14 Days" class="w-full h-14 px-5 bg-white border border-slate-100 rounded-2xl text-[11px] font-black text-slate-900 focus:ring-4 focus:ring-slate-950/5 focus:border-slate-950 shadow-sm transition-all focus:outline-none text-left">
+                                <input type="text" id="pb-duration" placeholder="14 Days" class="w-full h-14 px-5 bg-white border border-slate-100 rounded-2xl text-[11px] font-black text-slate-900 focus:ring-4 focus:ring-slate-950/5 focus:border-slate-950 shadow-sm transition-all focus:outline-none text-left">
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="space-y-6 text-left">
-                    <p class="text-[9px] font-black text-indigo-400 uppercase tracking-widest -mb-2 text-left">Landing Page Customization</p>
+                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest -mb-2 text-left">Landing Page Customization</p>
                     
                     <div class="text-left">
                         <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-3 text-left">Hero Image</label>
@@ -68,7 +96,7 @@ export function renderPreBookingCreate(isMobile) {
             </div>
 
             <div class="p-8 pt-0 sticky bottom-0 z-20 text-center">
-                <button onclick="window.setPreBookingViewMode('dashboard')" class="w-full py-5 bg-slate-950 text-white rounded-2xl text-[11px] font-black uppercase tracking-widest shadow-2xl flex items-center justify-center gap-3 active:scale-95 transition-all text-center">
+                <button onclick="window._publishCampaign()" class="w-full py-5 bg-slate-950 text-white rounded-2xl text-[11px] font-black uppercase tracking-widest shadow-2xl flex items-center justify-center gap-3 active:scale-95 transition-all text-center">
                      PUBLISH & GENERATE LINK <span class="material-icons-outlined text-center">arrow_forward</span>
                 </button>
             </div>

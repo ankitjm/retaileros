@@ -93,7 +93,16 @@ export async function addProductToCart(id) {
 window.toggleCartItemDiscount = (idx) => {
     if (activeCart[idx]) {
         activeCart[idx].showDiscount = !activeCart[idx].showDiscount;
+        const scrollEl = document.querySelector('.scrolling-content');
+        const scrollTop = scrollEl ? scrollEl.scrollTop : 0;
         window.triggerRender();
+        requestAnimationFrame(() => {
+            if (scrollEl) scrollEl.scrollTop = scrollTop;
+            const card = document.querySelector(`[data-cart-item="${idx}"]`);
+            if (card && activeCart[idx].showDiscount) {
+                setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+            }
+        });
     }
 };
 
@@ -109,6 +118,7 @@ window.applyStoreDiscount = (idx, percentage) => {
             item.scheme_id = null;
             item.scheme_name = null;
             item.final_price = item.mop - item.discount_amount;
+            item.showDiscount = false;
         } else {
             // Clear discount
             item.discount_type = null;
@@ -143,6 +153,7 @@ window.applySchemeDiscount = (idx, schemeId) => {
                 item.discount_amount = scheme.discount_value;
             }
             item.final_price = item.mop - item.discount_amount;
+            item.showDiscount = false;
         } else {
             // Clear discount
             item.discount_type = null;
@@ -199,7 +210,16 @@ window.updateCartItemDetail = (idx, field, value) => {
 window.toggleCartItemDetails = (idx) => {
     if (activeCart[idx]) {
         activeCart[idx].showDetails = !activeCart[idx].showDetails;
+        const scrollEl = document.querySelector('.scrolling-content');
+        const scrollTop = scrollEl ? scrollEl.scrollTop : 0;
         window.triggerRender();
+        requestAnimationFrame(() => {
+            if (scrollEl) scrollEl.scrollTop = scrollTop;
+            const card = document.querySelector(`[data-cart-item="${idx}"]`);
+            if (card && activeCart[idx].showDetails) {
+                setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+            }
+        });
     }
 };
 
@@ -1047,7 +1067,7 @@ export function renderSales() {
                 
                 <div class="space-y-3 text-left">
                     ${activeCart.map((item, idx) => `
-                        <div class="card overflow-hidden ${item.installation_required ? 'border-slate-300' : ''}">
+                        <div class="card overflow-hidden ${item.installation_required ? 'border-slate-300' : ''}" data-cart-item="${idx}">
                             <div class="p-4 flex items-center gap-4 text-left">
                                 <div class="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center shadow-inner text-left shrink-0">
                                     <span class="material-icons-outlined text-xl text-slate-300 text-left">${item.installation_required ? 'home_repair_service' : 'devices'}</span>

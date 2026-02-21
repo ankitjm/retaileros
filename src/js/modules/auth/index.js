@@ -7,7 +7,7 @@ export { renderRegister } from './register.js';
 
 export function renderAuth() {
     if (state.authMode === 'register') {
-        return renderRegister();
+        return renderRegister('mobile');
     }
-    return renderLogin();
+    return renderLogin('mobile');
 }

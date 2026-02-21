@@ -20,38 +20,38 @@ function renderRegisterPrimary() {
         return `
             <div class="h-full w-full flex flex-col items-center justify-center p-8 bg-white dot-grid relative overflow-hidden text-center">
                 <div class="animate-slide-up max-w-md">
-                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <span class="material-icons-outlined text-green-600 text-5xl">check_circle</span>
+                    <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="material-icons-outlined text-slate-900 text-5xl">check_circle</span>
                     </div>
                     <h2 class="text-2xl font-black text-slate-900 mb-3">Almost There!</h2>
                     <p class="text-sm text-slate-500 mb-8">Please review and confirm your store details in the right panel to complete registration.</p>
 
                     <div class="space-y-3">
-                        <div class="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-xl">
-                            <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center shrink-0">
+                        <div class="flex items-center gap-3 p-4 bg-slate-100 border border-slate-200 rounded-xl">
+                            <div class="w-8 h-8 bg-slate-900 rounded-full flex items-center justify-center shrink-0">
                                 <span class="material-icons-outlined text-white text-sm">done</span>
                             </div>
                             <div class="text-left">
-                                <p class="text-[10px] font-black text-green-700 uppercase">Mobile Verified</p>
-                                <p class="text-xs text-green-600">+91 98765 43210</p>
+                                <p class="text-[10px] font-black text-slate-900 uppercase">Mobile Verified</p>
+                                <p class="text-xs text-slate-600">+91 98765 43210</p>
                             </div>
                         </div>
 
-                        <div class="flex items-center gap-3 p-4 bg-blue-50 border border-blue-200 rounded-xl">
-                            <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center shrink-0">
-                                <span class="material-icons-outlined text-white text-sm">arrow_forward</span>
+                        <div class="flex items-center gap-3 p-4 bg-slate-50 border border-slate-200 rounded-xl">
+                            <div class="w-8 h-8 bg-slate-200 rounded-full flex items-center justify-center shrink-0">
+                                <span class="material-icons-outlined text-slate-600 text-sm">arrow_forward</span>
                             </div>
                             <div class="text-left">
-                                <p class="text-[10px] font-black text-blue-700 uppercase">Next Step</p>
-                                <p class="text-xs text-blue-600">Confirm store details →</p>
+                                <p class="text-[10px] font-black text-slate-600 uppercase">Next Step</p>
+                                <p class="text-xs text-slate-500">Confirm store details →</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="absolute bottom-6 flex items-center gap-2">
-                    <span class="material-icons-outlined text-indigo-400 text-xs">verified_user</span>
-                    <p class="text-[9px] font-black text-indigo-400 uppercase tracking-widest opacity-30">Secure Encryption</p>
+                    <span class="material-icons-outlined text-slate-400 text-xs">verified_user</span>
+                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest opacity-30">Secure Encryption</p>
                 </div>
             </div>
         `;
@@ -63,8 +63,8 @@ function renderRegisterPrimary() {
             ${renderStepContent(step)}
 
             <div class="absolute bottom-6 flex items-center gap-2">
-                <span class="material-icons-outlined text-indigo-400 text-xs">verified_user</span>
-                <p class="text-[9px] font-black text-indigo-400 uppercase tracking-widest opacity-30">Secure ${step === 2 ? 'Verification' : 'Encryption'}</p>
+                <span class="material-icons-outlined text-slate-400 text-xs">verified_user</span>
+                <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest opacity-30">Secure ${step === 2 ? 'Verification' : 'Encryption'}</p>
             </div>
         </div>
     `;
@@ -113,8 +113,8 @@ function renderRegisterMobile() {
             </div>
 
             <div class="flex items-center gap-2 pb-4">
-                <span class="material-icons-outlined text-indigo-400 text-xs">verified_user</span>
-                <p class="text-[9px] font-black text-indigo-400 uppercase tracking-widest opacity-30">Secure ${step === 2 ? 'Verification' : step === 3 ? 'Encryption' : 'Encryption'}</p>
+                <span class="material-icons-outlined text-slate-400 text-xs">verified_user</span>
+                <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest opacity-30">Secure ${step === 2 ? 'Verification' : step === 3 ? 'Encryption' : 'Encryption'}</p>
             </div>
             <div class="w-40 h-1 bg-slate-100 rounded-full mb-3"></div>
         </div>
@@ -135,10 +135,10 @@ function renderStepContent(step) {
                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-8 md:mb-12">RetailerOS Enterprise</p>
 
                 <div class="card p-6 md:p-8 border-slate-100 shadow-xl text-left">
-                    <p class="text-[9px] md:text-[9px] font-black text-indigo-400 uppercase tracking-widest mb-3">Enter Mobile Number</p>
+                    <p class="text-[9px] md:text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Enter Mobile Number</p>
                     <div class="flex items-center gap-2 mb-6 md:mb-8">
                          <div class="h-14 md:h-14 px-3 md:px-4 bg-slate-50 border border-slate-100 rounded-xl flex items-center gap-2 shrink-0">
-                            <div class="w-6 h-4 bg-gradient-to-r from-orange-400 via-white to-green-500 rounded-sm"></div>
+                            <div class="w-6 h-4 bg-slate-900 rounded-sm"></div>
                             <span class="text-sm font-black text-slate-900">+91</span>
                          </div>
                          <input
@@ -175,9 +175,9 @@ function renderStepContent(step) {
                 <div class="text-left w-full">
                     <h1 class="text-3xl md:text-4xl font-black tracking-tighter text-slate-900 mb-2">Verify OTP</h1>
                     <p class="text-xs md:text-[11px] font-bold text-slate-400 leading-relaxed mb-2">We've sent a 6-digit code to <span class="text-slate-950">+91 ${mobileNumber}</span></p>
-                    <div class="mb-6 md:mb-8 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                        <p class="text-[10px] font-bold text-blue-600 mb-1">💡 Development Mode</p>
-                        <p class="text-[9px] text-blue-500">Use default OTP: <span class="font-black text-blue-700">444619</span> or any 6-digit code</p>
+                    <div class="mb-6 md:mb-8 p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                        <p class="text-[10px] font-bold text-slate-600 mb-1">Development Mode</p>
+                        <p class="text-[9px] text-slate-500">Use default OTP: <span class="font-black text-slate-900">444619</span> or any 6-digit code</p>
                     </div>
 
                     <div class="grid grid-cols-6 gap-2 md:gap-2 mb-6 md:mb-8" id="otp-container">
@@ -196,7 +196,7 @@ function renderStepContent(step) {
                     </div>
 
                     <p class="text-[10px] md:text-[10px] font-bold text-slate-400 text-center mb-8 md:mb-12">
-                        Didn't receive the code? <button onclick="window.resendOtp()" class="text-indigo-500 underline">Resend Code</button>
+                        Didn't receive the code? <button onclick="window.resendOtp()" class="text-slate-500 underline">Resend Code</button>
                     </p>
 
                     <button onclick="window.verifyOtp()" class="w-full py-5 md:py-4 bg-black text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-xl ring-8 ring-black/5 active:scale-98 transition-transform">
@@ -235,7 +235,7 @@ function renderStepContent(step) {
             ].map(item => `
                         <div class="card p-4 border-slate-100 flex items-center justify-between">
                             <div class="text-left flex-1 min-w-0">
-                                <p class="text-[7px] font-black text-indigo-400 uppercase tracking-widest mb-1">${item.l}</p>
+                                <p class="text-[7px] font-black text-slate-400 uppercase tracking-widest mb-1">${item.l}</p>
                                 <p class="text-[11px] md:text-[11px] font-black text-slate-900 truncate">${item.v}</p>
                             </div>
                              <div class="w-5 h-5 bg-slate-950 rounded-md flex items-center justify-center shrink-0 ml-3"><span class="material-icons-outlined text-white text-xs">done</span></div>
@@ -246,7 +246,7 @@ function renderStepContent(step) {
                 <button onclick="window.finalizeRegistration()" class="w-full py-5 md:py-4 bg-black text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-xl ring-8 ring-black/5 active:scale-98 transition-transform">
                     Finalize Setup
                 </button>
-                <p class="text-[8px] font-black text-indigo-400 uppercase tracking-[0.2em] mt-4 md:mt-6 opacity-40 text-center">Details can be edited later in settings</p>
+                <p class="text-[8px] font-black text-slate-400 uppercase tracking-[0.2em] mt-4 md:mt-6 opacity-40 text-center">Details can be edited later in settings</p>
             </div>
         `;
     }
@@ -442,11 +442,9 @@ window.finalizeRegistration = async function() {
         // Add retailer to app database
         const newRetailer = await db.retailers.add(approvedData);
 
-        // Store in localStorage
+        // Set tenant identity in state + localStorage
+        window.setRetailer(newRetailer.id, newRetailer.retailerCode, approvedData.RetailerName);
         localStorage.setItem('retaileros_logged_in', 'true');
-        localStorage.setItem('retaileros_retailer_id', newRetailer.id);
-        localStorage.setItem('retaileros_retailer_code', newRetailer.retailerCode);
-        localStorage.setItem('retaileros_retailer_name', approvedData.RetailerName);
 
         // Clear temporary data
         delete window._approvedRetailerData;

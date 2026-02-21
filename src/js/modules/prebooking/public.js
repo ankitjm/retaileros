@@ -85,20 +85,20 @@ export function renderPreBookingPublic(isMobile) {
 
                          <div class="bg-slate-50 p-6 rounded-3xl space-y-4 text-left">
                             <div class="flex items-center gap-3 mb-2 text-left">
-                                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-indigo-500 shadow-sm text-center"><span class="material-icons-outlined text-base text-center">info</span></div>
+                                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-slate-500 shadow-sm text-center"><span class="material-icons-outlined text-base text-center">info</span></div>
                                 <h4 class="text-[10px] font-black text-slate-950 uppercase tracking-widest text-left">Pre-booking Benefits</h4>
                             </div>
                             <ul class="space-y-2 pl-11 relative text-left">
                                 <li class="text-[9px] font-bold text-slate-500 flex items-start gap-2 text-left">
-                                    <div class="w-1.5 h-1.5 bg-indigo-500 rounded-full mt-1 shrink-0 text-left"></div>
+                                    <div class="w-1.5 h-1.5 bg-slate-900 rounded-full mt-1 shrink-0 text-left"></div>
                                     Guaranteed Day 1 Delivery
                                 </li>
                                 <li class="text-[9px] font-bold text-slate-500 flex items-start gap-2 text-left">
-                                    <div class="w-1.5 h-1.5 bg-indigo-500 rounded-full mt-1 shrink-0 text-left"></div>
+                                    <div class="w-1.5 h-1.5 bg-slate-900 rounded-full mt-1 shrink-0 text-left"></div>
                                     Exclusive 'Mumbai Central' Launch Invite
                                 </li>
                                 <li class="text-[9px] font-bold text-slate-500 flex items-start gap-2 text-left">
-                                    <div class="w-1.5 h-1.5 bg-indigo-500 rounded-full mt-1 shrink-0 text-left"></div>
+                                    <div class="w-1.5 h-1.5 bg-slate-900 rounded-full mt-1 shrink-0 text-left"></div>
                                     Complimentary Premium Case
                                 </li>
                             </ul>

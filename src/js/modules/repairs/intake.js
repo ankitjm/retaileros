@@ -19,21 +19,18 @@ export async function createJobSheet() {
 
     try {
         const jobNo = 'REP-' + Math.random().toString(36).substr(2, 6).toUpperCase();
-        await db.query(`
-            INSERT INTO repairs (id, customer_name, phone, device, issue, status, job_sheet_no, estimated_cost, assigned_to, created_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `, [
-            jobNo,
-            context.customer_name,
-            context.customer_phone,
+        await db.repairs.add({
+            id: jobNo,
+            customer_name: context.customer_name,
+            phone: context.customer_phone,
             device,
             issue,
-            'COLLECTED',
-            jobNo,
-            estimatedCost || '0',
-            'Unassigned',
-            new Date().toISOString()
-        ]);
+            status: 'COLLECTED',
+            job_sheet_no: jobNo,
+            estimated_cost: estimatedCost || '0',
+            assigned_to: 'Unassigned',
+            created_at: new Date().toISOString()
+        });
 
         await syncData();
         window.setActiveRepairJob(jobNo);

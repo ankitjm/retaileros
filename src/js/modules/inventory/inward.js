@@ -16,33 +16,31 @@ export async function confirmInward() {
     btn.innerText = 'Syncing...';
 
     try {
-        // 1. Add/Update Product
-        // For simplicity, we'll check if product exists by name or create new
-        const existing = await db.query("SELECT * FROM products WHERE name = ?", [model]);
-        let stock = 1;
+        // 1. Add/Update Product using cache lookup + db helpers
+        const allProducts = await db.inventory.getProducts();
+        const existing = allProducts.filter(p => p.name === model);
+        let productId;
         if (existing.length > 0) {
-            stock = parseInt(existing[0].stock) + 1;
+            productId = existing[0].id;
+            const stock = parseInt(existing[0].stock || 0) + 1;
             await db.query("UPDATE products SET stock = ? WHERE id = ?", [stock, existing[0].id]);
         } else {
-            const id = 'PRD-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+            productId = 'PRD-' + Math.random().toString(36).substr(2, 6).toUpperCase();
             await db.query(`
                 INSERT INTO products (id, name, category, brand, price, stock, imei)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
-            `, [id, model, 'Smartphone', model.split(' ')[0], 50000, 1, imei]);
+            `, [productId, model, 'Smartphone', model.split(' ')[0], 50000, 1, imei]);
         }
 
-        // 2. Add Inventory Log
-        await db.query(`
-            INSERT INTO inventory_logs (id, product_id, type, quantity, reason, date)
-            VALUES (?, ?, ?, ?, ?, ?)
-        `, [
-            'LOG-' + Math.random().toString(36).substr(2, 6).toUpperCase(),
-            model,
-            'INWARD',
-            1,
-            'New Shipment Arrival',
-            new Date().toISOString()
-        ]);
+        // 2. Add Inventory Log (tenant-scoped)
+        await db.inventoryLogs.add({
+            id: 'LOG-' + Math.random().toString(36).substr(2, 6).toUpperCase(),
+            product_id: productId,
+            type: 'INWARD',
+            quantity: 1,
+            reason: 'New Shipment Arrival',
+            date: new Date().toISOString()
+        });
 
         await syncData();
         window.setInventoryMode('details');
@@ -67,7 +65,7 @@ export function renderInwardShipment() {
                         <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest -mt-0.5 text-left">Scanning & Details</p>
                     </div>
                 </div>
-                 <button onclick="setInventoryMode('details')" class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-900 bg-slate-50 rounded-full text-left">
+                 <button onclick="setInventoryMode('list')" class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-900 bg-slate-50 rounded-full text-left">
                     <span class="material-icons-outlined text-lg text-left">close</span>
                  </button>
             </div>

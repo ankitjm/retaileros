@@ -71,8 +71,8 @@ export function renderSettingsStore() {
                                 <h3 class="text-lg font-black text-slate-900 mb-1 truncate text-left">${retailer.retailer_name || 'Store Name'}</h3>
                                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-2 text-left">${retailer.retailer_code || 'N/A'}</p>
                                 <div class="flex items-center gap-2 text-left">
-                                    <span class="px-2 py-0.5 bg-green-100 text-green-700 rounded text-[8px] font-black uppercase text-left">${retailer.status || 'Active'}</span>
-                                    <span class="px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-[8px] font-black uppercase text-left">${retailer.retailer_category || 'Retailer'}</span>
+                                    <span class="px-2 py-0.5 bg-slate-900 text-white rounded text-[8px] font-black uppercase text-left">${retailer.status || 'Active'}</span>
+                                    <span class="px-2 py-0.5 bg-slate-200 text-slate-600 rounded text-[8px] font-black uppercase text-left">${retailer.retailer_category || 'Retailer'}</span>
                                 </div>
                             </div>
                         </div>
@@ -192,9 +192,9 @@ export function renderSettingsStore() {
                     </div>
 
                     ${retailer.approval_remarks ? `
-                        <div class="card p-4 bg-blue-50 border-blue-200 text-left">
-                            <p class="text-[9px] font-black text-blue-600 uppercase tracking-widest mb-2 text-left">Approval Remarks</p>
-                            <p class="text-xs text-blue-900 text-left">${retailer.approval_remarks}</p>
+                        <div class="card p-4 bg-slate-50 border-slate-200 text-left">
+                            <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2 text-left">Approval Remarks</p>
+                            <p class="text-xs text-slate-900 text-left">${retailer.approval_remarks}</p>
                         </div>
                     ` : ''}
                 </div>

@@ -9,20 +9,20 @@ export function renderSettingsDashboard(mode) {
         { n: 'Finance', i: 'account_balance', k: 'accounting' },
         { n: 'Ledger', i: 'menu_book', k: 'ledger' },
         { n: 'Store', i: 'store', k: 'store' },
-        { n: 'Security', i: 'security' },
-        { n: 'Alerts', i: 'notifications' },
-        { n: 'Taxes', i: 'percent' },
-        { n: 'Plugins', i: 'grid_view' },
-        { n: 'Teams', i: 'hub' },
-        { n: 'Logs', i: 'history' },
-        { n: 'Lang', i: 'language' },
-        { n: 'Backup', i: 'cloud_upload' },
+        { n: 'Security', i: 'security', k: 'security' },
+        { n: 'Alerts', i: 'notifications', k: 'alerts' },
+        { n: 'Taxes', i: 'percent', k: 'taxes' },
+        { n: 'Plugins', i: 'grid_view', k: 'plugins' },
+        { n: 'Teams', i: 'hub', k: 'teams' },
+        { n: 'Logs', i: 'history', k: 'logs' },
+        { n: 'Lang', i: 'language', k: 'lang' },
+        { n: 'Backup', i: 'cloud_upload', k: 'backup' },
         { n: 'Bills', i: 'description' },
         { n: 'AI Config', i: 'smart_toy', k: 'ai' },
-        { n: 'Updates', i: 'update' },
+        { n: 'Updates', i: 'update', k: 'updates' },
         { n: 'API', i: 'key' },
-        { n: 'Theme', i: 'palette' },
-        { n: 'Help', i: 'support' }
+        { n: 'Theme', i: 'palette', k: 'theme' },
+        { n: 'Help', i: 'support', k: 'help' }
     ];
 
     return `
@@ -47,7 +47,7 @@ export function renderSettingsDashboard(mode) {
                     <div class="grid ${gridClass} divide-x divide-y divide-slate-100 text-left">
                         ${settingsApps.map(a => `
                             <button onclick="${a.k ? `window.setSettingsView('${a.k}')` : ''}" class="aspect-square flex flex-col items-center justify-center p-1.5 hover:bg-slate-50 transition-all text-center ${state.settingsView === a.k ? 'bg-slate-100' : ''}">
-                                <span class="material-icons-outlined text-xl ${state.settingsView === a.k ? 'text-slate-900 font-bold' : 'text-slate-500'} mb-1 text-center">${a.i}</span>
+                                <span class="material-icons-outlined text-2xl ${state.settingsView === a.k ? 'text-slate-900 font-bold' : 'text-slate-500'} mb-1 text-center">${a.i}</span>
                                 <span class="text-[7px] font-black uppercase text-center tracking-wider leading-tight ${state.settingsView === a.k ? 'text-slate-900' : 'text-slate-500'}">${a.n}</span>
                             </button>
                         `).join('')}
@@ -61,8 +61,8 @@ export function renderSettingsDashboard(mode) {
                      <div class="bg-white border border-slate-100 rounded-2xl p-4 flex gap-8 shadow-sm text-left">
                         <div class="text-left">
                              <p class="text-[7px] font-black text-slate-300 uppercase tracking-widest mb-1 text-left">SERVER STATUS</p>
-                             <div class="flex items-center gap-1.5 text-[9px] font-black text-green-600 uppercase tracking-wide text-left">
-                                <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse text-left"></span> Optimal
+                             <div class="flex items-center gap-1.5 text-[9px] font-black text-slate-900 uppercase tracking-wide text-left">
+                                <span class="w-1.5 h-1.5 bg-slate-900 rounded-full animate-pulse text-left"></span> Optimal
                              </div>
                         </div>
                          <div class="text-left">

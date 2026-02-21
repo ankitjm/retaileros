@@ -37,9 +37,11 @@ async function main() {
                 email TEXT,
                 joined_at TEXT,
                 dob TEXT,
-                location TEXT
+                location TEXT,
+                retailer_id TEXT
             )
         `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_customers_retailer ON customers(retailer_id)`);
 
         // Products (Inventory)
         await client.execute(`
@@ -64,9 +66,11 @@ async function main() {
                 gst_number TEXT,
                 customer_id TEXT,
                 created_at TEXT,
+                retailer_id TEXT,
                 FOREIGN KEY(customer_id) REFERENCES customers(id)
             )
         `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_companies_retailer ON companies(retailer_id)`);
 
         // Sales (Transactions)
         await client.execute(`
@@ -83,10 +87,12 @@ async function main() {
                 company_id TEXT,
                 installation_required INTEGER DEFAULT 0,
                 installation_date TEXT,
+                retailer_id TEXT,
                 FOREIGN KEY(customer_id) REFERENCES customers(id),
                 FOREIGN KEY(company_id) REFERENCES companies(id)
             )
         `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_sales_retailer ON sales(retailer_id)`);
 
         // Sale Items (Line Items)
         await client.execute(`
@@ -143,9 +149,11 @@ async function main() {
                 is_company INTEGER DEFAULT 0,
                 gst_number TEXT,
                 contact_person TEXT,
-                created_at TEXT
+                created_at TEXT,
+                retailer_id TEXT
             )
         `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_groups_retailer ON groups(retailer_id)`);
 
         // Group Members (many-to-many relationship)
         await client.execute(`
@@ -154,10 +162,12 @@ async function main() {
                 group_id TEXT,
                 customer_id TEXT,
                 added_at TEXT,
+                retailer_id TEXT,
                 FOREIGN KEY(group_id) REFERENCES groups(id),
                 FOREIGN KEY(customer_id) REFERENCES customers(id)
             )
         `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_group_members_retailer ON group_members(retailer_id)`);
 
         // Automations (Workflow definitions)
         await client.execute(`
@@ -169,9 +179,11 @@ async function main() {
                 sale_id TEXT,
                 status TEXT DEFAULT 'active',
                 created_at TEXT,
-                completed_at TEXT
+                completed_at TEXT,
+                retailer_id TEXT
             )
         `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_automations_retailer ON automations(retailer_id)`);
 
         // Automation Messages (Scheduled messages in a sequence)
         await client.execute(`
@@ -184,9 +196,11 @@ async function main() {
                 day_offset INTEGER,
                 scheduled_date TEXT,
                 sent_at TEXT,
-                status TEXT DEFAULT 'pending'
+                status TEXT DEFAULT 'pending',
+                retailer_id TEXT
             )
         `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_automation_messages_retailer ON automation_messages(retailer_id)`);
 
         // Communication Log (WhatsApp messages, calls, etc.)
         await client.execute(`
@@ -199,9 +213,132 @@ async function main() {
                 sent_at TEXT,
                 automation_id TEXT,
                 sale_id TEXT,
-                status TEXT DEFAULT 'sent'
+                status TEXT DEFAULT 'sent',
+                retailer_id TEXT
             )
         `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_communication_log_retailer ON communication_log(retailer_id)`);
+
+        // Inquiries (Customer product inquiries)
+        await client.execute(`
+            CREATE TABLE inquiries (
+                id TEXT PRIMARY KEY,
+                customer_name TEXT,
+                product_name TEXT,
+                request TEXT,
+                status TEXT DEFAULT 'PENDING',
+                created_at TEXT,
+                retailer_id TEXT
+            )
+        `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_inquiries_retailer ON inquiries(retailer_id)`);
+
+        // Repairs (Service/repair job sheets)
+        await client.execute(`
+            CREATE TABLE repairs (
+                id TEXT PRIMARY KEY,
+                customer_name TEXT,
+                phone TEXT,
+                device TEXT,
+                issue TEXT,
+                status TEXT DEFAULT 'COLLECTED',
+                job_sheet_no TEXT,
+                estimated_cost TEXT,
+                assigned_to TEXT,
+                created_at TEXT,
+                retailer_id TEXT
+            )
+        `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_repairs_retailer ON repairs(retailer_id)`);
+
+        // Inventory Logs (Stock inward/outward tracking)
+        await client.execute(`
+            CREATE TABLE inventory_logs (
+                id TEXT PRIMARY KEY,
+                product_id TEXT,
+                type TEXT,
+                quantity INTEGER,
+                reason TEXT,
+                date TEXT,
+                retailer_id TEXT
+            )
+        `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_inventory_logs_retailer ON inventory_logs(retailer_id)`);
+
+        // Retailer Settings (JSON per category — security, alerts, taxes, language, backup, theme)
+        await client.execute(`
+            CREATE TABLE retailer_settings (
+                id TEXT PRIMARY KEY,
+                retailer_id TEXT NOT NULL,
+                category TEXT NOT NULL,
+                settings TEXT NOT NULL,
+                updated_at TEXT NOT NULL,
+                UNIQUE(retailer_id, category)
+            )
+        `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_retailer_settings_rid ON retailer_settings(retailer_id)`);
+
+        // Team Members
+        await client.execute(`
+            CREATE TABLE team_members (
+                id TEXT PRIMARY KEY,
+                retailer_id TEXT NOT NULL,
+                name TEXT NOT NULL,
+                role TEXT NOT NULL,
+                phone TEXT,
+                email TEXT,
+                status TEXT DEFAULT 'invited',
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL
+            )
+        `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_team_members_rid ON team_members(retailer_id)`);
+
+        // Team Roles
+        await client.execute(`
+            CREATE TABLE team_roles (
+                id TEXT PRIMARY KEY,
+                retailer_id TEXT NOT NULL,
+                name TEXT NOT NULL,
+                permissions TEXT NOT NULL,
+                description TEXT,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL,
+                UNIQUE(retailer_id, name)
+            )
+        `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_team_roles_rid ON team_roles(retailer_id)`);
+
+        // Retailer Plugins
+        await client.execute(`
+            CREATE TABLE retailer_plugins (
+                id TEXT PRIMARY KEY,
+                retailer_id TEXT NOT NULL,
+                plugin_key TEXT NOT NULL,
+                status TEXT DEFAULT 'available',
+                config TEXT,
+                connected_at TEXT,
+                updated_at TEXT NOT NULL,
+                UNIQUE(retailer_id, plugin_key)
+            )
+        `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_retailer_plugins_rid ON retailer_plugins(retailer_id)`);
+
+        // Activity Logs
+        await client.execute(`
+            CREATE TABLE activity_logs (
+                id TEXT PRIMARY KEY,
+                retailer_id TEXT NOT NULL,
+                action TEXT NOT NULL,
+                detail TEXT,
+                user_name TEXT,
+                icon TEXT,
+                color TEXT,
+                created_at TEXT NOT NULL
+            )
+        `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_activity_logs_rid ON activity_logs(retailer_id)`);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_activity_logs_created ON activity_logs(retailer_id, created_at)`);
 
         // Retailers (Onboarded retailers from external approved database)
         await client.execute(`
@@ -282,7 +419,77 @@ async function main() {
         await client.execute(`CREATE INDEX IF NOT EXISTS idx_retailers_code ON retailers(retailer_code)`);
         await client.execute(`CREATE INDEX IF NOT EXISTS idx_retailers_email ON retailers(email)`);
 
-        console.log("✅ Tables created: customers, products, companies, sales, sale_items, groups, group_members, automations, automation_messages, communication_log, retailers");
+        // Store Listings (Online store products)
+        await client.execute(`
+            CREATE TABLE IF NOT EXISTS store_listings (
+                id TEXT PRIMARY KEY,
+                product_id TEXT NOT NULL,
+                product_name TEXT NOT NULL,
+                brand TEXT,
+                category TEXT,
+                base_price REAL,
+                listing_price REAL NOT NULL,
+                description TEXT,
+                status TEXT DEFAULT 'draft',
+                stock_qty INTEGER DEFAULT 0,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL,
+                retailer_id TEXT NOT NULL
+            )
+        `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_store_listings_retailer ON store_listings(retailer_id)`);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_store_listings_status ON store_listings(retailer_id, status)`);
+
+        // Store Orders (Online orders)
+        await client.execute(`
+            CREATE TABLE IF NOT EXISTS store_orders (
+                id TEXT PRIMARY KEY,
+                order_number TEXT NOT NULL,
+                customer_name TEXT NOT NULL,
+                customer_phone TEXT,
+                customer_email TEXT,
+                shipping_address_line1 TEXT,
+                shipping_address_line2 TEXT,
+                shipping_city TEXT,
+                shipping_state TEXT,
+                shipping_pincode TEXT,
+                order_date TEXT NOT NULL,
+                total_amount REAL NOT NULL,
+                order_status TEXT DEFAULT 'pending',
+                payment_status TEXT DEFAULT 'pending',
+                payment_mode TEXT,
+                payment_reference TEXT,
+                tracking_number TEXT,
+                courier_name TEXT,
+                shipped_date TEXT,
+                delivered_date TEXT,
+                notes TEXT,
+                sale_id TEXT,
+                retailer_id TEXT NOT NULL
+            )
+        `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_store_orders_retailer ON store_orders(retailer_id)`);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_store_orders_status ON store_orders(retailer_id, order_status)`);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_store_orders_date ON store_orders(retailer_id, order_date)`);
+
+        // Store Order Items
+        await client.execute(`
+            CREATE TABLE IF NOT EXISTS store_order_items (
+                id TEXT PRIMARY KEY,
+                order_id TEXT NOT NULL,
+                listing_id TEXT,
+                product_id TEXT NOT NULL,
+                product_name TEXT NOT NULL,
+                category TEXT,
+                quantity INTEGER NOT NULL,
+                unit_price REAL NOT NULL,
+                discount_amount REAL DEFAULT 0,
+                final_price REAL NOT NULL
+            )
+        `);
+        await client.execute(`CREATE INDEX IF NOT EXISTS idx_store_order_items_order ON store_order_items(order_id)`);
+
+        console.log("✅ Tables created: customers, products, companies, sales, sale_items, groups, group_members, automations, automation_messages, communication_log, retailers, store_listings, store_orders, store_order_items");
 
         // 4. Seed Basic Data with Indian Names
         console.log("🌱 Seeding data...");

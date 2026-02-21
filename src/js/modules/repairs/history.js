@@ -20,11 +20,11 @@ export function renderRepairHistory() {
                             <p class="text-[10px] font-bold text-slate-400 lowercase -mt-0.5 text-left">${j.customer_name}</p>
                         </div>
                         <div class="text-right">
-                            <span class="text-[9px] font-black uppercase text-right ${j.status === 'COMPLETED' ? 'text-green-500' : 'text-slate-400'}">${j.status}</span>
+                            <span class="text-[9px] font-black uppercase text-right ${j.status === 'COMPLETED' ? 'text-slate-900' : 'text-slate-400'}">${j.status}</span>
                         </div>
                     </div>
                     <div class="flex items-center justify-between border-t border-slate-50 pt-4 text-left">
-                        <p class="text-[10px] font-black text-slate-900 text-left">₹${parseInt(j.estimated_cost).toLocaleString()}</p>
+                        <p class="text-[10px] font-black text-slate-900 text-left">${j.estimated_cost ? `₹${parseInt(j.estimated_cost).toLocaleString()}` : 'Estimate pending'}</p>
                         <p class="text-[8px] font-black text-slate-300 uppercase italic text-right">${new Date(j.created_at).toLocaleDateString()}</p>
                     </div>
                 </div>

@@ -16,17 +16,14 @@ export async function saveInquiry() {
     btn.innerText = 'Logging...';
 
     try {
-        await db.query(`
-            INSERT INTO inquiries (id, customer_name, product_name, request, status, created_at)
-            VALUES (?, ?, ?, ?, ?, ?)
-        `, [
-            'INQ-' + Math.random().toString(36).substr(2, 6).toUpperCase(),
-            customer,
-            product,
-            notes,
-            'PENDING',
-            new Date().toISOString()
-        ]);
+        await db.inquiries.add({
+            id: 'INQ-' + Math.random().toString(36).substr(2, 6).toUpperCase(),
+            customer_name: customer,
+            product_name: product,
+            request: notes,
+            status: 'PENDING',
+            created_at: new Date().toISOString()
+        });
 
         await syncData();
         window.setInquiryViewMode('list');

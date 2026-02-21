@@ -12,14 +12,6 @@ export function renderAutomationDashboard() {
     const sentMessages = automationMessages.filter(m => m.status === 'sent').length;
     const pendingMessages = automationMessages.filter(m => m.status === 'pending').length;
 
-    // Get upcoming messages (next 7 days)
-    const now = new Date();
-    const weekFromNow = new Date(Date.now() + 7 * 86400000);
-    const upcomingMessages = automationMessages
-        .filter(m => m.status === 'pending' && new Date(m.scheduled_date) <= weekFromNow)
-        .sort((a, b) => new Date(a.scheduled_date) - new Date(b.scheduled_date))
-        .slice(0, 5);
-
     return `
         <header class="p-4 sm:p-8 pb-4 shrink-0 text-left">
              <div class="flex items-center justify-between mb-6 text-left">
@@ -51,44 +43,6 @@ export function renderAutomationDashboard() {
                     <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mt-1">Scheduled</p>
                 </div>
             </div>
-
-            <!-- Upcoming Messages -->
-            ${upcomingMessages.length > 0 ? `
-                <section class="space-y-4 text-left">
-                    <div class="flex items-center justify-between px-1 text-left">
-                        <h3 class="text-[9px] font-black text-slate-400 uppercase tracking-widest text-left">Upcoming Messages</h3>
-                        <span class="text-[8px] font-black text-slate-300 uppercase">${upcomingMessages.length} scheduled</span>
-                    </div>
-
-                    <div class="space-y-2 text-left">
-                        ${upcomingMessages.map(m => {
-                            const automation = automations.find(a => a.id === m.automation_id);
-                            const scheduledDate = new Date(m.scheduled_date);
-                            const isToday = scheduledDate.toDateString() === now.toDateString();
-                            const isTomorrow = scheduledDate.toDateString() === new Date(Date.now() + 86400000).toDateString();
-                            const dateLabel = isToday ? 'Today' : isTomorrow ? 'Tomorrow' : scheduledDate.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
-                            
-                            return `
-                                <div class="card p-4 border-2 border-transparent hover:border-slate-100 transition-all text-left">
-                                    <div class="flex items-center gap-3 text-left">
-                                        <div class="w-10 h-10 ${m.message_type === 'welcome' ? 'bg-slate-900' : m.message_type === 'tips' ? 'bg-slate-700' : m.message_type === 'upsell' ? 'bg-slate-600' : 'bg-slate-500'} rounded-xl flex items-center justify-center text-white text-center">
-                                            <span class="material-icons-outlined text-sm">${m.message_type === 'welcome' ? 'waving_hand' : m.message_type === 'tips' ? 'lightbulb' : m.message_type === 'upsell' ? 'trending_up' : m.message_type === 'feedback' ? 'rate_review' : 'schedule'}</span>
-                                        </div>
-                                        <div class="flex-1 min-w-0 text-left">
-                                            <h4 class="text-xs font-black text-slate-900 tracking-tight truncate">${m.title}</h4>
-                                            <p class="text-[9px] font-bold text-slate-400 truncate">${automation?.customer_name || 'Customer'}</p>
-                                        </div>
-                                        <div class="text-right shrink-0">
-                                            <p class="text-[9px] font-black ${isToday ? 'text-slate-900' : 'text-slate-400'} uppercase">${dateLabel}</p>
-                                            <p class="text-[8px] font-bold text-slate-300 uppercase">Day ${m.day_offset}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
-                        }).join('')}
-                    </div>
-                </section>
-            ` : ''}
 
             <!-- Active Automations List -->
             <section class="space-y-4 text-left">

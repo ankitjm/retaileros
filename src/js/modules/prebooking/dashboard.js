@@ -26,8 +26,8 @@ export function renderPreBookingDashboard() {
                         <div class="flex justify-between items-start mb-6 text-left">
                             <div class="text-left">
                                 <div class="flex items-center gap-2 mb-1 text-left">
-                                    <div class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse text-left"></div>
-                                    <span class="text-[8px] font-black text-green-500 uppercase tracking-widest text-left">LIVE</span>
+                                    <div class="w-1.5 h-1.5 bg-slate-900 rounded-full animate-pulse text-left"></div>
+                                    <span class="text-[8px] font-black text-slate-900 uppercase tracking-widest text-left">LIVE</span>
                                 </div>
                                 <h3 class="text-lg font-black text-slate-900 text-left">${c.title}</h3>
                             </div>

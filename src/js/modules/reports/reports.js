@@ -42,9 +42,11 @@ export function renderReports(layout) {
     // Mobile logic
     const headerData = hMap[state.reportsTab] || hMap['overview'];
     return `
-        ${renderUnifiedHeader(headerData.t, headerData.s, ['overview', 'sales', 'inventory', 'marketing'])}
-        <div class="scrolling-content px-8 space-y-8 pb-12">
-            ${contentMap[state.reportsTab]}
+        <div class="h-full flex flex-col bg-white overflow-hidden">
+            ${renderUnifiedHeader(headerData.t, headerData.s, ['overview', 'sales', 'inventory', 'marketing'])}
+            <div class="scrolling-content px-8 space-y-8 pb-12">
+                ${contentMap[state.reportsTab]}
+            </div>
         </div>
     `;
 }

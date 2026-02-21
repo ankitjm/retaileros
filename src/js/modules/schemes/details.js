@@ -1,4 +1,57 @@
 import { state } from '../../state.js';
+import { db } from '../../utils/db.js';
+
+// Submit all claims for the active scheme
+window._submitSchemeClaims = async (brand, count) => {
+    try {
+        const r = (() => { const c = window.getCache(); const rid = localStorage.getItem('retaileros_retailer_id'); return c.retailers?.find(x => x.id === rid) || {}; })();
+        await db.activityLogs.add({
+            action: 'schemes',
+            detail: `Submitted ${count} claims for ${brand} settlement`,
+            user_name: r.contact_person || 'Owner',
+            icon: 'send',
+            color: 'blue'
+        });
+        if (window.toast) window.toast.success(`${count} claims submitted for ${brand}`);
+    } catch (err) {
+        console.error('Submit claims failed:', err);
+        if (window.toast) window.toast.error('Failed to submit claims');
+    }
+};
+
+// Download scheme transactions as CSV
+window._downloadSchemeCSV = (brand) => {
+    const cache = window.getCache ? window.getCache() : { sales: [] };
+    const transactions = (cache.sales || []).filter(s => {
+        const productName = s.product_name || '';
+        return productName.toLowerCase().includes(brand.toLowerCase());
+    });
+
+    if (transactions.length === 0) {
+        if (window.toast) window.toast.error('No transactions to export');
+        return;
+    }
+
+    const headers = ['Order ID', 'Date', 'Customer', 'Product', 'Amount', 'IMEI'];
+    const rows = transactions.map(t => [
+        t.id,
+        new Date(t.date).toLocaleDateString(),
+        t.customer_name || '',
+        t.product_name || '',
+        t.total_amount || t.total || '',
+        t.imei || 'N/A'
+    ]);
+
+    const csv = [headers.join(','), ...rows.map(r => r.map(v => `"${v}"`).join(','))].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${brand}_scheme_transactions.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    if (window.toast) window.toast.success('CSV downloaded');
+};
 
 export function renderSchemeDetails(mode) {
     const isMobile = mode === 'mobile';
@@ -23,7 +76,7 @@ export function renderSchemeDetails(mode) {
     const activeMetrics = {
         count: transactions.length,
         growth: '+0%', // Placeholder logic
-        color: brand === 'Apple' ? 'bg-indigo-950' : (brand === 'Nothing' ? 'bg-slate-950' : 'bg-emerald-950')
+        color: 'bg-slate-950'
     };
 
     return `
@@ -68,7 +121,7 @@ export function renderSchemeDetails(mode) {
                     <p class="text-[8px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2 text-left">TOTAL ORDERS UNDER SCHEME</p>
                     <div class="flex items-end gap-3 text-left">
                         <h2 class="text-5xl font-black tracking-tighter text-left">${activeMetrics.count}</h2>
-                        <p class="text-[10px] font-bold text-green-400 mb-2 text-left">${activeMetrics.growth} this week</p>
+                        <p class="text-[10px] font-bold text-slate-900 mb-2 text-left">${activeMetrics.growth} this week</p>
                     </div>
                     <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-white/5 rounded-full text-left"></div>
                 </div>
@@ -77,7 +130,7 @@ export function renderSchemeDetails(mode) {
                 <div class="space-y-4 text-left">
                     <div class="flex items-center justify-between px-1 text-left">
                         <h3 class="text-[9px] font-black text-slate-400 uppercase tracking-widest text-left">Recent Transactions</h3>
-                         <button class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:text-slate-900 shadow-sm border border-slate-100 text-left">
+                         <button onclick="window._downloadSchemeCSV('${brand}')" class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:text-slate-900 shadow-sm border border-slate-100 text-left">
                             <span class="material-icons-outlined text-lg text-left">download</span>
                         </button>
                     </div>
@@ -117,8 +170,8 @@ export function renderSchemeDetails(mode) {
 
             <!-- Sticky Footer Action -->
             <div class="p-6 border-t border-slate-100 bg-white/80 backdrop-blur-md sticky bottom-0 z-20 text-center">
-                <button class="w-full py-4 bg-slate-950 text-white rounded-2xl text-[11px] font-black uppercase tracking-widest shadow-2xl flex items-center justify-center gap-3 group overflow-hidden relative text-center">
-                     <span class="relative z-10 text-center">SUBMIT ALL 42 CLAIMS</span>
+                <button onclick="window._submitSchemeClaims('${brand}', ${transactions.length})" class="w-full py-4 bg-slate-950 text-white rounded-2xl text-[11px] font-black uppercase tracking-widest shadow-2xl flex items-center justify-center gap-3 group overflow-hidden relative text-center">
+                     <span class="relative z-10 text-center">SUBMIT ALL ${transactions.length} CLAIMS</span>
                      <span class="material-icons-outlined text-sm relative z-10 transition-transform group-hover:translate-x-1 text-center">send</span>
                      <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                 </button>

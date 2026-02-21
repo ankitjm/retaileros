@@ -1,5 +1,13 @@
 import { state } from '../../state.js';
 
+// Convert prebooking to sale — navigate to sales with customer pre-filled
+window._convertBookingToSale = (customerName) => {
+    // Navigate to Sales Desk new-sale tab
+    window.setTab && window.setTab('new-sale');
+    window.setApp('sales');
+    if (window.toast) window.toast.success(`Starting sale for ${customerName}`);
+};
+
 export function renderPreBookingDetails(isMobile) {
     const c = state.activeCampaign;
     if (!c) return '';
@@ -32,7 +40,7 @@ export function renderPreBookingDetails(isMobile) {
                 <div class="space-y-6 mb-8 text-left">
                      <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3 text-left">Campaign Link</p>
                      <div class="card p-4 border-slate-100 flex items-center gap-4 bg-white shadow-sm text-left">
-                        <div class="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-500 text-left">
+                        <div class="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center text-slate-500 text-left">
                              <span class="material-symbols-outlined text-xl text-left">link</span>
                         </div>
                         <div class="flex-1 min-w-0 text-left">
@@ -56,7 +64,7 @@ export function renderPreBookingDetails(isMobile) {
 
                 <div class="flex items-center justify-between mt-8 mb-4 text-left">
                     <h3 class="text-[10px] font-black text-slate-950 uppercase tracking-widest text-left">Booking Log</h3>
-                    <div class="px-2 py-1 bg-green-50 text-green-500 rounded-lg text-[8px] font-black tracking-widest text-right">LIVE</div>
+                    <div class="px-2 py-1 bg-slate-900 text-white rounded-lg text-[8px] font-black tracking-widest text-right">LIVE</div>
                 </div>
             </header>
 
@@ -72,9 +80,9 @@ export function renderPreBookingDetails(isMobile) {
                                 <h4 class="text-sm font-black text-slate-950 mb-0.5 text-left">${lead.customer_name}</h4>
                                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter font-mono text-left">Deposited: ₹${lead.amount}</p>
                             </div>
-                            <span class="px-2 py-0.5 rounded-md text-[7px] font-black uppercase text-green-500 tracking-wider text-right">${lead.status || 'PAID'}</span>
+                            <span class="px-2 py-0.5 rounded-md text-[7px] font-black uppercase text-slate-900 tracking-wider text-right">${lead.status || 'PAID'}</span>
                         </div>
-                        <button class="w-full py-3 bg-slate-950 text-white rounded-xl text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 group shadow-xl text-center">
+                        <button onclick="window._convertBookingToSale('${lead.customer_name}')" class="w-full py-3 bg-slate-950 text-white rounded-xl text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 group shadow-xl text-center">
                             CONVERT TO SALE <span class="material-icons-outlined text-base group-hover:translate-x-1 transition-transform text-center">chevron_right</span>
                         </button>
                     </div>

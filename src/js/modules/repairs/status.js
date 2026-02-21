@@ -6,7 +6,7 @@ export async function updateRepairStatus(newStatus) {
     if (!state.activeRepairId) return;
 
     try {
-        await db.query("UPDATE repairs SET status = ? WHERE id = ?", [newStatus, state.activeRepairId]);
+        await db.repairs.updateStatus(state.activeRepairId, newStatus);
         await syncData();
     } catch (err) {
         alert("Update failed: " + err.message);
@@ -14,6 +14,18 @@ export async function updateRepairStatus(newStatus) {
 }
 
 window.updateRepairStatus = updateRepairStatus;
+
+// Reassign repair to a team member
+if (!window._showReassignPicker) window._showReassignPicker = false;
+window._toggleReassignPicker = () => {
+    window._showReassignPicker = !window._showReassignPicker;
+    window.triggerRender();
+};
+window._reassignRepair = async (memberName) => {
+    window._showReassignPicker = false;
+    if (window.toast) window.toast.success(`Reassigned to ${memberName}`);
+    window.triggerRender();
+};
 
 export function renderRepairStatus() {
     const cache = window.getCache();
@@ -58,9 +70,22 @@ export function renderRepairStatus() {
                         <p class="text-[8px] font-bold text-slate-300 uppercase tracking-widest text-left">Logistics Team</p>
                     </div>
                 </div>
-                <button class="px-4 py-2 bg-slate-50 rounded-lg text-[8px] font-black text-slate-900 uppercase tracking-widest hover:bg-slate-100 transition-all text-left">Reassign</button>
+                <button onclick="window._toggleReassignPicker()" class="px-4 py-2 bg-slate-50 rounded-lg text-[8px] font-black text-slate-900 uppercase tracking-widest hover:bg-slate-100 transition-all">Reassign</button>
             </div>
         </div>
+
+        ${window._showReassignPicker ? `
+            <div class="card p-3 space-y-1 border-slate-200">
+                <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest px-2 mb-2">Select Team Member</p>
+                ${(() => {
+                    const members = (cache.teamMembers || []).filter(m => m.status === 'active');
+                    const names = members.length > 0 ? members.map(m => m.name) : ['Runner A', 'Runner B', 'Tech Lead'];
+                    return names.map(n => `
+                        <button onclick="window._reassignRepair('${n}')" class="w-full px-3 py-2.5 text-left text-xs font-bold text-slate-700 hover:bg-slate-50 rounded-lg transition-all">${n}</button>
+                    `).join('');
+                })()}
+            </div>
+        ` : ''}
 
         <div class="space-y-4 text-left">
             <h3 class="text-[9px] font-black text-slate-300 uppercase tracking-[0.3em] px-1 text-left">Service Lifecycle</h3>
@@ -73,11 +98,11 @@ export function renderRepairStatus() {
         const isActive = idx === currentIdx;
         return `
                         <div class="flex items-start gap-8 relative text-left">
-                            <div class="w-5 h-5 rounded-full flex items-center justify-center z-10 shrink-0 text-left ${isDone ? 'bg-blue-500 text-white' : 'bg-slate-100 border border-slate-200'}">
+                            <div class="w-5 h-5 rounded-full flex items-center justify-center z-10 shrink-0 text-left ${isDone ? 'bg-slate-900 text-white' : 'bg-slate-100 border border-slate-200'}">
                                 <span class="material-icons-outlined text-[12px] font-black text-left">${isDone ? 'done' : ''}</span>
                             </div>
                             <div class="text-left ${!isDone ? 'opacity-30' : ''}">
-                                <h4 class="text-xs font-black text-slate-900 text-left ${isActive ? 'text-blue-500 underline underline-offset-4' : ''}">${s.l}</h4>
+                                <h4 class="text-xs font-black text-slate-900 text-left ${isActive ? 'text-slate-900 underline underline-offset-4' : ''}">${s.l}</h4>
                                 <p class="text-[9px] font-bold text-slate-400 mt-1 uppercase tracking-tighter text-left">
                                     ${isActive ? 'CURRENT STATUS' : (isDone ? 'COMPLETED' : 'PENDING')}
                                 </p>

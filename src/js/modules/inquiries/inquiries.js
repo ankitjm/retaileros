@@ -5,6 +5,12 @@ import { renderInquiriesList } from './list.js';
 import { renderCaptureInquiry } from './capture.js';
 import { renderResolveInquiry } from './resolve.js';
 
+if (window._inquiriesShowAll === undefined) window._inquiriesShowAll = false;
+window._toggleShowAllInquiries = () => {
+    window._inquiriesShowAll = !window._inquiriesShowAll;
+    window.triggerRender();
+};
+
 export function renderInquiries(mode) {
     const isMobile = mode === 'mobile';
     const isDesktopSecondary = mode === 'desktop-secondary';
@@ -21,10 +27,10 @@ export function renderInquiries(mode) {
         <div class="h-full flex flex-col bg-white overflow-hidden relative text-left">
             ${renderInquiriesHeader()}
             <div class="px-8 text-left">
-                ${renderInquiriesStats()}
+                ${!window._inquiriesShowAll ? renderInquiriesStats() : ''}
                 <div class="flex items-center justify-between mb-4 text-left">
-                    <h3 class="text-[10px] font-black text-slate-950 uppercase tracking-widest text-left">Recent Inquiries</h3>
-                    <button class="text-[9px] font-bold text-slate-400 uppercase tracking-widest hover:text-slate-900 transition-colors text-right">View All</button>
+                    <h3 class="text-[10px] font-black text-slate-950 uppercase tracking-widest text-left">${window._inquiriesShowAll ? 'All Inquiries' : 'Recent Inquiries'}</h3>
+                    <button onclick="window._toggleShowAllInquiries()" class="text-[9px] font-bold text-slate-400 uppercase tracking-widest hover:text-slate-900 transition-colors">${window._inquiriesShowAll ? 'Show Summary' : 'View All'}</button>
                 </div>
             </div>
             <div class="flex-1 overflow-y-auto px-8 space-y-3 custom-scrollbar pb-32 text-left">

@@ -4,6 +4,7 @@ export function renderLauncherFooter(isMob) {
     return `
         <footer class="p-4 bg-[#F8FAFC]/95 backdrop-blur-md border-t border-slate-100 shrink-0 mt-auto sticky bottom-0 z-20">
             ${state.isLoggedIn ? `
+                <p class="text-center text-[11px] font-black text-slate-900/[0.12] uppercase tracking-[0.35em] mb-2 select-none pointer-events-none">RetailerOS</p>
                 <div class="card p-3 flex items-center justify-between border-slate-200/50 shadow-sm hover:shadow-md transition-shadow cursor-pointer bg-white">
                     <div class="flex items-center gap-3">
                         <div class="w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center font-black text-[10px] text-slate-900 shadow-inner">AM</div>
@@ -12,8 +13,8 @@ export function renderLauncherFooter(isMob) {
                             <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest">Apple Store - Mumbai Central</p>
                         </div>
                     </div>
-                    <button onclick="setLoginStatus(false)" class="flex items-center gap-2 group p-1.5 hover:bg-red-50 rounded-lg transition-all" title="Logout">
-                            <span class="material-icons-outlined text-lg text-slate-900 group-hover:text-red-500 transition-all">logout</span>
+                    <button onclick="setLoginStatus(false)" class="flex items-center gap-2 group p-1.5 hover:bg-slate-50 rounded-lg transition-all" title="Logout">
+                            <span class="material-icons-outlined text-lg text-slate-900 group-hover:text-slate-400 transition-all">logout</span>
                     </button>
                 </div>
             ` : `
@@ -30,6 +31,7 @@ export function renderLauncherFooter(isMob) {
                     </button>
                 `}
             `}
+            <p class="text-center text-[7px] font-bold text-slate-300 uppercase tracking-[0.15em] mt-3">A product of Khosha Systems</p>
         </footer>
     `;
 }

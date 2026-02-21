@@ -16,6 +16,8 @@ import { renderAuth, renderRegister } from './modules/auth/index.js';
 import { renderInquiries } from './modules/inquiries/index.js';
 import { renderPreBooking } from './modules/prebooking/index.js';
 import { renderAutomation } from './modules/automation/index.js';
+import { renderMyStore } from './modules/mystore/index.js';
+import { renderNotifications } from './modules/notifications/index.js';
 import { initRouter, syncStateToUrl } from './router.js';
 import { syncData } from './utils/sync.js';
 // Initialize WATI WhatsApp integration
@@ -23,6 +25,9 @@ import './utils/wati.js';
 
 // Initialize toast notification system
 import './utils/toast.js';
+
+// Initialize theme system
+import './utils/theme.js';
 
 // --- Router / Layout Logic ---
 
@@ -40,6 +45,8 @@ function renderAppPrimary() {
     if (state.currentApp === 'inquiries') return renderInquiries('desktop-primary');
     if (state.currentApp === 'prebooking') return renderPreBooking('desktop-primary');
     if (state.currentApp === 'automation') return renderAutomation('desktop-primary');
+    if (state.currentApp === 'mystore') return renderMyStore('desktop-primary');
+    if (state.currentApp === 'notifications') return renderNotifications('desktop-primary');
 
     return `<div class="p-10 flex items-center justify-center h-full text-slate-300 font-bold uppercase tracking-widest">App Module Not Found</div>`;
 }
@@ -61,6 +68,8 @@ function renderAppSecondary() {
     if (state.currentApp === 'inquiries') return renderInquiries('desktop-secondary');
     if (state.currentApp === 'prebooking') return renderPreBooking('desktop-secondary');
     if (state.currentApp === 'automation') return renderAutomation('desktop-secondary');
+    if (state.currentApp === 'mystore') return renderMyStore('desktop-secondary');
+    if (state.currentApp === 'notifications') return renderNotifications('desktop-secondary');
 
     return `<div class="h-full flex items-center justify-center text-slate-300"><div class="text-center"><span class="material-icons-outlined text-4xl mb-2 opacity-50">grid_view</span><p class="text-[10px] font-black uppercase tracking-widest">Select an app to view details</p></div></div>`;
 }
@@ -99,65 +108,13 @@ function renderDesktop() {
     `;
 }
 
-function renderTablet() {
-    // 2 Columns for Tablet: Menu + Primary
-    return `
-        <div class="h-full grid grid-cols-2 divide-x divide-slate-200 bg-white">
-            <!-- Col 1: Sidebar / App Menu -->
-            <div class="col-span-1 h-full bg-white z-20 overflow-y-auto">
-                ${renderSidebar()}
-            </div>
-
-            <!-- Col 2: Primary Content -->
-            <div class="col-span-1 bg-white h-full overflow-hidden flex flex-col relative z-10">
-               ${state.currentApp === 'launcher' ?
-            '<div class="h-full flex items-center justify-center text-slate-300"><div class="text-center"><span class="material-icons-outlined text-4xl mb-4 opacity-20">arrow_back</span><p class="text-[10px] font-black uppercase tracking-widest opacity-40">Select an App from the Menu</p></div></div>'
-            : renderAppPrimary()}
-               
-               <!-- Tablet Specific: Sticky Preview Button if Active -->
-               ${(state.currentApp === 'sales' && ((state.currentTab === 'new-sale' && window.getActiveCart && window.getActiveCart().length > 0) || (state.currentTab === 'history' && state.salesHistoryId))) ? `
-                    <div class="absolute bottom-6 right-6 z-50">
-                        <button onclick="toggleMobileReceipt(true)" class="w-14 h-14 bg-slate-900 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform">
-                            <span class="material-icons-outlined">receipt_long</span>
-                        </button>
-                    </div>
-                    ${state.showMobileReceipt ? `
-                        <div class="fixed inset-0 z-[60] bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-8">
-                            <div class="bg-white w-full max-w-lg h-[80vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-slide-up">
-                                <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-                                    <h3 class="text-xs font-black text-slate-900 uppercase tracking-widest">Receipt Preview</h3>
-                                    <button onclick="toggleMobileReceipt(false)" class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-slate-900 bg-white rounded-full shadow-sm"><span class="material-icons-outlined text-lg">close</span></button>
-                                </div>
-                                <div class="overflow-y-auto flex-1 p-8 bg-slate-50/50">
-                                    ${renderReceiptPreview()}
-                                </div>
-                            </div>
-                        </div>
-                    ` : ''}
-               ` : ''}
-            </div>
-        </div>
-    `;
-}
-
-function renderMobile() {
-    if (!state.isLoggedIn) {
-        // Full-screen auth for mobile
-        return `
-            <div class="h-full w-full bg-white">
-                ${renderAuth()}
-            </div>
-        `;
-    }
-    if (state.currentApp === 'launcher') return renderLauncher('mobile');
-
-    // SALES APP MOBILE LOGIC
+function renderMobileContent() {
+    // Shared mobile-style content rendering for mobile and tablet right column
+    // Sales app has special handling
     if (state.currentApp === 'sales') {
-        // Only show preview button when there's something to preview
         const hasCartItems = window.getActiveCart && window.getActiveCart().length > 0;
         const showPreview = (state.currentTab === 'new-sale' && hasCartItems) || (state.currentTab === 'history' && state.salesHistoryId);
 
-        // 3. PREVIEW SCREEN (Full Screen replacement)
         if (state.showMobileReceipt && showPreview) {
             return `
                 <div class="fixed inset-0 z-[60] bg-white flex flex-col animate-slide-up">
@@ -174,9 +131,7 @@ function renderMobile() {
             `;
         }
 
-        // 2. MAIN APP SCREEN (Sales Desk)
         const content = state.currentTab === 'new-sale' ? renderSales() : renderHistory();
-
         const stickyFooter = showPreview ? `
             <div class="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-slate-100 z-50 w-full mb-safe">
                 <button onclick="toggleMobileReceipt(true)" class="w-full py-4 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase shadow-xl flex items-center justify-center gap-2">
@@ -185,66 +140,71 @@ function renderMobile() {
             </div>
         ` : '';
 
-        // Wrap in full width/height flex container for correct scrolling and layout
         return `
             <div class="flex flex-col w-full h-full overflow-hidden bg-slate-50 relative">
                 ${content}
-                ${showPreview ? '<div class="h-28 shrink-0 w-full"></div>' : ''} <!-- Spacer inside flex flow pushing content up -->
+                ${showPreview ? '<div class="h-28 shrink-0 w-full"></div>' : ''}
             </div>
             ${stickyFooter}
         `;
     }
 
-    // GENERIC MOBILE WRAPPER for other apps to ensure full width/height
+    // Generic mobile rendering for all other apps
     let content = '';
+    if (state.currentApp === 'clients') content = renderClients('mobile');
+    else if (state.currentApp === 'reports') content = renderReports('mobile');
+    else if (state.currentApp === 'repairs') content = renderRepairs('mobile');
+    else if (state.currentApp === 'marketing') content = renderMarketing('mobile');
+    else if (state.currentApp === 'promoters') content = renderPromoters('mobile');
+    else if (state.currentApp === 'inventory') content = renderInventory('mobile');
+    else if (state.currentApp === 'settings') content = renderSettings('mobile');
+    else if (state.currentApp === 'schemes') content = renderSchemes('mobile');
+    else if (state.currentApp === 'marketplace') content = renderMarketplace('mobile');
+    else if (state.currentApp === 'inquiries') content = renderInquiries('mobile');
+    else if (state.currentApp === 'prebooking') content = renderPreBooking('mobile');
+    else if (state.currentApp === 'automation') content = renderAutomation('mobile');
+    else if (state.currentApp === 'mystore') content = renderMyStore('mobile');
+    else if (state.currentApp === 'notifications') content = renderNotifications('mobile');
+    else return `<div class="h-full flex items-center justify-center text-slate-300"><div class="text-center"><span class="material-icons-outlined text-4xl mb-2 opacity-50">grid_view</span><p class="text-[10px] font-black uppercase tracking-widest">App Module Not Found</p></div></div>`;
 
-    if (state.currentApp === 'clients') {
-        content = renderClients('mobile');
-    }
-    else if (state.currentApp === 'reports') {
-        content = renderReports('mobile');
-    }
-    else if (state.currentApp === 'repairs') {
-        content = renderRepairs('mobile');
-    }
-    else if (state.currentApp === 'marketing') {
-        content = renderMarketing('mobile');
-    }
-    else if (state.currentApp === 'promoters') {
-        content = renderPromoters('mobile');
-    }
-    else if (state.currentApp === 'inventory') {
-        content = renderInventory('mobile');
-    }
-    else if (state.currentApp === 'settings') {
-        content = renderSettings('mobile');
-    }
-    else if (state.currentApp === 'schemes') {
-        content = renderSchemes('mobile');
-    }
-    else if (state.currentApp === 'marketplace') {
-        content = renderMarketplace('mobile');
-    }
-    else if (state.currentApp === 'inquiries') {
-        content = renderInquiries('mobile');
-    }
-    else if (state.currentApp === 'prebooking') {
-        content = renderPreBooking('mobile');
-    }
-    else if (state.currentApp === 'automation') {
-        content = renderAutomation('mobile');
-    }
-    else {
-        // Fallback or unknown app
-        return renderLauncher('mobile');
-    }
-
-    // Return wrapped content
     return `
         <div class="flex flex-col w-full h-full overflow-hidden bg-slate-50 relative">
             ${content}
         </div>
     `;
+}
+
+function renderTablet() {
+    // Tablet: 2 Columns — Fixed sidebar + mobile-style content
+    return `
+        <div class="h-full flex flex-row divide-x divide-slate-200 bg-white">
+            <!-- Col 1: Sidebar Menu (300px fixed) -->
+            <div class="w-[300px] shrink-0 h-full bg-white overflow-y-auto">
+                ${renderSidebar()}
+            </div>
+            <!-- Col 2: Content (mobile-style stacked) -->
+            <div class="flex-1 bg-white h-full overflow-hidden flex flex-col relative">
+                ${!state.isLoggedIn ?
+                    `<div class="h-full w-full bg-slate-950 flex flex-col items-center justify-center text-white/5 font-black text-[15vw] leading-none overflow-hidden select-none pointer-events-none"><div>OS</div></div>`
+                : (state.currentApp === 'launcher' ?
+                    '<div class="h-full flex items-center justify-center text-slate-300"><div class="text-center"><span class="material-icons-outlined text-4xl mb-4 opacity-20">arrow_back</span><p class="text-[10px] font-black uppercase tracking-widest opacity-40">Select an App from the Menu</p></div></div>'
+                    : renderMobileContent())}
+            </div>
+        </div>
+    `;
+}
+
+function renderMobile() {
+    if (!state.isLoggedIn) {
+        return `
+            <div class="h-full w-full bg-white">
+                ${renderAuth()}
+            </div>
+        `;
+    }
+    if (state.currentApp === 'launcher') return renderLauncher('mobile');
+
+    return renderMobileContent();
 }
 
 export function render() {
@@ -263,7 +223,7 @@ export function render() {
         }
     } catch (e) {
         console.error(e);
-        appContainer.innerHTML = `< div class="p-4 text-red-500 font-bold" > Error: ${e.message} <br><small>${e.stack}</small></div>`;
+        appContainer.innerHTML = `<div class="p-4 text-slate-500 font-bold">Error: ${e.message}<br><small>${e.stack}</small></div>`;
     }
 }
 
@@ -280,7 +240,7 @@ export function updateAuthContent() {
     } else {
         // Desktop/Tablet: Only update the auth columns (not sidebar)
         const primaryCol = document.querySelector('.flex-1.bg-white.h-full.overflow-hidden.flex.flex-col.relative.z-10')
-                        || document.querySelector('.col-span-1.bg-white.h-full.overflow-hidden.flex.flex-col.relative.z-10');
+                        || document.querySelector('.flex-1.bg-white.h-full.overflow-hidden.flex.flex-col.relative');
         const secondaryCol = document.querySelector('.w-\\[30\\%\\].shrink-0.bg-slate-50\\/50.h-full.overflow-hidden.flex.flex-col.relative.dot-grid.border-l.border-slate-200');
 
         if (primaryCol) {
