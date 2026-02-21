@@ -13,53 +13,116 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <script>
+        tailwindcss = { config: { theme: { extend: { colors: {
+            slate: {
+                50:  'rgb(var(--color-bg-secondary) / <alpha-value>)',
+                100: 'rgb(var(--color-bg-tertiary) / <alpha-value>)',
+                200: 'rgb(var(--color-border-default) / <alpha-value>)',
+                300: 'rgb(var(--color-text-faint) / <alpha-value>)',
+                400: 'rgb(var(--color-text-muted) / <alpha-value>)',
+                500: 'rgb(var(--color-text-secondary) / <alpha-value>)',
+                600: 'rgb(var(--color-border-default) / <alpha-value>)',
+                700: 'rgb(var(--color-bg-tertiary) / <alpha-value>)',
+                800: 'rgb(var(--color-bg-secondary) / <alpha-value>)',
+                900: 'rgb(var(--color-text-primary) / <alpha-value>)',
+                950: 'rgb(var(--color-bg-dark) / <alpha-value>)',
+            }
+        }}}}};
+    </script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
-
-
     <style type="text/tailwindcss">
         @layer base {
             :root {
                 --primary: #0F172A;
                 --bg-light: #F8FAFC;
+                --color-bg-primary: 255 255 255;
+                --color-bg-secondary: 248 250 252;
+                --color-bg-tertiary: 241 245 249;
+                --color-border-default: 226 232 240;
+                --color-text-faint: 203 213 225;
+                --color-text-muted: 148 163 184;
+                --color-text-secondary: 100 116 139;
+                --color-text-primary: 15 23 42;
+                --color-bg-dark: 2 6 23;
+                --color-card-bg: 255 255 255;
+                --color-card-border: 241 245 249;
+                --dot-color: #cbd5e1;
+                --scrollbar-color: #e2e8f0;
+                --body-bg: #e2e8f0;
+                --font-scale: 1;
+            }
+            html.dark {
+                --primary: #f1f5f9;
+                --bg-light: #1e293b;
+                --color-bg-primary: 15 23 42;
+                --color-bg-secondary: 30 41 59;
+                --color-bg-tertiary: 51 65 85;
+                --color-border-default: 51 65 85;
+                --color-text-faint: 71 85 105;
+                --color-text-muted: 148 163 184;
+                --color-text-secondary: 148 163 184;
+                --color-text-primary: 241 245 249;
+                --color-bg-dark: 2 6 23;
+                --color-card-bg: 30 41 59;
+                --color-card-border: 51 65 85;
+                --dot-color: #334155;
+                --scrollbar-color: #334155;
+                --body-bg: #0f172a;
+            }
+            /* Dark mode: flip bg-white to dark (but NOT text-white, border-white, after:bg-white, or bg-white/opacity) */
+            html.dark .bg-white {
+                background-color: rgb(var(--color-bg-primary)) !important;
+            }
+            /* Dark mode: toggle switch knob contrast fix — checked track is light, knob must be dark */
+            html.dark .peer:checked ~ div::after {
+                background-color: rgb(30 41 59) !important;
+            }
+            /* Dark mode: range input slider */
+            html.dark input[type="range"]::-webkit-slider-thumb {
+                background-color: #f1f5f9;
+            }
+            html.dark input[type="range"] {
+                accent-color: #f1f5f9;
             }
             html, body {
                 width: 100%;
                 height: 100%;
                 overflow: hidden; /* Prevent body scroll */
             }
-            body { 
-                margin: 0; 
-                padding: 0; 
-                background-color: #e2e8f0; 
+            body {
+                margin: 0;
+                padding: 0;
+                background-color: var(--body-bg);
                 font-family: 'Plus Jakarta Sans', sans-serif;
             }
         }
 
         @layer utilities {
             .dot-grid {
-                background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+                background-image: radial-gradient(var(--dot-color) 1px, transparent 1px);
                 background-size: 24px 24px;
             }
             .screen-container {
                 height: 100dvh;
                 width: 100%;
                 display: flex;
-                background: white;
+                background: rgb(var(--color-bg-primary));
                 overflow: hidden;
             }
             .mobile-col {
-                background: var(--bg-light);
+                background: rgb(var(--color-bg-secondary));
                 height: 100dvh;
                 width: 100%;
                 display: flex;
                 flex-direction: column;
                 overflow: hidden;
-                border-right: 1px solid #f1f5f9;
+                border-right: 1px solid rgb(var(--color-bg-tertiary));
                 flex-shrink: 0;
                 position: relative;
             }
@@ -71,9 +134,9 @@
             .scrolling-content::-webkit-scrollbar { display: none; }
             .scrolling-content { -ms-overflow-style: none; scrollbar-width: none; }
             
-            .card { 
-                background-color: white;
-                border: 1px solid #f1f5f9;
+            .card {
+                background-color: rgb(var(--color-card-bg));
+                border: 1px solid rgb(var(--color-card-border));
                 border-radius: 24px;
             }
             .toggle-btn { 
@@ -84,22 +147,21 @@
                 transition: all 150ms ease-in-out;
                 text-transform: uppercase;
             }
-            .toggle-btn-active { 
-                background-color: #0f172a; 
-                color: white; 
+            .toggle-btn-active {
+                background-color: rgb(var(--color-text-primary));
+                color: rgb(var(--color-bg-primary));
                 box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
             }
-            .toggle-btn-inactive { 
-                color: #94a3b8; 
-                color: #94a3b8;
+            .toggle-btn-inactive {
+                color: rgb(var(--color-text-muted));
             }
             .toggle-btn-inactive:hover {
-                background-color: #e2e8f0;
+                background-color: rgb(var(--color-border-default));
             }
 
             .news-ticker-container {
-                background-color: white;
-                border: 1px solid #f1f5f9;
+                background-color: rgb(var(--color-card-bg));
+                border: 1px solid rgb(var(--color-card-border));
                 border-radius: 1rem;
                 overflow: hidden;
                 padding-top: 0.75rem;
@@ -151,8 +213,15 @@
                 background: transparent;
             }
             .custom-scrollbar::-webkit-scrollbar-thumb {
-                background-color: #e2e8f0;
+                background-color: var(--scrollbar-color);
                 border-radius: 20px;
+            }
+            html.no-animations * {
+                animation-duration: 0s !important;
+                transition-duration: 0s !important;
+            }
+            #app {
+                zoom: var(--font-scale);
             }
 
             /* Print styles */
@@ -221,7 +290,7 @@
             }
         }
     </style>
-  <script type="module" crossorigin src="/assets/index-DsPLq_eQ.js"></script>
+  <script type="module" crossorigin src="/assets/index-Cf4QHp2I.js"></script>
 </head>
 
 <body>

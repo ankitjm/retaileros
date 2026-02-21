@@ -5,7 +5,7 @@ export function renderLogin(mode) {
             ${isMobile ? `
                 <!-- Logo + Branding for mobile -->
                 <div class="text-center mb-10">
-                    <img src="/ros-logo.jpeg" alt="RetailerOS" class="w-20 h-20 rounded-3xl object-cover shadow-xl mx-auto mb-4">
+                    <img src="/ros-logo.jpeg" alt="RetailerOS" class="w-20 h-20 object-contain mx-auto mb-4">
                     <h1 class="text-lg font-black text-slate-900 tracking-tight">RetailerOS</h1>
                     <p class="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-1">Retail Store Management</p>
                 </div>
