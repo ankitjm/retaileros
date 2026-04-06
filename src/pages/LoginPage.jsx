@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export default function LoginPage({ onLogin, darkMode, toggleDark }) {
+export default function LoginPage({ onLogin, onRegister, onAdmin, darkMode, toggleDark }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -82,6 +82,27 @@ export default function LoginPage({ onLogin, darkMode, toggleDark }) {
             Demo: click Sign In with any credentials
           </p>
         </form>
+
+        <div style={{ borderTop: '1px solid var(--border)', marginTop: 24, paddingTop: 20, textAlign: 'center' }}>
+          <p className="body-sm" style={{ margin: '0 0 12px' }}>New retailer?</p>
+          <button
+            className="btn btn-secondary"
+            style={{ width: '100%' }}
+            onClick={onRegister}
+          >
+            <span className="material-icons-outlined" style={{ fontSize: 16 }}>store</span>
+            Request access
+          </button>
+        </div>
+
+        <p className="caption" style={{ textAlign: 'center', marginTop: 16 }}>
+          <button
+            onClick={onAdmin}
+            style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: 12, cursor: 'pointer', padding: 0 }}
+          >
+            Admin panel
+          </button>
+        </p>
       </div>
     </div>
   )

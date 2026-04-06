@@ -2,6 +2,9 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { useState } from 'react'
 import AppLayout from './layouts/AppLayout'
 import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
+import AdminPage from './pages/AdminPage'
+import WelcomeScreen from './pages/WelcomeScreen'
 import DashboardPage from './pages/DashboardPage'
 import SalesPage from './pages/SalesPage'
 import InventoryPage from './pages/InventoryPage'
@@ -10,8 +13,10 @@ import SchemesPage from './pages/SchemesPage'
 import ReportsPage from './pages/ReportsPage'
 import SettingsPage from './pages/SettingsPage'
 
+// view: 'login' | 'register' | 'admin' | 'welcome' | 'app'
 export default function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [view, setView] = useState('login')
+  const [isFirstLogin, setIsFirstLogin] = useState(true)
   const [darkMode, setDarkMode] = useState(false)
 
   const toggleDark = () => {
@@ -19,12 +24,50 @@ export default function App() {
     document.documentElement.setAttribute('data-theme', !darkMode ? 'dark' : 'light')
   }
 
-  if (!isAuthenticated) {
-    return <LoginPage onLogin={() => setIsAuthenticated(true)} darkMode={darkMode} toggleDark={toggleDark} />
+  const handleLogin = () => {
+    if (isFirstLogin) {
+      setView('welcome')
+    } else {
+      setView('app')
+    }
+  }
+
+  const handleWelcomeComplete = () => {
+    setIsFirstLogin(false)
+    setView('app')
+  }
+
+  const handleLogout = () => {
+    setIsFirstLogin(false) // subsequent logins skip welcome
+    setView('login')
+  }
+
+  if (view === 'register') {
+    return <RegisterPage onBack={() => setView('login')} />
+  }
+
+  if (view === 'admin') {
+    return <AdminPage onBack={() => setView('login')} />
+  }
+
+  if (view === 'welcome') {
+    return <WelcomeScreen onComplete={handleWelcomeComplete} />
+  }
+
+  if (view !== 'app') {
+    return (
+      <LoginPage
+        onLogin={handleLogin}
+        onRegister={() => setView('register')}
+        onAdmin={() => setView('admin')}
+        darkMode={darkMode}
+        toggleDark={toggleDark}
+      />
+    )
   }
 
   return (
-    <AppLayout darkMode={darkMode} toggleDark={toggleDark} onLogout={() => setIsAuthenticated(false)}>
+    <AppLayout darkMode={darkMode} toggleDark={toggleDark} onLogout={handleLogout}>
       <Routes>
         <Route path="/" element={<DashboardPage />} />
         <Route path="/sales" element={<SalesPage />} />
