@@ -1,10 +1,14 @@
 import 'dotenv/config'
 import express from 'express'
 import helmet from 'helmet'
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
 import { authRouter } from './routes/auth.js'
 import { retailerRouter } from './routes/retailers.js'
 import { inventoryRouter } from './routes/inventory.js'
 import { salesRouter } from './routes/sales.js'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -44,9 +48,13 @@ app.use(['/api/query', '/api/mutate', '/api/sql', '/api/exec'], (_req, res) => {
   res.status(404).json({ error: 'Not found' })
 })
 
-// 404 handler for all other unmatched routes
-app.use((_req, res) => {
-  res.status(404).json({ error: 'Not found' })
+// Serve built React SPA static files
+const distPath = join(__dirname, '..', 'dist')
+app.use(express.static(distPath))
+
+// SPA fallback: serve index.html for all non-API client-side routes
+app.get('*', (_req, res) => {
+  res.sendFile(join(distPath, 'index.html'))
 })
 
 // Error handler — never leak stack traces to clients
