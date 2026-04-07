@@ -48,6 +48,10 @@ app.use(['/api/query', '/api/mutate', '/api/sql', '/api/exec'], (_req, res) => {
   res.status(404).json({ error: 'Not found' })
 })
 
+// Serve robots.txt and sitemap.xml from public/ (must come before SPA catch-all)
+const publicPath = join(__dirname, '..', 'public')
+app.use(express.static(publicPath))
+
 // Serve built React SPA static files
 const distPath = join(__dirname, '..', 'dist')
 app.use(express.static(distPath))
