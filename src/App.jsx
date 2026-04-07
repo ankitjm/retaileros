@@ -15,8 +15,10 @@ import SettingsPage from './pages/SettingsPage'
 
 // view: 'login' | 'register' | 'admin' | 'welcome' | 'app'
 export default function App() {
-  const [view, setView] = useState('login')
-  const [isFirstLogin, setIsFirstLogin] = useState(true)
+  // Auto-login for demo: /app/?demo=1 skips the login screen entirely
+  const isDemoMode = new URLSearchParams(window.location.search).get('demo') === '1'
+  const [view, setView] = useState(isDemoMode ? 'app' : 'login')
+  const [isFirstLogin, setIsFirstLogin] = useState(!isDemoMode)
   const [darkMode, setDarkMode] = useState(false)
 
   const toggleDark = () => {
