@@ -16,6 +16,7 @@ import { newsRouter } from './routes/news.js';
 import { apiKeysRouter } from './routes/api-keys.js';
 import { publicApiRouter } from './routes/public-api.js';
 import { paymentRouter } from './routes/payment.js';
+import { adminRouter } from './routes/admin.js';
 import { restoreAllSessions } from './lib/whatsapp-manager.js';
 import { initSchema } from './db/client.js';
 import { fetchAndCacheNews, fetchIfStale } from './lib/news-fetcher.js';
@@ -62,6 +63,7 @@ function mountApi(prefix) {
     app.use(`${prefix}/api/news`, newsRouter);
     app.use(`${prefix}/api/api-keys`, apiKeysRouter);
     app.use(`${prefix}/api/payment`, paymentRouter);
+    app.use(`${prefix}/api`, adminRouter);
     app.use(`${prefix}/api`, dbRouter);
     app.use(`${prefix}/api/whatsapp/own`, whatsappOwnRouter);
     app.use(`${prefix}/api/whatsapp`, whatsappRouter);
@@ -77,6 +79,9 @@ mountApi(BASE);  // /app/api/* — production behind Nginx
 // Separate from the app API, no CORS restriction
 app.use('/v1', publicApiRouter);
 app.use(`${BASE}/v1`, publicApiRouter);
+
+// Admin dashboard at /admin
+app.get('/admin', (req, res) => res.sendFile(join(landingPath, 'admin.html')));
 
 // Serve landing-page/ static files (pay.html + any future landing page assets)
 // These are served at root level so /pay resolves to landing-page/pay.html

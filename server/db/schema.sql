@@ -589,3 +589,28 @@ CREATE INDEX IF NOT EXISTS idx_subscriptions_status ON retailer_subscriptions(re
 -- Extend retailers table with subscription tracking columns
 ALTER TABLE retailers ADD COLUMN IF NOT EXISTS gst_number TEXT;
 ALTER TABLE retailers ADD COLUMN IF NOT EXISTS address TEXT;
+
+-- CTA events — tracks landing page button/link clicks
+CREATE TABLE IF NOT EXISTS cta_events (
+    id SERIAL PRIMARY KEY,
+    cta_id TEXT NOT NULL,               -- 'demo_link', 'hero_get_started', 'signup_form', etc.
+    page TEXT DEFAULT 'landing',
+    ip TEXT,
+    user_agent TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_cta_events_cta ON cta_events(cta_id);
+CREATE INDEX IF NOT EXISTS idx_cta_events_created ON cta_events(created_at);
+
+-- Waitlist entries — people who express interest without signing up
+CREATE TABLE IF NOT EXISTS waitlist_entries (
+    id SERIAL PRIMARY KEY,
+    name TEXT,
+    phone TEXT,
+    email TEXT,
+    store_type TEXT,
+    city TEXT,
+    source TEXT DEFAULT 'landing',      -- where they signed up from
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_waitlist_created ON waitlist_entries(created_at);
