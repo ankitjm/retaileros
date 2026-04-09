@@ -66,7 +66,7 @@ const BentoFeatures = () => {
   return (
     <section className="py-14 md:py-20 bg-white overflow-hidden" id="features">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -83,8 +83,12 @@ const BentoFeatures = () => {
         </motion.div>
 
         <div className="bento-grid">
+          {/* Sales Intelligence — 2×2 hero card */}
           <motion.div whileHover={{ y: -5 }} className="col-span-1 md:col-span-2 row-span-2 glass-panel rounded-2xl p-6 md:p-8 flex flex-col justify-between group overflow-hidden relative cursor-pointer">
             <div className="absolute top-0 right-0 w-64 h-64 bg-brand/5 blur-[80px] group-hover:bg-brand/10 transition-colors" />
+            <div className="absolute bottom-0 right-0 w-36 h-36 opacity-[0.06] group-hover:opacity-[0.12] transition-opacity pointer-events-none">
+              <img src="/images/drive/app-screenshot-09.png" alt="" className="w-full h-full object-contain" aria-hidden="true" />
+            </div>
             <div className="relative z-10">
               <div className="w-10 h-10 bg-brand rounded-xl flex items-center justify-center shadow-lg shadow-brand/20 mb-5 border border-white/20">
                 <TrendingUp className="w-5 h-5 text-white" />
@@ -100,6 +104,7 @@ const BentoFeatures = () => {
             <div className="mt-8 flex items-center gap-2 text-brand font-black text-xs uppercase tracking-widest">Connect Analytics <ArrowRight className="w-4 h-4" /></div>
           </motion.div>
 
+          {/* GST Billing — 2×1 with stationery image */}
           <motion.div whileHover={{ y: -5 }} className="col-span-1 md:col-span-2 row-span-1 glass-panel rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between group overflow-hidden cursor-pointer">
             <div className="space-y-4 relative z-10 w-full md:w-3/5">
               <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center shadow-lg mb-4 group-hover:rotate-12 transition-transform">
@@ -108,9 +113,12 @@ const BentoFeatures = () => {
               <h3 className="text-lg font-black text-slate-900">Compliant GST Billing</h3>
               <p className="text-slate-500 text-sm font-medium">HSN auto-mapping and one-click filing.</p>
             </div>
-            <div className="hidden md:block w-32 h-32 bg-slate-100 rounded-3xl group-hover:rotate-6 transition-transform" />
+            <div className="hidden md:block w-36 h-28 rounded-2xl overflow-hidden flex-shrink-0 group-hover:rotate-3 group-hover:scale-105 transition-transform shadow-md">
+              <img src="/images/drive/app-screenshot-08.png" alt="Brand stationery" className="w-full h-full object-cover object-center" />
+            </div>
           </motion.div>
 
+          {/* IMEI Control — 1×1 */}
           <motion.div whileHover={{ y: -5 }} className="col-span-1 row-span-1 glass-panel rounded-2xl p-5 md:p-6 flex flex-col justify-between group cursor-pointer">
             <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center shadow-lg mb-6"><Box className="w-5 h-5 text-white" /></div>
             <div>
@@ -119,11 +127,79 @@ const BentoFeatures = () => {
             </div>
           </motion.div>
 
+          {/* Service Hub — 1×1 */}
           <motion.div whileHover={{ y: -5 }} className="col-span-1 row-span-1 glass-panel rounded-2xl p-5 md:p-6 flex flex-col justify-between group cursor-pointer">
             <div className="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center shadow-lg mb-6"><Wrench className="w-5 h-5 text-white" /></div>
             <div>
               <h4 className="text-base font-black text-slate-900 mb-1">Service Hub</h4>
               <p className="text-xs text-slate-500 font-bold">Status tracking for repairs.</p>
+            </div>
+          </motion.div>
+
+          {/* Schemes Management — 2×1 with brand materials image */}
+          <motion.div whileHover={{ y: -5 }} className="col-span-1 md:col-span-2 row-span-1 glass-panel rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between group overflow-hidden cursor-pointer">
+            <div className="space-y-3 relative z-10 w-full md:w-3/5">
+              <div className="w-10 h-10 bg-violet-600 rounded-xl flex items-center justify-center shadow-lg mb-4 group-hover:rotate-12 transition-transform">
+                <Percent className="w-5 h-5 text-white" />
+              </div>
+              <h3 className="text-lg font-black text-slate-900">Schemes Management</h3>
+              <p className="text-slate-500 text-sm font-medium">EMI plans, cashbacks, and brand promotions — automated end-to-end.</p>
+            </div>
+            <div className="hidden md:block w-36 h-28 rounded-2xl overflow-hidden flex-shrink-0 group-hover:rotate-3 group-hover:scale-105 transition-transform shadow-md">
+              <img src="/images/drive/app-screenshot-01.png" alt="Brand materials" className="w-full h-full object-cover object-center" />
+            </div>
+          </motion.div>
+
+          {/* Marketplace Integration — 2×1 with social/device mockup */}
+          <motion.div whileHover={{ y: -5 }} className="col-span-1 md:col-span-2 row-span-1 glass-panel rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between group overflow-hidden cursor-pointer">
+            <div className="space-y-3 relative z-10 w-full md:w-3/5">
+              <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center shadow-lg mb-4 group-hover:rotate-12 transition-transform">
+                <ShoppingCart className="w-5 h-5 text-white" />
+              </div>
+              <h3 className="text-lg font-black text-slate-900">Marketplace Integration</h3>
+              <p className="text-slate-500 text-sm font-medium">Sync listings, orders, and inventory across Flipkart, Amazon, and more.</p>
+            </div>
+            <div className="hidden md:block w-36 h-28 rounded-2xl overflow-hidden flex-shrink-0 group-hover:rotate-3 group-hover:scale-105 transition-transform shadow-md">
+              <img src="/images/drive/app-screenshot-07.png" alt="Multi-channel presence" className="w-full h-full object-cover object-center" />
+            </div>
+          </motion.div>
+
+          {/* Pre-Booking System — 1×1 */}
+          <motion.div whileHover={{ y: -5 }} className="col-span-1 row-span-1 glass-panel rounded-2xl p-5 md:p-6 flex flex-col justify-between group cursor-pointer overflow-hidden relative">
+            <div className="absolute bottom-0 right-0 w-24 h-24 opacity-[0.07] group-hover:opacity-[0.14] transition-opacity pointer-events-none">
+              <img src="/images/drive/app-screenshot-04.png" alt="" className="w-full h-full object-contain" aria-hidden="true" />
+            </div>
+            <div className="w-10 h-10 bg-sky-500 rounded-xl flex items-center justify-center shadow-lg mb-6 relative z-10"><Rocket className="w-5 h-5 text-white" /></div>
+            <div className="relative z-10">
+              <h4 className="text-base font-black text-slate-900 mb-1">Pre-Booking</h4>
+              <p className="text-xs text-slate-500 font-bold">Reserve launches before stock arrives.</p>
+            </div>
+          </motion.div>
+
+          {/* Automation Hub — 1×1 */}
+          <motion.div whileHover={{ y: -5 }} className="col-span-1 row-span-1 glass-panel rounded-2xl p-5 md:p-6 flex flex-col justify-between group cursor-pointer">
+            <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center shadow-lg mb-6"><Bot className="w-5 h-5 text-white" /></div>
+            <div>
+              <h4 className="text-base font-black text-slate-900 mb-1">Automation Hub</h4>
+              <p className="text-xs text-slate-500 font-bold">Triggers, alerts, and task workflows.</p>
+            </div>
+          </motion.div>
+
+          {/* Customer Inquiry Management — 1×1 */}
+          <motion.div whileHover={{ y: -5 }} className="col-span-1 row-span-1 glass-panel rounded-2xl p-5 md:p-6 flex flex-col justify-between group cursor-pointer">
+            <div className="w-10 h-10 bg-rose-500 rounded-xl flex items-center justify-center shadow-lg mb-6"><HelpCircle className="w-5 h-5 text-white" /></div>
+            <div>
+              <h4 className="text-base font-black text-slate-900 mb-1">Inquiry Management</h4>
+              <p className="text-xs text-slate-500 font-bold">Track, convert, and follow up on leads.</p>
+            </div>
+          </motion.div>
+
+          {/* Notifications Center — 1×1 */}
+          <motion.div whileHover={{ y: -5 }} className="col-span-1 row-span-1 glass-panel rounded-2xl p-5 md:p-6 flex flex-col justify-between group cursor-pointer">
+            <div className="w-10 h-10 bg-indigo-500 rounded-xl flex items-center justify-center shadow-lg mb-6"><Bell className="w-5 h-5 text-white" /></div>
+            <div>
+              <h4 className="text-base font-black text-slate-900 mb-1">Notifications</h4>
+              <p className="text-xs text-slate-500 font-bold">Smart alerts for sales, stock, and tasks.</p>
             </div>
           </motion.div>
         </div>
