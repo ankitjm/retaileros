@@ -1,7 +1,7 @@
 export function renderLogin(mode) {
     const isMobile = mode === 'mobile';
     return `
-        <div class="h-full w-full flex flex-col items-center justify-center p-6 animate-slide-up">
+        <div class="h-full w-full flex flex-col items-center justify-center p-6">
             ${isMobile ? `
                 <!-- Logo + Branding for mobile -->
                 <div class="text-center mb-10">

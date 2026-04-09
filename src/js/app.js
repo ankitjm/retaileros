@@ -12,7 +12,7 @@ import { renderInventory } from './modules/inventory/index.js';
 import { renderSettings } from './modules/settings/index.js';
 import { renderSchemes } from './modules/schemes/index.js';
 import { renderMarketplace } from './modules/marketplace/index.js';
-import { renderAuth, renderRegister } from './modules/auth/index.js';
+import { renderAuth, renderRegister, renderLogin } from './modules/auth/index.js';
 import { renderInquiries } from './modules/inquiries/index.js';
 import { renderPreBooking } from './modules/prebooking/index.js';
 import { renderAutomation } from './modules/automation/index.js';
@@ -90,7 +90,7 @@ function renderDesktop() {
             <!-- Col 2: Active App (Flexible / Remaining Width ~45%) -->
             <div class="flex-1 bg-white h-full overflow-hidden flex flex-col relative z-10">
                ${!state.isLoggedIn ?
-            (state.authMode === 'register' ? renderRegister('desktop-primary') : `<div class="h-full w-full bg-slate-950 flex flex-col items-center justify-center text-white/5 font-black text-[20vw] leading-none overflow-hidden select-none pointer-events-none"><div>OS</div></div>`)
+            (state.authMode === 'register' ? renderRegister('desktop-primary') : renderLogin('desktop'))
             : (state.currentApp === 'launcher' ?
                 '<div class="h-full flex items-center justify-center text-slate-300"><div class="text-center"><span class="material-icons-outlined text-4xl mb-4 opacity-20">arrow_back</span><p class="text-[10px] font-black uppercase tracking-widest opacity-40">Select an App from the Menu</p></div></div>'
                 : renderAppPrimary())}
@@ -186,7 +186,7 @@ function renderTablet() {
             <!-- Col 2: Content (mobile-style stacked) -->
             <div class="flex-1 bg-white h-full overflow-hidden flex flex-col relative">
                 ${!state.isLoggedIn ?
-                    `<div class="h-full w-full bg-slate-950 flex flex-col items-center justify-center text-white/5 font-black text-[15vw] leading-none overflow-hidden select-none pointer-events-none"><div>OS</div></div>`
+                    `<div class="h-full w-full bg-white overflow-y-auto">${renderAuth()}</div>`
                 : (state.currentApp === 'launcher' ?
                     '<div class="h-full flex items-center justify-center text-slate-300"><div class="text-center"><span class="material-icons-outlined text-4xl mb-4 opacity-20">arrow_back</span><p class="text-[10px] font-black uppercase tracking-widest opacity-40">Select an App from the Menu</p></div></div>'
                     : renderMobileContent())}
@@ -251,7 +251,7 @@ export function updateAuthContent() {
         if (primaryCol) {
             primaryCol.innerHTML = state.authMode === 'register'
                 ? renderRegister('desktop-primary')
-                : `<div class="h-full w-full bg-slate-950 flex flex-col items-center justify-center text-white/5 font-black text-[20vw] leading-none overflow-hidden select-none pointer-events-none"><div>OS</div></div>`;
+                : renderLogin('desktop');
         }
 
         if (secondaryCol && width >= 1024) {
