@@ -17,6 +17,8 @@ import { apiKeysRouter } from './routes/api-keys.js';
 import { publicApiRouter } from './routes/public-api.js';
 import { paymentRouter } from './routes/payment.js';
 import { adminRouter } from './routes/admin.js';
+import { requireAuth } from './middleware/auth.js';
+import { requireSubscription } from './middleware/subscription.js';
 import { restoreAllSessions } from './lib/whatsapp-manager.js';
 import { initSchema } from './db/client.js';
 import { fetchAndCacheNews, fetchIfStale } from './lib/news-fetcher.js';
@@ -57,17 +59,24 @@ const BASE = '/app';
 // Landing page directory (pay.html served here, alongside the static landing page files)
 const landingPath = join(__dirname, '../landing-page');
 
+// Subscription gate: auth + active subscription required for data routes
+const subGate = [requireAuth, requireSubscription];
+
 // API routes — mounted both at /api/* (dev) and /app/api/* (prod behind Nginx)
 function mountApi(prefix) {
+    // Open routes — no subscription required
     app.use(`${prefix}/api/auth`, authRouter);
-    app.use(`${prefix}/api/news`, newsRouter);
-    app.use(`${prefix}/api/api-keys`, apiKeysRouter);
     app.use(`${prefix}/api/payment`, paymentRouter);
-    app.use(`${prefix}/api`, adminRouter);
-    app.use(`${prefix}/api`, dbRouter);
-    app.use(`${prefix}/api/whatsapp/own`, whatsappOwnRouter);
-    app.use(`${prefix}/api/whatsapp`, whatsappRouter);
-    app.use(`${prefix}/api/openai`, openaiRouter);
+    app.use(`${prefix}/api`, adminRouter); // admin has its own auth
+
+    // Gated routes — active subscription required
+    app.use(`${prefix}/api/news`, ...subGate, newsRouter);
+    app.use(`${prefix}/api/api-keys`, ...subGate, apiKeysRouter);
+    app.use(`${prefix}/api`, ...subGate, dbRouter);
+    app.use(`${prefix}/api/whatsapp/own`, ...subGate, whatsappOwnRouter);
+    app.use(`${prefix}/api/whatsapp`, ...subGate, whatsappRouter);
+    app.use(`${prefix}/api/openai`, ...subGate, openaiRouter);
+
     app.get(`${prefix}/api/health`, (req, res) => {
         res.json({ ok: true, ts: new Date().toISOString() });
     });
