@@ -15,6 +15,7 @@ import { openaiRouter } from './routes/openai.js';
 import { newsRouter } from './routes/news.js';
 import { apiKeysRouter } from './routes/api-keys.js';
 import { publicApiRouter } from './routes/public-api.js';
+import { paymentRouter } from './routes/payment.js';
 import { restoreAllSessions } from './lib/whatsapp-manager.js';
 import { initSchema } from './db/client.js';
 import { fetchAndCacheNews, fetchIfStale } from './lib/news-fetcher.js';
@@ -42,16 +43,25 @@ app.use(cors({
     credentials: true
 }));
 
+// Stripe webhook needs raw body — mount BEFORE express.json()
+app.post('/api/payment/stripe-webhook', express.raw({ type: 'application/json' }), (req, res, next) => {
+    paymentRouter.handle(req, res, next);
+});
+
 app.use(express.json({ limit: '10mb' }));
 
 // Base path for Nginx reverse proxy (retaileros.in/app → Express)
 const BASE = '/app';
+
+// Landing page directory (pay.html served here, alongside the static landing page files)
+const landingPath = join(__dirname, '../landing-page');
 
 // API routes — mounted both at /api/* (dev) and /app/api/* (prod behind Nginx)
 function mountApi(prefix) {
     app.use(`${prefix}/api/auth`, authRouter);
     app.use(`${prefix}/api/news`, newsRouter);
     app.use(`${prefix}/api/api-keys`, apiKeysRouter);
+    app.use(`${prefix}/api/payment`, paymentRouter);
     app.use(`${prefix}/api`, dbRouter);
     app.use(`${prefix}/api/whatsapp/own`, whatsappOwnRouter);
     app.use(`${prefix}/api/whatsapp`, whatsappRouter);
@@ -67,6 +77,10 @@ mountApi(BASE);  // /app/api/* — production behind Nginx
 // Separate from the app API, no CORS restriction
 app.use('/v1', publicApiRouter);
 app.use(`${BASE}/v1`, publicApiRouter);
+
+// Serve landing-page/ static files (pay.html + any future landing page assets)
+// These are served at root level so /pay resolves to landing-page/pay.html
+app.use(express.static(landingPath, { index: false }));
 
 // Serve Vite build in production
 const distPath = join(__dirname, '../dist');

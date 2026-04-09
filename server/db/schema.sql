@@ -559,3 +559,33 @@ CREATE TABLE IF NOT EXISTS registration_requests (
 );
 CREATE INDEX IF NOT EXISTS idx_registration_requests_mobile ON registration_requests(mobile_number);
 CREATE INDEX IF NOT EXISTS idx_registration_requests_status ON registration_requests(status);
+
+-- Retailer subscriptions — Razorpay/Stripe payment records and billing periods
+CREATE TABLE IF NOT EXISTS retailer_subscriptions (
+    id TEXT PRIMARY KEY,
+    retailer_id TEXT NOT NULL,
+    plan_id TEXT NOT NULL,                   -- 'quarterly' | 'yearly'
+    status TEXT DEFAULT 'pending',           -- pending | active | expired | cancelled
+    payment_provider TEXT,                   -- 'razorpay' | 'stripe'
+    razorpay_order_id TEXT,
+    razorpay_payment_id TEXT,
+    razorpay_signature TEXT,
+    stripe_session_id TEXT,
+    stripe_payment_intent TEXT,
+    amount_base REAL,                        -- base amount before GST (INR)
+    gst_amount REAL,                         -- GST 18%
+    amount_total REAL,                       -- total amount paid
+    currency TEXT DEFAULT 'INR',
+    invoice_number TEXT,
+    billing_start TEXT,
+    billing_end TEXT,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_subscriptions_retailer ON retailer_subscriptions(retailer_id);
+CREATE INDEX IF NOT EXISTS idx_subscriptions_status ON retailer_subscriptions(retailer_id, status);
+
+-- Extend retailers table with subscription tracking columns
+ALTER TABLE retailers ADD COLUMN IF NOT EXISTS gst_number TEXT;
+ALTER TABLE retailers ADD COLUMN IF NOT EXISTS address TEXT;
