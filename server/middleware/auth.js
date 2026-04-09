@@ -1,17 +1,19 @@
-import { verifyToken } from '../utils/tokens.js'
+import jwt from 'jsonwebtoken';
 
 export function requireAuth(req, res, next) {
-  const authHeader = req.headers.authorization
-  if (!authHeader?.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'Authentication required' })
-  }
+    const authHeader = req.headers.authorization;
+    const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
 
-  const token = authHeader.slice(7)
-  try {
-    req.user = verifyToken(token)
-    req.token = token
-    next()
-  } catch {
-    return res.status(401).json({ error: 'Invalid or expired token' })
-  }
+    if (!token) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    try {
+        const payload = jwt.verify(token, process.env.JWT_SECRET);
+        req.retailer_id = payload.retailer_id;
+        req.retailer_name = payload.retailer_name;
+        next();
+    } catch {
+        res.status(401).json({ error: 'Invalid or expired token' });
+    }
 }

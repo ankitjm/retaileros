@@ -1,12 +1,20 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from 'vite';
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
-  base: '/app/',
-  server: {
-    port: 3000,
-    host: true,
-  },
-})
+    // Base path — served at retaileros.in/app
+    base: '/app/',
+
+    server: {
+        proxy: {
+            '/api': {
+                target: 'http://localhost:3006',
+                changeOrigin: true
+            }
+        }
+    },
+
+    build: {
+        outDir: 'dist',
+        emptyOutDir: true
+    }
+});

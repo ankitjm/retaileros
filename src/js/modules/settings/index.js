@@ -1,0 +1,17 @@
+export { renderSettings } from './settings.js';
+export { renderSettingsDashboard } from './dashboard.js';
+export { renderSettingsRoles } from './roles.js';
+export { renderSettingsAccounting } from './accounting.js';
+export { renderSettingsLedger } from './ledger.js';
+export { renderAISettings } from './ai.js';
+export { renderSettingsSecurity } from './security.js';
+export { renderSettingsAlerts } from './alerts.js';
+export { renderSettingsTaxes } from './taxes.js';
+export { renderSettingsPlugins } from './plugins.js';
+export { renderSettingsTeams } from './teams.js';
+export { renderSettingsLogs } from './logs.js';
+export { renderSettingsLang } from './lang.js';
+export { renderSettingsBackup } from './backup.js';
+export { renderSettingsUpdates } from './updates.js';
+export { renderSettingsTheme } from './theme.js';
+export { renderSettingsHelp } from './help.js';

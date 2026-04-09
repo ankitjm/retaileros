@@ -1,0 +1,182 @@
+import { state } from '../../state.js';
+import { db } from '../../utils/db.js';
+
+// Submit all claims for the active scheme
+window._submitSchemeClaims = async (brand, count) => {
+    try {
+        const r = (() => { const c = window.getCache(); const rid = localStorage.getItem('retaileros_retailer_id'); return c.retailers?.find(x => x.id === rid) || {}; })();
+        await db.activityLogs.add({
+            action: 'schemes',
+            detail: `Submitted ${count} claims for ${brand} settlement`,
+            user_name: r.contact_person || 'Owner',
+            icon: 'send',
+            color: 'blue'
+        });
+        if (window.toast) window.toast.success(`${count} claims submitted for ${brand}`);
+    } catch (err) {
+        console.error('Submit claims failed:', err);
+        if (window.toast) window.toast.error('Failed to submit claims');
+    }
+};
+
+// Download scheme transactions as CSV
+window._downloadSchemeCSV = (brand) => {
+    const cache = window.getCache ? window.getCache() : { sales: [] };
+    const transactions = (cache.sales || []).filter(s => {
+        const productName = s.product_name || '';
+        return productName.toLowerCase().includes(brand.toLowerCase());
+    });
+
+    if (transactions.length === 0) {
+        if (window.toast) window.toast.error('No transactions to export');
+        return;
+    }
+
+    const headers = ['Order ID', 'Date', 'Customer', 'Product', 'Amount', 'IMEI'];
+    const rows = transactions.map(t => [
+        t.id,
+        new Date(t.date).toLocaleDateString(),
+        t.customer_name || '',
+        t.product_name || '',
+        t.total_amount || t.total || '',
+        t.imei || 'N/A'
+    ]);
+
+    const csv = [headers.join(','), ...rows.map(r => r.map(v => `"${v}"`).join(','))].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${brand}_scheme_transactions.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    if (window.toast) window.toast.success('CSV downloaded');
+};
+
+export function renderSchemeDetails(mode) {
+    const isMobile = mode === 'mobile';
+
+    const activeScheme = state.activeScheme;
+    if (!activeScheme) return `<div class="p-10 text-center">Select a scheme to view details</div>`;
+
+    const cache = window.getCache ? window.getCache() : { sales: [] };
+    // Filter sales that match the scheme's brand (simple logic for now)
+    const transactions = (cache.sales || []).filter(s => {
+        const productName = s.product_name || '';
+        const brand = (typeof activeScheme === 'object' && activeScheme.brand) ? activeScheme.brand : '';
+        return productName.includes(brand) ||
+            (s.items && s.items.some(i => (i.name || '').includes(brand)));
+    });
+
+    const brand = (typeof activeScheme === 'object' && activeScheme.brand) ? activeScheme.brand : activeScheme;
+    const schemeName = (typeof activeScheme === 'object' && activeScheme.name) ? activeScheme.name : 'Scheme';
+    const payout = (typeof activeScheme === 'object' && activeScheme.payout) ? activeScheme.payout : '0';
+    const endDate = (typeof activeScheme === 'object' && activeScheme.end_date) ? activeScheme.end_date : new Date();
+
+    const activeMetrics = {
+        count: transactions.length,
+        growth: '+0%', // Placeholder logic
+        color: 'bg-slate-950'
+    };
+
+    return `
+        <div class="h-full flex flex-col bg-white animate-slide-up relative text-left">
+            <header class="p-6 pb-4 shrink-0 flex items-center justify-between border-b border-slate-50 text-left">
+                <div class="flex items-center gap-3 text-left">
+                     <button onclick="${isMobile ? 'toggleSchemeDetails(false)' : 'setApp(\'launcher\')'}" class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-900 bg-slate-50 rounded-full text-left">
+                        <span class="material-icons-outlined text-lg text-left">arrow_back</span>
+                    </button>
+                    <h2 class="text-sm font-black text-slate-900 tracking-tight text-left">Scheme Details</h2>
+                </div>
+                <button class="w-8 h-8 flex items-center justify-center text-slate-400 text-left"><span class="material-icons-outlined text-lg text-left">more_vert</span></button>
+            </header>
+
+            <div class="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar pb-32 text-left">
+                <!-- Scheme Header Card -->
+                <div class="card p-5 border-slate-100 shadow-sm space-y-6 text-left">
+                    <div class="flex items-center gap-3 text-left">
+                         <div class="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center border border-slate-100 text-left">
+                            <span class="material-icons-outlined text-slate-400 text-left">devices</span>
+                        </div>
+                        <div class="text-left">
+                            <p class="text-[8px] font-bold text-slate-300 uppercase tracking-widest leading-none mb-1 text-left">BRAND: ${brand.toUpperCase()}</p>
+                            <h3 class="text-sm font-black text-slate-900 text-left">${schemeName}</h3>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 text-left">
+                         <div class="bg-slate-50 border border-slate-100 rounded-xl p-3 text-left">
+                            <p class="text-[8px] font-bold text-slate-300 uppercase tracking-widest mb-1 text-left">PAYOUT</p>
+                            <p class="text-[11px] font-black text-slate-900 text-left">₹${parseInt(payout).toLocaleString()}</p>
+                        </div>
+                         <div class="bg-slate-50 border border-slate-100 rounded-xl p-3 text-left">
+                            <p class="text-[8px] font-bold text-slate-300 uppercase tracking-widest mb-1 text-left">VALID UNTIL</p>
+                            <p class="text-[11px] font-black text-slate-900 text-left">${new Date(endDate).toLocaleDateString()}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Metrics -->
+                <div class="${activeMetrics.color} rounded-[32px] p-6 text-white relative overflow-hidden text-left">
+                    <p class="text-[8px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2 text-left">TOTAL ORDERS UNDER SCHEME</p>
+                    <div class="flex items-end gap-3 text-left">
+                        <h2 class="text-5xl font-black tracking-tighter text-left">${activeMetrics.count}</h2>
+                        <p class="text-[10px] font-bold text-slate-900 mb-2 text-left">${activeMetrics.growth} this week</p>
+                    </div>
+                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-white/5 rounded-full text-left"></div>
+                </div>
+
+                <!-- Transactions -->
+                <div class="space-y-4 text-left">
+                    <div class="flex items-center justify-between px-1 text-left">
+                        <h3 class="text-[9px] font-black text-slate-400 uppercase tracking-widest text-left">Recent Transactions</h3>
+                         <button onclick="window._downloadSchemeCSV('${brand}')" class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:text-slate-900 shadow-sm border border-slate-100 text-left">
+                            <span class="material-icons-outlined text-lg text-left">download</span>
+                        </button>
+                    </div>
+
+                    <div class="space-y-3 text-left">
+                        ${transactions.length === 0 ? `
+                            <div class="p-8 text-center opacity-30">
+                                <p class="text-[10px] font-black uppercase tracking-widest">No qualifying sales found</p>
+                            </div>
+                        ` : transactions.map(t => `
+                            <div class="card p-4 border-slate-100 hover:border-slate-300 transition-all cursor-pointer text-left">
+                                <div class="flex justify-between items-start mb-2 text-left">
+                                    <div class="text-left">
+                                        <p class="text-[7px] font-bold text-slate-300 uppercase tracking-widest mb-1 text-left">ORDER ID</p>
+                                        <p class="text-xs font-black text-slate-900 text-left">${t.id}</p>
+                                    </div>
+                                     <div class="text-right">
+                                        <p class="text-[7px] font-bold text-slate-300 uppercase tracking-widest mb-1 text-right">DATE</p>
+                                        <p class="text-[10px] font-black text-slate-900 text-right">${new Date(t.date).toLocaleDateString()}</p>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-end pt-3 border-t border-slate-50 text-left">
+                                    <div class="text-left">
+                                        <p class="text-[7px] font-bold text-slate-300 uppercase tracking-widest mb-1 text-left">MODEL</p>
+                                        <p class="text-[10px] font-bold text-slate-500 text-left">${t.product_name}</p>
+                                    </div>
+                                     <div class="text-right">
+                                        <p class="text-[7px] font-bold text-slate-300 uppercase tracking-widest mb-1 text-right">IMEI</p>
+                                        <p class="text-[9px] font-bold text-slate-400 tracking-wider text-right">${t.imei || 'N/A'}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sticky Footer Action -->
+            <div class="p-6 border-t border-slate-100 bg-white/80 backdrop-blur-md sticky bottom-0 z-20 text-center">
+                <button onclick="window._submitSchemeClaims('${brand}', ${transactions.length})" class="w-full py-4 bg-slate-950 text-white rounded-2xl text-[11px] font-black uppercase tracking-widest shadow-2xl flex items-center justify-center gap-3 group overflow-hidden relative text-center">
+                     <span class="relative z-10 text-center">SUBMIT ALL ${transactions.length} CLAIMS</span>
+                     <span class="material-icons-outlined text-sm relative z-10 transition-transform group-hover:translate-x-1 text-center">send</span>
+                     <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                </button>
+                <p class="text-[7px] font-bold text-slate-400 uppercase text-center mt-3 tracking-widest">COMPILING REPORT FOR ${brand.toUpperCase()} SETTLEMENT</p>
+            </div>
+        </div>
+    `;
+}

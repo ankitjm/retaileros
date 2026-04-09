@@ -1,72 +1,97 @@
-import 'dotenv/config'
-import express from 'express'
-import helmet from 'helmet'
-import { fileURLToPath } from 'url'
-import { dirname, join } from 'path'
-import { authRouter } from './routes/auth.js'
-import { retailerRouter } from './routes/retailers.js'
-import { inventoryRouter } from './routes/inventory.js'
-import { salesRouter } from './routes/sales.js'
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import cron from 'node-cron';
+import { createRequire } from 'module';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
+import { authRouter } from './routes/auth.js';
+import { dbRouter } from './routes/db.js';
+import { whatsappRouter } from './routes/whatsapp.js';
+import { whatsappOwnRouter } from './routes/whatsapp-own.js';
+import { openaiRouter } from './routes/openai.js';
+import { newsRouter } from './routes/news.js';
+import { apiKeysRouter } from './routes/api-keys.js';
+import { publicApiRouter } from './routes/public-api.js';
+import { restoreAllSessions } from './lib/whatsapp-manager.js';
+import { initSchema } from './db/client.js';
+import { fetchAndCacheNews, fetchIfStale } from './lib/news-fetcher.js';
 
-const app = express()
-const PORT = process.env.PORT || 3001
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// P1 fix: helmet enables CSP + 9 other security headers (was disabled in old server/index.js line 29)
-app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
-        imgSrc: ["'self'", 'data:', 'https:'],
-        connectSrc: ["'self'"],
-        fontSrc: ["'self'"],
-        objectSrc: ["'none'"],
-        mediaSrc: ["'self'"],
-        frameSrc: ["'none'"],
-        upgradeInsecureRequests: [],
-      },
+const app = express();
+
+// Security headers
+app.use(helmet({
+    contentSecurityPolicy: false // Vite SPA handles its own CSP
+}));
+
+// Security: lock CORS to frontend origins
+const allowedOrigins = (process.env.FRONTEND_ORIGIN || 'http://localhost:5173').split(',').map(s => s.trim());
+app.use(cors({
+    origin: (origin, cb) => {
+        if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+        cb(new Error('CORS blocked'));
     },
-    crossOriginOpenerPolicy: { policy: 'same-origin' },
-    referrerPolicy: { policy: 'no-referrer' },
-  })
-)
+    credentials: true
+}));
 
-app.use(express.json({ limit: '50kb' }))
+app.use(express.json({ limit: '10mb' }));
 
-// Typed domain routes
-app.use('/api/auth', authRouter)
-app.use('/api/retailers', retailerRouter)
-app.use('/api/inventory', inventoryRouter)
-app.use('/api/sales', salesRouter)
+// Base path for Nginx reverse proxy (retaileros.in/app → Express)
+const BASE = '/app';
 
-// P0 fix: explicitly reject any raw SQL proxy paths — they must never exist
-app.use(['/api/query', '/api/mutate', '/api/sql', '/api/exec'], (_req, res) => {
-  res.status(404).json({ error: 'Not found' })
-})
+// API routes — mounted both at /api/* (dev) and /app/api/* (prod behind Nginx)
+function mountApi(prefix) {
+    app.use(`${prefix}/api/auth`, authRouter);
+    app.use(`${prefix}/api/news`, newsRouter);
+    app.use(`${prefix}/api/api-keys`, apiKeysRouter);
+    app.use(`${prefix}/api`, dbRouter);
+    app.use(`${prefix}/api/whatsapp/own`, whatsappOwnRouter);
+    app.use(`${prefix}/api/whatsapp`, whatsappRouter);
+    app.use(`${prefix}/api/openai`, openaiRouter);
+    app.get(`${prefix}/api/health`, (req, res) => {
+        res.json({ ok: true, ts: new Date().toISOString() });
+    });
+}
+mountApi('');     // /api/* — direct access & Vite dev proxy
+mountApi(BASE);  // /app/api/* — production behind Nginx
 
-// Serve robots.txt and sitemap.xml from public/ (must come before SPA catch-all)
-const publicPath = join(__dirname, '..', 'public')
-app.use(express.static(publicPath))
+// Public API v1 — external integrations (API key auth, not JWT)
+// Separate from the app API, no CORS restriction
+app.use('/v1', publicApiRouter);
+app.use(`${BASE}/v1`, publicApiRouter);
 
-// Serve built React SPA static files
-const distPath = join(__dirname, '..', 'dist')
-app.use(express.static(distPath))
+// Serve Vite build in production
+const distPath = join(__dirname, '../dist');
+app.use(`${BASE}`, express.static(distPath));
+app.use(express.static(distPath)); // fallback for direct access
+app.get(`${BASE}/*`, (req, res) => {
+    res.sendFile(join(distPath, 'index.html'));
+});
+app.get('*', (req, res) => {
+    res.sendFile(join(distPath, 'index.html'));
+});
 
-// SPA fallback: serve index.html for all non-API client-side routes
-app.get('*', (_req, res) => {
-  res.sendFile(join(distPath, 'index.html'))
-})
+const PORT = process.env.PORT || 3006;
 
-// Error handler — never leak stack traces to clients
-app.use((err, _req, res, _next) => {
-  console.error('Unhandled error:', err.message)
-  res.status(500).json({ error: 'Internal server error' })
-})
+(async () => {
+    await initSchema();
+    app.listen(PORT, () => {
+        console.log(`RetailerOS PRODUCTION server running on port ${PORT}`);
+        console.log(`Frontend origins: ${allowedOrigins.join(', ')}`);
+        // Reconnect any retailers who were linked before server restart
+        restoreAllSessions().catch(e => console.warn('[WA] restoreAllSessions error:', e.message));
+        // Seed news cache on startup if empty or stale
+        fetchIfStale().catch(e => console.warn('[News] Startup fetch error:', e.message));
+    });
 
-app.listen(PORT, () => {
-  console.log(`RetailerOS API running on port ${PORT} (${process.env.NODE_ENV ?? 'development'})`)
-})
+    // Daily 8:00 AM IST — fetch fresh consumer electronics news
+    cron.schedule('0 8 * * *', () => {
+        fetchAndCacheNews().catch(e => console.warn('[News] Cron fetch error:', e.message));
+    }, { timezone: 'Asia/Kolkata' });
+
+    console.log('[News] Cron scheduled: daily 8:00 AM IST');
+})();
