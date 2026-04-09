@@ -45,7 +45,6 @@ import {
   Bot,
   Rocket
 } from "lucide-react";
-import GSTBillingModule from "./components/GSTBillingModule";
 
 // --- Custom Hooks ---
 
@@ -474,7 +473,212 @@ const FeaturesCarousel = () => {
   );
 };
 
-const Hero = ({ onSell, onScheme }: { onSell: (phone: any) => void, onScheme: (phone: any) => void }) => {
+const InlineSchemeView = ({ phone, onClose }: { phone: any; onClose: () => void }) => {
+  const schemes = phone.schemes.split('|').map((s: string) => s.trim());
+  return (
+    <motion.div
+      key="schemes"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 10 }}
+      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      className="w-full max-w-2xl mx-auto rounded-2xl md:rounded-3xl border border-slate-200/50 shadow-xl overflow-hidden bg-white"
+    >
+      {/* Mac-style chrome bar */}
+      <div className="bg-slate-900 px-4 py-2.5 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="flex gap-1.5">
+            <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
+            <div className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
+            <div className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
+          </div>
+          <div className="flex items-center gap-1.5">
+            <Layout className="w-3 h-3 text-white/40" />
+            <span className="text-[9px] font-black text-white/40 uppercase tracking-[0.2em]">Inside RetailerOS — Scheme Manager</span>
+          </div>
+        </div>
+        <button onClick={onClose} className="p-1 rounded hover:bg-white/10 transition-colors">
+          <X className="w-3.5 h-3.5 text-white/50" />
+        </button>
+      </div>
+
+      {/* Sub-header */}
+      <div className="bg-slate-50 border-b border-slate-100 px-5 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-emerald-100 rounded-xl flex items-center justify-center">
+            <Percent className="w-4 h-4 text-emerald-600" />
+          </div>
+          <div>
+            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Scheme Manager</p>
+            <p className="text-xs font-black text-slate-900">{phone.brand} {phone.model}</p>
+          </div>
+        </div>
+        <span className="px-2.5 py-1 bg-emerald-50 text-emerald-700 text-[9px] font-bold rounded-full border border-emerald-100 uppercase tracking-wide">{phone.stock} in stock</span>
+      </div>
+
+      {/* Scheme cards */}
+      <div className="p-5 space-y-3">
+        <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Active Manufacturer Offers</p>
+        {schemes.map((scheme: string, i: number) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: i * 0.08 }}
+            className="flex items-start gap-3 p-3.5 bg-gradient-to-r from-emerald-50 to-white border border-emerald-100/80 rounded-xl"
+          >
+            <div className="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center shrink-0 mt-0.5 shadow-sm shadow-emerald-200">
+              <CheckCircle2 className="w-3.5 h-3.5 text-white" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-slate-900 leading-snug">{scheme}</p>
+              <p className="text-[10px] text-emerald-600 font-semibold mt-0.5">Valid till month end</p>
+            </div>
+          </motion.div>
+        ))}
+
+        <div className="pt-2 pb-1 flex items-center gap-2 text-[9px] font-bold text-slate-400 uppercase tracking-widest">
+          <div className="flex-1 h-px bg-slate-100" />
+          <span>MRP</span>
+          <span className="text-slate-900 text-sm font-black">{phone.price}</span>
+          <div className="flex-1 h-px bg-slate-100" />
+        </div>
+      </div>
+
+      {/* Footer actions */}
+      <div className="px-5 pb-5 flex gap-3">
+        <button
+          onClick={onClose}
+          className="flex-1 py-2.5 bg-slate-50 hover:bg-slate-100 text-slate-600 font-black rounded-xl text-[9px] uppercase tracking-widest transition-all border border-slate-100"
+        >
+          ← Back
+        </button>
+        <button className="flex-[2] py-2.5 bg-slate-900 hover:bg-brand text-white font-black rounded-xl text-[9px] uppercase tracking-widest transition-all shadow-lg shadow-slate-900/10 active:scale-95">
+          Apply &amp; Sell Now
+        </button>
+      </div>
+    </motion.div>
+  );
+};
+
+const InlineInvoiceView = ({ phone, onClose }: { phone: any; onClose: () => void }) => {
+  const [invoiceNum] = useState(() => `ROS-${Math.floor(10000 + Math.random() * 90000)}`);
+  const today = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+  const raw = parseFloat(phone.price.replace(/[₹,]/g, ''));
+  const base = Math.round(raw / 1.18);
+  const cgst = Math.round((raw - base) / 2);
+  const sgst = cgst;
+
+  return (
+    <motion.div
+      key="invoice"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 10 }}
+      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      className="w-full max-w-2xl mx-auto rounded-2xl md:rounded-3xl border border-slate-200/50 shadow-xl overflow-hidden bg-white"
+    >
+      {/* Mac-style chrome bar */}
+      <div className="bg-slate-900 px-4 py-2.5 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="flex gap-1.5">
+            <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
+            <div className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
+            <div className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
+          </div>
+          <div className="flex items-center gap-1.5">
+            <Layout className="w-3 h-3 text-white/40" />
+            <span className="text-[9px] font-black text-white/40 uppercase tracking-[0.2em]">Inside RetailerOS — Billing</span>
+          </div>
+        </div>
+        <button onClick={onClose} className="p-1 rounded hover:bg-white/10 transition-colors">
+          <X className="w-3.5 h-3.5 text-white/50" />
+        </button>
+      </div>
+
+      {/* Invoice header */}
+      <div className="bg-slate-50 border-b border-slate-100 px-5 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-slate-900 rounded-xl flex items-center justify-center shadow-md">
+            <Receipt className="w-4 h-4 text-white" />
+          </div>
+          <div>
+            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Sales Invoice</p>
+            <p className="text-xs font-black text-slate-900">{invoiceNum}</p>
+          </div>
+        </div>
+        <div className="text-right">
+          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Date</p>
+          <p className="text-xs font-black text-slate-900">{today}</p>
+        </div>
+      </div>
+
+      {/* Item table */}
+      <div className="p-5 space-y-4">
+        <div className="border border-slate-100 rounded-xl overflow-hidden">
+          <div className="grid grid-cols-12 gap-1 px-4 py-2 bg-slate-50 text-[9px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">
+            <span className="col-span-6">Item</span>
+            <span className="col-span-2 text-center">Qty</span>
+            <span className="col-span-2 text-right">Base</span>
+            <span className="col-span-2 text-right">Total</span>
+          </div>
+          <div className="grid grid-cols-12 gap-1 px-4 py-3 items-center">
+            <div className="col-span-6">
+              <p className="text-xs font-black text-slate-900">{phone.model}</p>
+              <p className="text-[9px] font-bold text-slate-400">{phone.brand} · GST @18%</p>
+            </div>
+            <span className="col-span-2 text-center text-xs font-black text-slate-700">1</span>
+            <span className="col-span-2 text-right text-xs font-black text-slate-600">₹{base.toLocaleString('en-IN')}</span>
+            <span className="col-span-2 text-right text-xs font-black text-slate-900">{phone.price}</span>
+          </div>
+        </div>
+
+        {/* GST breakdown */}
+        <div className="space-y-2 px-1">
+          {[['CGST @9%', `₹${cgst.toLocaleString('en-IN')}`], ['SGST @9%', `₹${sgst.toLocaleString('en-IN')}`]].map(([label, value]) => (
+            <div key={label} className="flex justify-between text-[10px] font-bold text-slate-400">
+              <span>{label}</span><span>{value}</span>
+            </div>
+          ))}
+          <div className="flex justify-between text-sm font-black text-slate-900 pt-2 border-t border-slate-100 mt-2">
+            <span>Total Payable</span><span>{phone.price}</span>
+          </div>
+        </div>
+
+        {/* Customer placeholder */}
+        <div className="bg-slate-50 rounded-xl px-4 py-3 flex items-center gap-3 border border-slate-100">
+          <Users className="w-4 h-4 text-slate-400 shrink-0" />
+          <div>
+            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Walk-in Customer</p>
+            <p className="text-xs font-bold text-slate-600">Cash Sale · No GST Invoice</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="px-5 pb-5 flex gap-3">
+        <button
+          onClick={onClose}
+          className="flex-1 py-2.5 bg-slate-50 hover:bg-slate-100 text-slate-600 font-black rounded-xl text-[9px] uppercase tracking-widest transition-all border border-slate-100"
+        >
+          ← Back
+        </button>
+        <button className="flex-[2] py-2.5 bg-brand text-white font-black rounded-xl text-[9px] uppercase tracking-widest transition-all shadow-lg shadow-brand/20 active:scale-95 flex items-center justify-center gap-2">
+          <FileText className="w-3 h-3" /> Print Invoice
+        </button>
+      </div>
+    </motion.div>
+  );
+};
+
+const Hero = () => {
+  const [activePanel, setActivePanel] = useState<null | 'scheme' | 'invoice'>(null);
+  const [selectedPhone, setSelectedPhone] = useState<any>(null);
+
+  const handleSell = (phone: any) => { setSelectedPhone(phone); setActivePanel('invoice'); };
+  const handleScheme = (phone: any) => { setSelectedPhone(phone); setActivePanel('scheme'); };
+  const handleClose = () => { setActivePanel(null); };
+
   return (
     <section className="relative h-[100vh] flex flex-col justify-center overflow-hidden bg-white">
       {/* Dynamic Background Elements */}
@@ -549,15 +753,24 @@ const Hero = ({ onSell, onScheme }: { onSell: (phone: any) => void, onScheme: (p
           </motion.div>
         </div>
 
-        <div className="relative perspective-1000">
-          <motion.div
-            initial={{ opacity: 0, rotateY: 15, rotateX: 5 }}
-            animate={{ opacity: 1, rotateY: 0, rotateX: 0 }}
-            transition={{ duration: 1.2, delay: 0.4 }}
-            className="preserve-3d"
-          >
-            <InteractiveStore onSell={onSell} onScheme={onScheme} />
-          </motion.div>
+        <div className="relative">
+          <AnimatePresence mode="wait">
+            {activePanel === null ? (
+              <motion.div
+                key="store"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <InteractiveStore onSell={handleSell} onScheme={handleScheme} />
+              </motion.div>
+            ) : activePanel === 'scheme' ? (
+              <InlineSchemeView phone={selectedPhone} onClose={handleClose} />
+            ) : (
+              <InlineInvoiceView phone={selectedPhone} onClose={handleClose} />
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </section>
@@ -1008,26 +1221,12 @@ const Footer = () => {
 };
 
 export default function App() {
-  const [isBillingOpen, setIsBillingOpen] = useState(false);
-  const [isSchemeOpen, setIsSchemeOpen] = useState(false);
-  const [prefilledPhone, setPrefilledPhone] = useState<any>(null);
-
-  const handleSell = (phone: any) => {
-    setPrefilledPhone(phone);
-    setIsBillingOpen(true);
-  };
-
-  const handleScheme = (phone: any) => {
-    setPrefilledPhone(phone);
-    setIsSchemeOpen(true);
-  };
-
   return (
     <div className="min-h-screen selection:bg-brand/20 bg-white overflow-x-hidden relative">
-        <Navbar onNavigate={(view) => view === 'billing' ? setIsBillingOpen(true) : setIsBillingOpen(false)} />
-        
+        <Navbar onNavigate={() => {}} />
+
         <main className="pt-16">
-          <Hero onSell={handleSell} onScheme={handleScheme} />
+          <Hero />
           <TrustSection />
           <BentoFeatures />
           <FeaturesCarousel />
@@ -1036,141 +1235,6 @@ export default function App() {
           <CTASection />
         <Footer />
       </main>
-
-      {/* Side Drawer Billing Module */}
-      <AnimatePresence>
-        {isBillingOpen && (
-          <>
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsBillingOpen(false)}
-              className="fixed inset-0 bg-slate-900/30 backdrop-blur-md z-[100]"
-            />
-            <motion.div 
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 h-full w-full max-w-2xl bg-white shadow-[0_0_60px_rgba(0,0,0,0.1)] z-[110] overflow-y-auto"
-            >
-              <div className="sticky top-0 bg-white z-10 p-4 border-b border-slate-100 flex justify-between items-center">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center justify-center">
-                    <Receipt className="w-4 h-4 text-white" />
-                  </div>
-                  <h2 className="text-sm font-black uppercase tracking-widest text-slate-900">Billing Intelligence</h2>
-                </div>
-                <button 
-                  onClick={() => setIsBillingOpen(false)}
-                  className="p-2 hover:bg-slate-100 rounded-full transition-colors"
-                >
-                  <X className="w-6 h-6 text-slate-400" />
-                </button>
-              </div>
-              <div className="p-6">
-                <GSTBillingModule prefilledPhone={prefilledPhone} />
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-
-      {/* Side Drawer Live Scheme Module */}
-      <AnimatePresence>
-        {isSchemeOpen && (
-          <>
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsSchemeOpen(false)}
-              className="fixed inset-0 bg-slate-900/30 backdrop-blur-md z-[100]"
-            />
-            <motion.div 
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 h-full w-full max-w-sm md:max-w-md bg-white shadow-[0_0_60px_rgba(0,0,0,0.1)] z-[110] overflow-y-auto border-l border-slate-100"
-            >
-              <div className="sticky top-0 bg-white/80 backdrop-blur-xl z-20 p-5 border-b border-slate-100 flex justify-between items-center">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 md:w-10 md:h-10 bg-emerald-50 rounded-xl flex items-center justify-center border border-emerald-100">
-                    <Percent className="w-4 h-4 md:w-5 md:h-5 text-emerald-600" />
-                  </div>
-                  <div>
-                     <h2 className="text-sm font-black uppercase tracking-widest text-slate-900 leading-tight">Live Schemes</h2>
-                     <p className="text-[10px] md:text-xs font-bold text-slate-400">Available Offers</p>
-                  </div>
-                </div>
-                <button 
-                  onClick={() => setIsSchemeOpen(false)}
-                  className="p-2 hover:bg-slate-100 rounded-full transition-colors active:scale-95"
-                >
-                  <X className="w-5 h-5 md:w-6 md:h-6 text-slate-400" />
-                </button>
-              </div>
-
-              {prefilledPhone && (
-                <div className="p-6 md:p-8 space-y-8 pb-32">
-                  <div className="flex items-center gap-6 pb-8 border-b border-slate-100">
-                    <div className="w-20 h-32 md:w-24 md:h-40 rounded-2xl overflow-hidden border border-slate-100 shadow-xl shadow-slate-200/50 shrink-0">
-                      <img src={prefilledPhone.img} className="w-full h-full object-cover" alt={prefilledPhone.model} crossOrigin="anonymous" />
-                    </div>
-                    <div className="space-y-2">
-                       <p className="text-xs font-black text-brand uppercase tracking-widest">{prefilledPhone.brand}</p>
-                       <p className="text-xl md:text-2xl font-black text-slate-900 leading-tight">{prefilledPhone.model}</p>
-                       <p className="text-sm md:text-base font-bold text-slate-500">{prefilledPhone.price}</p>
-                    </div>
-                  </div>
-
-                  <div className="space-y-4">
-                     <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Active Manufacturer Offers</p>
-                     
-                     <div className="space-y-3">
-                        {prefilledPhone.schemes.split('|').map((scheme: string, i: number) => (
-                          <div key={i} className="bg-gradient-to-r from-emerald-50/50 to-emerald-100/30 border border-emerald-100 rounded-2xl p-4 md:p-5 flex gap-4">
-                             <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
-                                <CheckCircle2 className="w-4 h-4" />
-                             </div>
-                             <div>
-                                <p className="text-sm md:text-base font-bold text-emerald-900 leading-snug">{scheme.trim()}</p>
-                                <p className="text-[10px] md:text-xs font-semibold text-emerald-600 mt-1">Valid till month end</p>
-                             </div>
-                          </div>
-                        ))}
-                     </div>
-                  </div>
-
-                  {/* Apply Button at bottom */}
-                  <div className="fixed bottom-0 right-0 w-full md:w-auto md:max-w-md bg-white border-t border-slate-100 p-4 md:p-6 shadow-[0_-20px_40px_rgba(0,0,0,0.05)] z-20">
-                     <button 
-                       onClick={() => {
-                          setIsSchemeOpen(false);
-                          setIsBillingOpen(true);
-                       }}
-                       className="w-full py-4 text-white bg-slate-900 hover:bg-brand font-black rounded-xl uppercase tracking-widest text-xs transition-all shadow-xl shadow-slate-900/10 active:scale-95"
-                     >
-                       Apply & Sell Now
-                     </button>
-                  </div>
-                </div>
-              )}
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-      
-      {/* Floating Action Button */}
-      <button 
-        onClick={() => setIsBillingOpen(true)}
-        className="fixed bottom-8 right-8 w-13 h-13 bg-brand text-white rounded-full shadow-lg shadow-brand/25 flex items-center justify-center hover:scale-110 hover:shadow-xl hover:shadow-brand/30 transition-all duration-300 z-50 group"
-      >
-        <Receipt className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
-        <div className="absolute -top-1 -right-1 w-4.5 h-4.5 bg-red-500 rounded-full border-2 border-white flex items-center justify-center text-[9px] font-bold">1</div>
-      </button>
 
 
     </div>
