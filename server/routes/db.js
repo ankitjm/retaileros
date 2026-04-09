@@ -20,11 +20,14 @@ const GLOBAL_TABLES = new Set([
     'store_order_items'
 ]);
 
-// All allowed tables
+// All allowed tables — only tables in this set may be queried
 const ALLOWED_TABLES = new Set([...TENANT_TABLES, ...GLOBAL_TABLES]);
 
 // Sensitive tables that should never be queried directly
 const BLOCKED_TABLES = new Set(['otp_sessions', 'approved_retailers', 'api_keys']);
+
+// Max SQL length — prevents oversized payloads
+const MAX_SQL_LENGTH = 8000;
 
 /**
  * Extract the primary table from a SQL statement (simple heuristic).
@@ -53,6 +56,17 @@ function extractTable(sql) {
 }
 
 /**
+ * Detect stacked/multi-statement SQL.
+ * Rejects any SQL that contains a semicolon followed by non-whitespace content,
+ * which is the signature of statement stacking (e.g. `SELECT 1; DROP TABLE x`).
+ */
+function hasMultipleStatements(sql) {
+    // Strip string literals to avoid false positives on semicolons inside strings
+    const stripped = sql.replace(/'[^']*'/g, "''").replace(/"[^"]*"/g, '""');
+    return /;[\s\S]*\S/.test(stripped);
+}
+
+/**
  * POST /api/query
  * { sql: "SELECT ...", args: [] }
  * Read-only queries with tenant isolation
@@ -62,6 +76,14 @@ router.post('/query', requireAuth, async (req, res) => {
 
     if (!sql || typeof sql !== 'string') {
         return res.status(400).json({ error: 'sql is required' });
+    }
+
+    if (sql.length > MAX_SQL_LENGTH) {
+        return res.status(400).json({ error: 'SQL statement too long' });
+    }
+
+    if (hasMultipleStatements(sql)) {
+        return res.status(400).json({ error: 'Multiple statements are not allowed' });
     }
 
     // Block write operations
@@ -76,12 +98,17 @@ router.post('/query', requireAuth, async (req, res) => {
         return res.status(403).json({ error: 'Access denied to this table' });
     }
 
+    // Enforce allowlist — only known app tables may be queried
+    if (table && !ALLOWED_TABLES.has(table)) {
+        return res.status(403).json({ error: 'Access denied to this table' });
+    }
+
     try {
         const translated = translateSQL(sql);
         const result = await pool.query(translated, args);
         res.json({ rows: result.rows });
     } catch (err) {
-        console.error('[DB Query Error]', err.message, '| SQL:', sql);
+        console.error('[DB Query Error]', err.message);
         res.status(500).json({ error: 'Query failed' });
     }
 });
@@ -96,6 +123,14 @@ router.post('/mutate', requireAuth, async (req, res) => {
 
     if (!sql || typeof sql !== 'string') {
         return res.status(400).json({ error: 'sql is required' });
+    }
+
+    if (sql.length > MAX_SQL_LENGTH) {
+        return res.status(400).json({ error: 'SQL statement too long' });
+    }
+
+    if (hasMultipleStatements(sql)) {
+        return res.status(400).json({ error: 'Multiple statements are not allowed' });
     }
 
     // Block DDL
@@ -129,7 +164,7 @@ router.post('/mutate', requireAuth, async (req, res) => {
         const result = await pool.query(translated, args);
         res.json({ changes: result.rowCount, lastInsertRowid: null });
     } catch (err) {
-        console.error('[DB Mutate Error]', err.message, '| SQL:', sql);
+        console.error('[DB Mutate Error]', err.message);
         res.status(500).json({ error: 'Mutation failed' });
     }
 });
@@ -150,17 +185,27 @@ router.post('/batch', requireAuth, async (req, res) => {
 
     // Validate all statements before executing
     for (const stmt of statements) {
-        const upper = (stmt.sql || '').trim().toUpperCase();
+        const stmtSql = stmt.sql || '';
+
+        if (stmtSql.length > MAX_SQL_LENGTH) {
+            return res.status(400).json({ error: 'SQL statement too long' });
+        }
+
+        if (hasMultipleStatements(stmtSql)) {
+            return res.status(400).json({ error: 'Multiple statements are not allowed' });
+        }
+
+        const upper = stmtSql.trim().toUpperCase();
         if (/^(DROP|CREATE|ALTER)\b/.test(upper)) {
             return res.status(400).json({ error: 'DDL not allowed in batch' });
         }
 
-        const table = extractTable(stmt.sql || '');
+        const table = extractTable(stmtSql);
         if (table && BLOCKED_TABLES.has(table)) {
             return res.status(403).json({ error: 'Access denied to this table' });
         }
 
-        if (jwtRetailerId && /retailer_id/i.test(stmt.sql || '')) {
+        if (jwtRetailerId && /retailer_id/i.test(stmtSql)) {
             const foreignId = (stmt.args || []).find(a =>
                 typeof a === 'string' &&
                 a.length > 4 &&

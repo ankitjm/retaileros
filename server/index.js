@@ -23,6 +23,10 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 
+// Trust the first proxy (Nginx) so req.ip returns the real client IP
+// Required for IP-based rate limiting to work correctly in production
+app.set('trust proxy', 1);
+
 // Security headers
 app.use(helmet({
     contentSecurityPolicy: false // Vite SPA handles its own CSP

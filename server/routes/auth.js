@@ -1,9 +1,16 @@
 import { Router } from 'express';
 import jwt from 'jsonwebtoken';
+import { randomUUID } from 'crypto';
 import db from '../db/client.js';
-import { otpRateLimit } from '../middleware/ratelimit.js';
+import { otpRateLimit, verifyRateLimit, loginRateLimit } from '../middleware/ratelimit.js';
+import { requireAuth } from '../middleware/auth.js';
+import { revokeToken } from '../lib/token-revocation.js';
 
 const router = Router();
+
+// JWT expiry — 7 days (down from 30d; balances usability with security)
+const JWT_EXPIRY = '7d';
+const JWT_EXPIRY_MS = 7 * 24 * 60 * 60 * 1000;
 
 // Generate a 6-digit OTP
 function generateOtp() {
@@ -54,13 +61,15 @@ async function sendOtpViaWati(mobile, otp) {
     return { sent: true, data };
 }
 
-// Issue JWT for a retailer
+// Issue JWT for a retailer — includes jti for revocation support
 function issueToken(retailerId, retailerName) {
-    return jwt.sign(
-        { retailer_id: retailerId, retailer_name: retailerName },
+    const jti = randomUUID();
+    const token = jwt.sign(
+        { retailer_id: retailerId, retailer_name: retailerName, jti },
         process.env.JWT_SECRET,
-        { expiresIn: '30d' }
+        { expiresIn: JWT_EXPIRY }
     );
+    return { token, jti };
 }
 
 /**
@@ -113,7 +122,7 @@ router.post('/otp', otpRateLimit, async (req, res) => {
  * { mobile: "9876543210", otp: "123456" }
  * Verifies OTP, creates/finds retailer, returns JWT
  */
-router.post('/verify', async (req, res) => {
+router.post('/verify', verifyRateLimit, async (req, res) => {
     const { mobile, otp } = req.body;
 
     if (!mobile || !otp) {
@@ -188,7 +197,7 @@ router.post('/verify', async (req, res) => {
         retailer = await db.prepare(`SELECT * FROM retailers WHERE id = ?`).get(retailerId);
     }
 
-    const token = issueToken(retailer.id, retailer.retailer_name || retailer.contact_person || 'Retailer');
+    const { token } = issueToken(retailer.id, retailer.retailer_name || retailer.contact_person || 'Retailer');
 
     res.json({
         token,
@@ -203,7 +212,7 @@ router.post('/verify', async (req, res) => {
  * { store_code: "ROS-20260224-0001" }
  * Code-based login (alternative to OTP)
  */
-router.post('/login', async (req, res) => {
+router.post('/login', loginRateLimit, async (req, res) => {
     const { store_code } = req.body;
 
     if (!store_code) {
@@ -218,7 +227,7 @@ router.post('/login', async (req, res) => {
         return res.status(403).json({ error: 'Invalid store code' });
     }
 
-    const token = issueToken(retailer.id, retailer.retailer_name || retailer.contact_person || 'Retailer');
+    const { token } = issueToken(retailer.id, retailer.retailer_name || retailer.contact_person || 'Retailer');
 
     res.json({
         token,
@@ -226,6 +235,20 @@ router.post('/login', async (req, res) => {
         retailer_code: retailer.retailer_code,
         retailer_name: retailer.retailer_name || retailer.contact_person || 'Retailer'
     });
+});
+
+/**
+ * POST /api/auth/logout
+ * Revokes the current JWT so it cannot be reused even before natural expiry.
+ * Requires a valid JWT in the Authorization header.
+ */
+router.post('/logout', requireAuth, (req, res) => {
+    const jti = req.token_jti;
+    if (jti) {
+        const expiresAt = Date.now() + JWT_EXPIRY_MS;
+        revokeToken(jti, expiresAt);
+    }
+    res.json({ ok: true });
 });
 
 /**
@@ -290,7 +313,7 @@ router.post('/demo', async (req, res) => {
         return res.status(404).json({ error: 'Demo retailer not found. Please seed the database.' });
     }
 
-    const token = issueToken(retailer.id, retailer.retailer_name || 'Demo Store');
+    const { token } = issueToken(retailer.id, retailer.retailer_name || 'Demo Store');
 
     res.json({
         token,
