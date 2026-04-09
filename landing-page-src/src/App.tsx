@@ -893,6 +893,9 @@ const OnboardingSection = () => {
     phone: '',
     stock: ''
   });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const steps = [
     {
@@ -925,8 +928,40 @@ const OnboardingSection = () => {
     return formData[id as keyof typeof formData].length > 0;
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.phone) {
+      setSubmitError('Mobile number is required.');
+      return;
+    }
+    setSubmitting(true);
+    setSubmitError('');
+    try {
+      const res = await fetch('/api/analytics/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.storeName || undefined,
+          phone: formData.phone,
+          store_type: formData.gstin ? 'gstin:' + formData.gstin : 'telecom_retailer',
+          city: formData.stock ? 'stock:' + formData.stock : undefined,
+          source: 'onboarding_form',
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Submission failed');
+      }
+      setSubmitted(true);
+    } catch (err: unknown) {
+      setSubmitError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
-    <section className="py-14 bg-white relative overflow-hidden">
+    <section id="inquiry" className="py-14 bg-white relative overflow-hidden">
       <div className="max-w-[1100px] mx-auto px-6 md:px-12">
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* Left Side: Steps */}
@@ -952,7 +987,7 @@ const OnboardingSection = () => {
               {steps.map((step, index) => {
                 const filled = isStepFilled(step.id);
                 return (
-                  <motion.div 
+                  <motion.div
                     key={step.id}
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
@@ -971,7 +1006,7 @@ const OnboardingSection = () => {
                       </h3>
                       <p className="text-slate-500 text-[11px] font-medium leading-relaxed max-w-xs">{step.description}</p>
                     </div>
-                    
+
                     {/* Connecting Line to the right (visible on desktop) */}
                     <div className={`hidden lg:block absolute left-12 top-[52px] h-px transition-all duration-700 origin-left ${
                       filled ? 'bg-primary w-[calc(100%+80px)] opacity-30' : 'bg-slate-100 w-0 opacity-0'
@@ -983,7 +1018,7 @@ const OnboardingSection = () => {
           </div>
 
           <div className="pt-0 lg:pt-12">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -991,59 +1026,84 @@ const OnboardingSection = () => {
             >
               <div className="absolute -top-6 -right-6 w-24 h-24 bg-primary/5 rounded-full blur-2xl" />
               <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-orange-500/5 rounded-full blur-3xl" />
-              
-              <form className="space-y-6 relative z-10">
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Store Name</label>
-                  <input 
-                    type="text"
-                    placeholder="e.g. Mobile World"
-                    className="w-full h-10 px-4 bg-white rounded-xl border border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/5 outline-none transition-all text-sm font-medium text-slate-900"
-                    value={formData.storeName}
-                    onChange={(e) => setFormData({...formData, storeName: e.target.value})}
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">GSTIN Number</label>
-                  <input 
-                    type="text"
-                    placeholder="22AAAAA0000A1Z5"
-                    className="w-full h-10 px-4 bg-white rounded-xl border border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/5 outline-none transition-all text-sm font-medium text-slate-900"
-                    value={formData.gstin}
-                    onChange={(e) => setFormData({...formData, gstin: e.target.value})}
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Mobile Number</label>
-                  <input 
-                    type="tel"
-                    placeholder="+91 98765 43210"
-                    className="w-full h-10 px-4 bg-white rounded-xl border border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/5 outline-none transition-all text-sm font-medium text-slate-900"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Initial Stock Count</label>
-                  <input 
-                    type="number"
-                    placeholder="Estimated units"
-                    className="w-full h-10 px-4 bg-white rounded-xl border border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/5 outline-none transition-all text-sm font-medium text-slate-900"
-                    value={formData.stock}
-                    onChange={(e) => setFormData({...formData, stock: e.target.value})}
-                  />
-                </div>
-                
-                <div className="pt-3">
+
+              {submitted ? (
+                <div className="relative z-10 flex flex-col items-center justify-center gap-4 py-8 text-center">
+                  <div className="w-14 h-14 rounded-full bg-emerald-50 flex items-center justify-center">
+                    <CheckCircle2 className="w-7 h-7 text-emerald-500" />
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-slate-900 font-bold text-base">We've got your details!</p>
+                    <p className="text-slate-500 text-sm font-medium">Our team will reach out to you shortly.</p>
+                  </div>
                   <a
                     href="/app/"
-                    className="w-full h-10 bg-primary text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-slate-800 transition-all shadow-md shadow-primary/15 group"
+                    className="mt-2 px-6 py-2.5 bg-primary text-white rounded-xl font-bold text-sm hover:bg-slate-800 transition-all shadow-md shadow-primary/15 inline-flex items-center gap-2 group"
                   >
-                    Get Started
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    Launch App
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </a>
                 </div>
-              </form>
+              ) : (
+                <form className="space-y-6 relative z-10" onSubmit={handleSubmit}>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Store Name</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Mobile World"
+                      className="w-full h-10 px-4 bg-white rounded-xl border border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/5 outline-none transition-all text-sm font-medium text-slate-900"
+                      value={formData.storeName}
+                      onChange={(e) => setFormData({...formData, storeName: e.target.value})}
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">GSTIN Number</label>
+                    <input
+                      type="text"
+                      placeholder="22AAAAA0000A1Z5"
+                      className="w-full h-10 px-4 bg-white rounded-xl border border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/5 outline-none transition-all text-sm font-medium text-slate-900"
+                      value={formData.gstin}
+                      onChange={(e) => setFormData({...formData, gstin: e.target.value})}
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Mobile Number <span className="text-primary">*</span></label>
+                    <input
+                      type="tel"
+                      placeholder="+91 98765 43210"
+                      required
+                      className="w-full h-10 px-4 bg-white rounded-xl border border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/5 outline-none transition-all text-sm font-medium text-slate-900"
+                      value={formData.phone}
+                      onChange={(e) => { setFormData({...formData, phone: e.target.value}); setSubmitError(''); }}
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Initial Stock Count</label>
+                    <input
+                      type="number"
+                      placeholder="Estimated units"
+                      className="w-full h-10 px-4 bg-white rounded-xl border border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/5 outline-none transition-all text-sm font-medium text-slate-900"
+                      value={formData.stock}
+                      onChange={(e) => setFormData({...formData, stock: e.target.value})}
+                    />
+                  </div>
+
+                  {submitError && (
+                    <p className="text-red-500 text-xs font-medium">{submitError}</p>
+                  )}
+
+                  <div className="pt-3">
+                    <button
+                      type="submit"
+                      disabled={submitting}
+                      className="w-full h-10 bg-primary text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-slate-800 transition-all shadow-md shadow-primary/15 group disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      {submitting ? 'Sending…' : 'Get Started'}
+                      {!submitting && <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />}
+                    </button>
+                  </div>
+                </form>
+              )}
             </motion.div>
           </div>
         </div>
