@@ -437,10 +437,10 @@ const FeatureCard = ({ feature }: { feature: any }) => {
 const FeaturesCarousel = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const features = [
-    { title: "Smart Alerts", description: "Real-time stock & payment notifications on your phone.", icon: Bell, iconBg: "bg-red-50", iconColor: "text-red-700", bullets: ["Low stock warnings", "Payment reminders"], visualText: "STAY ALERT", image: "https://images.unsplash.com/photo-1556656793-062ff98782ee?q=80&w=800&auto=format&fit=crop" },
-    { title: "Telecom CRM", description: "Manage customer profiles and phone purchase history.", icon: Users, iconBg: "bg-blue-50", iconColor: "text-blue-700", bullets: ["Customer loyalty", "History tracking"], visualText: "KNOW CLIENTS", image: "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?q=80&w=800&auto=format&fit=crop" },
+    { title: "Smart Alerts", description: "Real-time stock & payment notifications on your phone.", icon: Bell, iconBg: "bg-red-50", iconColor: "text-red-700", bullets: ["Low stock warnings", "Payment reminders"], visualText: "STAY ALERT", image: "/images/khosha-social-mockup.png" },
+    { title: "Telecom CRM", description: "Manage customer profiles and phone purchase history.", icon: Users, iconBg: "bg-blue-50", iconColor: "text-blue-700", bullets: ["Customer loyalty", "History tracking"], visualText: "KNOW CLIENTS", image: "/images/khosha-brand-mockup.png" },
     { title: "Trade Hub", description: "Seamlessly buy/sell stock with verified distributors.", icon: ArrowLeftRight, iconBg: "bg-indigo-50", iconColor: "text-indigo-700", bullets: ["B2B Marketplace", "Price analysis"], visualText: "TRADE HUB", image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=800&auto=format&fit=crop" },
-    { title: "WhatsApp Marketing", description: "Send automated stock updates to your local customers.", icon: Megaphone, iconBg: "bg-green-50", iconColor: "text-green-700", bullets: ["Auto-broadcast", "Campaign ROI"], visualText: "DRIVE SALES", image: "https://images.unsplash.com/photo-1611162617263-43c2c40faada?q=80&w=800&auto=format&fit=crop" }
+    { title: "WhatsApp Marketing", description: "Send automated stock updates to your local customers.", icon: Megaphone, iconBg: "bg-green-50", iconColor: "text-green-700", bullets: ["Auto-broadcast", "Campaign ROI"], visualText: "DRIVE SALES", image: "/images/khosha-social-mockup.png" }
   ];
 
   const scroll = (direction: 'left' | 'right') => {
