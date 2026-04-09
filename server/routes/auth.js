@@ -75,7 +75,7 @@ function issueToken(retailerId, retailerName) {
 /**
  * POST /api/auth/otp
  * { mobile: "9876543210" }
- * Checks if mobile is in approved_retailers, generates OTP, sends via WATI
+ * Generates OTP and sends via WATI — open to any valid mobile (no approval gate)
  */
 router.post('/otp', otpRateLimit, async (req, res) => {
     const { mobile } = req.body;
@@ -85,16 +85,8 @@ router.post('/otp', otpRateLimit, async (req, res) => {
     }
 
     const normalised = mobile.replace(/\D/g, '');
-    const short = normalised.length === 12 ? normalised.slice(2) : normalised;
 
-    // Check approved_retailers table
-    const approved = await db.prepare(
-        `SELECT * FROM approved_retailers WHERE mobile_number IN (?, ?, ?) LIMIT 1`
-    ).get(normalised, short, '91' + short);
-
-    if (!approved) {
-        return res.status(403).json({ error: 'Mobile number not approved for RetailerOS access' });
-    }
+    // Admin-approval gate removed — any valid mobile can register or log in via OTP
 
     const otp = generateOtp();
     const expires = new Date(Date.now() + 10 * 60 * 1000).toISOString();
@@ -119,11 +111,11 @@ router.post('/otp', otpRateLimit, async (req, res) => {
 
 /**
  * POST /api/auth/verify
- * { mobile: "9876543210", otp: "123456" }
- * Verifies OTP, creates/finds retailer, returns JWT
+ * { mobile, otp, store_name?, owner_name?, email?, gst_number?, store_type? }
+ * Verifies OTP; creates retailer using wizard fields if new, or issues token if existing
  */
 router.post('/verify', verifyRateLimit, async (req, res) => {
-    const { mobile, otp } = req.body;
+    const { mobile, otp, store_name, owner_name, email, gst_number, store_type } = req.body;
 
     if (!mobile || !otp) {
         return res.status(400).json({ error: 'mobile and otp are required' });
@@ -168,11 +160,6 @@ router.post('/verify', verifyRateLimit, async (req, res) => {
     ).get(normalised, short);
 
     if (!retailer) {
-        // Pull from approved_retailers to seed retailer record
-        const approved = await db.prepare(
-            `SELECT * FROM approved_retailers WHERE mobile_number IN (?, ?, ?) LIMIT 1`
-        ).get(normalised, short, '91' + short);
-
         const date = new Date();
         const dateStr = date.toISOString().slice(0, 10).replace(/-/g, '');
         const countRow = await db.prepare(
@@ -182,16 +169,19 @@ router.post('/verify', verifyRateLimit, async (req, res) => {
         const retailerCode = `ROS-${dateStr}-${seq}`;
         const retailerId = `retailer_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
+        // Use wizard-provided fields if present, otherwise set safe defaults
         await db.prepare(
-            `INSERT INTO retailers (id, retailer_code, retailer_name, contact_person, email, mobile_number, status, onboarded_at)
-             VALUES (?, ?, ?, ?, ?, ?, 'active', CURRENT_TIMESTAMP)`
+            `INSERT INTO retailers (id, retailer_code, retailer_name, contact_person, email, mobile_number, vat_number, retailer_category, status, onboarded_at)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'active', CURRENT_TIMESTAMP)`
         ).run(
             retailerId,
             retailerCode,
-            approved?.retailer_name || 'RetailerOS User',
-            approved?.contact_person || null,
-            approved?.email || null,
-            normalised
+            store_name?.trim() || 'RetailerOS User',
+            owner_name?.trim() || null,
+            email?.trim() || null,
+            normalised,
+            gst_number?.trim() || null,
+            store_type?.trim() || null
         );
 
         retailer = await db.prepare(`SELECT * FROM retailers WHERE id = ?`).get(retailerId);
@@ -253,10 +243,12 @@ router.post('/logout', requireAuth, (req, res) => {
 
 /**
  * POST /api/auth/register
- * Self-service registration request (goes to pending queue for admin review)
+ * Direct self-service registration — creates active retailer account immediately.
+ * Board directive: no approval queue; let retailers start using the app right away.
+ * { mobile_number, retailer_name, contact_person, email?, city_name?, state_name?, business_type?, gst_number? }
  */
 router.post('/register', async (req, res) => {
-    const { mobile_number, retailer_name, contact_person, email, city_name, state_name, business_type } = req.body;
+    const { mobile_number, retailer_name, contact_person, email, city_name, state_name, business_type, gst_number } = req.body;
 
     if (!mobile_number || !retailer_name || !contact_person) {
         return res.status(400).json({ error: 'Store name, owner name, and mobile number are required' });
@@ -277,27 +269,42 @@ router.post('/register', async (req, res) => {
         return res.status(409).json({ error: 'This mobile is already registered. Please login instead.' });
     }
 
-    // Check if already approved
-    const approved = await db.prepare(
-        `SELECT id FROM approved_retailers WHERE mobile_number IN (?, ?, ?) LIMIT 1`
-    ).get(normalised, '91' + normalised, normalised);
-    if (approved) {
-        return res.status(409).json({ error: 'This mobile is already approved. Please login with OTP.' });
-    }
-
-    // Check if pending request exists
-    const pending = await db.prepare(
-        `SELECT id FROM registration_requests WHERE mobile_number = ? AND status = 'pending' LIMIT 1`
-    ).get(normalised);
-    if (pending) {
-        return res.status(409).json({ error: 'A registration request for this number is already pending review.' });
-    }
+    // Create active retailer account immediately — no pending queue
+    const date = new Date();
+    const dateStr = date.toISOString().slice(0, 10).replace(/-/g, '');
+    const countRow = await db.prepare(
+        `SELECT COUNT(*) as c FROM retailers WHERE retailer_code LIKE ?`
+    ).get(`ROS-${dateStr}-%`);
+    const seq = (parseInt(countRow.c) + 1).toString().padStart(4, '0');
+    const retailerCode = `ROS-${dateStr}-${seq}`;
+    const retailerId = `retailer_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
     await db.prepare(
-        `INSERT INTO registration_requests (mobile_number, retailer_name, contact_person, email, city_name, state_name, business_type) VALUES (?, ?, ?, ?, ?, ?, ?)`
-    ).run(normalised, retailer_name.trim(), contact_person.trim(), email?.trim() || null, city_name?.trim() || null, state_name?.trim() || null, business_type?.trim() || null);
+        `INSERT INTO retailers (id, retailer_code, retailer_name, contact_person, email, mobile_number, vat_number, retailer_category, city_name, state_name, status, onboarded_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active', CURRENT_TIMESTAMP)`
+    ).run(
+        retailerId,
+        retailerCode,
+        retailer_name.trim(),
+        contact_person.trim(),
+        email?.trim() || null,
+        normalised,
+        gst_number?.trim() || null,
+        business_type?.trim() || null,
+        city_name?.trim() || null,
+        state_name?.trim() || null
+    );
 
-    res.json({ success: true, message: "Registration submitted! We'll review and activate your account within 24 hours." });
+    const { token } = issueToken(retailerId, retailer_name.trim());
+
+    res.json({
+        success: true,
+        token,
+        retailer_id: retailerId,
+        retailer_code: retailerCode,
+        retailer_name: retailer_name.trim(),
+        message: 'Account created successfully. Welcome to RetailerOS!'
+    });
 });
 
 /**

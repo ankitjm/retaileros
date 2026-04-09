@@ -1,5 +1,18 @@
 import { state } from '../../state.js';
 
+const STORE_TYPES = [
+    'General Store',
+    'Grocery & FMCG',
+    'Electronics',
+    'Clothing & Apparel',
+    'Pharmacy',
+    'Hardware & Tools',
+    'Stationery',
+    'Mobile & Accessories',
+    'Furniture & Home',
+    'Other',
+];
+
 // Render registration for different layouts
 export function renderRegister(layout = 'mobile') {
     if (layout === 'desktop-primary') {
@@ -11,90 +24,62 @@ export function renderRegister(layout = 'mobile') {
     return renderRegisterMobile();
 }
 
-// Desktop primary column (steps 1 & 2)
+// Desktop primary column
 function renderRegisterPrimary() {
     const step = state.registrationStep;
 
-    // When step 3, show completion message in middle column
     if (step === 3) {
         return `
             <div class="h-full w-full flex flex-col items-center justify-center p-8 bg-white dot-grid relative overflow-hidden text-center">
                 <div class="animate-slide-up max-w-md">
                     <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <span class="material-icons-outlined text-slate-900 text-5xl">check_circle</span>
+                        <span class="material-icons-outlined text-slate-900 text-5xl">verified</span>
                     </div>
-                    <h2 class="text-2xl font-black text-slate-900 mb-3">Almost There!</h2>
-                    <p class="text-sm text-slate-500 mb-8">Please review and confirm your store details in the right panel to complete registration.</p>
-
-                    <div class="space-y-3">
-                        <div class="flex items-center gap-3 p-4 bg-slate-100 border border-slate-200 rounded-xl">
-                            <div class="w-8 h-8 bg-slate-900 rounded-full flex items-center justify-center shrink-0">
-                                <span class="material-icons-outlined text-white text-sm">done</span>
-                            </div>
-                            <div class="text-left">
-                                <p class="text-[10px] font-black text-slate-900 uppercase">Mobile Verified</p>
-                                <p class="text-xs text-slate-600">+91 98765 43210</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center gap-3 p-4 bg-slate-50 border border-slate-200 rounded-xl">
-                            <div class="w-8 h-8 bg-slate-200 rounded-full flex items-center justify-center shrink-0">
-                                <span class="material-icons-outlined text-slate-600 text-sm">arrow_forward</span>
-                            </div>
-                            <div class="text-left">
-                                <p class="text-[10px] font-black text-slate-600 uppercase">Next Step</p>
-                                <p class="text-xs text-slate-500">Confirm store details →</p>
-                            </div>
-                        </div>
-                    </div>
+                    <h2 class="text-2xl font-black text-slate-900 mb-3">Verify Your Number</h2>
+                    <p class="text-sm text-slate-500 mb-2">Enter the OTP sent to your WhatsApp.</p>
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Completing setup in the right panel →</p>
                 </div>
-
                 <div class="absolute bottom-6 flex items-center gap-2">
                     <span class="material-icons-outlined text-slate-400 text-xs">verified_user</span>
-                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest opacity-30">Secure Encryption</p>
+                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest opacity-30">Secure Verification</p>
                 </div>
             </div>
         `;
     }
 
-    // Steps 1 & 2 show their content
     return `
         <div class="h-full w-full flex flex-col items-center justify-center p-8 bg-white dot-grid relative overflow-hidden text-center">
             ${renderStepContent(step)}
-
             <div class="absolute bottom-6 flex items-center gap-2">
                 <span class="material-icons-outlined text-slate-400 text-xs">verified_user</span>
-                <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest opacity-30">Secure ${step === 2 ? 'Verification' : 'Encryption'}</p>
+                <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest opacity-30">Secure Registration</p>
             </div>
         </div>
     `;
 }
 
-// Desktop secondary/preview column (step 3 preview)
+// Desktop secondary column
 function renderRegisterSecondary() {
     const step = state.registrationStep;
 
     if (step < 3) {
-        // Show preview of what's coming next
         return `
             <div class="h-full w-full flex flex-col items-center justify-center p-8 bg-slate-50/50 dot-grid relative overflow-hidden text-center">
                 <div class="opacity-40 text-center">
                     <div class="w-20 h-20 bg-slate-200 rounded-2xl flex items-center justify-center shadow-lg mb-6 mx-auto">
                         <span class="material-icons-outlined text-slate-400 text-4xl">store</span>
                     </div>
-                    <h2 class="text-xl font-black text-slate-400 mb-2">Store Details</h2>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Coming up next...</p>
-                    <div class="mt-8 space-y-2">
-                        ${['Store Name', 'Owner Details', 'GSTIN', 'Store Type'].map(item => `
-                            <div class="h-12 bg-white/50 border border-slate-200 rounded-xl"></div>
-                        `).join('')}
+                    <h2 class="text-xl font-black text-slate-400 mb-2">Almost There</h2>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Step ${step} of 3</p>
+                    <div class="mt-6 flex justify-center gap-2">
+                        ${[1,2,3].map(s => `<div class="h-1.5 ${s <= step ? 'w-6 bg-slate-500' : 'w-2 bg-slate-200'} rounded-full transition-all"></div>`).join('')}
                     </div>
                 </div>
             </div>
         `;
     }
 
-    // Show step 3 content
+    // Step 3: OTP panel on secondary
     return `
         <div class="h-full w-full flex flex-col p-8 bg-white relative overflow-y-auto custom-scrollbar">
             ${renderStepContent(3)}
@@ -108,190 +93,246 @@ function renderRegisterMobile() {
 
     return `
         <div class="h-full w-full flex flex-col items-center justify-center p-4 md:p-6 bg-white dot-grid relative overflow-y-auto">
-            <div class="w-full flex-1 flex items-center justify-center py-8">
+            <!-- Progress dots -->
+            <div class="flex gap-2 mb-6">
+                ${[1,2,3].map(s => `<div class="h-1.5 ${s <= step ? 'w-6 bg-slate-900' : 'w-2 bg-slate-200'} rounded-full transition-all"></div>`).join('')}
+            </div>
+            <div class="w-full flex-1 flex items-center justify-center py-4">
                 ${renderStepContent(step)}
             </div>
-
             <div class="flex items-center gap-2 pb-4">
                 <span class="material-icons-outlined text-slate-400 text-xs">verified_user</span>
-                <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest opacity-30">Secure ${step === 2 ? 'Verification' : step === 3 ? 'Encryption' : 'Encryption'}</p>
+                <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest opacity-30">Secure Registration</p>
             </div>
             <div class="w-40 h-1 bg-slate-100 rounded-full mb-3"></div>
         </div>
     `;
 }
 
-// Shared step content generator
+// Shared step content
 function renderStepContent(step) {
-    let stepContent = '';
-
     if (step === 1) {
-        stepContent = `
+        const data = window._wizardData || {};
+        return `
             <div class="animate-slide-up w-full max-w-md mx-auto px-4 md:px-0">
-                 <div class="w-16 h-16 bg-slate-950 rounded-2xl flex items-center justify-center shadow-2xl mb-6 mx-auto">
-                    <span class="material-icons-outlined text-white text-3xl">terminal</span>
+                <div class="w-14 h-14 bg-slate-950 rounded-2xl flex items-center justify-center shadow-xl mb-6 mx-auto">
+                    <span class="material-icons-outlined text-white text-2xl">store</span>
                 </div>
-                <h1 class="text-2xl md:text-3xl font-black tracking-tighter text-slate-900 mb-1">Registration</h1>
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-8 md:mb-12">RetailerOS Enterprise</p>
+                <h1 class="text-2xl font-black tracking-tighter text-slate-900 mb-1 text-center">Your Store</h1>
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-8 text-center">Step 1 of 3</p>
 
-                <div class="card p-6 md:p-8 border-slate-100 shadow-xl text-left">
-                    <p class="text-[9px] md:text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Enter Mobile Number</p>
-                    <div class="flex items-center gap-2 mb-6 md:mb-8">
-                         <div class="h-14 md:h-14 px-3 md:px-4 bg-slate-50 border border-slate-100 rounded-xl flex items-center gap-2 shrink-0">
-                            <div class="w-6 h-4 bg-slate-900 rounded-sm"></div>
-                            <span class="text-sm font-black text-slate-900">+91</span>
-                         </div>
-                         <input
-                            type="tel"
-                            inputmode="numeric"
-                            pattern="[0-9]*"
-                            maxlength="10"
-                            id="mobile-input"
-                            placeholder="00000 00000"
-                            class="flex-1 h-14 px-4 md:px-5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-black text-slate-900 tracking-wider focus:border-slate-900 focus:outline-none transition-colors">
-                    </div>
-                    <button onclick="window.requestOtp()" class="w-full py-5 md:py-4 bg-black text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-xl active:scale-98 transition-transform">
-                        Request OTP
-                    </button>
-                </div>
-
-                <p class="mt-6 md:mt-8 px-4 md:px-12 text-[8px] font-medium text-slate-400 leading-relaxed text-center">By continuing, you agree to our <span class="text-slate-900 underline">Terms of Service</span> and <span class="text-slate-900 underline">Privacy Policy</span></p>
-            </div>
-        `;
-    } else if (step === 2) {
-        const approvedData = window._approvedRetailerData || {};
-        const mobileNumber = approvedData.MobileNumber || 'your number';
-
-        stepContent = `
-            <div class="animate-slide-up w-full max-w-sm mx-auto px-4 md:px-0">
-                 <header class="flex items-center justify-between mb-8 md:mb-12 w-full">
-                    <button onclick="window.setRegistrationStep(1)" class="w-10 h-10 md:w-8 md:h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 active:scale-95 transition-transform"><span class="material-icons-outlined text-lg">arrow_back</span></button>
-                    <div class="w-10 h-10 bg-slate-950 rounded-xl flex items-center justify-center shadow-lg">
-                        <span class="material-icons-outlined text-white text-xl">terminal</span>
-                    </div>
-                    <div class="w-10 md:w-8"></div>
-                </header>
-
-                <div class="text-left w-full">
-                    <h1 class="text-3xl md:text-4xl font-black tracking-tighter text-slate-900 mb-2">Verify OTP</h1>
-                    <p class="text-xs md:text-[11px] font-bold text-slate-400 leading-relaxed mb-2">We've sent a 6-digit code to <span class="text-slate-950">+91 ${mobileNumber}</span></p>
-                    <div class="grid grid-cols-6 gap-2 md:gap-2 mb-6 md:mb-8" id="otp-container">
-                        ${[0, 1, 2, 3, 4, 5].map((idx) => `
-                            <input
-                                type="text"
-                                inputmode="numeric"
-                                pattern="[0-9]"
-                                maxlength="1"
-                                id="otp-${idx}"
-                                class="h-16 md:h-14 bg-white border-2 border-slate-100 rounded-xl text-center text-2xl md:text-xl font-black text-slate-900 focus:border-slate-900 focus:outline-none transition-colors"
-                                onkeydown="window.handleOtpKeydown(event, ${idx})"
-                                oninput="window.handleOtpInput(event, ${idx})"
-                                onpaste="window.handleOtpPaste(event)"
-                            />`).join('')}
+                <div class="space-y-4">
+                    <div>
+                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">Store Name *</p>
+                        <input
+                            type="text"
+                            id="wizard-store-name"
+                            placeholder="e.g. Sharma Electronics"
+                            value="${escapeAttr(data.store_name || '')}"
+                            class="w-full h-13 px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 focus:border-slate-900 focus:outline-none transition-colors"
+                        >
                     </div>
 
-                    <p class="text-[10px] md:text-[10px] font-bold text-slate-400 text-center mb-8 md:mb-12">
-                        Didn't receive the code? <button onclick="window.resendOtp()" class="text-slate-500 underline">Resend Code</button>
-                    </p>
-
-                    <button onclick="window.verifyOtp()" class="w-full py-5 md:py-4 bg-black text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-xl ring-8 ring-black/5 active:scale-98 transition-transform">
-                        Verify & Proceed
-                    </button>
-                </div>
-            </div>
-        `;
-    } else if (step === 3) {
-        const approvedData = window._approvedRetailerData || {};
-
-        stepContent = `
-            <div class="animate-slide-up w-full max-w-md mx-auto px-4 md:px-0">
-                <header class="flex items-center justify-between mb-6 md:mb-8">
-                    <button onclick="window.setRegistrationStep(2)" class="w-10 h-10 md:w-8 md:h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 active:scale-95 transition-transform"><span class="material-icons-outlined text-lg">arrow_back</span></button>
-                    <div class="flex gap-1">
-                        <div class="w-1.5 h-1.5 bg-slate-200 rounded-full"></div>
-                        <div class="w-4 h-1.5 bg-slate-950 rounded-full"></div>
+                    <div>
+                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">Store Type *</p>
+                        <select
+                            id="wizard-store-type"
+                            class="w-full h-13 px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 focus:border-slate-900 focus:outline-none transition-colors"
+                        >
+                            <option value="">Select type…</option>
+                            ${STORE_TYPES.map(t => `<option value="${t}" ${data.store_type === t ? 'selected' : ''}>${t}</option>`).join('')}
+                        </select>
                     </div>
-                </header>
 
-                <div class="text-center mb-6 md:mb-8">
-                    <h1 class="text-xl md:text-2xl font-black tracking-tighter text-slate-900 mb-1">Confirm Store Details</h1>
-                    <p class="text-[9px] font-bold text-slate-400 leading-relaxed px-2">Please verify the business information retrieved from your profile.</p>
+                    <div>
+                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">GST Number <span class="normal-case font-medium text-slate-400">(optional)</span></p>
+                        <input
+                            type="text"
+                            id="wizard-gst"
+                            placeholder="e.g. 29AAAAA0000A1Z5"
+                            value="${escapeAttr(data.gst_number || '')}"
+                            maxlength="15"
+                            class="w-full h-13 px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-mono text-slate-900 focus:border-slate-900 focus:outline-none transition-colors uppercase"
+                        >
+                    </div>
                 </div>
 
-                <div class="space-y-3 mb-6 md:mb-8">
-                    ${[
-                { l: 'STORE NAME', v: approvedData.RetailerName || 'N/A' },
-                { l: 'OWNER NAME', v: approvedData.ContactPerson || 'N/A' },
-                { l: 'MOBILE NUMBER', v: approvedData.MobileNumber || 'N/A' },
-                { l: 'GSTIN', v: approvedData.VATNnumber || 'N/A' },
-                { l: 'EMAIL', v: approvedData.Email || 'N/A' },
-                { l: 'CITY', v: approvedData.CityName || 'N/A' },
-                { l: 'STATE', v: approvedData.StateName || 'N/A' }
-            ].map(item => `
-                        <div class="card p-4 border-slate-100 flex items-center justify-between">
-                            <div class="text-left flex-1 min-w-0">
-                                <p class="text-[7px] font-black text-slate-400 uppercase tracking-widest mb-1">${item.l}</p>
-                                <p class="text-[11px] md:text-[11px] font-black text-slate-900 truncate">${item.v}</p>
-                            </div>
-                             <div class="w-5 h-5 bg-slate-950 rounded-md flex items-center justify-center shrink-0 ml-3"><span class="material-icons-outlined text-white text-xs">done</span></div>
-                        </div>
-                    `).join('')}
+                <div id="wizard-error-1" class="hidden mt-4 p-3 bg-red-50 border border-red-100 rounded-xl">
+                    <p class="text-[11px] font-bold text-red-600" id="wizard-error-1-text"></p>
                 </div>
 
-                <button onclick="window.finalizeRegistration()" class="w-full py-5 md:py-4 bg-black text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-xl ring-8 ring-black/5 active:scale-98 transition-transform">
-                    Finalize Setup
+                <button onclick="window.wizardStep1Next()" class="w-full mt-6 py-4 bg-black text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-xl active:scale-98 transition-transform">
+                    Continue →
                 </button>
-                <p class="text-[8px] font-black text-slate-400 uppercase tracking-[0.2em] mt-4 md:mt-6 opacity-40 text-center">Details can be edited later in settings</p>
+
+                <p class="mt-5 text-center text-[10px] text-slate-400">
+                    Already have a store?
+                    <button onclick="setAuthMode('login')" class="text-slate-700 font-bold underline ml-1">Sign In</button>
+                </p>
             </div>
         `;
     }
 
-    return stepContent;
+    if (step === 2) {
+        const data = window._wizardData || {};
+        return `
+            <div class="animate-slide-up w-full max-w-md mx-auto px-4 md:px-0">
+                <header class="flex items-center justify-between mb-6 w-full">
+                    <button onclick="window.setRegistrationStep(1)" class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 active:scale-95 transition-transform">
+                        <span class="material-icons-outlined text-lg">arrow_back</span>
+                    </button>
+                    <div class="w-12 h-12 bg-slate-950 rounded-xl flex items-center justify-center shadow-lg">
+                        <span class="material-icons-outlined text-white text-xl">person</span>
+                    </div>
+                    <div class="w-10"></div>
+                </header>
+
+                <h1 class="text-2xl font-black tracking-tighter text-slate-900 mb-1">About You</h1>
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-8">Step 2 of 3</p>
+
+                <div class="space-y-4">
+                    <div>
+                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">Owner Name *</p>
+                        <input
+                            type="text"
+                            id="wizard-owner-name"
+                            placeholder="e.g. Ramesh Sharma"
+                            value="${escapeAttr(data.owner_name || '')}"
+                            class="w-full h-13 px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 focus:border-slate-900 focus:outline-none transition-colors"
+                        >
+                    </div>
+
+                    <div>
+                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">Mobile Number *</p>
+                        <div class="flex gap-2">
+                            <div class="h-13 px-3 py-3.5 bg-slate-100 border border-slate-200 rounded-xl flex items-center gap-1.5 shrink-0">
+                                <span class="text-sm font-black text-slate-700">+91</span>
+                            </div>
+                            <input
+                                type="tel"
+                                inputmode="numeric"
+                                pattern="[0-9]*"
+                                maxlength="10"
+                                id="wizard-mobile"
+                                placeholder="98765 43210"
+                                value="${escapeAttr(data.mobile || '')}"
+                                class="flex-1 h-13 px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 tracking-wider focus:border-slate-900 focus:outline-none transition-colors"
+                            >
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">Email <span class="normal-case font-medium text-slate-400">(optional)</span></p>
+                        <input
+                            type="email"
+                            id="wizard-email"
+                            placeholder="you@store.com"
+                            value="${escapeAttr(data.email || '')}"
+                            class="w-full h-13 px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 focus:border-slate-900 focus:outline-none transition-colors"
+                        >
+                    </div>
+                </div>
+
+                <div id="wizard-error-2" class="hidden mt-4 p-3 bg-red-50 border border-red-100 rounded-xl">
+                    <p class="text-[11px] font-bold text-red-600" id="wizard-error-2-text"></p>
+                </div>
+
+                <button onclick="window.wizardStep2Next()" id="wizard-step2-btn" class="w-full mt-6 py-4 bg-black text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-xl active:scale-98 transition-transform">
+                    Send OTP →
+                </button>
+            </div>
+        `;
+    }
+
+    if (step === 3) {
+        const data = window._wizardData || {};
+        const isLoginOtp = window._loginOTPMode;
+        const mobile = data.mobile || '';
+
+        return `
+            <div class="animate-slide-up w-full max-w-sm mx-auto px-4 md:px-0">
+                <header class="flex items-center justify-between mb-8 w-full">
+                    <button onclick="${isLoginOtp ? "setAuthMode('login')" : 'window.setRegistrationStep(2)'}" class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 active:scale-95 transition-transform">
+                        <span class="material-icons-outlined text-lg">arrow_back</span>
+                    </button>
+                    <div class="w-12 h-12 bg-slate-950 rounded-xl flex items-center justify-center shadow-lg">
+                        <span class="material-icons-outlined text-white text-xl">lock</span>
+                    </div>
+                    <div class="w-10"></div>
+                </header>
+
+                <h1 class="text-2xl font-black tracking-tighter text-slate-900 mb-2">Enter OTP</h1>
+                <p class="text-xs text-slate-500 leading-relaxed mb-1">
+                    We sent a 6-digit code to <span class="font-black text-slate-900">+91 ${mobile}</span>
+                </p>
+                <p class="text-[9px] font-bold text-slate-400 mb-8">Check your WhatsApp.</p>
+
+                <div class="grid grid-cols-6 gap-2 mb-6" id="otp-container">
+                    ${[0,1,2,3,4,5].map(i => `
+                        <input
+                            type="text"
+                            inputmode="numeric"
+                            pattern="[0-9]"
+                            maxlength="1"
+                            id="otp-${i}"
+                            class="h-16 bg-white border-2 border-slate-100 rounded-xl text-center text-2xl font-black text-slate-900 focus:border-slate-900 focus:outline-none transition-colors"
+                            onkeydown="window.handleOtpKeydown(event, ${i})"
+                            oninput="window.handleOtpInput(event, ${i})"
+                            onpaste="window.handleOtpPaste(event)"
+                        />`).join('')}
+                </div>
+
+                <p class="text-[10px] font-bold text-slate-400 text-center mb-8">
+                    Didn't receive it?
+                    <button onclick="window.resendOtp()" class="text-slate-600 underline ml-1">Resend OTP</button>
+                </p>
+
+                <div id="wizard-error-3" class="hidden mb-4 p-3 bg-red-50 border border-red-100 rounded-xl">
+                    <p class="text-[11px] font-bold text-red-600" id="wizard-error-3-text"></p>
+                </div>
+
+                <button onclick="window.verifyOtp()" id="wizard-verify-btn" class="w-full py-4 bg-black text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-xl active:scale-98 transition-transform">
+                    Verify & ${isLoginOtp ? 'Sign In' : 'Create Account'}
+                </button>
+            </div>
+        `;
+    }
+
+    return '';
 }
 
-// OTP Input Handling Functions
+function escapeAttr(str) {
+    return String(str).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// ─── OTP Input Handling ───────────────────────────────────────────
+
 window.handleOtpInput = function(event, index) {
     const value = event.target.value;
-
-    // Only allow numbers
     if (value && !/^\d$/.test(value)) {
         event.target.value = '';
         return;
     }
-
-    // Auto-focus next input
     if (value && index < 5) {
-        const nextInput = document.getElementById(`otp-${index + 1}`);
-        if (nextInput) nextInput.focus();
+        const next = document.getElementById(`otp-${index + 1}`);
+        if (next) next.focus();
     }
 };
 
 window.handleOtpKeydown = function(event, index) {
-    // Handle backspace
     if (event.key === 'Backspace') {
-        const currentInput = document.getElementById(`otp-${index}`);
-        if (!currentInput.value && index > 0) {
-            // Move to previous input if current is empty
-            const prevInput = document.getElementById(`otp-${index - 1}`);
-            if (prevInput) {
-                prevInput.focus();
-                prevInput.select();
-            }
+        const cur = document.getElementById(`otp-${index}`);
+        if (!cur.value && index > 0) {
+            const prev = document.getElementById(`otp-${index - 1}`);
+            if (prev) { prev.focus(); prev.select(); }
         }
-    }
-    // Handle arrow keys
-    else if (event.key === 'ArrowLeft' && index > 0) {
+    } else if (event.key === 'ArrowLeft' && index > 0) {
         event.preventDefault();
-        const prevInput = document.getElementById(`otp-${index - 1}`);
-        if (prevInput) prevInput.focus();
-    }
-    else if (event.key === 'ArrowRight' && index < 5) {
+        document.getElementById(`otp-${index - 1}`)?.focus();
+    } else if (event.key === 'ArrowRight' && index < 5) {
         event.preventDefault();
-        const nextInput = document.getElementById(`otp-${index + 1}`);
-        if (nextInput) nextInput.focus();
-    }
-    // Handle Enter key to verify
-    else if (event.key === 'Enter') {
+        document.getElementById(`otp-${index + 1}`)?.focus();
+    } else if (event.key === 'Enter') {
         event.preventDefault();
         window.verifyOtp();
     }
@@ -299,151 +340,214 @@ window.handleOtpKeydown = function(event, index) {
 
 window.handleOtpPaste = function(event) {
     event.preventDefault();
-    const pastedData = event.clipboardData.getData('text').trim();
-
-    // Only process if it's 6 digits
-    if (/^\d{6}$/.test(pastedData)) {
+    const pasted = event.clipboardData.getData('text').trim();
+    if (/^\d{6}$/.test(pasted)) {
         for (let i = 0; i < 6; i++) {
-            const input = document.getElementById(`otp-${i}`);
-            if (input) {
-                input.value = pastedData[i];
-            }
+            const inp = document.getElementById(`otp-${i}`);
+            if (inp) inp.value = pasted[i];
         }
-        // Focus last input
-        const lastInput = document.getElementById('otp-5');
-        if (lastInput) lastInput.focus();
+        document.getElementById('otp-5')?.focus();
     }
 };
 
-window.requestOtp = async function() {
-    const mobileInput = document.getElementById('mobile-input');
-    const mobile = mobileInput ? mobileInput.value.trim() : '';
+// ─── Wizard Step Handlers ──────────────────────────────────────────
 
-    if (!mobile || !/^\d{10}$/.test(mobile)) {
-        alert('Please enter a valid 10-digit mobile number');
+window.wizardStep1Next = function() {
+    const storeName = document.getElementById('wizard-store-name')?.value.trim() || '';
+    const storeType = document.getElementById('wizard-store-type')?.value || '';
+    const gst = document.getElementById('wizard-gst')?.value.trim().toUpperCase() || '';
+
+    const errorDiv = document.getElementById('wizard-error-1');
+    const errorText = document.getElementById('wizard-error-1-text');
+
+    if (!storeName) {
+        errorText.textContent = 'Please enter your store name.';
+        errorDiv.classList.remove('hidden');
+        return;
+    }
+    if (!storeType) {
+        errorText.textContent = 'Please select a store type.';
+        errorDiv.classList.remove('hidden');
         return;
     }
 
-    const btn = document.querySelector('[onclick="window.requestOtp()"]');
+    errorDiv?.classList.add('hidden');
+
+    window._wizardData = {
+        ...(window._wizardData || {}),
+        store_name: storeName,
+        store_type: storeType,
+        gst_number: gst,
+    };
+    window._loginOTPMode = false;
+    window.setRegistrationStep(2);
+};
+
+window.wizardStep2Next = async function() {
+    const ownerName = document.getElementById('wizard-owner-name')?.value.trim() || '';
+    const mobile = document.getElementById('wizard-mobile')?.value.trim() || '';
+    const email = document.getElementById('wizard-email')?.value.trim() || '';
+
+    const errorDiv = document.getElementById('wizard-error-2');
+    const errorText = document.getElementById('wizard-error-2-text');
+    const btn = document.getElementById('wizard-step2-btn');
+
+    if (!ownerName) {
+        errorText.textContent = 'Please enter the owner name.';
+        errorDiv.classList.remove('hidden');
+        return;
+    }
+    if (!/^\d{10}$/.test(mobile)) {
+        errorText.textContent = 'Please enter a valid 10-digit mobile number.';
+        errorDiv.classList.remove('hidden');
+        return;
+    }
+
+    errorDiv?.classList.add('hidden');
     if (btn) { btn.disabled = true; btn.textContent = 'Sending OTP…'; }
 
+    window._wizardData = {
+        ...(window._wizardData || {}),
+        owner_name: ownerName,
+        mobile,
+        email,
+    };
+
     try {
-        const response = await fetch((window._apiBase||'')+'/api/auth/otp', {
+        const response = await fetch((window._apiBase || '') + '/api/auth/otp', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ mobile })
+            body: JSON.stringify({ mobile }),
         });
-
         const data = await response.json();
 
         if (!response.ok) {
-            alert(data.error || 'Failed to send OTP. Please try again.');
+            const msg = data.retryAfter
+                ? `Too many attempts. Please wait ${data.retryAfter}s.`
+                : (data.error || 'Failed to send OTP');
+            errorText.textContent = msg;
+            errorDiv.classList.remove('hidden');
             return;
         }
 
-        // Store mobile for use in verify step
         window._registrationMobile = mobile;
+        window._loginOTPMode = false;
+        window.setRegistrationStep(3);
+        setTimeout(() => document.getElementById('otp-0')?.focus(), 100);
 
-        // Move to OTP verification step
-        window.setRegistrationStep(2);
-
-        setTimeout(() => {
-            const firstInput = document.getElementById('otp-0');
-            if (firstInput) firstInput.focus();
-        }, 100);
-
-    } catch (error) {
-        console.error('OTP request failed:', error);
-        alert('Network error. Please check your connection and try again.');
+    } catch (err) {
+        console.error('OTP send failed:', err);
+        errorText.textContent = 'Network error. Please check your connection.';
+        errorDiv.classList.remove('hidden');
     } finally {
-        if (btn) { btn.disabled = false; btn.textContent = 'Send OTP'; }
+        if (btn) { btn.disabled = false; btn.textContent = 'Send OTP →'; }
     }
 };
 
 window.verifyOtp = async function() {
     const otpValues = [];
     for (let i = 0; i < 6; i++) {
-        const input = document.getElementById(`otp-${i}`);
-        if (input) otpValues.push(input.value);
+        const inp = document.getElementById(`otp-${i}`);
+        if (inp) otpValues.push(inp.value);
     }
-
     const otp = otpValues.join('');
 
+    const errorDiv = document.getElementById('wizard-error-3');
+    const errorText = document.getElementById('wizard-error-3-text');
+    const btn = document.getElementById('wizard-verify-btn');
+
     if (otp.length !== 6) {
-        alert('Please enter all 6 digits');
+        errorText.textContent = 'Please enter all 6 digits.';
+        errorDiv.classList.remove('hidden');
         return;
     }
 
-    const mobile = window._registrationMobile;
+    const mobile = window._registrationMobile || window._wizardData?.mobile;
     if (!mobile) {
-        alert('Session expired. Please start again.');
-        window.setRegistrationStep(1);
+        errorText.textContent = 'Session expired. Please start again.';
+        errorDiv.classList.remove('hidden');
+        window.setRegistrationStep(window._loginOTPMode ? 1 : 2);
         return;
     }
 
-    const btn = document.querySelector('[onclick="window.verifyOtp()"]');
+    errorDiv?.classList.add('hidden');
     if (btn) { btn.disabled = true; btn.textContent = 'Verifying…'; }
 
     try {
-        const response = await fetch((window._apiBase||'')+'/api/auth/verify', {
+        const wizardData = window._wizardData || {};
+        const payload = {
+            mobile,
+            otp,
+            // Pass wizard fields — backend ignores them for existing retailers
+            store_name: wizardData.store_name || undefined,
+            owner_name: wizardData.owner_name || undefined,
+            email: wizardData.email || undefined,
+            gst_number: wizardData.gst_number || undefined,
+            store_type: wizardData.store_type || undefined,
+        };
+
+        const response = await fetch((window._apiBase || '') + '/api/auth/verify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ mobile, otp })
+            body: JSON.stringify(payload),
         });
-
         const data = await response.json();
 
         if (!response.ok) {
-            alert(data.error || 'Invalid OTP. Please try again.');
+            errorText.textContent = data.error || 'Invalid OTP. Please try again.';
+            errorDiv.classList.remove('hidden');
             return;
         }
 
-        // Store session token and retailer identity
+        // Store session
         localStorage.setItem('retaileros_session_token', data.token);
         localStorage.setItem('retaileros_retailer_id', data.retailer_id);
         localStorage.setItem('retaileros_retailer_code', data.retailer_code || '');
         localStorage.setItem('retaileros_retailer_name', data.retailer_name || '');
         localStorage.setItem('retaileros_logged_in', 'true');
 
-        // Store data for confirmation screen
-        window._approvedRetailerData = {
-            RetailerName: data.retailer_name,
-            MobileNumber: mobile,
-            retailer_id: data.retailer_id,
-            retailer_code: data.retailer_code
-        };
+        window.setRetailer(data.retailer_id, data.retailer_code, data.retailer_name);
 
-        // Move to confirmation step
-        window.setRegistrationStep(3);
+        // Clean up wizard state
+        delete window._wizardData;
+        delete window._registrationMobile;
+        delete window._loginOTPMode;
 
-    } catch (error) {
-        console.error('OTP verification failed:', error);
-        alert('Network error. Please try again.');
+        const { syncData } = await import('../../utils/sync.js');
+        await syncData();
+
+        window.setLoginStatus(true);
+
+    } catch (err) {
+        console.error('OTP verify failed:', err);
+        errorText.textContent = 'Network error. Please try again.';
+        errorDiv.classList.remove('hidden');
     } finally {
-        if (btn) { btn.disabled = false; btn.textContent = 'Verify & Proceed'; }
+        if (btn) {
+            btn.disabled = false;
+            btn.textContent = (window._loginOTPMode ? 'Verify & Sign In' : 'Verify & Create Account');
+        }
     }
 };
 
 window.resendOtp = async function() {
-    // Clear all OTP inputs
     for (let i = 0; i < 6; i++) {
-        const input = document.getElementById(`otp-${i}`);
-        if (input) input.value = '';
+        const inp = document.getElementById(`otp-${i}`);
+        if (inp) inp.value = '';
     }
-    const firstInput = document.getElementById('otp-0');
-    if (firstInput) firstInput.focus();
+    document.getElementById('otp-0')?.focus();
 
-    const mobile = window._registrationMobile;
+    const mobile = window._registrationMobile || window._wizardData?.mobile;
     if (!mobile) {
-        window.setRegistrationStep(1);
+        window.setRegistrationStep(window._loginOTPMode ? 1 : 2);
         return;
     }
 
     try {
-        const response = await fetch((window._apiBase||'')+'/api/auth/otp', {
+        const response = await fetch((window._apiBase || '') + '/api/auth/otp', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ mobile })
+            body: JSON.stringify({ mobile }),
         });
         const data = await response.json();
 
@@ -462,34 +566,5 @@ window.resendOtp = async function() {
     }
 };
 
-window.finalizeRegistration = async function() {
-    try {
-        const retailerId = localStorage.getItem('retaileros_retailer_id');
-        const retailerCode = localStorage.getItem('retaileros_retailer_code');
-        const retailerName = localStorage.getItem('retaileros_retailer_name');
-
-        if (!retailerId) {
-            alert('Session expired. Please start registration again.');
-            window.setRegistrationStep(1);
-            return;
-        }
-
-        // Set retailer in state
-        window.setRetailer(retailerId, retailerCode, retailerName);
-
-        // Clear temporary data
-        delete window._approvedRetailerData;
-        delete window._registrationMobile;
-
-        // Sync data to update cache
-        const { syncData } = await import('../../utils/sync.js');
-        await syncData();
-
-        // Set login status — triggers app render
-        window.setLoginStatus(true);
-
-    } catch (error) {
-        console.error('Registration finalize failed:', error);
-        alert('Failed to complete setup. Please try again.');
-    }
-};
+// Keep legacy finalizeRegistration for any code that calls it
+window.finalizeRegistration = window.verifyOtp;

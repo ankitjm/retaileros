@@ -47,7 +47,7 @@ export function renderLogin(mode) {
                             <span class="text-[8px] font-black text-slate-300 uppercase tracking-widest">or</span>
                             <div class="flex-1 h-px bg-slate-100"></div>
                         </div>
-                        <button onclick="setAuthMode('register')" class="w-full py-4 bg-white border-2 border-slate-900 text-slate-900 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-slate-50 active:scale-95 transition-all">
+                        <button onclick="window._loginOTPMode=false; window._wizardData={}; setAuthMode('register');" class="w-full py-4 bg-white border-2 border-slate-900 text-slate-900 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-slate-50 active:scale-95 transition-all">
                             <span class="material-icons-outlined text-sm">add_business</span>
                             Register New Store
                         </button>
@@ -92,10 +92,8 @@ window.loginWithCredentials = async function() {
     if (btn) { btn.disabled = true; btn.textContent = 'Authenticating…'; }
 
     try {
-        // Mobile number — redirect to OTP registration flow
+        // Mobile number — send OTP and go to OTP input step (step 3 of wizard)
         if (/^\d{10}$/.test(identifier)) {
-            window._registrationMobile = identifier;
-
             const response = await fetch((window._apiBase||'')+'/api/auth/otp', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -112,9 +110,13 @@ window.loginWithCredentials = async function() {
                 return;
             }
 
-            // Switch to register view at OTP step
+            // Set up OTP-only mode (existing user login, skip wizard steps)
+            window._loginOTPMode = true;
+            window._wizardData = { mobile: identifier };
+            window._registrationMobile = identifier;
+
             window.setAuthMode('register');
-            setTimeout(() => window.setRegistrationStep(2), 50);
+            setTimeout(() => window.setRegistrationStep(3), 50);
             return;
         }
 
