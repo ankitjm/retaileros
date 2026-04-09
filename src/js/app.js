@@ -208,37 +208,6 @@ function renderMobile() {
     return renderMobileContent();
 }
 
-function renderDemoBanner() {
-    if (!window._isDemoMode) return '';
-    return `
-        <div id="demo-banner" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:#1e293b;color:#f8fafc;padding:10px 16px;display:flex;align-items:center;justify-between;gap:12px;font-family:'Plus Jakarta Sans',sans-serif;">
-            <div style="display:flex;align-items:center;gap:8px;min-width:0;">
-                <span class="material-icons-outlined" style="font-size:16px;color:#fbbf24;flex-shrink:0;">preview</span>
-                <p style="font-size:11px;font-weight:700;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Demo Mode — This is a sandbox with sample data.</p>
-            </div>
-            <button onclick="window._startRegistrationFromDemo()" style="background:#f8fafc;color:#1e293b;border:none;border-radius:8px;padding:6px 14px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;cursor:pointer;white-space:nowrap;flex-shrink:0;">
-                Sign up for your own store →
-            </button>
-        </div>
-        <div style="height:42px;"></div>
-    `;
-}
-
-window._startRegistrationFromDemo = function() {
-    window._isDemoMode = false;
-    window._loginOTPMode = false;
-    window._wizardData = {};
-    // Clear demo session
-    localStorage.removeItem('retaileros_session_token');
-    localStorage.removeItem('retaileros_retailer_id');
-    localStorage.removeItem('retaileros_retailer_code');
-    localStorage.removeItem('retaileros_retailer_name');
-    localStorage.removeItem('retaileros_logged_in');
-    state.isLoggedIn = false;
-    state.authMode = 'register';
-    state.registrationStep = 1;
-    triggerRender();
-};
 
 export function render() {
     const appContainer = document.getElementById('app');
@@ -256,7 +225,7 @@ export function render() {
             content = renderDesktop();
         }
 
-        appContainer.innerHTML = renderDemoBanner() + content;
+        appContainer.innerHTML = content;
     } catch (e) {
         console.error(e);
         appContainer.innerHTML = `<div class="p-4 text-slate-500 font-bold">Error: ${e.message}<br><small>${e.stack}</small></div>`;
@@ -312,8 +281,8 @@ window.addEventListener('resize', () => {
     }
 });
 
-// Handle URL parameters: ?demo=1 and ?wizard=1
-async function handleUrlParams() {
+// Handle URL parameters: ?wizard=1
+function handleUrlParams() {
     const params = new URLSearchParams(window.location.search);
 
     // ?wizard=1 — landing page "Get Started" CTA
@@ -326,54 +295,11 @@ async function handleUrlParams() {
         const url = new URL(window.location.href);
         url.searchParams.delete('wizard');
         window.history.replaceState(null, '', url.toString());
-        return;
-    }
-
-    // ?demo=1 — auto-login to sandbox demo account
-    if (params.get('demo') === '1' && !state.isLoggedIn) {
-        try {
-            const response = await fetch((window._apiBase || '') + '/api/auth/demo', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-            });
-            const data = await response.json();
-
-            if (response.ok && data.token) {
-                localStorage.setItem('retaileros_session_token', data.token);
-                localStorage.setItem('retaileros_retailer_id', data.retailer_id);
-                localStorage.setItem('retaileros_retailer_code', data.retailer_code || '');
-                localStorage.setItem('retaileros_retailer_name', data.retailer_name || '');
-                localStorage.setItem('retaileros_logged_in', 'true');
-
-                window._isDemoMode = true;
-                state.isLoggedIn = true;
-                state.retailerId = data.retailer_id;
-                state.retailerCode = data.retailer_code || '';
-                state.retailerName = data.retailer_name || '';
-                state.currentApp = window.innerWidth < 768 ? 'launcher' : 'sales';
-
-                // Clean URL
-                const url = new URL(window.location.href);
-                url.searchParams.delete('demo');
-                window.history.replaceState(null, '', url.toString());
-            } else {
-                console.warn('[Demo] Could not auto-login:', data.error);
-            }
-        } catch (err) {
-            console.warn('[Demo] Auto-login failed:', err.message);
-        }
     }
 }
 
-// Load data, then handle URL params, then render
-handleUrlParams().then(() => {
-    if (state.isLoggedIn) {
-        return syncData();
-    }
-}).then(() => {
-    console.log('Initial setup complete');
-    render();
-}).catch(err => {
-    console.error('Initial setup failed:', err);
-    render();
-});
+// Handle URL params, load data, then render
+handleUrlParams();
+(state.isLoggedIn ? syncData() : Promise.resolve())
+    .then(() => { render(); })
+    .catch(err => { console.error('Initial setup failed:', err); render(); });

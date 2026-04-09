@@ -307,27 +307,5 @@ router.post('/register', async (req, res) => {
     });
 });
 
-/**
- * POST /api/auth/demo
- * Auto-login to demo retailer (no credentials required)
- */
-router.post('/demo', async (req, res) => {
-    const retailer = await db.prepare(
-        `SELECT * FROM retailers WHERE retailer_code = 'ROS-20260225-0001' AND status = 'active' LIMIT 1`
-    ).get();
-
-    if (!retailer) {
-        return res.status(404).json({ error: 'Demo retailer not found. Please seed the database.' });
-    }
-
-    const { token } = issueToken(retailer.id, retailer.retailer_name || 'Demo Store');
-
-    res.json({
-        token,
-        retailer_id: retailer.id,
-        retailer_code: retailer.retailer_code,
-        retailer_name: retailer.retailer_name || 'Demo Store'
-    });
-});
 
 export { router as authRouter };

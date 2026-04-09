@@ -1,5 +1,21 @@
 import { state } from '../../state.js';
 
+// Revoke token on server then clear local state
+window.handleLogout = async function() {
+    const token = localStorage.getItem('retaileros_session_token');
+    if (token) {
+        try {
+            await fetch((window._apiBase || '') + '/api/auth/logout', {
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+        } catch (_) {
+            // Ignore network errors — local session will be cleared regardless
+        }
+    }
+    window.setLoginStatus(false);
+};
+
 export function renderLauncherFooter(isMob) {
     return `
         <footer class="p-4 bg-[#F8FAFC]/95 backdrop-blur-md border-t border-slate-100 shrink-0 mt-auto sticky bottom-0 z-20">
@@ -13,7 +29,7 @@ export function renderLauncherFooter(isMob) {
                             <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest">Apple Store - Mumbai Central</p>
                         </div>
                     </div>
-                    <button onclick="setLoginStatus(false)" class="flex items-center gap-2 group p-1.5 hover:bg-slate-50 rounded-lg transition-all" title="Logout">
+                    <button onclick="handleLogout()" class="flex items-center gap-2 group p-1.5 hover:bg-slate-50 rounded-lg transition-all" title="Logout">
                             <span class="material-icons-outlined text-lg text-slate-900 group-hover:text-slate-400 transition-all">logout</span>
                     </button>
                 </div>

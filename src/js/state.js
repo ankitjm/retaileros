@@ -215,6 +215,13 @@ export function setLoginStatus(status) {
     } else {
         localStorage.removeItem('retaileros_logged_in');
         clearRetailer(); // Clear tenant identity on logout
+        // Reset auth UI so login screen shows after logout
+        state.authMode = 'login';
+        state.registrationStep = 1;
+        // Clear any lingering wizard/OTP state
+        window._loginOTPMode = false;
+        window._wizardData = {};
+        delete window._registrationMobile;
     }
     // Mobile users go to launcher first, desktop users go to sales
     const isMobile = window.innerWidth < 768;
