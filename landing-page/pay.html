@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Subscribe — RetailerOS</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #DC2625;
+      --primary-dark: #b91c1c;
+      --dark: #2B2B2B;
+      --yellow: #F0F37E;
+      --bg: #F8F9FA;
+      --white: #FFFFFF;
+      --border: #E5E7EB;
+      --text: #111827;
+      --muted: #6B7280;
+      --success: #059669;
+      --success-bg: #DCFCE7;
+      --warn-bg: #FEF9C3;
+      --warn: #A16207;
+      --danger-bg: #FEE2E2;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Header ─────────────────────────────────────────────── */
+    header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-icon {
+      background: var(--primary);
+      color: white;
+      border-radius: 8px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 800;
+    }
+    .logo-name { font-size: 17px; font-weight: 800; color: var(--primary); letter-spacing: -0.3px; }
+    .header-right { display: flex; align-items: center; gap: 12px; }
+    .retailer-name { font-size: 13px; font-weight: 600; color: var(--muted); }
+
+    /* ── Layout ─────────────────────────────────────────────── */
+    main { max-width: 880px; margin: 0 auto; padding: 40px 24px 64px; }
+    .page-title { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; color: var(--dark); margin-bottom: 6px; }
+    .page-sub { font-size: 14px; color: var(--muted); font-weight: 500; margin-bottom: 36px; }
+
+    /* ── Screens ─────────────────────────────────────────────── */
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* ── Loading ─────────────────────────────────────────────── */
+    .spinner-wrap { padding: 80px 0; text-align: center; }
+    .spinner {
+      display: inline-block;
+      width: 36px;
+      height: 36px;
+      border: 3px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner-label { font-size: 14px; color: var(--muted); margin-top: 14px; font-weight: 500; }
+
+    /* ── Login required ──────────────────────────────────────── */
+    .center-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 48px 40px;
+      max-width: 440px;
+      margin: 60px auto 0;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    .center-card .icon-lg {
+      font-size: 40px;
+      margin-bottom: 18px;
+    }
+    .center-card h2 { font-size: 20px; font-weight: 800; color: var(--dark); margin-bottom: 10px; }
+    .center-card p { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 24px; }
+
+    /* ── Buttons ─────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 42px;
+      padding: 0 20px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, opacity 0.15s;
+      text-decoration: none;
+    }
+    .btn:hover { background: var(--primary-dark); }
+    .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--border);
+      color: var(--text);
+      font-weight: 600;
+    }
+    .btn-outline:hover { background: var(--bg); color: var(--text); }
+    .btn-sm { height: 34px; font-size: 13px; padding: 0 14px; }
+    .btn-full { width: 100%; }
+
+    /* ── Banner ──────────────────────────────────────────────── */
+    .banner {
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .banner-success { background: var(--success-bg); color: #065F46; }
+    .banner-warn { background: var(--warn-bg); color: var(--warn); }
+    .banner-err { background: var(--danger-bg); color: #991B1B; }
+    .banner-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .banner-body { line-height: 1.5; }
+    .banner-body a { color: inherit; font-weight: 700; }
+
+    /* ── Plan cards ──────────────────────────────────────────── */
+    .plans-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+    @media (max-width: 600px) { .plans-grid { grid-template-columns: 1fr; } }
+    .plan-card {
+      background: var(--white);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px 24px;
+      cursor: pointer;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      position: relative;
+    }
+    .plan-card:hover { border-color: #fca5a5; box-shadow: 0 4px 16px rgba(220,38,37,0.08); }
+    .plan-card.selected { border-color: var(--primary); box-shadow: 0 4px 20px rgba(220,38,37,0.15); }
+    .plan-badge {
+      display: inline-block;
+      background: var(--yellow);
+      color: #5c4a00;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 3px 9px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+    }
+    .plan-name { font-size: 18px; font-weight: 800; color: var(--dark); margin-bottom: 4px; }
+    .plan-desc { font-size: 12px; color: var(--muted); font-weight: 500; margin-bottom: 18px; line-height: 1.5; }
+    .plan-price {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+    .plan-price .amount { font-size: 32px; font-weight: 800; color: var(--dark); letter-spacing: -1px; }
+    .plan-price .per { font-size: 13px; color: var(--muted); font-weight: 600; }
+    .plan-gst { font-size: 11px; color: var(--muted); font-weight: 500; margin-bottom: 16px; }
+    .plan-savings {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--success);
+      background: var(--success-bg);
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+    }
+    .plan-divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+    .plan-features { list-style: none; }
+    .plan-features li {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+      padding: 4px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .plan-features li::before { content: '✓'; color: var(--success); font-weight: 800; font-size: 11px; }
+    .plan-radio {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      background: white;
+      transition: border-color 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .plan-card.selected .plan-radio { border-color: var(--primary); }
+    .plan-radio-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--primary);
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+    .plan-card.selected .plan-radio-dot { opacity: 1; }
+
+    /* ── Payment section ─────────────────────────────────────── */
+    .payment-box {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+    }
+    .payment-box h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .payment-box .sub { font-size: 13px; color: var(--muted); font-weight: 500; margin-bottom: 20px; }
+    .order-summary {
+      background: var(--bg);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+    }
+    .order-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+      padding: 3px 0;
+    }
+    .order-row.total {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--dark);
+      padding-top: 10px;
+      margin-top: 6px;
+      border-top: 1px solid var(--border);
+    }
+    .pay-methods { display: flex; flex-direction: column; gap: 10px; }
+    .pay-method-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      height: 48px;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s;
+    }
+    .pay-razorpay {
+      background: var(--primary);
+      color: white;
+    }
+    .pay-razorpay:hover { background: var(--primary-dark); }
+    .pay-razorpay:disabled { opacity: 0.55; cursor: not-allowed; }
+    .pay-stripe {
+      background: #635bff;
+      color: white;
+    }
+    .pay-stripe:hover { background: #4f46e5; }
+    .pay-stripe:disabled { opacity: 0.55; cursor: not-allowed; }
+    .pay-divider { text-align: center; font-size: 12px; color: var(--muted); font-weight: 600; margin: 4px 0; }
+    .billing-note {
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 14px;
+      line-height: 1.6;
+    }
+    .billing-note a { color: var(--primary); }
+
+    /* ── Active subscription ─────────────────────────────────── */
+    .sub-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .sub-card-header {
+      background: var(--dark);
+      color: white;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .sub-card-header h2 { font-size: 17px; font-weight: 800; }
+    .sub-card-header .plan-pill {
+      background: var(--yellow);
+      color: #5c4a00;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .sub-body { padding: 24px; }
+    .sub-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .sub-meta-item .label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .sub-meta-item .value { font-size: 15px; font-weight: 700; color: var(--dark); }
+    .sub-meta-item .value.amount { color: var(--primary); }
+    .sub-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    /* ── Success ─────────────────────────────────────────────── */
+    .success-wrap { text-align: center; padding: 40px 24px; }
+    .success-icon { font-size: 56px; margin-bottom: 16px; }
+    .success-wrap h2 { font-size: 24px; font-weight: 800; color: var(--dark); margin-bottom: 8px; }
+    .success-wrap p { font-size: 14px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
+    .success-actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+
+    @media (max-width: 480px) {
+      main { padding: 24px 16px 48px; }
+      .page-title { font-size: 22px; }
+      .plan-price .amount { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="/">
+    <div class="logo-icon">R</div>
+    <span class="logo-name">RetailerOS</span>
+  </a>
+  <div class="header-right">
+    <span class="retailer-name" id="hdr-name"></span>
+    <a href="/app/" class="btn btn-sm btn-outline">Open App</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- Loading -->
+  <div class="screen active" id="screen-loading">
+    <div class="spinner-wrap">
+      <div class="spinner"></div>
+      <div class="spinner-label">Loading…</div>
+    </div>
+  </div>
+
+  <!-- Login required -->
+  <div class="screen" id="screen-no-auth">
+    <div class="center-card">
+      <div class="icon-lg">🔒</div>
+      <h2>Sign in to subscribe</h2>
+      <p>You need to be logged in to your RetailerOS account to manage your subscription.</p>
+      <a href="/app/" class="btn btn-full">Go to RetailerOS App</a>
+    </div>
+  </div>
+
+  <!-- Active subscription -->
+  <div class="screen" id="screen-subscribed">
+    <div class="page-title">Your Subscription</div>
+    <div class="page-sub">Manage your RetailerOS plan and billing details.</div>
+    <div id="sub-banner"></div>
+    <div class="sub-card">
+      <div class="sub-card-header">
+        <div>
+          <div style="font-size:12px;font-weight:600;color:#9ca3af;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.06em">Current Plan</div>
+          <h2 id="sub-plan-name">—</h2>
+        </div>
+        <div>
+          <span class="plan-pill" id="sub-status-pill">Active</span>
+        </div>
+      </div>
+      <div class="sub-body">
+        <div class="sub-meta-grid">
+          <div class="sub-meta-item">
+            <div class="label">Amount Paid</div>
+            <div class="value amount" id="sub-amount">—</div>
+          </div>
+          <div class="sub-meta-item">
+            <div class="label">Valid From</div>
+            <div class="value" id="sub-start">—</div>
+          </div>
+          <div class="sub-meta-item">
+            <div class="label">Valid Until</div>
+            <div class="value" id="sub-end">—</div>
+          </div>
+          <div class="sub-meta-item">
+            <div class="label">Invoice No.</div>
+            <div class="value" id="sub-invoice">—</div>
+          </div>
+        </div>
+        <div class="sub-actions">
+          <a href="#" class="btn" id="btn-invoice">Download Invoice</a>
+          <a href="/app/" class="btn btn-outline">Go to App</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Plan selection + payment -->
+  <div class="screen" id="screen-plans">
+    <div class="page-title">Choose a Plan</div>
+    <div class="page-sub">All plans include all 18+ modules. Billed by Unhive Ventures LLP. Incl. 18% GST.</div>
+
+    <div id="plan-banner"></div>
+
+    <div class="plans-grid" id="plans-grid">
+      <!-- injected by JS -->
+    </div>
+
+    <div class="payment-box">
+      <h3>Order Summary</h3>
+      <div class="sub" id="pay-plan-label">Select a plan above to continue.</div>
+
+      <div class="order-summary" id="order-summary" style="display:none">
+        <div class="order-row"><span id="os-plan-name">—</span><span id="os-base">—</span></div>
+        <div class="order-row"><span>GST (18%)</span><span id="os-gst">—</span></div>
+        <div class="order-row total"><span>Total</span><span id="os-total">—</span></div>
+      </div>
+
+      <div class="pay-methods">
+        <button class="pay-method-btn pay-razorpay" id="btn-rzp" disabled onclick="payRazorpay()">
+          Pay with Razorpay
+        </button>
+        <div class="pay-divider">or</div>
+        <button class="pay-method-btn pay-stripe" id="btn-stripe" disabled onclick="payStripe()">
+          Pay with Stripe
+        </button>
+      </div>
+
+      <div class="billing-note">
+        Secure payment · GST invoice emailed after payment<br>
+        By paying you agree to RetailerOS <a href="/" target="_blank">Terms of Service</a>.<br>
+        Billing entity: <strong>Unhive Ventures LLP</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success (post-payment) -->
+  <div class="screen" id="screen-success">
+    <div class="center-card" style="max-width:520px">
+      <div class="success-icon">🎉</div>
+      <h2>Payment Successful!</h2>
+      <p id="success-msg">Your RetailerOS subscription is now active. You can log in and start using all modules right away.</p>
+      <div class="success-actions">
+        <a href="#" class="btn" id="success-invoice-btn" style="display:none">Download Invoice</a>
+        <a href="/app/" class="btn btn-outline">Go to App</a>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  // ── Globals ───────────────────────────────────────────────────
+  const TOKEN   = localStorage.getItem('retaileros_session_token');
+  const R_NAME  = localStorage.getItem('retaileros_retailer_name') || '';
+  const R_EMAIL = localStorage.getItem('retaileros_email') || '';
+  const R_PHONE = localStorage.getItem('retaileros_phone') || '';
+  const params  = new URLSearchParams(location.search);
+  const stripeOk     = params.get('stripe_success') === '1';
+  const stripeFail   = params.get('stripe_cancelled') === '1';
+
+  let selectedPlan = null;   // plan object currently selected
+  let allPlans     = [];     // plans from API
+
+  // ── Init ──────────────────────────────────────────────────────
+  if (R_NAME) document.getElementById('hdr-name').textContent = R_NAME;
+
+  (async function init() {
+    if (!TOKEN) { showScreen('no-auth'); return; }
+
+    try {
+      const [plansRes, subRes] = await Promise.all([
+        fetch('/api/payment/plans'),
+        fetch('/api/payment/subscription', authHeaders()),
+      ]);
+
+      if (!plansRes.ok) throw new Error('plans');
+      const plansData = await plansRes.json();
+      allPlans = plansData.plans || [];
+
+      let sub = null;
+      if (subRes.ok) {
+        const subData = await subRes.json();
+        sub = subData.subscription;
+      }
+
+      if (sub && sub.status === 'active') {
+        renderSubscription(sub);
+        showScreen('subscribed');
+      } else {
+        renderPlanCards(allPlans);
+        showScreen('plans');
+        if (stripeOk) {
+          setBanner('plan-banner', 'success',
+            '✓ Payment received! Your subscription is being activated — it may take a moment to reflect. ' +
+            '<a href="/pay">Refresh this page</a> to check.');
+        }
+        if (stripeFail) {
+          setBanner('plan-banner', 'warn',
+            'Payment was cancelled. Please try again or choose a different payment method.');
+        }
+      }
+    } catch (err) {
+      console.error('[pay] init error:', err);
+      // Still try to show plan cards so user can attempt payment
+      renderPlanCards(allPlans);
+      showScreen('plans');
+      setBanner('plan-banner', 'err',
+        'Could not load subscription info. You can still proceed with payment — contact support if the issue persists.');
+    }
+  })();
+
+  // ── Screens ───────────────────────────────────────────────────
+  function showScreen(name) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-' + name).classList.add('active');
+  }
+
+  // ── Plan cards ────────────────────────────────────────────────
+  function renderPlanCards(plans) {
+    const grid = document.getElementById('plans-grid');
+    if (!plans.length) {
+      grid.innerHTML = '<p style="color:var(--muted);font-size:14px">Plan information unavailable. Please contact support.</p>';
+      return;
+    }
+    grid.innerHTML = plans.map(p => {
+      const perQ = fmtINR(p.price_per_quarter);
+      const base  = fmtINR(p.price_base);
+      const gst   = fmtINR(p.gst_amount);
+      const total = fmtINR(p.price_total);
+      const savingsHtml = p.savings
+        ? `<div class="plan-savings">Save ₹${fmtINR(p.savings)} vs quarterly</div>`
+        : '';
+      const badgeHtml = p.savings
+        ? `<div class="plan-badge">Best Value</div>`
+        : '';
+      return `
+      <div class="plan-card" id="card-${p.id}" onclick="selectPlan('${p.id}')">
+        <div class="plan-radio"><div class="plan-radio-dot"></div></div>
+        ${badgeHtml}
+        <div class="plan-name">${esc(p.name)}</div>
+        <div class="plan-desc">${esc(p.description)}</div>
+        <div class="plan-price">
+          <span class="amount">₹${perQ}</span>
+          <span class="per">/ quarter</span>
+        </div>
+        <div class="plan-gst">₹${base} + ₹${gst} GST = ₹${total} total</div>
+        ${savingsHtml}
+        <hr class="plan-divider">
+        <ul class="plan-features">
+          <li>All 18+ RetailerOS modules</li>
+          <li>Unlimited sales & inventory</li>
+          <li>WhatsApp integration</li>
+          <li>GST tax invoice</li>
+          <li>Email & phone support</li>
+        </ul>
+      </div>`;
+    }).join('');
+  }
+
+  function selectPlan(planId) {
+    selectedPlan = allPlans.find(p => p.id === planId) || null;
+    document.querySelectorAll('.plan-card').forEach(c => {
+      c.classList.toggle('selected', c.id === 'card-' + planId);
+    });
+    if (selectedPlan) {
+      updateOrderSummary(selectedPlan);
+      document.getElementById('btn-rzp').disabled   = false;
+      document.getElementById('btn-stripe').disabled = false;
+      document.getElementById('pay-plan-label').textContent = selectedPlan.name + ' selected.';
+    }
+  }
+
+  function updateOrderSummary(plan) {
+    document.getElementById('order-summary').style.display = 'block';
+    document.getElementById('os-plan-name').textContent = plan.name;
+    document.getElementById('os-base').textContent  = '₹' + fmtINR(plan.price_base);
+    document.getElementById('os-gst').textContent   = '₹' + fmtINR(plan.gst_amount);
+    document.getElementById('os-total').textContent = '₹' + fmtINR(plan.price_total);
+  }
+
+  // ── Razorpay ──────────────────────────────────────────────────
+  async function payRazorpay() {
+    if (!selectedPlan) return;
+    setPayBtns(true);
+    let orderData;
+    try {
+      const res = await fetch('/api/payment/create-order', {
+        method: 'POST',
+        ...authHeaders(),
+        body: JSON.stringify({ plan_id: selectedPlan.id }),
+      });
+      orderData = await res.json();
+      if (!res.ok) throw new Error(orderData.error || 'Order creation failed');
+    } catch (err) {
+      setBanner('plan-banner', 'err', 'Could not create payment order: ' + err.message);
+      setPayBtns(false);
+      return;
+    }
+
+    const rzp = new Razorpay({
+      key:        orderData.key_id,
+      amount:     orderData.amount,
+      currency:   orderData.currency,
+      order_id:   orderData.order_id,
+      name:       'RetailerOS',
+      description: orderData.plan.name + ' · Unhive Ventures LLP',
+      prefill: { name: R_NAME, email: R_EMAIL, contact: R_PHONE },
+      theme: { color: '#DC2625' },
+      modal: { ondismiss: () => setPayBtns(false) },
+      handler: async function(response) {
+        try {
+          const vRes = await fetch('/api/payment/verify', {
+            method: 'POST',
+            ...authHeaders(),
+            body: JSON.stringify({
+              razorpay_order_id:   response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature:  response.razorpay_signature,
+              plan_id: selectedPlan.id,
+            }),
+          });
+          const vData = await vRes.json();
+          if (!vRes.ok || !vData.success) throw new Error(vData.error || 'Verification failed');
+          showSuccess(vData.subscription, vData.invoice_number);
+        } catch (err) {
+          setBanner('plan-banner', 'err',
+            'Payment received but verification failed. Please contact support@retaileros.in with your payment reference.');
+          setPayBtns(false);
+        }
+      },
+    });
+    rzp.open();
+  }
+
+  // ── Stripe ────────────────────────────────────────────────────
+  async function payStripe() {
+    if (!selectedPlan) return;
+    setPayBtns(true);
+    try {
+      const res = await fetch('/api/payment/create-stripe-session', {
+        method: 'POST',
+        ...authHeaders(),
+        body: JSON.stringify({ plan_id: selectedPlan.id }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Stripe session creation failed');
+      if (data.checkout_url) {
+        window.location.href = data.checkout_url;
+      } else {
+        throw new Error('No checkout URL returned');
+      }
+    } catch (err) {
+      setBanner('plan-banner', 'err', 'Stripe error: ' + err.message);
+      setPayBtns(false);
+    }
+  }
+
+  function setPayBtns(disabled) {
+    document.getElementById('btn-rzp').disabled    = disabled;
+    document.getElementById('btn-stripe').disabled = disabled;
+    if (disabled) {
+      document.getElementById('btn-rzp').textContent    = 'Processing…';
+      document.getElementById('btn-stripe').textContent = 'Processing…';
+    } else {
+      document.getElementById('btn-rzp').textContent    = 'Pay with Razorpay';
+      document.getElementById('btn-stripe').textContent = 'Pay with Stripe';
+    }
+  }
+
+  // ── Active subscription view ──────────────────────────────────
+  function renderSubscription(sub) {
+    const planNames = { quarterly: 'Quarterly Plan', yearly: 'Annual Plan' };
+    document.getElementById('sub-plan-name').textContent = planNames[sub.plan_id] || sub.plan_id;
+    document.getElementById('sub-amount').textContent    = sub.amount_total ? '₹' + fmtINR(sub.amount_total) : '—';
+    document.getElementById('sub-start').textContent     = sub.billing_start ? fmtDate(sub.billing_start) : '—';
+    document.getElementById('sub-end').textContent       = sub.billing_end   ? fmtDate(sub.billing_end)   : '—';
+    document.getElementById('sub-invoice').textContent   = sub.invoice_number || '—';
+
+    const invoiceBtn = document.getElementById('btn-invoice');
+    if (sub.id) {
+      invoiceBtn.href = '/api/payment/invoice/' + sub.id;
+      invoiceBtn.target = '_blank';
+    } else {
+      invoiceBtn.style.display = 'none';
+    }
+
+    // Warn if expiring within 7 days
+    if (sub.billing_end) {
+      const daysLeft = Math.ceil((new Date(sub.billing_end) - Date.now()) / 86400000);
+      if (daysLeft <= 7) {
+        setBanner('sub-banner', 'warn',
+          'Your subscription expires in ' + daysLeft + ' day' + (daysLeft === 1 ? '' : 's') +
+          '. <a href="/pay">Renew now</a> to avoid interruption.');
+      }
+    }
+  }
+
+  // ── Post-payment success ──────────────────────────────────────
+  function showSuccess(sub, invoiceNumber) {
+    const planNames = { quarterly: 'Quarterly Plan', yearly: 'Annual Plan' };
+    const name = sub ? (planNames[sub.plan_id] || sub.plan_id) : 'your plan';
+    document.getElementById('success-msg').textContent =
+      'Your RetailerOS subscription (' + name + ') is now active. ' +
+      'You can log in and start using all modules right away.' +
+      (invoiceNumber ? ' Invoice: ' + invoiceNumber + '.' : '');
+
+    if (sub && sub.id) {
+      const btn = document.getElementById('success-invoice-btn');
+      btn.href   = '/api/payment/invoice/' + sub.id;
+      btn.target = '_blank';
+      btn.style.display = 'inline-flex';
+    }
+    showScreen('success');
+  }
+
+  // ── Helpers ───────────────────────────────────────────────────
+  function authHeaders() {
+    return {
+      headers: {
+        'Authorization': 'Bearer ' + TOKEN,
+        'Content-Type': 'application/json',
+      },
+    };
+  }
+
+  function fmtINR(n) {
+    if (n == null) return '—';
+    return Number(n).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function fmtDate(ts) {
+    if (!ts) return '—';
+    return new Date(ts).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+
+  function esc(s) {
+    return String(s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function setBanner(containerId, type, html) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    el.innerHTML = `<div class="banner banner-${type}"><span class="banner-icon">${
+      type === 'success' ? '✓' : type === 'warn' ? '⚠' : '✕'
+    }</span><div class="banner-body">${html}</div></div>`;
+  }
+</script>
+</body>
+</html>
