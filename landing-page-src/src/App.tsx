@@ -790,7 +790,19 @@ const Hero = () => {
             </div>
           </motion.div>
 
-          <motion.h1 
+          <motion.a
+            href="#v040"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+            className="inline-flex items-center gap-2 px-3 py-1 bg-brand/5 rounded-full border border-brand/10 hover:bg-brand/10 transition-colors cursor-pointer"
+          >
+            <Rocket className="w-3.5 h-3.5 text-brand" />
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-brand">v0.4.0 — What's New</span>
+            <ChevronRight className="w-3 h-3 text-brand/60" />
+          </motion.a>
+
+          <motion.h1
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
@@ -1356,6 +1368,157 @@ const Footer = () => {
   );
 };
 
+const V040Section = () => {
+  return (
+    <section className="py-14 md:py-20 bg-slate-50 overflow-hidden" id="v040">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center max-w-3xl mx-auto mb-12"
+        >
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand/5 rounded-full border border-brand/10 mb-6">
+            <Rocket className="w-3.5 h-3.5 text-brand" />
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-brand">v0.4.0</span>
+          </div>
+          <h2 className="text-2xl md:text-4xl font-black text-slate-900 tracking-tight leading-[1.1]">
+            What's new in <br />
+            <span className="text-slate-400 font-headline italic">RetailerOS v0.4.0</span>
+          </h2>
+          <p className="mt-4 text-slate-500 font-medium text-sm max-w-xl mx-auto">
+            Payments, plugins, and upstream syncs — the biggest platform release yet.
+          </p>
+        </motion.div>
+
+        <div className="bento-grid">
+          {/* Click-Through Updates — 2×2 hero card */}
+          <motion.div whileHover={{ y: -5 }} className="col-span-1 md:col-span-2 row-span-2 glass-panel rounded-2xl p-6 md:p-8 flex flex-col justify-between group overflow-hidden relative cursor-pointer">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-brand/5 blur-[80px] group-hover:bg-brand/10 transition-colors" />
+            <div className="relative z-10">
+              <div className="w-10 h-10 bg-brand rounded-xl flex items-center justify-center shadow-lg shadow-brand/20 mb-5 border border-white/20">
+                <Bell className="w-5 h-5 text-white" />
+              </div>
+              <h3 className="text-xl font-black text-slate-900 mb-2">Click-Through Updates</h3>
+              <p className="text-slate-500 font-medium uppercase text-[10px] tracking-widest mb-4">In-App Update Banner</p>
+              <ul className="space-y-4">
+                {['Automatic version detection', 'One-click in-app updates', 'Stable channel via GitHub Releases'].map((item, idx) => (
+                  <li key={idx} className="flex items-center gap-3 text-sm font-bold text-slate-700">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />{item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="mt-8 flex items-center gap-2 text-brand font-black text-xs uppercase tracking-widest">
+              Always Up to Date <ArrowRight className="w-4 h-4" />
+            </div>
+          </motion.div>
+
+          {/* Workflow Plugins — 2×1 */}
+          <motion.div whileHover={{ y: -5 }} className="col-span-1 md:col-span-2 row-span-1 glass-panel rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between group overflow-hidden cursor-pointer">
+            <div className="space-y-3 relative z-10 w-full md:w-3/5">
+              <div className="w-10 h-10 bg-violet-600 rounded-xl flex items-center justify-center shadow-lg mb-4 group-hover:rotate-12 transition-transform">
+                <Zap className="w-5 h-5 text-white" />
+              </div>
+              <h3 className="text-lg font-black text-slate-900">Workflow Plugins</h3>
+              <p className="text-slate-500 text-sm font-medium">Smart Inbox Commander and 3+ built-in workflow automations.</p>
+            </div>
+            <div className="hidden md:flex flex-col items-end gap-2 flex-shrink-0">
+              {['Smart Inbox', 'Auto Alerts', 'Custom Rules'].map((tag) => (
+                <span key={tag} className="px-3 py-1 bg-violet-50 text-violet-700 text-[10px] font-black uppercase tracking-widest rounded-full border border-violet-100">{tag}</span>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* GitHub Releases — 1×1 */}
+          <motion.div whileHover={{ y: -5 }} className="col-span-1 row-span-1 glass-panel rounded-2xl p-5 md:p-6 flex flex-col justify-between group cursor-pointer">
+            <div className="w-10 h-10 bg-sky-500 rounded-xl flex items-center justify-center shadow-lg mb-6"><Cloud className="w-5 h-5 text-white" /></div>
+            <div>
+              <h4 className="text-base font-black text-slate-900 mb-1">GitHub Releases</h4>
+              <p className="text-xs text-slate-500 font-bold">Tarball-based stable channel distribution.</p>
+            </div>
+          </motion.div>
+
+          {/* Upstream Sync — 1×1 */}
+          <motion.div whileHover={{ y: -5 }} className="col-span-1 row-span-1 glass-panel rounded-2xl p-5 md:p-6 flex flex-col justify-between group cursor-pointer">
+            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg mb-6"><ArrowLeftRight className="w-5 h-5 text-white" /></div>
+            <div>
+              <h4 className="text-base font-black text-slate-900 mb-1">Upstream Sync</h4>
+              <p className="text-xs text-slate-500 font-bold">2,185 commits merged — latest platform improvements.</p>
+            </div>
+          </motion.div>
+
+          {/* Payment Integration — 2×1 */}
+          <motion.div whileHover={{ y: -5 }} className="col-span-1 md:col-span-2 row-span-1 glass-panel rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between group overflow-hidden cursor-pointer">
+            <div className="space-y-3 relative z-10 w-full md:w-3/5">
+              <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center shadow-lg mb-4 group-hover:rotate-12 transition-transform">
+                <CreditCard className="w-5 h-5 text-white" />
+              </div>
+              <h3 className="text-lg font-black text-slate-900">Payment Integration</h3>
+              <p className="text-slate-500 text-sm font-medium">Razorpay + Stripe with GST invoice generation built in.</p>
+            </div>
+            <div className="hidden md:flex items-center gap-2 flex-shrink-0">
+              <span className="px-4 py-2 bg-emerald-50 text-emerald-700 text-xs font-black rounded-xl border border-emerald-100">Razorpay</span>
+              <span className="px-4 py-2 bg-indigo-50 text-indigo-700 text-xs font-black rounded-xl border border-indigo-100">Stripe</span>
+            </div>
+          </motion.div>
+
+          {/* Subscription Gate — 1×1 */}
+          <motion.div whileHover={{ y: -5 }} className="col-span-1 row-span-1 glass-panel rounded-2xl p-5 md:p-6 flex flex-col justify-between group cursor-pointer">
+            <div className="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center shadow-lg mb-6"><Shield className="w-5 h-5 text-white" /></div>
+            <div>
+              <h4 className="text-base font-black text-slate-900 mb-1">Subscription Gate</h4>
+              <p className="text-xs text-slate-500 font-bold">Pay-before-use enforcement for new signups.</p>
+            </div>
+          </motion.div>
+
+          {/* Admin Dashboard — 1×1 */}
+          <motion.div whileHover={{ y: -5 }} className="col-span-1 row-span-1 glass-panel rounded-2xl p-5 md:p-6 flex flex-col justify-between group cursor-pointer">
+            <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg mb-6"><BarChart3 className="w-5 h-5 text-white" /></div>
+            <div>
+              <h4 className="text-base font-black text-slate-900 mb-1">Admin Dashboard</h4>
+              <p className="text-xs text-slate-500 font-bold">Lead tracking and signup data management.</p>
+            </div>
+          </motion.div>
+
+          {/* Inquiry Management — 2×1 */}
+          <motion.div whileHover={{ y: -5 }} className="col-span-1 md:col-span-2 row-span-1 glass-panel rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between group overflow-hidden cursor-pointer">
+            <div className="space-y-3 relative z-10 w-full md:w-3/5">
+              <div className="w-10 h-10 bg-rose-500 rounded-xl flex items-center justify-center shadow-lg mb-4 group-hover:rotate-12 transition-transform">
+                <MessageSquare className="w-5 h-5 text-white" />
+              </div>
+              <h3 className="text-lg font-black text-slate-900">Inquiry Management</h3>
+              <p className="text-slate-500 text-sm font-medium">Lead capture form wired to API and admin dashboard.</p>
+            </div>
+            <div className="hidden md:flex items-center gap-3 flex-shrink-0 text-rose-600">
+              <div className="text-right">
+                <p className="text-2xl font-black">∞</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest">Leads Tracked</p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Responsive Design — 2×1 */}
+          <motion.div whileHover={{ y: -5 }} className="col-span-1 md:col-span-2 row-span-1 glass-panel rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between group overflow-hidden cursor-pointer">
+            <div className="space-y-3 relative z-10 w-full md:w-3/5">
+              <div className="w-10 h-10 bg-teal-500 rounded-xl flex items-center justify-center shadow-lg mb-4 group-hover:rotate-12 transition-transform">
+                <Monitor className="w-5 h-5 text-white" />
+              </div>
+              <h3 className="text-lg font-black text-slate-900">Responsive Design</h3>
+              <p className="text-slate-500 text-sm font-medium">Login and key forms visible on all viewports — mobile, tablet, desktop.</p>
+            </div>
+            <div className="hidden md:flex items-center gap-2 flex-shrink-0">
+              {['Mobile', 'Tablet', 'Desktop'].map((device) => (
+                <span key={device} className="px-3 py-1 bg-teal-50 text-teal-700 text-[10px] font-black uppercase tracking-widest rounded-full border border-teal-100">{device}</span>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 export default function App() {
   return (
     <div className="min-h-screen selection:bg-brand/20 bg-white overflow-x-hidden relative">
@@ -1365,6 +1528,7 @@ export default function App() {
           <Hero />
           <TrustSection />
           <BentoFeatures />
+          <V040Section />
           <FeaturesCarousel />
           <OnboardingSection />
           <ResponsiveSection />
