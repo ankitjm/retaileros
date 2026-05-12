@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Security — RetailerOS</title>
+<link rel="stylesheet" href="colors_and_type.css" />
+<style>
+  :root {
+    --bg-page:        #F4F7FB;
+    --bg-elev:        #FFFFFF;
+    --ink:            #0B1220;
+    --ink-soft:       #475569;
+    --ink-muted:      #94A3B8;
+    --line:           #E5EAF2;
+    --line-strong:    #D5DDEA;
+    --brand-blue:     #1E47B8;
+    --brand-blue-2:   #3D6AE8;
+    --brand-blue-soft:#E8EEFB;
+    --accent:         #E8622A;
+    --green:          #16A34A;
+    --green-soft:     #DCFCE7;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-body);
+    color: var(--ink);
+    background: var(--bg-page);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--brand-blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .nav { max-width: 1280px; margin: 0 auto; padding: 22px clamp(20px, 4vw, 48px); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+  .brand { display: flex; align-items: center; gap: 10px; line-height: 1; }
+  .brand img.brand-mark { width: 38px; height: 38px; object-fit: contain; display: block; }
+  .brand img.brand-wordmark { height: 24px; object-fit: contain; display: block; }
+  .back-link { font-size: 14px; font-weight: 500; color: var(--ink-soft); }
+  .back-link:hover { color: var(--ink); text-decoration: none; }
+
+  .legal-page { max-width: 760px; margin: 0 auto; padding: clamp(48px, 7vw, 96px) clamp(20px, 4vw, 48px); }
+  .legal-header { margin-bottom: clamp(40px, 5vw, 56px); padding-bottom: clamp(28px, 4vw, 40px); border-bottom: 1px solid var(--line); }
+  .legal-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--brand-blue); display: inline-block; margin-bottom: 18px; }
+  .legal-header h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(34px, 4.4vw, 52px); line-height: 1.08; letter-spacing: -0.025em; color: var(--ink); margin: 0 0 14px; }
+  .legal-meta { font-size: 14px; color: var(--ink-muted); margin: 0; }
+  .legal-body { font-size: 15.5px; line-height: 1.7; color: var(--ink-soft); }
+  .legal-body .lead { font-size: 17px; color: var(--ink); line-height: 1.6; margin: 0 0 32px; font-weight: 500; }
+  .legal-body h2 { font-family: var(--font-display); font-size: clamp(20px, 2.2vw, 26px); font-weight: 700; line-height: 1.25; letter-spacing: -0.012em; color: var(--ink); margin: 40px 0 14px; }
+  .legal-body h3 { font-size: 16px; font-weight: 600; color: var(--ink); margin: 24px 0 8px; }
+  .legal-body p { margin: 0 0 16px; }
+  .legal-body ul { margin: 0 0 16px; padding-left: 22px; }
+  .legal-body li { margin: 6px 0; }
+  .legal-body strong { color: var(--ink); font-weight: 600; }
+  .legal-body .callout { background: var(--brand-blue-soft); border-left: 3px solid var(--brand-blue); border-radius: 4px; padding: 14px 18px; margin: 20px 0; font-size: 14.5px; }
+
+  .pillar-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin: 24px 0 32px;
+  }
+  .pillar {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .pillar .icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: var(--brand-blue-soft);
+    color: var(--brand-blue);
+    display: inline-flex; align-items: center; justify-content: center;
+    flex: 0 0 auto;
+  }
+  .pillar .icon svg { width: 16px; height: 16px; }
+  .pillar h4 {
+    margin: 0 0 4px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .pillar p { font-size: 13px; line-height: 1.5; margin: 0; color: var(--ink-soft); }
+  @media (max-width: 560px) { .pillar-grid { grid-template-columns: 1fr; } }
+
+  .legal-footer { border-top: 1px solid var(--line); background: #fff; padding: 32px clamp(20px, 4vw, 48px); text-align: center; font-size: 13px; color: var(--ink-muted); }
+  .legal-footer .meta-links { display: inline-flex; gap: 24px; flex-wrap: wrap; justify-content: center; margin-top: 10px; }
+  .legal-footer .meta-links a { color: var(--ink-muted); }
+  .legal-footer .meta-links a:hover { color: var(--ink); text-decoration: none; }
+
+  @media (max-width: 620px) {
+    .nav { padding: 18px 20px; }
+    .back-link { font-size: 13px; }
+    .legal-page { padding-top: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <a href="hero.html" class="brand" aria-label="RetailerOS home">
+    <img class="brand-mark" src="assets/logo-mark.png" alt="" />
+    <img class="brand-wordmark" src="assets/logo-wordmark.png" alt="RetailerOS" />
+  </a>
+  <a href="hero.html" class="back-link">← Back to RetailerOS</a>
+</header>
+
+<article class="legal-page">
+  <header class="legal-header">
+    <span class="legal-eyebrow">Trust &amp; Security</span>
+    <h1>Security at RetailerOS</h1>
+    <p class="legal-meta">Last updated: 29 April 2026</p>
+  </header>
+
+  <div class="legal-body">
+    <p class="lead">RetailerOS holds the day-to-day operational data of Indian retail businesses — invoices, customer records, IMEI numbers, ledger balances. We treat that responsibility with the seriousness it deserves. This page describes how.</p>
+
+    <h2>The four pillars</h2>
+    <div class="pillar-grid">
+      <div class="pillar">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 1l9 4v6c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div>
+          <h4>Encryption</h4>
+          <p>TLS 1.3 in transit. AES-256 at rest. Keys rotated automatically.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="2"/><path d="M7 11V7a5 5 0 0110 0v4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div>
+          <h4>Access control</h4>
+          <p>Role-based permissions. Audited admin access. Mandatory MFA for staff.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2"/><path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div>
+          <h4>Backups</h4>
+          <p>Automated daily backups with 30-day retention. Geographically redundant.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4M5 12c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7-7-3.13-7-7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div>
+          <h4>Compliance</h4>
+          <p>Aligned with Indian DPDP Act 2023 and GST record-keeping requirements.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2>Encryption</h2>
+    <p><strong>In transit</strong> — every connection between you, our servers, and our integrations is protected by TLS 1.3. We disable older protocols (SSL, TLS 1.0/1.1) and weak ciphers across all environments.</p>
+    <p><strong>At rest</strong> — application data, database storage, and backups are encrypted using AES-256. Database fields containing sensitive information (phone numbers, GSTINs, payment tokens) are additionally encrypted at the column level.</p>
+    <p><strong>Key management</strong> — encryption keys are stored in a managed key-management service, never in application code. Keys are rotated on a regular schedule.</p>
+
+    <h2>Infrastructure</h2>
+    <p>RetailerOS runs on cloud infrastructure with primary servers in India. Our infrastructure providers are SOC 2 Type II and ISO 27001 certified. We run on private virtual networks; databases and internal services are not exposed to the public internet.</p>
+    <p>All deployments are immutable, peer-reviewed, and pass automated security checks before reaching production.</p>
+
+    <h2>Access controls</h2>
+    <p><strong>For your team</strong> — role-based access (Owner, Manager, Counter Staff, Read-only) so the right people see the right things. Account owners can revoke access instantly.</p>
+    <p><strong>For our team</strong> — production access is limited to a small group of senior engineers, requires MFA, and is logged. We never access your business data unless you explicitly grant support access for a defined troubleshooting window.</p>
+
+    <h2>Authentication</h2>
+    <ul>
+      <li>OTP-based phone verification at signup.</li>
+      <li>Strong password requirements (or passwordless via OTP).</li>
+      <li>Optional 2-factor authentication on all paid plans, mandatory on Enterprise.</li>
+      <li>Session expiry, suspicious-login alerts, and the ability to sign out remote sessions.</li>
+    </ul>
+
+    <h2>Backups and disaster recovery</h2>
+    <p>We perform automated daily backups, retained for 30 days, encrypted at rest. Backups are stored in a geographically separate region from the primary database. Our disaster-recovery plan targets:</p>
+    <ul>
+      <li><strong>RPO</strong> (Recovery Point Objective): under 24 hours for daily backups, under 1 hour for transactional replication on Pro and Enterprise plans.</li>
+      <li><strong>RTO</strong> (Recovery Time Objective): under 4 hours for full service restoration in case of regional failure.</li>
+    </ul>
+    <p>We test recovery procedures regularly.</p>
+
+    <h2>Monitoring and incident response</h2>
+    <p>We continuously monitor application performance, error rates, and security events. Our on-call team responds 24×7 to critical alerts. If a security incident affects your account, we will notify you within 72 hours of confirming the impact, with details of what happened, what data was involved, and the steps we're taking.</p>
+
+    <h2>Vulnerability disclosure</h2>
+    <p>We welcome reports from security researchers. If you discover a vulnerability:</p>
+    <div class="callout">
+      Email <a href="mailto:security@retaileros.com">security@retaileros.com</a> with the subject "Security report".<br/>
+      Please give us reasonable time to investigate and patch before public disclosure.
+    </div>
+    <p>We will acknowledge receipt within 2 business days, keep you informed of progress, and credit you (with permission) once the issue is resolved.</p>
+
+    <h2>Compliance</h2>
+    <p>RetailerOS is built to support compliance with:</p>
+    <ul>
+      <li><strong>Digital Personal Data Protection Act, 2023</strong> (India)</li>
+      <li><strong>GST record-keeping</strong> requirements (8-year retention)</li>
+      <li><strong>WhatsApp Business Policy</strong> for messaging features</li>
+      <li><strong>RBI guidelines</strong> on payment data handling (we don't store full card numbers — payment processor does)</li>
+    </ul>
+    <p>SOC 2 Type II audit is on our roadmap; we'll publish the report once available.</p>
+
+    <h2>Your responsibilities</h2>
+    <p>Security is a shared effort. We strongly recommend:</p>
+    <ul>
+      <li>Use a strong password or rely on OTP-only login.</li>
+      <li>Enable 2FA on owner accounts (mandatory on Enterprise).</li>
+      <li>Don't share login credentials — give each staff member their own seat with the right role.</li>
+      <li>Review your active sessions and audit log regularly.</li>
+      <li>Notify us immediately if you suspect a compromised account.</li>
+    </ul>
+
+    <h2>Contact</h2>
+    <div class="callout">
+      <strong>Security team — Kosha Systems Pvt. Ltd.</strong><br/>
+      Email: <a href="mailto:security@retaileros.com">security@retaileros.com</a><br/>
+      For privacy questions: <a href="mailto:privacy@retaileros.com">privacy@retaileros.com</a>
+    </div>
+  </div>
+</article>
+
+<footer class="legal-footer">
+  <div>© 2026 RetailerOS · a product of Kosha Systems · Made in India</div>
+  <div class="meta-links">
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="security.html">Security</a>
+    <a href="hero.html">Home</a>
+  </div>
+</footer>
+
+</body>
+</html>
