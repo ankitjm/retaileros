@@ -2,8 +2,36 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9MV0N80GKW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9MV0N80GKW');
+</script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Free Resources for Indian Retailers — RetailerOS</title>
+<meta name="description" content="Free guides for Indian mobile and electronics retailers: Tally migration, IMEI tracking, GST invoicing and brand scheme reconciliation." />
+<link rel="canonical" href="https://retaileros.in/resources.html" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#1E47B8" />
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="RetailerOS" />
+<meta property="og:title" content="Free Resources for Indian Retailers — RetailerOS" />
+<meta property="og:description" content="Free guides for Indian mobile and electronics retailers: Tally migration, IMEI tracking, GST invoicing and brand scheme reconciliation." />
+<meta property="og:url" content="https://retaileros.in/resources.html" />
+<meta property="og:image" content="https://retaileros.in/assets/og-card.png" />
+<meta property="og:locale" content="en_IN" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://retaileros.in/assets/og-card.png" />
 <link rel="stylesheet" href="colors_and_type.css" />
 <style>
   :root {
@@ -11,7 +39,7 @@
     --bg-elev:        #FFFFFF;
     --ink:            #0B1220;
     --ink-soft:       #475569;
-    --ink-muted:      #94A3B8;
+    --ink-muted:      #5B6B82;
     --line:           #E5EAF2;
     --line-strong:    #D5DDEA;
     --brand-blue:     #1E47B8;
@@ -254,6 +282,10 @@
     .resources-grid { grid-template-columns: 1fr; }
     .resource-card { padding: 22px; }
   }
+  /* fixed + left:50% with width:auto shrink-fits to viewport-minus-left,
+     collapsing the toast to ~180px on a phone */
+  .toast { width: calc(100vw - 32px); max-width: 460px; }
+  .nav-cta { padding: 12px 18px; }
 </style>
 </head>
 <body>
@@ -383,7 +415,7 @@
 </section>
 
 <footer class="site-footer">
-  <div>© 2026 RetailerOS · a product of Kosha Systems · Made in India</div>
+  <div>© 2026 RetailerOS · a product of Khosha Systems · Made in India</div>
   <div class="meta-links">
     <a href="privacy.html">Privacy</a>
     <a href="terms.html">Terms</a>

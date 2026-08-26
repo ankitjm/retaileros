@@ -2,8 +2,36 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9MV0N80GKW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9MV0N80GKW');
+</script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Security — RetailerOS</title>
+<meta name="description" content="How RetailerOS secures your shop's billing, inventory and customer data: encryption, backups, access control and infrastructure." />
+<link rel="canonical" href="https://retaileros.in/security.html" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#1E47B8" />
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="RetailerOS" />
+<meta property="og:title" content="Security — RetailerOS" />
+<meta property="og:description" content="How RetailerOS secures your shop's billing, inventory and customer data: encryption, backups, access control and infrastructure." />
+<meta property="og:url" content="https://retaileros.in/security.html" />
+<meta property="og:image" content="https://retaileros.in/assets/og-card.png" />
+<meta property="og:locale" content="en_IN" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://retaileros.in/assets/og-card.png" />
 <link rel="stylesheet" href="colors_and_type.css" />
 <style>
   :root {
@@ -11,7 +39,7 @@
     --bg-elev:        #FFFFFF;
     --ink:            #0B1220;
     --ink-soft:       #475569;
-    --ink-muted:      #94A3B8;
+    --ink-muted:      #5B6B82;
     --line:           #E5EAF2;
     --line-strong:    #D5DDEA;
     --brand-blue:     #1E47B8;
@@ -21,6 +49,13 @@
     --green:          #16A34A;
     --green-soft:     #DCFCE7;
   }
+
+  /* colors_and_type.css is the DARK app palette and it colours bare elements
+     (h1 -> #FFFFFF, p -> #A8AABB, a -> #E8622A). This page is light, so any
+     element not explicitly coloured rendered at ~2.1:1 contrast. Neutralise it. */
+  h1, h2, h3, h4, h5, h6 { color: var(--ink); }
+  p { color: var(--ink-soft); }
+  a { color: var(--brand-blue); opacity: 1; }
   *, *::before, *::after { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
   body {
@@ -96,6 +131,10 @@
     .back-link { font-size: 13px; }
     .legal-page { padding-top: 36px; }
   }
+  .back-link { display: inline-flex; align-items: center; min-height: 44px; }
+  .legal-footer .meta-links a { display: inline-flex; align-items: center; min-height: 44px; }
+  .legal-body .callout a { display: inline-block; padding: 6px 0; }
+  @media (max-width: 620px) { .brand img.brand-wordmark { height: 20px; } .back-link { white-space: nowrap; } }
 </style>
 </head>
 <body>
@@ -212,7 +251,7 @@
 
     <h2>Contact</h2>
     <div class="callout">
-      <strong>Security team — Kosha Systems Pvt. Ltd.</strong><br/>
+      <strong>Security team — Khosha Systems Pvt. Ltd.</strong><br/>
       Email: <a href="mailto:security@retaileros.com">security@retaileros.com</a><br/>
       For privacy questions: <a href="mailto:privacy@retaileros.com">privacy@retaileros.com</a>
     </div>
@@ -220,7 +259,7 @@
 </article>
 
 <footer class="legal-footer">
-  <div>© 2026 RetailerOS · a product of Kosha Systems · Made in India</div>
+  <div>© 2026 RetailerOS · a product of Khosha Systems · Made in India</div>
   <div class="meta-links">
     <a href="privacy.html">Privacy</a>
     <a href="terms.html">Terms</a>

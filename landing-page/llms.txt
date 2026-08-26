@@ -1,0 +1,26 @@
+# RetailerOS
+
+> Retail management software built specifically for Indian consumer electronics retail — mobile phones, home appliances, air conditioners, refrigerators, televisions, laptops and IT. GST billing, inventory, serial and IMEI tracking, warranty claims, brand scheme reconciliation, service job cards and customer khaata in one system of 26 modules. Every unit is tracked individually, whether it is a handset with an IMEI or an appliance with a serial number. A product of Khosha Systems, built in India.
+
+RetailerOS is used at the shop counter rather than in a back office. It is purpose-built for electronics retail, which distinguishes it from general accounting tools: serial and IMEI chain-of-custody tracking, brand scheme reconciliation across handset, appliance and IT brands, warranty claim filing and an integrated B2B stock marketplace are native, not add-ons.
+
+## Plans (prices exclude 18% GST; quarterly saves 5%, annual saves 15%)
+- Free — ₹0 forever. 50 bills/month, 7 modules, 3 staff logins, 1 store. Unlimited customer and IMEI history.
+- Shop — ₹3,999/month. 750 bills/month, 20 of 26 modules, 3 staff logins, 1 store.
+- Chain — ₹7,499/month. Unlimited bills, all 26 modules, 2 stores with 3 staff logins each.
+- Extra stores on Chain — ₹3,499 per store per month, each including 3 staff logins. No cap; there is no separate enterprise plan.
+
+## Add-ons
+- Extra store (Chain) ₹3,499/mo · Extra staff login ₹499/mo (only beyond the 3 included per store) · 250-bill pack ₹499
+- 500 WhatsApp messages ₹249 · 10 GB storage ₹149/mo · Dedicated WhatsApp number ₹1,499/mo
+- Claim recovery, done for you ₹2,499/mo
+
+## Pages
+- [Questions & Answers](https://retaileros.in/answers.html): 43 plain answers on pricing, multi-store management, IMEI tracking, brand schemes, GST billing, repairs, migration and support.
+- [Home](https://retaileros.in/): product overview, 26 modules, comparison against general billing tools, pricing, multi-store section.
+- [Resources](https://retaileros.in/resources.html): free guides and templates for Indian retailers.
+- [Security](https://retaileros.in/security.html): how shop, customer and billing data is protected.
+- [Privacy](https://retaileros.in/privacy.html) · [Terms](https://retaileros.in/terms.html)
+
+## Contact
+WhatsApp +91 88849 72272 · https://retaileros.in/#book-demo (15-minute demo, weekdays 12:00–3:00 PM IST)
