@@ -69,7 +69,7 @@
   "offers": [
     { "@type": "Offer", "name": "Free",  "price": "0",    "priceCurrency": "INR", "description": "50 bills per month, 7 modules, unlimited customer and IMEI history, free forever" },
     { "@type": "Offer", "name": "Shop",  "price": "3999", "priceCurrency": "INR", "description": "750 bills per month, 20 modules, 3 staff logins, 1 store" },
-    { "@type": "Offer", "name": "Chain", "price": "7499", "priceCurrency": "INR", "description": "Unlimited bills, all 26 modules, 2 stores with 3 staff logins each, extra stores Rs 3499 each including their logins" }
+    { "@type": "Offer", "name": "Chain", "price": "10998", "priceCurrency": "INR", "description": "Minimum 2 stores: Rs 7,499/mo for the first store plus Rs 3,499/mo for each additional store. Unlimited bills, all 26 modules, 3 staff logins per store." }
   ],
   "publisher": { "@type": "Organization", "name": "Khosha Systems", "url": "https://retaileros.in/" }
 }
@@ -129,7 +129,7 @@
     {
       "@type": "Question",
       "name": "How many stores can I manage on one RetailerOS account?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Free and Shop each cover one store. Chain includes two stores, and additional stores can be added at Rs 3,499 per store per month. There is no cap on how many stores a Chain account can run." }
+      "acceptedAnswer": { "@type": "Answer", "text": "Free and Shop each cover one store. Chain needs a minimum of two stores: the first store is Rs 7,499 per month and every additional store is Rs 3,499 per month. There is no cap on how many stores a Chain account can run." }
     },
     {
       "@type": "Question",
@@ -5287,6 +5287,10 @@
     .cmp tbody td, .mstore-tbl tbody td { padding-top: 8px; padding-bottom: 8px; }
     .cmp caption, .mstore-tbl caption { font-size: 12px; padding-bottom: 10px; }
   }
+  .price-extra { font-size: 13.5px; font-weight: 600; color: var(--brand-blue); margin: 2px 0 6px; }
+  .price-link { display: block; font-size: 13.5px; font-weight: 600; color: var(--brand-blue);
+                text-decoration: none; margin: 4px 0 12px; }
+  .price-link:hover { text-decoration: underline; }
 </style>
 
 <script>
@@ -5323,12 +5327,11 @@
     <img class="brand-wordmark" src="assets/logo-wordmark.png" alt="RetailerOS" />
   </a>
   <nav class="nav-links">
-    <a href="#why">Why RetailerOS</a>
-    <a href="#modules">Modules</a>
-    <a href="#multi-store">Multi-store</a>
+    <a href="#modules">Product</a>
+    <a href="/solutions/">Solutions</a>
+    <a href="/pricing/">Pricing</a>
+    <a href="/compare/">Compare</a>
     <a href="answers.html">Answers</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#proof">Customers</a>
     <a href="https://app.retaileros.in/login" class="signin signin-mobile" data-label-in="Access account">Sign in</a>
     <div class="nav-resources" id="navResources">
       <button class="nav-resources-toggle" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="navResourcesPanel">
@@ -5876,7 +5879,7 @@
       <span class="mstore-eyebrow">Multi-store</span>
       <h2>Running <em>more than one store?</em></h2>
       <p class="mstore-answer">
-        <strong>Yes — RetailerOS runs multiple stores from one login.</strong> Each location keeps its own stock, staff, cash register and invoice numbering, while you get a single owner's view across all of them. The <strong>Chain</strong> plan covers 2 stores at ₹7,499/month, with additional stores at <strong>₹3,499 per store per month</strong> — and every store brings 3 staff logins with it, at no extra charge. Consolidating always costs less than running separate accounts.
+        <strong>Yes — RetailerOS runs multiple stores from one login.</strong> Each location keeps its own stock, staff, cash register and invoice numbering, while you get a single owner's view across all of them. On <strong>Chain</strong>, your first store is ₹7,499/month and every additional store is <strong>₹3,499/month</strong>, with a minimum of two — so a two-store chain starts at ₹10,998/month — and every store brings 3 staff logins with it, at no extra charge. Consolidating always costs less than running separate accounts.
       </p>
     </div>
 
@@ -5928,7 +5931,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr><th scope="row">Stores included</th><td data-col="Free"><span class="num">1</span></td><td data-col="Shop"><span class="num">1</span></td><td class="hi" data-col="Chain"><span class="num">2</span></td></tr>
+          <tr><th scope="row">Stores included</th><td data-col="Free"><span class="num">1</span></td><td data-col="Shop"><span class="num">1</span></td><td class="hi" data-col="Chain"><span class="num">2 min.</span></td></tr>
           <tr><th scope="row">Extra stores</th><td data-col="Free"><span class="no">✕</span></td><td data-col="Shop"><span class="no">✕</span></td><td class="hi" data-col="Chain"><span class="num">₹3,499</span></td></tr>
           <tr><th scope="row">Bills per month</th><td data-col="Free"><span class="num">50</span></td><td data-col="Shop"><span class="num">750</span></td><td class="hi" data-col="Chain"><span class="num">Unlimited</span></td></tr>
           <tr><th scope="row">Staff logins included</th><td data-col="Free"><span class="num">3</span></td><td data-col="Shop"><span class="num">3</span></td><td class="hi" data-col="Chain"><span class="num">3 per store</span></td></tr>
@@ -5945,7 +5948,7 @@
     <div class="mstore-qa">
       <div>
         <h3>How many stores can I manage on one account?</h3>
-        <p>Free and Shop each cover one store. Chain includes two, and you can add as many more as you like at ₹3,499 per store per month. Running a larger chain? Talk to us about a custom rollout.</p>
+        <p>Free and Shop each cover one store. Chain starts at two: the first store is ₹7,499/month and every additional store is ₹3,499/month, with no upper limit. Running a larger chain? Talk to us about a custom rollout.</p>
       </div>
       <div>
         <h3>Do I pay extra for staff logins when I open a store?</h3>
@@ -6001,7 +6004,7 @@
         <span class="limit"><span class="limit-num">∞</span>customers &amp; IMEI</span>
       </div>
       <ul class="price-features">
-        <li><strong>4 core modules</strong> — Sales Desk · Invoices · Inventory · Clients</li>
+        <li><strong>7 modules</strong> — Sales Desk · Invoices · Inventory · Clients, plus dashboard &amp; settings</li>
         <li>Unlimited customer khaata history</li>
         <li>Unlimited IMEI records, kept forever</li>
         <li>GST-compliant invoices</li>
@@ -6027,9 +6030,10 @@
         <span class="limit"><span class="limit-num">∞</span>customers &amp; IMEI</span>
       </div>
       <ul class="price-features">
-        <li><strong>16 modules</strong> — everything in Free, plus:</li>
+        <li><strong>20 modules</strong> — everything in Free, plus:</li>
         <li>IMEI Tracker · Schemes · Repairs · Claims</li>
-        <li>Cash Register · Expenses · Purchase Orders · Inquiries</li>
+        <li>Cash Register · Expenses · Purchase Orders</li>
+        <li>Inquiries · Pre-booking</li>
         <li>Reports · Staff · Finance · Pricing</li>
         <li>200 WhatsApp messages / mo</li>
         <li>Email 48h SLA + in-app chat</li>
@@ -6040,27 +6044,29 @@
     <!-- TIER 3 · Chain -->
     <article class="price-card tier-starter" data-plan="chain">
       <h3 class="price-name">Chain</h3>
-      <p class="price-tagline">For owners running more than one counter.</p>
+      <p class="price-tagline">For owners running two or more stores.</p>
       <div class="price-amount" data-prices='{"monthly":"₹7,499","quarterly":"₹7,124","annual":"₹6,374"}'>
         <span class="num">₹7,124</span>
-        <span class="per">/ month</span>
+        <span class="per">/ month · first store</span>
       </div>
-      <p class="price-billing" data-billing='{"monthly":"Billed monthly · ₹7,499 + 18% GST","quarterly":"Billed quarterly · ₹21,372 + 18% GST · <span class=\"save\">save ₹1,125</span>","annual":"Billed annually · ₹76,488 + 18% GST · <span class=\"save\">save ₹13,500/yr</span>"}'>Billed quarterly · ₹21,372 + 18% GST · <span class="save">save ₹1,125</span></p>
+      <p class="price-extra" data-extra='{"monthly":"+ ₹3,499/mo for each additional store","quarterly":"+ ₹3,324/mo for each additional store","annual":"+ ₹2,974/mo for each additional store"}'>+ ₹3,324/mo for each additional store</p>
+      <p class="price-billing" data-billing='{"monthly":"Minimum 2 stores: <strong>₹10,998/mo</strong> + 18% GST","quarterly":"Minimum 2 stores: <strong>₹10,448/mo</strong>, billed ₹31,344 a quarter + GST · <span class=\"save\">save ₹1,650</span>","annual":"Minimum 2 stores: <strong>₹9,348/mo</strong>, billed ₹1,12,176 a year + GST · <span class=\"save\">save ₹19,800/yr</span>"}'>Minimum 2 stores: <strong>₹10,448/mo</strong>, billed ₹31,344 a quarter + GST · <span class="save">save ₹1,650</span></p>
       <div class="price-limits">
         <span class="limit"><span class="limit-num">∞</span>bills/mo</span>
         <span class="limit"><span class="limit-num">3</span>logins per store</span>
-        <span class="limit"><span class="limit-num">2</span>stores</span>
+        <span class="limit"><span class="limit-num">2+</span>stores</span>
         <span class="limit"><span class="limit-num">∞</span>customers &amp; IMEI</span>
       </div>
       <ul class="price-features">
-        <li><strong>All 20 modules</strong> — everything in Shop, plus:</li>
+        <li><strong>All 26 modules</strong> — everything in Shop, plus:</li>
         <li>Stores · Marketing · Marketplace · Integrations</li>
+        <li>Automation · Promoters</li>
         <li>Unlimited bills — no caps, no packs</li>
         <li>Cross-store stock, staff and reporting</li>
         <li>2,000 WhatsApp messages / mo</li>
         <li>Priority 12h email + WhatsApp + phone callback</li>
-        <li>Extra stores ₹3,499 / month — <strong>each brings 3 more logins</strong></li>
       </ul>
+      <a href="/pricing/#calculator" class="price-link">Work out the price for your stores →</a>
       <a href="#" class="price-cta" data-cta="onboard" data-plan="chain">Start 14-Day Trial</a>
     </article>
   </div>
@@ -6096,7 +6102,7 @@
     </span>
     <p class="banner-text">
       <strong>Purpose-built for consumer electronics retail.</strong>
-      Tally, Vyapar and generic POS tools don't have IMEI tracking, brand-scheme reconciliation (Vivo/Samsung/Oppo), warranty claim filing, or the integrated B2B Marketplace. RetailerOS does — out of the box, on every plan.
+      Billing apps print a GST invoice, and some track IMEIs. What they don't do is reconcile brand scheme cashback, file warranty claims through to settlement, run repair job cards, or manage several stores from one login. RetailerOS does all four. <a href="/compare/">See how we compare →</a>
     </p>
   </div>
 
@@ -6393,24 +6399,28 @@
         <a href="#multi-store">Multi-store</a>
         <a href="answers.html">Answers</a>
         <a href="#why">Why RetailerOS</a>
+        <a href="/pricing/">Pricing</a>
         <a href="#" data-cta="onboard">Sign up free</a>
-        <a href="#">Changelog</a>
       </div>
       <div class="footer-col">
         <h3>Solutions</h3>
-        <a href="/#pricing">Single counter</a>
-        <a href="/#multi-store">Multi-counter chains</a>
-        <a href="/#modules">Repair &amp; service centres</a>
+        <a href="/solutions/mobile-phone-retail/">Mobile phone retail</a>
+        <a href="/solutions/appliance-and-ac-dealers/">Appliance &amp; AC dealers</a>
+        <a href="/solutions/multi-store-chains/">Multi-store chains</a>
+        <a href="/solutions/repair-and-service-centres/">Repair &amp; service centres</a>
       </div>
       <div class="footer-col">
         <h3>Resources</h3>
         <a href="resources.html">Free templates</a>
         <a href="resources.html#migration">Migration guides</a>
         <a href="resources.html#gst">GST cheat sheet</a>
+        <a href="/compare/">Compare RetailerOS</a>
+        <a href="/compare/vyapar-alternative/">RetailerOS vs Vyapar</a>
+        <a href="/compare/tally-alternative/">RetailerOS vs Tally</a>
       </div>
       <div class="footer-col">
         <h3>Company</h3>
-        <a href="https://koshasystems.com" target="_blank" rel="noopener">Parent company → Khosha Systems</a>
+        <a href="https://khoshasystems.com" target="_blank" rel="noopener">Parent company → Khosha Systems</a>
       </div>
     </div>
 
@@ -6655,9 +6665,9 @@
             <header class="plan-head">
               <div>
                 <h3>Chain</h3>
-                <p class="plan-cap">Unlimited bills · 2 stores · 3 logins each</p>
+                <p class="plan-cap">Unlimited bills · minimum 2 stores</p>
               </div>
-              <div class="plan-price"><span class="num">₹7,499</span><span class="per">/ month</span></div>
+              <div class="plan-price"><span class="num">₹7,499</span><span class="per">/ mo first store</span></div>
             </header>
             <ul class="plan-features">
               <li>All 26 modules · Stores · Marketing · Automation</li>
@@ -6893,6 +6903,9 @@
           const prices = JSON.parse(amt.dataset.prices);
           if (prices[cycle]) amt.querySelector('.num').textContent = prices[cycle];
         } catch (e) {}
+      });
+      document.querySelectorAll('.price-card .price-extra[data-extra]').forEach(x => {
+        try { const e = JSON.parse(x.dataset.extra); if (e[cycle]) x.textContent = e[cycle]; } catch (err) {}
       });
       document.querySelectorAll('.price-card .price-billing[data-billing]').forEach(b => {
         try {
@@ -7270,7 +7283,7 @@
         ]
       },
       'product-different': {
-        bot: "Tally and Vyapar are general accounting tools. RetailerOS is *purpose-built* for consumer electronics retail — phones, air conditioners, refrigerators, televisions, laptops and accessories. You get serial and IMEI tracking on every unit, brand scheme reconciliation, warranty claim filing, service job cards and an integrated B2B Marketplace. Horizontal accounting tools have none of that out of the box.",
+        bot: "Tally is accounting software — excellent for your books, but IMEI or serial tracking needs a paid third-party add-on, and it has no counter workflow for schemes, repairs or warranty claims. Vyapar is good-value billing and does track IMEIs and warranty periods. RetailerOS goes further for electronics retail: it reconciles brand scheme cashback, files warranty claims through to settlement, runs repair job cards from intake to handover, and manages several stores from one login. Full comparisons at retaileros.in/compare.",
         choices: [
           { id: 'product-modules', label: 'What modules?' },
           { id: 'pricing', label: 'See pricing' },
@@ -7294,7 +7307,7 @@
         ]
       },
       pricing: {
-        bot: "Three plans: **Free** (₹0 forever), **Shop** (₹3,999/mo) and **Chain** (₹7,499/mo). Paid plans get a 14-day trial. Quarterly billing saves 5%, annual saves 15%. All prices exclude 18% GST. Running a larger chain? Ask us about a custom rollout.",
+        bot: "Three plans: **Free** (₹0 forever), **Shop** (₹3,999/mo, one store) and **Chain** (₹7,499/mo for your first store plus ₹3,499/mo for each additional store, minimum two). Paid plans get a 14-day trial. Quarterly billing saves 5%, annual saves 15%. All prices exclude 18% GST. Exact figures for your store count: retaileros.in/pricing.",
         choices: [
           { id: 'pricing-free', label: 'Tell me about Free' },
           { id: 'pricing-starter', label: "What's in Starter?" },
@@ -7320,7 +7333,7 @@
         ]
       },
       'pricing-pro': {
-        bot: "Chain — **₹7,499/mo** (annual ₹6,374/mo, saves ₹13,500/yr). *Unlimited bills*, 2 stores with 3 staff logins each. *All 26 modules* — adds Stores, Marketing, Marketplace, Integrations, Automation and Promoters. Extra stores are ₹3,499 each per month and bring 3 more logins with them. 2,000 WhatsApp/mo, REST API, priority 12h email + WhatsApp + phone callback.",
+        bot: "Chain — **₹7,499/mo for your first store** plus **₹3,499/mo for each additional store**, minimum two stores. So two stores is ₹10,998/mo, or ₹9,348/mo on annual billing. *Unlimited bills*, 3 staff logins per store, *all 26 modules* — adds Stores, Marketing, Marketplace, Integrations, Automation and Promoters. 2,000 WhatsApp/mo, REST API, priority 12h email + WhatsApp + phone callback.",
         choices: [
           { id: 'pricing-enterprise', label: 'What about a bigger chain?' },
           { id: 'pricing-trial', label: 'Trial details' },
@@ -7748,6 +7761,70 @@
         el.setAttribute('href', 'https://app.retaileros.in/');
         el.classList.add('signin-authed');
       });
+    }
+  })();
+</script>
+
+<script>
+  /* Deep links from the other pages: /#start opens signup, /#book-demo opens
+     the demo booking. Waits for the page loader so the modal isn't hidden. */
+  (function () {
+    function whenReady(fn, tries) {
+      tries = tries || 0;
+      if (!document.body.classList.contains('loading') || tries > 60) return fn();
+      setTimeout(function () { whenReady(fn, tries + 1); }, 100);
+    }
+    function route() {
+      var h = location.hash;
+      var sel = h === '#start' ? '[data-cta="onboard"]' : h === '#book-demo' ? '[data-demo-open]' : null;
+      if (!sel) return;
+      whenReady(function () {
+        var el = document.querySelector(sel);
+        if (el) el.click();
+        history.replaceState(null, '', location.pathname);
+      });
+    }
+    window.addEventListener('hashchange', route);
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', route); else route();
+  })();
+
+  /* Proactive chat. Opens the existing chatbot once per visit: after a visitor
+     has looked at the pricing section for 4 seconds (and goes straight to the
+     pricing answers), or after 30 seconds / 60% of the page otherwise.
+     Never re-opens once dismissed. Shares session keys with /assets/site.js. */
+  (function () {
+    var btn = document.getElementById('chatbotBtn'), closeBtn = document.getElementById('chatbotClose');
+    if (!btn) return;
+    function get(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } }
+    function set(k) { try { sessionStorage.setItem(k, '1'); } catch (e) {} }
+    if (closeBtn) closeBtn.addEventListener('click', function () { set('ros_chat_dismissed'); });
+    btn.addEventListener('click', function () { set('ros_chat_seen'); });
+    var fired = false;
+    function fire(topic) {
+      if (fired || get('ros_chat_dismissed') || get('ros_chat_seen')) return;
+      if (document.querySelector('.modal-overlay.open, .demo-overlay.open')) return;
+      fired = true; btn.click();
+      if (topic) setTimeout(function () {
+        var b = Array.prototype.find.call(document.querySelectorAll('#chatbotBody button'),
+                  function (x) { return x.textContent.trim().indexOf(topic) === 0; });
+        if (b) b.click();
+      }, 450);
+    }
+    var small = window.matchMedia('(max-width: 760px)').matches;
+    var t = setTimeout(function () { fire(); }, small ? 45000 : 30000);
+    window.addEventListener('scroll', function onS() {
+      var h = document.documentElement;
+      if ((h.scrollTop + innerHeight) / h.scrollHeight > 0.6) { removeEventListener('scroll', onS); fire(); }
+    }, { passive: true });
+    var pr = document.getElementById('pricing');
+    if (pr && 'IntersectionObserver' in window) {
+      var dwell;
+      new IntersectionObserver(function (es) {
+        es.forEach(function (en) {
+          if (en.isIntersecting) dwell = setTimeout(function () { clearTimeout(t); fire('Pricing'); }, 4000);
+          else clearTimeout(dwell);
+        });
+      }, { threshold: 0.35 }).observe(pr);
     }
   })();
 </script>
