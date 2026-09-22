@@ -6,3 +6,6 @@ dist/
 *.db-shm
 server/node_modules/
 .DS_Store
+
+# written by the deploy pipeline at deploy time
+landing-page/version.txt
