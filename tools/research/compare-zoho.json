@@ -1,0 +1,110 @@
+{
+  "product": "Zoho Books (accounting) + Zoho Inventory (stock/orders), with Zoho POS as Zoho's retail-counter product",
+  "vendor": "Zoho Corporation",
+  "checked": "28 September 2026",
+  "urls_read": [
+    "https://www.zoho.com/in/books/pricing/",
+    "https://www.zoho.com/in/inventory/pricing/",
+    "https://www.zoho.com/en-in/pos/pricing.html (redirects to https://www.zoho.com/en-in/pos/retail/pricing.html)",
+    "https://www.zoho.com/en-in/pos/",
+    "https://www.zoho.com/en-in/pos/retail/",
+    "https://www.zoho.com/in/books/",
+    "https://www.zoho.com/in/inventory/",
+    "https://www.zoho.com/in/inventory/features/",
+    "https://www.zoho.com/in/inventory/serial-batch-tracking/",
+    "https://www.zoho.com/in/inventory/help/advanced-inventory-tracking/serial-number-tracking.html",
+    "https://www.zoho.com/in/inventory/inventory-software-for-retail/",
+    "https://www.zoho.com/in/inventory/mobile-apps/",
+    "https://www.zoho.com/in/books/help/integrations/whatsapp-integration.html",
+    "https://www.zoho.com/in/books/e-invoicing/",
+    "https://www.zoho.com/in/books/academy/taxes-and-compliance/e-way-bill.html",
+    "https://www.zoho.com/in/books/help/gst/gstr1-filing.html",
+    "https://www.zoho.com/in/books/help/branches/",
+    "https://www.zoho.com/in/books/kb/branches/",
+    "https://www.zoho.com/en-in/erp/help/inventory/transfer-orders.html",
+    "https://www.zoho.com/in/books/kb/integrations/integrate-existing-inventory-org.html",
+    "https://www.zoho.com/in/books/help/contacts/credit-limit.html",
+    "https://www.zoho.com/in/books/windows-accounting-app/",
+    "https://help.zoho.com/portal/en/community/topic/warranty-service-plan-tracking",
+    "https://help.zoho.com/portal/en/community/topic/mobile-and-laptop-repair-management"
+  ],
+  "facts": [
+    {"topic": "other", "claim": "Zoho Books India is positioned as GST-compliant, cloud accounting software for growing businesses covering banking, e-invoicing, inventory and payroll; it is not marketed specifically to mobile or electronics retailers.", "source": "https://www.zoho.com/in/books/", "confidence": "high"},
+    {"topic": "other", "claim": "Zoho Inventory India is marketed as inventory management software 'designed for Indian businesses' (orders, inventory, GST billing, warehouses); its retail page targets retail and e-commerce sellers generally, not phone/electronics stores specifically.", "source": "https://www.zoho.com/in/inventory/", "confidence": "high"},
+    {"topic": "other", "claim": "Zoho's own serial-tracking help page says the feature 'highly benefits the electronics and automobile industry for warranty and repair purposes' and uses mobile-phone IMEI as its example.", "source": "https://www.zoho.com/in/inventory/help/advanced-inventory-tracking/serial-number-tracking.html", "confidence": "high"},
+    {"topic": "other", "claim": "Zoho POS lists 'Electronics & Appliances' among the retail verticals it supports (a general list of about 15 verticals, not an electronics-specific product).", "source": "https://www.zoho.com/en-in/pos/retail/", "confidence": "high"},
+    {"topic": "other", "claim": "The Zoho POS pricing page says 'Gofrugal is a division of Zoho Corp.' and points larger retail enterprises to Gofrugal ERP.", "source": "https://www.zoho.com/en-in/pos/retail/pricing.html", "confidence": "high"},
+
+    {"topic": "pricing", "claim": "Zoho Books India plans, per organisation per month: Free ₹0; Standard ₹749 billed annually or ₹899 billed monthly; Professional ₹1,499 or ₹1,799; Premium ₹2,999 or ₹3,599; Elite ₹4,999 or ₹5,999; Ultimate ₹7,999 or ₹9,599. Prices exclude local taxes (GST).", "source": "https://www.zoho.com/in/books/pricing/", "confidence": "high"},
+    {"topic": "pricing", "claim": "Zoho Books users included: Free 1 user + 1 accountant, Standard 3, Professional 5, Premium 10, Elite 15, Ultimate 25. Extra users cost ₹150/user/month billed annually (₹180 monthly).", "source": "https://www.zoho.com/in/books/pricing/", "confidence": "high"},
+    {"topic": "pricing", "claim": "The Zoho Books Free plan stays free as long as the business's revenue for the financial year does not exceed ₹25 lakh, and allows up to 1,000 invoices a year.", "source": "https://www.zoho.com/in/books/pricing/", "confidence": "high"},
+    {"topic": "pricing", "claim": "Zoho Books offers a 14-day free trial of paid plans; add-ons are not available on the Free plan except document autoscans.", "source": "https://www.zoho.com/in/books/pricing/", "confidence": "high"},
+    {"topic": "pricing", "claim": "Zoho Books 'Locations' add-on costs ₹600/location/month billed annually (₹720 monthly) and includes 1 GSTIN + 10K invoices.", "source": "https://www.zoho.com/in/books/pricing/", "confidence": "high"},
+    {"topic": "pricing", "claim": "In Zoho Books, the Elite plan (₹4,999/org/month annually) is the first to include advanced inventory: warehouses, composite items, serial number tracking, batch tracking, bin locations, shipping labels, Amazon/Etsy channels and up to 2 Shopify stores.", "source": "https://www.zoho.com/in/books/pricing/", "confidence": "high"},
+    {"topic": "pricing", "claim": "Zoho Inventory India plans (per organisation per month, billed annually, excluding GST): Free ₹0 (50 orders, 1 user, 1 location); Standard ₹999 (500 orders/month, 3 users, 2 locations); Premium ₹2,299 (3,000 orders, 5 users, 4 locations); Plus ₹4,999 (7,500 orders, 10 users, 6 locations); Enterprise ₹7,499 (15,000 orders, 10 users, 10 locations).", "source": "https://www.zoho.com/in/inventory/pricing/", "confidence": "high"},
+    {"topic": "pricing", "claim": "Zoho Inventory add-ons (billed annually): users ₹399/month, 500 orders ₹399/month, locations ₹600/month, advanced warehousing ₹4,165.83/month, SMS ₹75/credit (min 5). There is a 14-day free trial.", "source": "https://www.zoho.com/in/inventory/pricing/", "confidence": "high"},
+    {"topic": "pricing", "claim": "Zoho POS (India) is priced per location per month: Free ₹0 (1 register, 1 user, 50 POS transactions); Standard ₹649 billed annually / ₹799 monthly (1 register, 3 users); Professional ₹1,299 / ₹1,599 (3 registers, 10 users); Premium ₹2,099 / ₹2,499 (5 registers, 15 users). GST is extra; 15-day free trial with no credit card.", "source": "https://www.zoho.com/en-in/pos/retail/pricing.html", "confidence": "medium"},
+    {"topic": "pricing", "claim": "Zoho POS lists add-ons for extra users, registers and storage locations, plus SMS credits at ₹75 for 300 SMS; add-ons are not available on the Free plan.", "source": "https://www.zoho.com/en-in/pos/retail/pricing.html", "confidence": "medium"},
+
+    {"topic": "imei", "claim": "Zoho Inventory has built-in serial number tracking: serials are recorded when purchase bills are created and specific serials are picked when invoicing, with support in transfer orders and adjustments; the help page uses phone IMEI numbers as its example.", "source": "https://www.zoho.com/in/inventory/help/advanced-inventory-tracking/serial-number-tracking.html", "confidence": "high"},
+    {"topic": "imei", "claim": "In Zoho Inventory, serial number and batch tracking start at the Premium plan (₹2,299/org/month annually); they are not in Standard.", "source": "https://www.zoho.com/in/inventory/pricing/", "confidence": "high"},
+    {"topic": "imei", "claim": "In Zoho Books alone, serial number tracking is only on the Elite plan (₹4,999/org/month annually) and above.", "source": "https://www.zoho.com/in/books/pricing/", "confidence": "high"},
+    {"topic": "imei", "claim": "Zoho POS includes serial and batch tracking from its Standard plan (₹649/location/month annually).", "source": "https://www.zoho.com/en-in/pos/retail/pricing.html", "confidence": "high"},
+    {"topic": "imei", "claim": "Zoho Inventory lets you scan or enter a serial or batch number to see an item's details instantly.", "source": "https://www.zoho.com/in/inventory/serial-batch-tracking/", "confidence": "high"},
+
+    {"topic": "warranty", "claim": "Zoho Inventory's serial/batch page says tracing products to their source lets you 'handle warranty claims and product recalls with ease'. It does not describe a dedicated warranty module (warranty periods, expiry dates or claim workflows).", "source": "https://www.zoho.com/in/inventory/serial-batch-tracking/", "confidence": "medium"},
+
+    {"topic": "multistore", "claim": "Zoho Inventory supports multi-warehouse management, transfer orders, picklists and bin locations; the number of locations depends on the plan (2 on Standard up to 10 on Enterprise) and more can be bought at ₹600/location/month.", "source": "https://www.zoho.com/in/inventory/pricing/", "confidence": "high"},
+    {"topic": "multistore", "claim": "Zoho's India transfer-order help says transfers work only between locations inside India, and when stock moves between locations with different GSTINs, an invoice and a bill are created automatically.", "source": "https://www.zoho.com/en-in/erp/help/inventory/transfer-orders.html", "confidence": "medium"},
+    {"topic": "multistore", "claim": "Zoho Books has a Branches feature that tracks branches in transactions, with branch-specific reports and user permissions. Plan limits: Professional 2 branches, Premium 3, Elite 8, Ultimate 8.", "source": "https://www.zoho.com/in/books/help/branches/", "confidence": "medium"},
+    {"topic": "multistore", "claim": "The Zoho Books branches FAQ covers filing GST returns separately for branches with different GSTINs, checking an item's stock in a particular branch, comparing profits across branches, and restricting users from seeing a branch's transactions.", "source": "https://www.zoho.com/in/books/kb/branches/", "confidence": "medium"},
+    {"topic": "multistore", "claim": "Zoho POS Standard and above include multi-location management of stores, warehouses and transfers between them, and pricing is charged per location.", "source": "https://www.zoho.com/en-in/pos/retail/pricing.html", "confidence": "high"},
+    {"topic": "multistore", "claim": "Zoho Books Professional and above include price lists; Zoho POS Standard and above include price lists, and POS Premium adds multiple cost price, selling price and MRP per item (listed as Early Access).", "source": "https://www.zoho.com/en-in/pos/retail/pricing.html", "confidence": "medium"},
+
+    {"topic": "gst", "claim": "Zoho Books Standard and above include e-invoice management and 'GST reports and filing'; the Free plan includes GST reports and filing.", "source": "https://www.zoho.com/in/books/pricing/", "confidence": "high"},
+    {"topic": "gst", "claim": "Zoho Books can file GSTR-1 directly to the GST portal through API access, as well as mark returns filed or unfiled.", "source": "https://www.zoho.com/in/books/help/gst/gstr1-filing.html", "confidence": "high"},
+    {"topic": "gst", "claim": "Zoho Books uploads invoices to the IRP and gets back signed e-invoices with an IRN, and says it is an e-invoicing-compliant GSP-backed solution.", "source": "https://www.zoho.com/in/books/e-invoicing/", "confidence": "high"},
+    {"topic": "gst", "claim": "Zoho Inventory India lists GSTIN storage, HSN/SAC codes, GST invoices, e-way bills and delivery challans as GST features.", "source": "https://www.zoho.com/in/inventory/", "confidence": "high"},
+    {"topic": "gst", "claim": "Zoho POS Standard and above include e-way bill generation and tracking.", "source": "https://www.zoho.com/en-in/pos/retail/pricing.html", "confidence": "high"},
+
+    {"topic": "accounting", "claim": "Zoho Books is full double-entry accounting: its plans list P&L, balance sheet and 50+ reports, bank reconciliation, transaction locking, and (Premium and above) fixed assets, budgets, cash-flow forecasting and payroll.", "source": "https://www.zoho.com/in/books/pricing/", "confidence": "high"},
+    {"topic": "accounting", "claim": "Zoho Books and Zoho Inventory share the same organisation: an Inventory organisation can be opened in Books via Settings > Integrations > Accounting > Access Zoho Books, and the same organisation then appears in both apps.", "source": "https://www.zoho.com/in/books/kb/integrations/integrate-existing-inventory-org.html", "confidence": "high"},
+    {"topic": "accounting", "claim": "Zoho POS connects to Zoho Books for accounting and to Zoho Commerce for e-commerce.", "source": "https://www.zoho.com/en-in/pos/retail/", "confidence": "high"},
+
+    {"topic": "credit", "claim": "Zoho Books lets you set a credit limit for each customer to control outstanding receivables, shows it in the Customer Balances report, and sends payment reminders for overdue invoices.", "source": "https://www.zoho.com/in/books/help/contacts/credit-limit.html", "confidence": "high"},
+    {"topic": "credit", "claim": "Loyalty points are part of Zoho POS Premium (₹2,099/location/month annually), listed as Early Access.", "source": "https://www.zoho.com/en-in/pos/retail/pricing.html", "confidence": "high"},
+    {"topic": "credit", "claim": "Zoho Inventory's Plus plan bundles the Zoho Commerce Premium plan, including loyalty and coupon management.", "source": "https://www.zoho.com/in/inventory/pricing/", "confidence": "high"},
+
+    {"topic": "whatsapp", "claim": "Zoho Books integrates with the WhatsApp Business API: it sends invoices, sales orders, payment receipts, statements, quotes and credit notes, in bulk, and payment reminders using Meta-approved templates.", "source": "https://www.zoho.com/in/books/help/integrations/whatsapp-integration.html", "confidence": "high"},
+    {"topic": "whatsapp", "claim": "Zoho Books WhatsApp needs purchased IM (Instant Messaging) credits, a verified Facebook Business Manager account, and makes Zoho your WhatsApp Business Service Provider. WhatsApp alerts can also be added to workflow rules.", "source": "https://www.zoho.com/in/books/help/integrations/whatsapp-integration.html", "confidence": "high"},
+    {"topic": "whatsapp", "claim": "Zoho POS says it can send invoices and transaction messages via email, SMS and WhatsApp.", "source": "https://www.zoho.com/en-in/pos/retail/", "confidence": "high"},
+    {"topic": "whatsapp", "claim": "Zoho Inventory's Plus plan lists 'WhatsApp Commerce' (through the bundled Zoho Commerce).", "source": "https://www.zoho.com/in/inventory/pricing/", "confidence": "high"},
+
+    {"topic": "ecommerce", "claim": "Zoho Inventory integrates with Amazon, Etsy, Shopify, WooCommerce and Zoho Commerce, syncs stock across channels, and connects to Indian shipping carriers such as Shiprocket, Delhivery and Blue Dart.", "source": "https://www.zoho.com/in/inventory/serial-batch-tracking/", "confidence": "high"},
+    {"topic": "ecommerce", "claim": "Zoho Books Elite and above connects Amazon/Etsy and up to 2 Shopify stores; Zoho POS includes Shopify integration (1 store on Free and Standard, up to 5 on Premium) and a shareable mobile store.", "source": "https://www.zoho.com/en-in/pos/retail/pricing.html", "confidence": "high"},
+
+    {"topic": "platform", "claim": "Zoho Books and Zoho Inventory are cloud software with iOS and Android apps. Zoho Inventory's Android app shows 4.7 stars from 2K reviews and 250K+ downloads, with barcode scanning.", "source": "https://www.zoho.com/in/inventory/mobile-apps/", "confidence": "high"},
+    {"topic": "platform", "claim": "Zoho Books has a desktop app for Windows 10 and above.", "source": "https://www.zoho.com/in/books/windows-accounting-app/", "confidence": "high"},
+    {"topic": "platform", "claim": "Zoho POS offers Windows, macOS, Android and iOS billing apps. Paid plans include offline billing that syncs when the connection returns.", "source": "https://www.zoho.com/en-in/pos/retail/pricing.html", "confidence": "high"},
+
+    {"topic": "strengths", "claim": "Zoho Books has deep, compliance-grade accounting: direct GSTR-1 filing via API, e-invoicing through the IRP, and P&L/balance sheet with 50+ reports. A retailer's accountant can work inside it, with a free accountant seat on the Free plan.", "source": "https://www.zoho.com/in/books/pricing/", "confidence": "high"},
+    {"topic": "strengths", "claim": "Zoho Books, Inventory, POS, Commerce, CRM and Analytics share one organisation and integrate natively, which is useful for businesses that also sell online or wholesale.", "source": "https://www.zoho.com/in/books/kb/integrations/integrate-existing-inventory-org.html", "confidence": "medium"},
+    {"topic": "strengths", "claim": "Zoho Books has a genuinely free plan for businesses under ₹25 lakh revenue, and Zoho POS has an indefinitely free plan with limits.", "source": "https://www.zoho.com/in/books/pricing/", "confidence": "high"},
+    {"topic": "strengths", "claim": "Zoho Inventory has strong multichannel e-commerce and shipping integrations (Amazon, Shopify, 40+ carriers) that a counter-first store app typically doesn't focus on.", "source": "https://www.zoho.com/in/inventory/inventory-software-for-retail/", "confidence": "high"},
+
+    {"topic": "other", "claim": "Zoho POS support is by phone (toll-free 1800 102 9944), WhatsApp, email, live chat and remote assistance, available 24/5 plus 9 AM to 6 PM IST on weekends. A Jumpstart team can visit the store to help set it up.", "source": "https://www.zoho.com/en-in/pos/retail/pricing.html", "confidence": "high"},
+    {"topic": "other", "claim": "Zoho Books India support is on 1800 572 6671 (Mon-Fri, 9 AM to 7 PM) and support.india@zohobooks.com. Books support channels grow by plan: Standard email only, Professional email and voice, Premium and above email, voice and chat.", "source": "https://www.zoho.com/in/books/pricing/", "confidence": "high"},
+    {"topic": "other", "claim": "Zoho Books' India homepage features customer quotes from businesses that switched from Tally to Zoho Books.", "source": "https://www.zoho.com/in/books/", "confidence": "high"}
+  ],
+  "not_found": [
+    "Brand scheme / dealer scheme / cashback / sell-out incentive tracking or claims: not found in Zoho Books, Inventory or POS pages read (POS has discount 'Offers', which are customer promotions, not brand schemes)",
+    "Dedicated warranty module (warranty period per serial, expiry alerts, warranty claim workflow): not found. Only the serial-tracking marketing line about 'handling warranty claims'. A community question (undated in the page read) asking for warranty tracking had no Zoho answer in the page read",
+    "Repair / service job cards: not found in Books, Inventory or POS. A community post asking for mobile/laptop repair job-card management had no answer in the page read",
+    "Market share or number of Indian retail customers: not found on the Zoho pages read",
+    "Zoho One India INR pricing on Zoho's own site: the pricing page is JavaScript-rendered and showed no prices when fetched; third-party sites say about ₹1,250-₹1,500 per employee/month (not verified on zoho.com)",
+    "Offline use of Zoho Books or Zoho Inventory (web/desktop): not stated on the pages read. Offline billing is only explicitly claimed for Zoho POS",
+    "Consolidated multi-branch P&L in Zoho Books beyond the FAQ question 'Can I compare the profits I've earned across my branches?': answer body not read",
+    "Customer loyalty inside Zoho Books or Zoho Inventory by themselves (outside POS Premium / Inventory Plus via Zoho Commerce): not found"
+  ],
+  "notes": "1) Zoho sells three overlapping products for this segment: Zoho Books (accounting; Elite plan bundles advanced inventory with serial tracking), Zoho Inventory (stock/orders; shares the same organisation with Books), and Zoho POS (the actual counter-billing product, priced per location). A fair comparison for a phone/electronics store is realistically either 'Zoho Books Elite' alone, 'Zoho Inventory Premium + Zoho Books', or 'Zoho POS + Zoho Books'. 2) Serial tracking tier differs by product: Inventory Premium (₹2,299), Books Elite (₹4,999), POS Standard (₹649/location). WebFetch's summariser wrongly put serial tracking in Inventory Standard; the raw page text puts it in Premium. 3) Zoho POS prices on the page are shown as two numbers with 'billed annually' and 'billed monthly' labels. Given 'Save up to 19% by going yearly' and third-party sites saying 'starts at ₹649', I read the lower figure as annual. POS add-on price pairs (e.g. users ₹99 / ₹999) are ambiguous about monthly vs annual, so confidence is medium. 4) Branch limits (Professional 2, Premium 3, Elite 8, Ultimate 8) come from a WebFetch summary of the Books branches help page, whose body did not extract via curl, so confidence is medium. 5) Gofrugal, a retail ERP widely used in Indian retail, is a division of Zoho Corp per Zoho's POS page. This is relevant if a Gofrugal comparison page is ever planned. 6) Transfer-order GST behaviour is cited from the Zoho ERP India help, which shares the Inventory engine; Inventory's own India help lists Transfer Orders and Branches in its navigation. 7) Two help.zoho.com community pages were read only to confirm that no official warranty/job-card feature was cited; they are not evidence of absence."
+}

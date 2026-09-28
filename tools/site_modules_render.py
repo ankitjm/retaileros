@@ -102,14 +102,14 @@ HUB = '''<section class="hero-s"><div class="wrap narrow"><span class="eyebrow">
 </div></section>
 <section class="sec"><div class="wrap">
   <div class="sec-head"><h2>The full system</h2>
-    <p class="hub-key"><span class="dot free"></span>Free <span class="dot shop"></span>Shop <span class="dot chain"></span>Chain</p></div>
+    <p class="hub-key"><span class="dot free"></span>Free <span class="dot shop"></span>Shop <span class="dot chain"></span>Pro</p></div>
   <div class="hub-groups">{groups}</div>
 </div></section>
 {cta}'''
 
 HUB_ANSWER = ('RetailerOS has 26 modules, all on one login. Seven are free — Sales Desk, Invoices, Inventory, '
               'Clients, Dashboard, Settings and onboarding. Shop adds 13, including IMEI tracking, Schemes, Repairs, '
-              'Claims and Pre-booking. Chain adds the last 6: Stores, Marketing, Marketplace, Integrations, '
+              'Claims and Pre-booking. Pro adds the last 6: Stores, Marketing, Marketplace, Integrations, '
               'Automation and Promoters.')
 
 
@@ -140,8 +140,8 @@ def module_pages(B, MODULES):
                   'featureList': live_features,
                   'isPartOf': {'@type': 'SoftwareApplication', 'name': 'RetailerOS', 'url': B.SITE + '/'},
                   'publisher': {'@type': 'Organization', 'name': 'Khosha Systems', 'url': 'https://khoshasystems.com'}}
-        plan_line = {'shop': 'Included on Shop (₹3,999 a month) and Chain',
-                     'chain': 'Part of the Chain plan', 'free': 'Free on every plan'}[m['plan']]
+        plan_line = {'shop': 'Included on Shop (₹3,999 a month) and Pro',
+                     'chain': 'Part of the Pro plan', 'free': 'Free on every plan'}[m['plan']]
         body = PAGE.format(
             eyebrow=e(m['eyebrow']), h1=m['h1'], answer=e(m['answer']), plan=m['plan'], plan_line=e(plan_line),
             name=e(m['name']), demo=module_demo(m['demo']), split=split,

@@ -69,7 +69,7 @@
   "offers": [
     { "@type": "Offer", "name": "Free",  "price": "0",    "priceCurrency": "INR", "description": "50 bills per month, 7 modules, unlimited customer and IMEI history, free forever" },
     { "@type": "Offer", "name": "Shop",  "price": "3999", "priceCurrency": "INR", "description": "750 bills per month, 20 modules, 3 staff logins, 1 store" },
-    { "@type": "Offer", "name": "Chain", "price": "10998", "priceCurrency": "INR", "description": "Minimum 2 stores: Rs 7,499/mo for the first store plus Rs 3,499/mo for each additional store. Unlimited bills, all 26 modules, 3 staff logins per store." }
+    { "@type": "Offer", "name": "Pro", "price": "10998", "priceCurrency": "INR", "description": "With 2 stores: Rs 7,499/mo for the first store plus Rs 3,499/mo for each additional store. Unlimited bills, all 26 modules, 3 staff logins per store." }
   ],
   "publisher": { "@type": "Organization", "name": "Khosha Systems", "url": "https://retaileros.in/" }
 }
@@ -129,7 +129,7 @@
     {
       "@type": "Question",
       "name": "How many stores can I manage on one RetailerOS account?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Free and Shop each cover one store. Chain needs a minimum of two stores: the first store is Rs 7,499 per month and every additional store is Rs 3,499 per month. There is no cap on how many stores a Chain account can run." }
+      "acceptedAnswer": { "@type": "Answer", "text": "Free and Shop each cover one store. On Pro, the first store is Rs 7,499 per month and every additional store is Rs 3,499 per month. There is no cap on how many stores a Pro account can run." }
     },
     {
       "@type": "Question",
@@ -149,7 +149,7 @@
     {
       "@type": "Question",
       "name": "Can I find a handset if another branch sold it?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Cross-store IMEI search comes with the Chain plan. On Free and Shop, IMEI chain-of-custody tracking works fully within your single store." }
+      "acceptedAnswer": { "@type": "Answer", "text": "Cross-store IMEI search comes with the Pro plan. On Free and Shop, IMEI chain-of-custody tracking works fully within your single store." }
     },
     {
       "@type": "Question",
@@ -5638,19 +5638,37 @@
   .addon-price .addon-per { font-size: 11px; font-weight: 600; color: var(--ink-muted); margin-left: 2px; letter-spacing: 0; }
   .mstore-tbl .num small { font-size: 11px; font-weight: 600; color: var(--ink-muted); margin-left: 2px; }
   
-  /* "Download pricing proposal" */
-  .dl-proposal-wrap { text-align: center; margin: 28px auto 48px; }
-  a.dl-proposal { display: inline-flex; align-items: center; gap: 12px; padding: 12px 18px 12px 14px; border-radius: 14px; text-align: left;
-    background: #fff; border: 1px solid var(--line-strong); color: var(--ink); text-decoration: none; max-width: 560px;
-    transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease; }
-  a.dl-proposal svg { flex: none; width: 38px; height: 38px; padding: 9px; border-radius: 10px; background: var(--brand-blue); color: #fff; }
-  a.dl-proposal b { display: block; font-size: 15px; color: var(--ink); }
-  a.dl-proposal small { display: block; font-size: 13px; color: var(--ink-soft); line-height: 1.4; margin-top: 2px; }
-  a.dl-proposal:hover { border-color: var(--brand-blue); box-shadow: 0 10px 24px -14px rgba(30,71,184,.55); transform: translateY(-1px); }
+  /* "Download pricing proposal": the document itself, with a PDF badge */
+  .dl-proposal-wrap { text-align: center; margin: 28px auto 48px; padding: 0 16px; }
+  a.pdf-card { display: inline-grid; grid-template-columns: 96px 1fr; gap: 18px; align-items: center; text-align: left; max-width: 560px;
+    text-decoration: none; color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 16px 20px 16px 16px;
+    box-shadow: 0 1px 2px rgba(11,18,32,.04), 0 22px 44px -30px rgba(11,18,32,.45); transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+  .pdf-doc { position: relative; display: block; width: 100%; aspect-ratio: 210 / 297; }
+  .pdf-sheet { position: absolute; inset: 0; display: block; border-radius: 5px; background: #fff; border: 1px solid var(--line-strong); }
+  .pdf-sheet.s3 { transform: translate(8px, 6px) rotate(4deg); background: #EEF2F7; }
+  .pdf-sheet.s2 { transform: translate(4px, 3px) rotate(2deg); background: #F6F8FB; }
+  .pdf-sheet.s1 { overflow: hidden; box-shadow: 0 8px 20px -10px rgba(11,18,32,.35); transition: transform .25s ease; }
+  .pdf-sheet.s1 img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .pdf-badge { position: absolute; left: -8px; bottom: 12%; background: #DC2626; color: #fff; font: 800 11px/1 var(--font-body);
+    letter-spacing: .06em; padding: 5px 8px; border-radius: 5px; box-shadow: 0 6px 14px -6px rgba(220,38,38,.7); }
+  .pdf-meta { display: grid; gap: 6px; }
+  .pdf-meta b { font-size: 16px; color: var(--ink); }
+  .pdf-meta small { font-size: 13px; line-height: 1.45; color: var(--ink-soft); }
+  .pdf-btn { justify-self: start; display: inline-flex; align-items: center; gap: 7px; margin-top: 4px; background: var(--brand-blue);
+    color: #fff; font-weight: 600; font-size: 14px; padding: 9px 14px; border-radius: 10px; }
+  a.pdf-card:hover { border-color: var(--brand-blue); transform: translateY(-2px); box-shadow: 0 28px 50px -30px rgba(30,71,184,.55); }
+  a.pdf-card:hover .pdf-sheet.s1 { transform: translateY(-3px) rotate(-1deg); }
   
   /* Tables: every value column heading centred over its centred cells; captions centred everywhere */
   .cmp thead th:not(:first-child) { text-align: center; }
   .cmp caption, .mstore-tbl caption { text-align: center; }
+  
+  /* Getting started: an illustration on each step, 1:1 and uncropped, fading into the card */
+  .start3-step { display: flex; flex-direction: column; overflow: hidden; padding: 0 22px 24px; }
+  .start3-step .start3-img { order: -1; display: block; position: relative; margin: 0 -22px 14px; background: #fff; }
+  .start3-step .start3-img img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: contain; }
+  .start3-step .start3-img::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 20%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0), #fff); pointer-events: none; }
   </style>
 
 <script>
@@ -5709,7 +5727,7 @@
     </div>
     <div class="rh-m-group">
       <p class="rh-m-label">Compare</p>
-      <div class="rh-m-list"><a href="/compare/tally-alternative/">RetailerOS vs Tally</a><a href="/compare/vyapar-alternative/">RetailerOS vs Vyapar</a><a href="/compare/paper-register-and-excel/">vs paper &amp; Excel</a><a href="/compare/retaileros-ai/">RetailerOS vs retaileros.ai</a></div>
+      <div class="rh-m-list"><a href="/compare/tally-alternative/">RetailerOS vs Tally</a><a href="/compare/marg-erp-alternative/">RetailerOS vs Marg</a><a href="/compare/zoho-books-inventory-alternative/">RetailerOS vs Zoho</a><a href="/compare/vyapar-alternative/">RetailerOS vs Vyapar</a><a href="/compare/paper-register-and-excel/">vs paper &amp; Excel</a><a href="/compare/retaileros-ai/">RetailerOS vs retaileros.ai</a></div>
     </div>
   </nav>
   <div class="rh-m-foot">
@@ -6053,7 +6071,7 @@
         <span class="mp-dots" aria-hidden="true"><i></i><i></i><i></i></span>
         <span class="mp-title">RetailerOS &middot; Modules</span>
         <ul class="mp-key" aria-label="Plans">
-          <li class="free">Free <b>7</b></li><li class="shop">Shop <b>+13</b></li><li class="chain">Chain <b>+6</b></li>
+          <li class="free">Free <b>7</b></li><li class="shop">Shop <b>+13</b></li><li class="chain">Pro <b>+6</b></li>
         </ul>
       </div>
       <div class="mp-body"><div class="mp-row"><h3>Billing and stock<span>7</span></h3><ul><li class="mp-pill free">Sales Desk</li><li class="mp-pill free">Invoices</li><li class="mp-pill free">Inventory</li><li class="mp-pill shop">Purchase Orders</li><li class="mp-pill shop">Pricing rules</li><li class="mp-pill shop">Cash Register</li><li class="mp-pill shop">Expenses</li></ul></div><div class="mp-row"><h3>Phones, appliances and service<span>4</span></h3><ul><li class="mp-pill shop">IMEI &amp; Serial Tracker</li><li class="mp-pill shop has-page"><a href="/modules/schemes/">Schemes<span class="mp-go" aria-hidden="true">&rarr;</span></a></li><li class="mp-pill shop">Repairs</li><li class="mp-pill shop">Claims</li></ul></div><div class="mp-row"><h3>Customers<span>5</span></h3><ul><li class="mp-pill free">Clients (CRM &amp; khaata)</li><li class="mp-pill shop">Inquiries</li><li class="mp-pill shop has-page"><a href="/modules/pre-booking/">Pre-booking<span class="mp-go" aria-hidden="true">&rarr;</span></a></li><li class="mp-pill chain has-page"><a href="/modules/marketing/">Marketing<span class="mp-go" aria-hidden="true">&rarr;</span></a></li><li class="mp-pill chain">Promoters</li></ul></div><div class="mp-row"><h3>Money and people<span>3</span></h3><ul><li class="mp-pill shop">Finance</li><li class="mp-pill shop">Staff</li><li class="mp-pill shop">Reports</li></ul></div><div class="mp-row"><h3>Multi-store and platform<span>7</span></h3><ul><li class="mp-pill chain has-page"><a href="/modules/stores/">Stores<span class="mp-go" aria-hidden="true">&rarr;</span></a></li><li class="mp-pill chain has-page"><a href="/modules/marketplace/">Marketplace<span class="mp-go" aria-hidden="true">&rarr;</span></a></li><li class="mp-pill chain">Integrations</li><li class="mp-pill chain has-page"><a href="/modules/automation/">Automation<span class="mp-go" aria-hidden="true">&rarr;</span></a></li><li class="mp-pill free">Dashboard</li><li class="mp-pill free">Settings</li><li class="mp-pill free">Login &amp; onboarding</li></ul></div></div>
@@ -6190,7 +6208,7 @@
         </picture>
       </figure>
       <p class="mstore-answer">
-          <strong>Yes — RetailerOS runs multiple stores from one login.</strong> Each location keeps its own stock, staff, cash register and invoice numbering, while you get a single owner's view across all of them. On <strong>Chain</strong>, your first store is ₹7,499/month and every additional store is <strong>₹3,499/month</strong>, with a minimum of two — so a two-store chain starts at ₹10,998/month — and every store brings 3 staff logins with it, at no extra charge. Consolidating always costs less than running separate accounts.
+          <strong>Yes — RetailerOS runs multiple stores from one login.</strong> Each location keeps its own stock, staff, cash register and invoice numbering, while you get a single owner's view across all of them. On <strong>Pro</strong>, your first store is ₹7,499/month and every additional store is <strong>₹3,499/month</strong> — so two stores come to ₹10,998/month — and every store brings 3 staff logins with it, at no extra charge. Consolidating always costs less than running separate accounts.
       </p>
     </div>
 
@@ -6226,7 +6244,7 @@
       <article class="mstore-card">
         <h3>Search an IMEI across every store</h3>
         <p>Find any handset's full chain of custody no matter which location took it in — so a customer walking into the wrong branch is still your customer.</p>
-        <span class="tag">Chain</span>
+        <span class="tag">Pro</span>
       </article>
     </div>
 
@@ -6238,20 +6256,20 @@
             <th scope="col">Multi-store capability</th>
             <th scope="col">Free</th>
             <th scope="col">Shop</th>
-            <th scope="col" class="hi">Chain</th>
+            <th scope="col" class="hi">Pro</th>
           </tr>
         </thead>
         <tbody>
-          <tr><th scope="row">Stores included</th><td data-col="Free"><span class="num">1</span></td><td data-col="Shop"><span class="num">1</span></td><td class="hi" data-col="Chain"><span class="num">2 min.</span></td></tr>
-          <tr><th scope="row">Extra stores</th><td data-col="Free"><span class="no">✕</span></td><td data-col="Shop"><span class="no">✕</span></td><td class="hi" data-col="Chain"><span class="num">₹3,499<small>/mo each</small></span></td></tr>
-          <tr><th scope="row">Bills per month</th><td data-col="Free"><span class="num">50</span></td><td data-col="Shop"><span class="num">750</span></td><td class="hi" data-col="Chain"><span class="num">Unlimited</span></td></tr>
-          <tr><th scope="row">Staff logins included</th><td data-col="Free"><span class="num">3</span></td><td data-col="Shop"><span class="num">3</span></td><td class="hi" data-col="Chain"><span class="num">3 per store</span></td></tr>
-          <tr><th scope="row">Unlimited customer &amp; IMEI history</th><td data-col="Free"><span class="yes">✓</span></td><td data-col="Shop"><span class="yes">✓</span></td><td class="hi" data-col="Chain"><span class="yes">✓</span></td></tr>
-          <tr><th scope="row">Stores module — stock &amp; performance by location</th><td data-col="Free"><span class="no">✕</span></td><td data-col="Shop"><span class="no">✕</span></td><td class="hi" data-col="Chain"><span class="yes">✓</span></td></tr>
-          <tr><th scope="row">Per-store staff, shifts &amp; commission</th><td data-col="Free"><span class="no">✕</span></td><td data-col="Shop"><span class="no">✕</span></td><td class="hi" data-col="Chain"><span class="yes">✓</span></td></tr>
-          <tr><th scope="row">Remote discount approvals</th><td data-col="Free"><span class="no">✕</span></td><td data-col="Shop"><span class="yes">✓</span></td><td class="hi" data-col="Chain"><span class="yes">✓</span></td></tr>
-          <tr><th scope="row">Cross-store performance reports</th><td data-col="Free"><span class="no">✕</span></td><td data-col="Shop"><span class="no">✕</span></td><td class="hi" data-col="Chain"><span class="yes">✓</span></td></tr>
-          <tr><th scope="row">Cross-store IMEI search</th><td data-col="Free"><span class="no">✕</span></td><td data-col="Shop"><span class="no">✕</span></td><td class="hi" data-col="Chain"><span class="yes">✓</span></td></tr>
+          <tr><th scope="row">Stores included</th><td data-col="Free"><span class="num">1</span></td><td data-col="Shop"><span class="num">1</span></td><td class="hi" data-col="Pro"><span class="num">1 + add more</span></td></tr>
+          <tr><th scope="row">Extra stores</th><td data-col="Free"><span class="no">✕</span></td><td data-col="Shop"><span class="no">✕</span></td><td class="hi" data-col="Pro"><span class="num">₹3,499<small>/mo each</small></span></td></tr>
+          <tr><th scope="row">Bills per month</th><td data-col="Free"><span class="num">50</span></td><td data-col="Shop"><span class="num">750</span></td><td class="hi" data-col="Pro"><span class="num">Unlimited</span></td></tr>
+          <tr><th scope="row">Staff logins included</th><td data-col="Free"><span class="num">3</span></td><td data-col="Shop"><span class="num">3</span></td><td class="hi" data-col="Pro"><span class="num">3 per store</span></td></tr>
+          <tr><th scope="row">Unlimited customer &amp; IMEI history</th><td data-col="Free"><span class="yes">✓</span></td><td data-col="Shop"><span class="yes">✓</span></td><td class="hi" data-col="Pro"><span class="yes">✓</span></td></tr>
+          <tr><th scope="row">Stores module — stock &amp; performance by location</th><td data-col="Free"><span class="no">✕</span></td><td data-col="Shop"><span class="no">✕</span></td><td class="hi" data-col="Pro"><span class="yes">✓</span></td></tr>
+          <tr><th scope="row">Per-store staff, shifts &amp; commission</th><td data-col="Free"><span class="no">✕</span></td><td data-col="Shop"><span class="no">✕</span></td><td class="hi" data-col="Pro"><span class="yes">✓</span></td></tr>
+          <tr><th scope="row">Remote discount approvals</th><td data-col="Free"><span class="no">✕</span></td><td data-col="Shop"><span class="yes">✓</span></td><td class="hi" data-col="Pro"><span class="yes">✓</span></td></tr>
+          <tr><th scope="row">Cross-store performance reports</th><td data-col="Free"><span class="no">✕</span></td><td data-col="Shop"><span class="no">✕</span></td><td class="hi" data-col="Pro"><span class="yes">✓</span></td></tr>
+          <tr><th scope="row">Cross-store IMEI search</th><td data-col="Free"><span class="no">✕</span></td><td data-col="Shop"><span class="no">✕</span></td><td class="hi" data-col="Pro"><span class="yes">✓</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -6259,7 +6277,7 @@
     <div class="mstore-qa">
       <div>
         <h3>How many stores can I manage on one account?</h3>
-        <p>Free and Shop each cover one store. Chain starts at two: the first store is ₹7,499/month and every additional store is ₹3,499/month, with no upper limit. Running a larger chain? Talk to us about a custom rollout.</p>
+        <p>Free and Shop each cover one store. Pro starts at two: the first store is ₹7,499/month and every additional store is ₹3,499/month, with no upper limit. Running a larger chain? Talk to us about a custom rollout.</p>
       </div>
       <div>
         <h3>Do I pay extra for staff logins when I open a store?</h3>
@@ -6275,7 +6293,7 @@
       </div>
       <div>
         <h3>Can I find a handset if another branch sold it?</h3>
-        <p>Cross-store IMEI search comes with Chain. On Free and Shop, IMEI chain-of-custody tracking works fully within your single store. <a href="#pricing">Compare the plans →</a></p>
+        <p>Cross-store IMEI search comes with Pro. On Free and Shop, IMEI chain-of-custody tracking works fully within your single store. <a href="#pricing">Compare the plans →</a></p>
       </div>
     </div>
   </div>
@@ -6352,21 +6370,21 @@
       <a href="#" class="price-cta" data-cta="onboard" data-plan="shop">Start 14-Day Trial</a>
     </article>
 
-    <!-- TIER 3 · Chain -->
+    <!-- TIER 3 · Pro -->
     <article class="price-card tier-starter" data-plan="chain">
-      <h3 class="price-name">Chain</h3>
-      <p class="price-tagline">For owners running two or more stores.</p>
+      <h3 class="price-name">Pro</h3>
+      <p class="price-tagline">For busy stores, with more stores whenever you open them.</p>
       <div class="price-amount" data-prices='{"monthly":"₹7,499","quarterly":"₹21,372","annual":"₹76,488"}' data-per='{"monthly":"/ month · first store","quarterly":"/ 3 months · first store","annual":"/ year · first store"}'>
         <span class="num">₹21,372</span>
         <span class="per">/ 3 months · first store</span>
       </div>
       <p class="price-billing" data-billing='{"monthly":"Billed monthly · + 18% GST","quarterly":"₹7,124/month <s>₹7,499</s> · <span class=\"save\">save ₹1,125</span> · + 18% GST","annual":"₹6,374/month <s>₹7,499</s> · <span class=\"save\">save ₹13,500</span> · + 18% GST"}'>₹7,124/month <s>₹7,499</s> · <span class="save">save ₹1,125</span> · + 18% GST</p>
       <p class="price-extra" data-extra='{"monthly":"+ ₹3,499/month for each additional store","quarterly":"+ ₹9,972 per additional store / 3 months (₹3,324/month)","annual":"+ ₹35,688 per additional store / year (₹2,974/month)"}'>+ ₹9,972 per additional store / 3 months (₹3,324/month)</p>
-      <p class="price-billing price-min" data-billing='{"monthly":"Minimum 2 stores: <strong>₹10,998/month</strong>","quarterly":"Minimum 2 stores: <strong>₹31,344</strong> / 3 months (₹10,448/month) · <span class=\"save\">save ₹1,650</span>","annual":"Minimum 2 stores: <strong>₹1,12,176</strong> / year (₹9,348/month) · <span class=\"save\">save ₹19,800</span>"}'>Minimum 2 stores: <strong>₹31,344</strong> / 3 months (₹10,448/month) · <span class="save">save ₹1,650</span></p>
+      <p class="price-billing price-min" data-billing='{"monthly":"With 2 stores: <strong>₹10,998/month</strong>","quarterly":"With 2 stores: <strong>₹31,344</strong> / 3 months (₹10,448/month) · <span class=\"save\">save ₹1,650</span>","annual":"With 2 stores: <strong>₹1,12,176</strong> / year (₹9,348/month) · <span class=\"save\">save ₹19,800</span>"}'>With 2 stores: <strong>₹31,344</strong> / 3 months (₹10,448/month) · <span class="save">save ₹1,650</span></p>
       <div class="price-limits">
         <span class="limit"><span class="limit-num">∞</span>bills/mo</span>
         <span class="limit"><span class="limit-num">3</span>logins per store</span>
-        <span class="limit"><span class="limit-num">2+</span>stores</span>
+        <span class="limit"><span class="limit-num">1+</span>stores</span>
         <span class="limit"><span class="limit-num">∞</span>customers &amp; IMEI</span>
       </div>
       <ul class="price-features">
@@ -6419,17 +6437,23 @@
   </div>
 
   <!-- ADD-ONS -->
-  <p class="dl-proposal-wrap"><a class="dl-proposal" href="/assets/RetailerOS-Pricing-Proposal.pdf" download data-track="proposal_download"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg><span><b>Download pricing proposal</b><small>PDF · plans, rates, chain examples and terms — to share with your partners or management</small></span></a></p>
+  <p class="dl-proposal-wrap"><a class="pdf-card" href="/assets/RetailerOS-Pricing-Proposal.pdf" download data-track="proposal_download" aria-label="Download the RetailerOS pricing proposal, PDF, 4 pages">
+    <span class="pdf-doc"><span class="pdf-sheet s3" aria-hidden="true"></span><span class="pdf-sheet s2" aria-hidden="true"></span>
+      <picture class="pdf-sheet s1"><source type="image/webp" srcset="/assets/pricing-proposal-cover.webp"><img src="/assets/pricing-proposal-cover.jpg" alt="" width="420" height="594" loading="lazy"></picture>
+      <span class="pdf-badge" aria-hidden="true">PDF</span></span>
+    <span class="pdf-meta"><b>Pricing proposal</b><small>4 pages · plans, rates, store examples &amp; terms — ready to share with your partners or management</small>
+      <span class="pdf-btn"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>Download PDF</span></span>
+  </a></p>
 
   <div class="pricing-addons">
     <div class="pricing-addons-head">
       <span class="eyebrow-mini">Add-ons</span>
       <h3>Stretch your plan, don't upgrade it.</h3>
-      <p>Available on Shop and Chain. Cancel any time, charged pro-rata.</p>
+      <p>Available on Shop and Pro. Cancel any time, charged pro-rata.</p>
     </div>
     <div class="addons-grid">
       <div class="addon">
-        <span class="addon-name">Extra store location<span class="note">Chain plan · per store, per month</span></span>
+        <span class="addon-name">Extra store location<span class="note">Pro plan · per store, per month</span></span>
         <span class="addon-price">₹3,499<small class="addon-per">/mo</small></span>
       </div>
       <div class="addon">
@@ -6680,9 +6704,9 @@
       <h2 class="modules23-anchor">Live on your counter <em>today</em>.</h2>
     </header>
     <ol class="start3-grid">
-      <li class="start3-step"><h3>Sign up free</h3><p>Your mobile number and your shop’s name. No card, no setup call.</p></li>
-      <li class="start3-step"><h3>Bring your data</h3><p>Moving from Tally, Vyapar or spreadsheets? We bring your inventory and khaata over for you.</p></li>
-      <li class="start3-step"><h3>Bill your first customer</h3><p>First counter set up in about 10 minutes. Add staff, schemes and stores when you’re ready.</p></li>
+      <li class="start3-step"><picture class="start3-img"><source type="image/webp" srcset="assets/getting-started/sign-up.webp"><img src="assets/getting-started/sign-up.jpg" alt="Signing up for RetailerOS on a phone with a mobile number and shop name" width="720" height="720" loading="lazy" decoding="async"></picture><h3>Sign up free</h3><p>Your mobile number and your shop’s name. No card, no setup call.</p></li>
+      <li class="start3-step"><picture class="start3-img"><source type="image/webp" srcset="assets/getting-started/bring-your-data.webp"><img src="assets/getting-started/bring-your-data.jpg" alt="Registers, spreadsheets and billing records flowing into RetailerOS on a laptop" width="720" height="720" loading="lazy" decoding="async"></picture><h3>Bring your data</h3><p>Moving from Tally, Vyapar or spreadsheets? We bring your inventory and khaata over for you.</p></li>
+      <li class="start3-step"><picture class="start3-img"><source type="image/webp" srcset="assets/getting-started/first-bill.webp"><img src="assets/getting-started/first-bill.jpg" alt="A RetailerOS billing counter with a card machine printing the first receipt" width="720" height="720" loading="lazy" decoding="async"></picture><h3>Bill your first customer</h3><p>First counter set up in about 10 minutes. Add staff, schemes and stores when you’re ready.</p></li>
     </ol>
   </div>
 </section>
@@ -6827,7 +6851,7 @@
               </div>
               <div class="tier-r t3">
                 <div class="r-img"><img src="assets/logo-mark.png" alt="" /></div>
-                <span class="label">Chain</span>
+                <span class="label">Pro</span>
               </div>
             </div>
           </div>
@@ -6992,8 +7016,8 @@
             <span class="plan-badge">Recommended</span>
             <header class="plan-head">
               <div>
-                <h3>Chain</h3>
-                <p class="plan-cap">Unlimited bills · minimum 2 stores</p>
+                <h3>Pro</h3>
+                <p class="plan-cap">Unlimited bills</p>
               </div>
               <div class="plan-price"><span class="num">₹7,499</span><span class="per">/ mo first store</span></div>
             </header>
@@ -7002,7 +7026,7 @@
               <li>2,000 WhatsApp messages / month</li>
               <li>Priority 12h support + phone callback</li>
             </ul>
-            <button class="plan-choose" type="button" data-plan="pro">Choose Chain</button>
+            <button class="plan-choose" type="button" data-plan="pro">Choose Pro</button>
           </article>
         </div>
 
@@ -7565,7 +7589,7 @@
     modal.querySelectorAll('.plan-choose').forEach(btn => {
       btn.addEventListener('click', () => {
         state.data.plan = btn.dataset.plan;
-        const planNames = { free: 'Free', starter: 'Shop', pro: 'Chain', shop: 'Shop', chain: 'Chain' };
+        const planNames = { free: 'Free', starter: 'Shop', pro: 'Pro', shop: 'Shop', chain: 'Pro' };
         modal.querySelector('#successTitle').textContent = "You're all set!";
         modal.querySelector('#successSub').textContent =
           'Activating your ' + (planNames[state.data.plan] || state.data.plan) + ' counter — this\'ll take just a moment.';
@@ -7638,7 +7662,7 @@
           plans: [
             { tier: 'free', name: 'Free', price: '7 modules', note: "Sales Desk, Invoices, Inventory, Clients, plus dashboard and settings" },
             { tier: 'shop', name: 'Shop', price: '+13', note: "IMEI Tracker, Schemes, Repairs, Claims, Cash Register, Expenses, Purchase Orders, Inquiries, Pre-booking, Reports, Staff, Finance, Pricing" },
-            { tier: 'chain', name: 'Chain', price: '+6', note: "Stores, Marketing, Marketplace, Integrations, Automation, Promoters" }
+            { tier: 'chain', name: 'Pro', price: '+6', note: "Stores, Marketing, Marketplace, Integrations, Automation, Promoters" }
           ]
         },
         choices: [
@@ -7669,7 +7693,7 @@
           plans: [
             { tier: 'free', name: 'Free', price: '₹0', per: 'forever', note: '1 store · 50 bills a month' },
             { tier: 'shop', name: 'Shop', price: '₹3,999', per: '/ month', note: '1 store · 750 bills a month · 20 modules' },
-            { tier: 'chain', name: 'Chain', price: '₹7,499', per: '/ month, first store', note: '+ ₹3,499 a month per extra store · minimum 2 · all 26 modules' }
+            { tier: 'chain', name: 'Pro', price: '₹7,499', per: '/ month, first store', note: '+ ₹3,499 a month per extra store · all 26 modules' }
           ],
           note: "Quarterly billing saves 5%, annual 15%. Paid plans have a 14-day trial. Prices exclude 18% GST.",
           link: { href: '/pricing/', label: 'Full pricing & store calculator' }
@@ -7677,7 +7701,7 @@
         choices: [
           { id: 'pricing-free', label: 'Tell me about Free' },
           { id: 'pricing-starter', label: 'Shop — prices by billing cycle' },
-          { id: 'pricing-pro', label: 'Chain — prices for 2+ stores' },
+          { id: 'pricing-pro', label: 'Pro — prices & extra stores' },
           { id: 'pricing-trial', label: 'How does the trial work?' },
           { id: 'greeting', label: '← Back to topics' }
         ]
@@ -7716,19 +7740,19 @@
         },
         choices: [
           { id: 'pricing-trial', label: 'How does the trial work?' },
-          { id: 'pricing-pro', label: 'I have 2+ stores' },
+          { id: 'pricing-pro', label: 'I run more than one store' },
           { id: 'greeting', label: '← Back to topics' }
         ]
       },
       'pricing-pro': {
-        bot: "**Chain** — for two or more stores. Here's the minimum, two stores:",
+        bot: "**Pro** — unlimited bills and all 26 modules, for one store or many. Pro for one store:",
         card: {
           prices: [
-            { cycle: 'Monthly', big: '₹10,998', per: '/ month' },
-            { cycle: 'Quarterly', big: '₹31,344', per: '/ 3 months', sub: '₹10,448/month', was: '₹10,998', save: 'save ₹1,650' },
-            { cycle: 'Annual', big: '₹1,12,176', per: '/ year', sub: '₹9,348/month', was: '₹10,998', save: 'save ₹19,800' }
+            { cycle: 'Monthly', big: '₹7,499', per: '/ month' },
+            { cycle: 'Quarterly', big: '₹21,372', per: '/ 3 months', sub: '₹7,124/month', was: '₹7,499', save: 'save ₹1,125' },
+            { cycle: 'Annual', big: '₹76,488', per: '/ year', sub: '₹6,374/month', was: '₹7,499', save: 'save ₹13,500' }
           ],
-          note: "First store ₹7,499/month + ₹3,499/month for each extra store (monthly rates). Prices exclude 18% GST.",
+          note: "Opening another store? Add it any time: ₹3,499/month (₹3,324 quarterly, ₹2,974 yearly), with 3 staff logins. Prices exclude 18% GST.",
           list: [
             "**Unlimited bills** · 3 staff logins with every store",
             "**All 26 modules** — adds Stores, Marketing, Marketplace, Integrations, Automation, Promoters",
@@ -7744,7 +7768,7 @@
         ]
       },
       'pricing-enterprise': {
-        bot: "There's no separate enterprise plan — Chain scales to any number of stores at ₹3,499 a month each.",
+        bot: "There's no separate enterprise plan — Pro scales to any number of stores at ₹3,499 a month each.",
         card: {
           list: [
             "Custom rollout across cities",
@@ -7760,10 +7784,10 @@
         ]
       },
       'pricing-trial': {
-        bot: "Shop and Chain both come with a **14-day trial**.",
+        bot: "Shop and Pro both come with a **14-day trial**.",
         card: {
           steps: [
-            "Pick Shop or Chain and start — no charge for 14 days",
+            "Pick Shop or Pro and start — no charge for 14 days",
             "On day 15 your plan starts billing",
             "Cancel before then and you pay nothing — you drop to Free with *all your data intact*"
           ]
@@ -7779,7 +7803,7 @@
         card: {
           rows: [
             { k: 'Free', v: "No card, no trial timer. Up to 50 bills a month. Customer and IMEI history unlimited and kept forever." },
-            { k: 'Shop & Chain', v: "14-day trial, then billing starts. More bills, more modules, more support.", hl: true }
+            { k: 'Shop & Pro', v: "14-day trial, then billing starts. More bills, more modules, more support.", hl: true }
           ],
           note: "Free works well for shops doing fewer than 50 bills a month."
         },
@@ -7810,7 +7834,7 @@
           list: [
             "**Tally** — step-by-step migration guide (free on our Resources page)",
             "**Vyapar and spreadsheets** — imports supported",
-            "**On Chain** — we handle the migration for you"
+            "**On Pro** — we handle the migration for you"
           ],
           link: { href: '/resources.html', label: 'Open the Resources page' }
         },
@@ -7836,7 +7860,7 @@
           rows: [
             { k: 'Free', v: "In-app knowledge base and community forum" },
             { k: 'Shop', v: "Email support with a 48-hour SLA, plus in-app chat" },
-            { k: 'Chain', v: "Priority 12-hour email, WhatsApp and phone callback, with onboarding help", hl: true }
+            { k: 'Pro', v: "Priority 12-hour email, WhatsApp and phone callback, with onboarding help", hl: true }
           ]
         },
         choices: [

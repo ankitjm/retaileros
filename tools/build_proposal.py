@@ -73,15 +73,15 @@ def build_html():
                 '<td class="hl"><b>%s</b><small>a year · %s a month</small></td></tr>') % (
             e(label), e(sub), inr(mo), inr(qt), inr(qm), inr(yt), inr(ym))
 
-    rates = (rate_row('Shop', 'one store', 'shop') + rate_row('Chain — first store', 'carries the platform', 'first') +
-             rate_row('Chain — each additional store', '3 staff logins included', 'extra'))
+    rates = (rate_row('Shop', 'one store', 'shop') + rate_row('Pro — first store', 'carries the platform', 'first') +
+             rate_row('Extra store (optional)', '3 staff logins included', 'extra'))
 
     chain_rows = ''.join(
-        '<tr><th>%d stores<small>%d staff logins</small></th><td><b>%s</b><small>a month</small></td>'
+        '<tr><th>%d store%s<small>%d staff logins</small></th><td><b>%s</b><small>a month</small></td>'
         '<td><b>%s</b><small>every 3 months · %s a month</small></td><td class="hl"><b>%s</b><small>a year · %s a month</small></td></tr>' % (
-            n, n * B.LOGINS_PER_STORE, inr(B.chain(n, 'monthly')), inr(B.chain(n, 'quarterly') * 3), inr(B.chain(n, 'quarterly')),
+            n, '' if n == 1 else 's', n * B.LOGINS_PER_STORE, inr(B.chain(n, 'monthly')), inr(B.chain(n, 'quarterly') * 3), inr(B.chain(n, 'quarterly')),
             inr(B.chain(n, 'annual') * 12), inr(B.chain(n, 'annual')))
-        for n in (2, 3, 5, 10, 15))
+        for n in (1, 2, 3, 5, 10, 15))
 
     tier_n = {t: sum(1 for _, items in SP.MODULES for _, x in items if SP.TIER[x] <= SP.TIER[t]) for t in ('free', 'shop', 'chain')}
     mods = ''.join('<div class="mg"><h4>%s</h4><p>%s</p></div>' % (
@@ -112,7 +112,7 @@ def build_html():
   <div class="glance">
     <div class="g free"><b>Free</b><strong>₹0</strong><small>forever · 1 store · 50 bills a month · 7 modules</small></div>
     <div class="g shop"><b>Shop</b><strong>%s<i>/ month</i></strong><small>1 store · 750 bills a month · 20 modules</small></div>
-    <div class="g chain"><b>Chain</b><strong>%s<i>/ month, first store</i></strong><small>+ %s a month for each additional store · minimum %d stores · all 26 modules</small></div>
+    <div class="g chain"><b>Pro</b><strong>%s<i>/ month, first store</i></strong><small>unlimited bills · all 26 modules · add stores any time at %s a month each</small></div>
   </div>
   <p class="note">Monthly rates shown. Quarterly billing saves 5%%, yearly billing saves 15%% — on every store, including additional ones. All prices exclude 18%% GST.</p>
   <div class="isnot">
@@ -127,13 +127,13 @@ def build_html():
       <li>Not internet connectivity</li>
       <li>Not accounting or tax advisory — your CA can keep your books where they are today</li>
       <li>Not a lock-in — cancel any time; your data is yours to export</li></ul></div>
-  </div>''' % (presenter, inr(P['shop']['monthly']), inr(P['first']['monthly']), inr(P['extra']['monthly']), B.CHAIN_MIN))
+  </div>''' % (presenter, inr(P['shop']['monthly']), inr(P['first']['monthly']), inr(P['extra']['monthly'])))
 
     p2 = page(2, 'What you get', 'Who it is for and the 26 modules', '''
   <p class="kicker">WHO IT IS FOR</p>
   <div class="who">%s</div>
   <p class="kicker">26 MODULES, ONE LOGIN</p>
-  <p class="note tight"><span class="pill free">Free</span> %d modules &nbsp; <span class="pill shop">Shop</span> %d modules &nbsp; <span class="pill chain">Chain</span> all %d — each plan includes everything in the one before it.</p>
+  <p class="note tight"><span class="pill free">Free</span> %d modules &nbsp; <span class="pill shop">Shop</span> %d modules &nbsp; <span class="pill chain">Pro</span> all %d — each plan includes everything in the one before it.</p>
   <div class="mods">%s</div>''' % (
         ''.join('<figure><img src="%s" alt=""><figcaption><b>%s</b>%s</figcaption></figure>' % (s, e(t), e(d)) for s, t, d in who),
         tier_n['free'], tier_n['shop'], tier_n['chain'], mods))
@@ -141,9 +141,9 @@ def build_html():
     p3 = page(3, 'Plans and rates', 'All prices exclude 18% GST', '''
   <p class="kicker">WHAT IS IN EACH PLAN</p>
   <table class="t plan">
-    <thead><tr><th></th><th>Free</th><th>Shop</th><th class="hl">Chain</th></tr></thead>
+    <thead><tr><th></th><th>Free</th><th>Shop</th><th class="hl">Pro</th></tr></thead>
     <tbody>
-      <tr><th>Stores</th><td>1</td><td>1</td><td class="hl">2 or more</td></tr>
+      <tr><th>Stores</th><td>1</td><td>1</td><td class="hl">1, plus any you add</td></tr>
       <tr><th>Bills</th><td>50 a month</td><td>750 a month</td><td class="hl">Unlimited</td></tr>
       <tr><th>Modules</th><td>%d</td><td>%d</td><td class="hl">All %d</td></tr>
       <tr><th>Staff logins</th><td>3</td><td>3</td><td class="hl">3 per store</td></tr>
@@ -158,13 +158,13 @@ def build_html():
     <thead><tr><th>Licence</th><th>Billed monthly</th><th>Billed quarterly <span class="save">save 5%%</span></th><th class="hl">Billed yearly <span class="save">save 15%%</span></th></tr></thead>
     <tbody>%s</tbody>
   </table>
-  <p class="note">The big figure is what is billed for that cycle; the small one is what it works out to per month. The first Chain store carries the platform; every store after it is priced lower. Chain needs a minimum of %d stores.</p>''' % (
-        tier_n['free'], tier_n['shop'], tier_n['chain'], rates, B.CHAIN_MIN))
+  <p class="note">The big figure is what is billed for that cycle; the small one is what it works out to per month. Pro starts with one store, which carries the platform; every store you add after it is priced lower, and adding stores is optional.</p>''' % (
+        tier_n['free'], tier_n['shop'], tier_n['chain'], rates))
 
-    p4 = page(4, 'Chains, add-ons and terms', 'Worked examples before 18% GST', '''
+    p4 = page(4, 'Stores, add-ons and terms', 'Worked examples before 18% GST', '''
   <div class="split">
     <div>
-      <p class="kicker">WHAT A CHAIN PAYS</p>
+      <p class="kicker">PRO, BY NUMBER OF STORES</p>
       <table class="t rate small">
         <thead><tr><th>Stores</th><th>Monthly</th><th>Quarterly</th><th class="hl">Yearly</th></tr></thead>
         <tbody>%s</tbody>
@@ -181,7 +181,7 @@ def build_html():
       <p class="kicker">TERMS</p>
       <ul class="terms">
         <li><b>GST</b> at 18%% is added to every price in this document.</li>
-        <li><b>Trial.</b> Shop and Chain include a 14-day trial; Free has no time limit and needs no card.</li>
+        <li><b>Trial.</b> Shop and Pro include a 14-day trial; Free has no time limit and needs no card.</li>
         <li><b>Changes.</b> Upgrades apply immediately and are pro-rated; downgrades apply from the next billing period.</li>
         <li><b>Cancel any time.</b> The plan stays active to the end of the period paid for. Quarterly and yearly plans carry a pro-rated refund within the first 30 days.</li>
         <li><b>Your data.</b> You own it, and can export it at any time.</li>
@@ -204,10 +204,16 @@ if __name__ == '__main__':
     tmp = tempfile.mkdtemp()
     src = os.path.join(tmp, 'proposal.html')
     io.open(src, 'w', encoding='utf-8').write(build_html())
-    r = subprocess.run(['node', os.path.join(HERE, 'render_pdf.cjs'), src, OUT], capture_output=True, text=True)
+    thumb_png = os.path.join(tmp, 'cover.png')
+    r = subprocess.run(['node', os.path.join(HERE, 'render_pdf.cjs'), src, OUT, thumb_png], capture_output=True, text=True)
     if r.returncode != 0:
         sys.exit('PDF render failed:\n' + r.stdout + r.stderr)
-    json.dump({'hash': stamp_hash(), 'as_of': AS_OF}, io.open(STAMP, 'w', encoding='utf-8'), indent=1)
+    # cover thumbnail for the site's download card
+    from PIL import Image
+    im = Image.open(thumb_png).convert('RGB'); im = im.resize((420, round(im.height * 420 / im.width)), Image.LANCZOS)
+    im.save(os.path.join(B.OUT, 'assets', 'pricing-proposal-cover.webp'), 'WEBP', quality=82, method=6)
+    im.save(os.path.join(B.OUT, 'assets', 'pricing-proposal-cover.jpg'), 'JPEG', quality=84, optimize=True)
+    json.dump({'hash': stamp_hash(), 'as_of': AS_OF, 'pages': 4, 'kb': os.path.getsize(OUT) // 1024}, io.open(STAMP, 'w', encoding='utf-8'), indent=1)
     print(r.stdout.strip())
     print('wrote %s (%d KB)' % (OUT, os.path.getsize(OUT) // 1024))
     if '--keep-html' in sys.argv:

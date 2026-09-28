@@ -2,6 +2,7 @@
 """Renders every generated page. Called by build_site.py."""
 import html, json
 import site_content as C
+import site_compares as SC
 import site_modules_render as MR
 
 e = lambda s: html.escape(s, quote=True)
@@ -46,11 +47,11 @@ def build(B):
     chain_per = {c: per[c] + ', first store' for c in cyc}
     chain_first = {c: sub('first', c) for c in cyc}
     chain_extra = {'monthly': '+ %s/month for each additional store' % B.inr(B.PRICE['extra']['monthly'])}
-    chain_bill = {'monthly': 'Minimum 2 stores: <strong>%s/month</strong>' % B.inr(B.chain(2, 'monthly'))}
+    chain_bill = {'monthly': 'With 2 stores: <strong>%s/month</strong>' % B.inr(B.chain(2, 'monthly'))}
     for c in ('quarterly', 'annual'):
         chain_extra[c] = '+ %s per additional store %s (%s/month)' % (
             total(B.PRICE['extra'][c], c), per[c], B.inr(B.PRICE['extra'][c]))
-        chain_bill[c] = 'Minimum 2 stores: <strong>%s</strong> %s (%s/month) · <span class="save">save %s</span>' % (
+        chain_bill[c] = 'With 2 stores: <strong>%s</strong> %s (%s/month) · <span class="save">save %s</span>' % (
             total(B.chain(2, c), c), per[c], B.inr(B.chain(2, c)),
             B.inr((B.chain(2, 'monthly') - B.chain(2, c)) * B.MONTHS[c]))
 
@@ -73,12 +74,12 @@ def build(B):
     <a class="btn btn-primary" href="/#start">Start 14-day trial</a>
   </article>
   <article class="plan">
-    <h3>Chain</h3><p class="for">For owners running two or more stores.</p>
+    <h3>Pro</h3><p class="for">Unlimited bills and every module — add stores whenever you open them.</p>
     <div class="amt"><span data-by-cycle="{cp}">{cq}</span> <small data-by-cycle="{cpp}">{cppq}</small></div>
     <p class="bill first" data-by-cycle="{cf}">{cfq}</p>
     <p class="extra" data-by-cycle="{ce}">{ceq}</p>
     <p class="bill min" data-by-cycle="{cb}">{cbq}</p>
-    <ul><li>Minimum 2 stores · 3 logins per store</li><li>Unlimited bills</li><li>All 26 modules — adds Stores, Marketing, Marketplace, Automation</li>
+    <ul><li>1 store included · add stores any time · 3 logins per store</li><li>Unlimited bills</li><li>All 26 modules — adds Stores, Marketing, Marketplace, Automation</li>
         <li>2,000 WhatsApp messages a month</li><li>Priority support with phone callback</li></ul>
     <a class="btn btn-ghost" href="#calculator">Price my stores</a>
   </article>
@@ -92,17 +93,17 @@ def build(B):
     plans = MR.link_modules(plans)   # module names -> their landing pages
 
     ex_rows = ''
-    for n in (2, 3, 5, 10, 15, 25):
+    for n in (1, 2, 3, 5, 10, 15, 25):
         # every cell says what period it is for: the big figure is what is billed, the small one the per-month view
-        ex_rows += ('<tr><th scope="row">%d stores<small>%d staff logins</small></th>'
+        ex_rows += ('<tr><th scope="row">%d store%s<small>%d staff logins</small></th>'
                     '<td>%s<small>a month</small></td>'
                     '<td class="us">%s<small>a year · %s a month</small></td>'
                     '<td>%s<small>a month, billed yearly</small></td></tr>') % (
-            n, n * B.LOGINS_PER_STORE, B.inr(B.chain(n, 'monthly')),
+            n, '' if n == 1 else 's', n * B.LOGINS_PER_STORE, B.inr(B.chain(n, 'monthly')),
             B.inr(B.chain(n, 'annual') * 12), B.inr(B.chain(n, 'annual')), B.inr(B.chain(n, 'annual') / n))
     examples = '''<div class="ctable-wrap"><table class="ctable">
   <caption>What a chain pays, before 18%% GST. Yearly billing saves 15%% on every store, including additional ones. Quarterly billing saves 5%%.</caption>
-  <thead><tr><th scope="col">Chain size</th><th scope="col">Billed monthly</th><th scope="col" class="us">Billed yearly</th><th scope="col">Per store<br>(yearly billing)</th></tr></thead>
+  <thead><tr><th scope="col">Stores</th><th scope="col">Billed monthly</th><th scope="col" class="us">Billed yearly</th><th scope="col">Per store<br>(yearly billing)</th></tr></thead>
   <tbody>%s</tbody></table></div>''' % ex_rows
 
     mod_rows = ''
@@ -113,7 +114,7 @@ def build(B):
             label = ('<a class="mod-link" href="/modules/%s/">%s</a>' % (MR.MODULE_SLUG[name], e(name))) if name in MR.MODULE_SLUG else e(name)
             mod_rows += '<tr><th scope="row">%s</th>%s</tr>' % (label, cells)
     modtable = '''<div class="ctable-wrap"><table class="ctable">
-  <thead><tr><th scope="col">Module</th><th scope="col">Free</th><th scope="col" class="us">Shop</th><th scope="col">Chain</th></tr></thead>
+  <thead><tr><th scope="col">Module</th><th scope="col">Free</th><th scope="col" class="us">Shop</th><th scope="col">Pro</th></tr></thead>
   <tbody>%s</tbody></table></div>''' % mod_rows
 
     addons = B.ADDONS
@@ -122,22 +123,34 @@ def build(B):
             e(n), e(d), B.inr(p), s) for n, d, p, s in addons)
 
     pricing_faqs = [
-      ('How does Chain pricing work?', 'Chain is priced per store. The first store is Rs 7,499 a month and every additional store is Rs 3,499 a month, with a minimum of two stores. So two stores is Rs 10,998 a month, three is Rs 14,497 and five is Rs 21,495, before any billing discount.'),
-      ('Why does Chain need at least two stores?', 'Chain is built for running several stores together: cross-store stock, reporting and IMEI search only make sense across two or more. A single store is fully covered by the Shop plan.'),
+      ('How does Pro pricing work?', 'Pro is priced per store. The first store is Rs 7,499 a month and every additional store is Rs 3,499 a month. So two stores is Rs 10,998 a month, three is Rs 14,497 and five is Rs 21,495, before any billing discount.'),
+      ('Can I start Pro with just one store?', 'Yes. Pro covers one store at Rs 7,499 a month, with unlimited bills and all 26 modules. When you open another store, add it for Rs 3,499 a month; nothing changes for the first one.'),
       ('Do additional stores get the quarterly and yearly discount?', 'Yes. Quarterly billing saves 5% and yearly billing saves 15% on the whole bill, including every additional store.'),
       ('Do staff logins cost extra?', 'No. Every store includes 3 staff logins, and they come with the store automatically. Extra logins are Rs 499 a month each, only if one store needs more than three.'),
-      ('What happens if I go over my monthly bills on Shop?', 'Billing is never blocked. You can add a 250-bill pack for Rs 499, which suits festival months, or move to Chain for unlimited bills.'),
+      ('What happens if I go over my monthly bills on Shop?', 'Billing is never blocked. You can add a 250-bill pack for Rs 499, which suits festival months, or move to Pro for unlimited bills.'),
       ('Are prices inclusive of GST?', 'No. All prices exclude 18% GST. Every invoice shows the base price and GST separately.'),
-      ('Is there a free trial?', 'Shop and Chain include a 14-day trial. The Free plan has no time limit and needs no card.'),
+      ('Is there a free trial?', 'Shop and Pro include a 14-day trial. The Free plan has no time limit and needs no card.'),
       ('Can I change plans or cancel?', 'Upgrades apply immediately and are pro-rated; downgrades apply from the next billing period. You can cancel any time, and the plan stays active until the end of the period you paid for.'),
     ]
 
     body = '''<section class="hero-s"><div class="wrap">
+  <div class="price-hero">
+  <div class="ph-copy">
   <span class="eyebrow">Pricing</span>
   <h1>Pricing that grows <em>with your stores.</em></h1>
-  <p class="lede">Three plans. Start free, move to Shop when the counter gets busy, and to Chain when you open a second store. Every store includes 3 staff logins.</p>
-  <p class="answer">RetailerOS is <strong>free</strong> for one store up to 50 bills a month. <strong>Shop</strong> is ₹3,999 a month for one store. <strong>Chain</strong> is ₹7,499 a month for the first store plus ₹3,499 for each additional store, with a minimum of two. Paying quarterly saves 5%% and yearly saves 15%%. Prices exclude GST.</p>
-  <a class="dl-proposal" href="/assets/RetailerOS-Pricing-Proposal.pdf" download data-track="proposal_download"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg><span><b>Download pricing proposal</b><small>PDF · 4 pages · plans, rates, chain examples and terms — to share with your partners or management</small></span></a>
+  <p class="lede">Three plans. Start free, move to Shop when the counter gets busy, and to Pro for unlimited bills, every module and more stores whenever you open them. Every store includes 3 staff logins.</p>
+  <p class="answer">RetailerOS is <strong>free</strong> for one store up to 50 bills a month. <strong>Shop</strong> is ₹3,999 a month for one store. <strong>Pro</strong> is ₹7,499 a month for your store, and you can add more stores at ₹3,499 a month each. Paying quarterly saves 5%% and yearly saves 15%%. Prices exclude GST.</p>
+  </div>
+  <a class="pdf-card" href="/assets/RetailerOS-Pricing-Proposal.pdf" download data-track="proposal_download" aria-label="Download the RetailerOS pricing proposal, PDF, 4 pages">
+    <span class="pdf-doc">
+      <span class="pdf-sheet s3" aria-hidden="true"></span><span class="pdf-sheet s2" aria-hidden="true"></span>
+      <picture class="pdf-sheet s1"><source type="image/webp" srcset="/assets/pricing-proposal-cover.webp"><img src="/assets/pricing-proposal-cover.jpg" alt="" width="420" height="594" loading="eager"></picture>
+      <span class="pdf-badge" aria-hidden="true">PDF</span>
+    </span>
+    <span class="pdf-meta"><b>Pricing proposal</b><small>4 pages · plans, rates, store examples &amp; terms — ready to share with your partners or management</small>
+      <span class="pdf-btn"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>Download PDF</span></span>
+  </a>
+  </div>
   <div class="hero-cta" style="margin-top:26px">
     <div class="cycle" role="group" aria-label="Billing cycle">
       <button type="button" data-cycle="monthly" aria-pressed="false">Monthly</button>
@@ -149,8 +162,8 @@ def build(B):
 </div></section>
 
 <section class="sec alt"><div class="wrap">
-  <div class="sec-head"><h2>How Chain pricing works</h2>
-    <p>You pay ₹7,499 for your first store and ₹3,499 for each store after that, with a minimum of two. Every store brings its own 3 staff logins, so adding a store never means a separate charge for people.</p></div>
+  <div class="sec-head"><h2>How Pro pricing works</h2>
+    <p>You pay ₹7,499 for your first store and ₹3,499 for each store after that. Every store brings its own 3 staff logins, so adding a store never means a separate charge for people.</p></div>
   %s
 </div></section>
 
@@ -161,13 +174,13 @@ def build(B):
       <div class="field"><span class="lbl">Plan</span>
         <div class="seg" role="group" aria-label="Plan">
           <button type="button" data-calc-plan="shop" aria-pressed="false">Shop · 1 store</button>
-          <button type="button" data-calc-plan="chain" aria-pressed="true">Chain · 2+ stores</button>
+          <button type="button" data-calc-plan="chain" aria-pressed="true">Pro</button>
         </div></div>
       <div class="field"><label for="storeCount">Number of stores</label>
         <div class="stepper"><button type="button" id="storeDown" aria-label="One fewer store">−</button>
-          <input id="storeCount" type="number" inputmode="numeric" min="2" max="500" value="2" aria-label="Number of stores">
+          <input id="storeCount" type="number" inputmode="numeric" min="1" max="500" value="1" aria-label="Number of stores">
           <button type="button" id="storeUp" aria-label="One more store">+</button></div>
-        <p class="calc-note">Chain needs at least two stores. Shop covers one.</p></div>
+        <p class="calc-note">Pro starts with one store; each store you add is ₹3,499 a month.</p></div>
       <div class="field"><span class="lbl">Pay</span>
         <div class="seg" role="group" aria-label="Billing cycle">
           <button type="button" data-calc-cycle="monthly" aria-pressed="false">Monthly</button>
@@ -191,7 +204,7 @@ def build(B):
 </div></section>
 
 <section class="sec"><div class="wrap">
-  <div class="sec-head"><h2>Add-ons</h2><p>Top up what you need without changing plan. Available on Shop and Chain.</p></div>
+  <div class="sec-head"><h2>Add-ons</h2><p>Top up what you need without changing plan. Available on Shop and Pro.</p></div>
   %s
 </div></section>
 
@@ -200,17 +213,17 @@ def build(B):
   %s
 </div></section>
 %s''' % (plans, examples, modtable, addon_html, B.faq_html(pricing_faqs),
-         B.cta_band('Start on Free and upgrade when you are ready', 'No card needed. Move to Shop or Chain in one click, and billing is never blocked while you decide.'))
+         B.cta_band('Start on Free and upgrade when you are ready', 'No card needed. Move to Shop or Pro in one click, and billing is never blocked while you decide.'))
 
     offers = {'@context': 'https://schema.org', '@type': 'SoftwareApplication', 'name': 'RetailerOS',
               'applicationCategory': 'BusinessApplication', 'operatingSystem': 'Web', 'url': B.SITE + '/pricing/',
               'offers': [
                 {'@type': 'Offer', 'name': 'Free', 'price': '0', 'priceCurrency': 'INR', 'description': '1 store, 50 bills a month, 7 modules'},
                 {'@type': 'Offer', 'name': 'Shop', 'price': str(B.PRICE['shop']['monthly']), 'priceCurrency': 'INR', 'description': '1 store, 750 bills a month, 20 modules, 3 staff logins'},
-                {'@type': 'Offer', 'name': 'Chain (2 stores)', 'price': str(B.chain(2, 'monthly')), 'priceCurrency': 'INR',
-                 'description': 'Rs 7,499 a month for the first store plus Rs 3,499 for each additional store, minimum two. Unlimited bills, all 26 modules, 3 staff logins per store.'}]}
-    built.append(B.page(path='/pricing/', title='Pricing — Free, Shop & Chain Plans | RetailerOS',
-        desc='RetailerOS pricing: Free for 50 bills a month, Shop Rs 3,999 a month, Chain Rs 7,499 for the first store plus Rs 3,499 per extra store. Store calculator inside.',
+                {'@type': 'Offer', 'name': 'Pro (2 stores)', 'price': str(B.chain(2, 'monthly')), 'priceCurrency': 'INR',
+                 'description': 'Rs 7,499 a month for the first store plus Rs 3,499 for each additional store. Unlimited bills, all 26 modules, 3 staff logins per store.'}]}
+    built.append(B.page(path='/pricing/', title='Pricing — Free, Shop & Pro Plans | RetailerOS',
+        desc='RetailerOS pricing: Free for 50 bills a month, Shop Rs 3,999 a month, Pro Rs 7,499 for the first store plus Rs 3,499 per extra store. Store calculator inside.',
         active='Pricing', trail=[('Pricing', '/pricing/')], body=body, faqs=pricing_faqs, extra_ld=[offers],
         chat_msg='Working out the cost for your stores? Tell me how many you run and I will give you the exact monthly figure.',
         chat_primary=('Work out my price', '#calculator'), chat_delay=12, chat_priority=True))
@@ -305,19 +318,34 @@ def build(B):
         f, alt = SOL_IMG[slug]
         return ('<picture class="card-img"><source type="image/webp" srcset="/assets/solutions/%s.webp">'
                 '<img src="/assets/solutions/%s.jpg" alt="%s" width="880" height="880" loading="lazy" decoding="async"></picture>' % (f, f, e(alt)))
-    def hub(path, name, eyebrow, h1, lede, items, base):
+    def hub(path, name, eyebrow, h1, lede, items, base, extra=''):
         cards = ''.join('<a class="card%s" href="/%s/%s/">%s<div class="card-body"><h3>%s</h3><p>%s</p><span class="go">Read →</span></div></a>' % (
             ' has-img' if i['slug'] in SOL_IMG and base == 'solutions' else '', base, i['slug'],
             pic(i['slug']) if i['slug'] in SOL_IMG and base == 'solutions' else '', e(i['nav']), e(i['desc'])) for i in items)
         body = '''<section class="hero-s"><div class="wrap narrow"><span class="eyebrow">%s</span><h1>%s</h1><p class="lede">%s</p></div></section>
-<section class="sec alt"><div class="wrap"><div class="cards">%s</div></div></section>%s''' % (
-            e(eyebrow), h1, e(lede), cards, B.cta_band('Not sure which fits?', 'Tell us what you sell and how many stores you run, and we will show you on a short call.'))
+<section class="sec alt"><div class="wrap"><div class="cards">%s</div></div></section>%s%s''' % (
+            e(eyebrow), h1, e(lede), cards, extra, B.cta_band('Not sure which fits?', 'Tell us what you sell and how many stores you run, and we will show you on a short call.'))
         return B.page(path=path, title='%s | RetailerOS' % name, desc=lede, active=eyebrow, trail=[(eyebrow, path)], body=body,
                       chat_msg='Not sure where to start? Tell me what you sell and I will point you to the right page.',
                       chat_primary=('See pricing', '/pricing/'), chat_delay=25)
-    built.append(hub('/compare/', 'Compare RetailerOS', 'Compare', 'How RetailerOS <em>compares.</em>',
+        # side-by-side of the tools Indian electronics retailers use today (facts: tools/site_compares.py)
+    MX_COLS = ['TallyPrime', 'Marg ERP 9+', 'Zoho Books + Inventory', 'APX ERP', 'RetailerOS']
+    MX_ROWS = [
+        ('Built for', ['P:Accounting', 'P:Pharma & FMCG first', 'P:Any business', 'P:Large chains', 'P:Electronics retail']),
+        ('IMEI / serial tracking', ['P:Add-on', 'Y', 'P:Higher plans', 'Y', 'Y']),
+        ('Brand schemes & claims', ['P:Not listed', 'P:Not listed', 'P:Not listed', 'Y', 'Y']),
+        ('Repair job cards', ['P:Not listed', 'P:Not listed', 'P:Not listed', 'Y', 'Y']),
+        ('GST returns filed in-app', ['Y', 'Y', 'Y', 'P:Not listed', 'P:Summaries']),
+        ('Runs in browser & phones', ['P:Cloud extra', 'P:Cloud extra', 'Y', 'Y', 'Y']),
+        ('Published pricing', ['Y', 'Y', 'Y', 'P:On request', 'Y']),
+    ]
+    matrix = '<section class="sec"><div class="wrap"><div class="sec-head"><h2>At a glance</h2><p>What each tool\'s own website lists, checked %s. "Not listed" means we could not find it on their site — not that it cannot be done.</p></div>%s</div></section>' % (
+        e(SC.CHECKED), B.ctable(['What you need'] + [c for k, c in enumerate(MX_COLS) if SC.APX_CONFIRMED or k != 3],
+                 [(r, *[B.Y if x == 'Y' else B.P_(x[2:]) for k, x in enumerate(v) if SC.APX_CONFIRMED or k != 3]) for r, v in MX_ROWS],
+                 us_col=5 if SC.APX_CONFIRMED else 4))
+    built.append(hub('/compare/', 'Compare RetailerOS', 'Compare', 'RetailerOS and the tools <em>retailers use today.</em>',
         'Honest, side-by-side comparisons with the software Indian electronics retailers use most — including where the other option is the better fit.',
-        C.COMPARES, 'compare'))
+        C.COMPARES, 'compare', extra=matrix))
     built.append(hub('/solutions/', 'Solutions for Electronics Retail', 'Solutions', 'Built for the way <em>your store works.</em>',
         'RetailerOS for mobile shops, appliance and AC dealers, multi-store chains, and repair and service centres.',
         C.SOLUTIONS, 'solutions'))

@@ -13,7 +13,7 @@ RULES (same as site_content.py, plus):
 - `demo` picks an illustrated mock-up (see site_pages.module_demo()).
 """
 
-PLAN = {'free': 'Free', 'shop': 'Shop', 'chain': 'Chain'}
+PLAN = {'free': 'Free', 'shop': 'Shop', 'chain': 'Pro'}
 
 MODULE_PAGES = [
   {
@@ -47,7 +47,7 @@ MODULE_PAGES = [
       ('Which brands does the Schemes module support?', 'Any brand you sell. Schemes are set up per brand and category, so it works for mobile brands like Samsung, Vivo and Oppo and for appliance, TV and IT brands alike.'),
       ('Does RetailerOS file the claim with the brand for me?', 'RetailerOS builds the claim list from your scheme sales — product, IMEI or serial, scheme and amount — ready to submit. You file it with the brand or distributor the way you do today, and track it until it is settled.'),
       ('Can I see how close I am to a brand target?', 'Yes. The brand target tracker shows actual sales against target in rupees and units, colour-coded green, amber or grey, with the incentive slab you are on.'),
-      ('Which plan includes Schemes?', 'Schemes and Claims are included on the Shop plan (₹3,999 a month) and on Chain.'),
+      ('Which plan includes Schemes?', 'Schemes and Claims are included on the Shop plan (₹3,999 a month) and on Pro.'),
     ],
     'related': ['automation', 'pre-booking', 'marketing'],
     'chat': 'Losing track of brand schemes? I can show you the target tracker in a 15-minute demo.',
@@ -83,7 +83,7 @@ MODULE_PAGES = [
       ('What can RetailerOS automation do?', 'It sends WhatsApp messages on a schedule: a sequence of messages after a purchase, timed in days from the sale, and birthday wishes. You write the messages once as a campaign and attach it to sales.'),
       ('Does it use my WhatsApp number?', 'Messages go out through your connected WhatsApp Business number, so customers see your store and their replies come to you.'),
       ('Can I stop a sequence for one customer?', 'Yes. Each automation is tied to a customer and a sale, and shows every message with its status, so you can see what has gone and what is still scheduled.'),
-      ('Which plan includes Automation?', 'Automation is part of the Chain plan, which also includes 2,000 WhatsApp messages a month.'),
+      ('Which plan includes Automation?', 'Automation is part of the Pro plan, which also includes 2,000 WhatsApp messages a month.'),
     ],
     'related': ['marketing', 'pre-booking', 'schemes'],
     'chat': 'Want every customer followed up automatically on WhatsApp? I can show you a campaign in 15 minutes.',
@@ -119,7 +119,7 @@ MODULE_PAGES = [
       ('How does the RetailerOS marketing module work?', 'You describe the creative you need in plain words — the product, the offer, the occasion — and RetailerOS generates the image with AI. You can preview it, generate again, then download it or share it on WhatsApp.'),
       ('Can it write captions too?', 'Yes. Upload a product photo and it suggests marketing copy you can edit and use with the image.'),
       ('Do I need design skills?', 'No. If you can describe the offer, you can make the creative.'),
-      ('Which plan includes Marketing?', 'Marketing is part of the Chain plan.'),
+      ('Which plan includes Marketing?', 'Marketing is part of the Pro plan.'),
     ],
     'related': ['automation', 'pre-booking', 'marketplace'],
     'chat': 'Want to make your next festival banner in seconds? I can show you in a quick demo.',
@@ -155,7 +155,7 @@ MODULE_PAGES = [
       ('What is pre-booking in RetailerOS?', 'A way to take advance bookings and deposits for products that have not arrived yet. You create a campaign with a public booking page, customers book through it or at the counter, and each booking converts into a sale when the stock arrives.'),
       ('Can customers pre-book online?', 'Yes. Each campaign has its own booking page that you share on WhatsApp, and customers book from their phone.'),
       ('What happens to the deposit when the product arrives?', 'You turn the booking into a sale and the advance already paid is deducted from the total.'),
-      ('Which plan includes Pre-booking?', 'Pre-booking is included on the Shop plan (₹3,999 a month) and on Chain.'),
+      ('Which plan includes Pre-booking?', 'Pre-booking is included on the Shop plan (₹3,999 a month) and on Pro.'),
     ],
     'related': ['marketing', 'automation', 'schemes'],
     'chat': 'Got a launch coming up? I can show you how pre-booking works in 15 minutes.',
@@ -198,7 +198,7 @@ MODULE_PAGES = [
       ('Does RetailerOS give me an online store?', 'Yes. The Marketplace module includes an online store for your customers: you list products from your catalogue with online prices, and manage orders and shipping from RetailerOS.'),
       ('What is the RetailerOS retailer marketplace?', 'A marketplace where RetailerOS retailers can buy and sell stock with each other — excess, slow-moving or open-box units. It is coming soon.'),
       ('Can other retailers see my prices?', 'Only what you choose to list on the retailer marketplace. Your online store is for your customers, and your counter prices stay yours.'),
-      ('Which plan includes the Marketplace?', 'The Marketplace module is part of the Chain plan.'),
+      ('Which plan includes the Marketplace?', 'The Marketplace module is part of the Pro plan.'),
     ],
     'related': ['stores', 'marketing', 'pre-booking'],
     'chat': 'Thinking of selling online? I can walk you through your own RetailerOS store in 15 minutes.',
@@ -209,7 +209,7 @@ MODULE_PAGES = [
     'desc': 'Run every store from one owner login: stock, cash, staff and performance per location, with cross-store IMEI search and 3 staff logins per store.',
     'eyebrow': 'Stores module',
     'h1': 'Every store, <em>one owner login.</em>',
-    'answer': 'The Stores module runs several locations from one RetailerOS account. Each store keeps its own stock, staff, cash register and invoice numbering, and you see all of them — sales, stock and performance — from one owner login. It is part of the Chain plan, and every store includes 3 staff logins.',
+    'answer': 'The Stores module runs several locations from one RetailerOS account. Each store keeps its own stock, staff, cash register and invoice numbering, and you see all of them — sales, stock and performance — from one owner login. It is part of the Pro plan, and every store includes 3 staff logins.',
     'features': [
       ('One owner view', 'Today\'s revenue, bills and stock for every store on one screen.', ''),
       ('Stock per location', 'Brands, products and stock levels held separately for each store.', ''),
@@ -231,10 +231,10 @@ MODULE_PAGES = [
       ('Where to invest', 'Store 3 sells twice the accessories per phone. Now you know which store\'s playbook to copy.'),
     ],
     'faqs': [
-      ('How many stores can I run on RetailerOS?', 'As many as you have. Chain needs a minimum of two stores: the first is ₹7,499 a month and each additional store is ₹3,499 a month.'),
+      ('How many stores can I run on RetailerOS?', 'As many as you have. On Pro, the first is ₹7,499 a month and each additional store is ₹3,499 a month.'),
       ('Does each store get its own logins?', 'Yes. Every store includes 3 staff logins, and roles are set per store.'),
       ('Can each store have its own invoice numbering?', 'Yes. Taxes, invoice numbering and print templates are store-level settings.'),
-      ('Can I find a handset sold at another branch?', 'Yes. Cross-store IMEI and serial search comes with the Chain plan.'),
+      ('Can I find a handset sold at another branch?', 'Yes. Cross-store IMEI and serial search comes with the Pro plan.'),
     ],
     'related': ['marketplace', 'automation', 'schemes'],
     'chat': 'Running more than one store? I can show you the owner view across every location in 15 minutes.',

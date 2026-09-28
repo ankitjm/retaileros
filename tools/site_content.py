@@ -55,8 +55,8 @@ COMPARES = [
     'faqs': [
       ('Is RetailerOS a replacement for Tally?', 'For running the retail counter, yes: billing, stock, IMEI and serial tracking, schemes, warranty claims and repairs. For filing-grade accounts and GST returns, Tally is stronger. RetailerOS includes day books, ledgers and GST return summaries, and many retailers keep their accountant on Tally for the books.'),
       ('Does Tally track IMEI numbers?', 'Not out of the box. IMEI and serial number tracking in TallyPrime is available through paid third-party add-ons and customisation. RetailerOS tracks every unit by IMEI or serial number as a standard feature.'),
-      ('Can I move my data from Tally to RetailerOS?', 'Yes. There is a step-by-step migration guide on the Resources page, and on the Chain plan the migration is done for you.'),
-      ('How much does RetailerOS cost compared with Tally?', 'RetailerOS is a subscription: free for up to 50 bills a month, Rs 3,999 a month for one store, and Rs 7,499 a month for the first store on Chain plus Rs 3,499 for each additional store. Tally is licensed per user, from monthly to a one-time perpetual licence; check Tally or your reseller for current prices.'),
+      ('Can I move my data from Tally to RetailerOS?', 'Yes. There is a step-by-step migration guide on the Resources page, and on the Pro plan the migration is done for you.'),
+      ('How much does RetailerOS cost compared with Tally?', 'RetailerOS is a subscription: free for up to 50 bills a month, Rs 3,999 a month for one store, and Rs 7,499 a month for the first store on Pro plus Rs 3,499 for each additional store. Tally is licensed per user, from monthly to a one-time perpetual licence; check Tally or your reseller for current prices.'),
     ],
     'source': 'Tally details from public TallyPrime licensing and add-on information, checked %s.' % VERIFIED,
     'chat': 'Comparing us with Tally? Most retailers keep Tally for the books and run the counter on RetailerOS. Happy to show you how on a short call.',
@@ -103,7 +103,7 @@ COMPARES = [
     'faqs': [
       ('Does Vyapar track IMEI numbers?', 'Yes. Vyapar can store IMEI numbers for each phone and check warranty periods. RetailerOS does too; the difference is what happens next — RetailerOS files the warranty claim and tracks it to settlement, and reconciles brand scheme cashback.'),
       ('Why does RetailerOS cost more than Vyapar?', 'Vyapar focuses on billing, accounting and stock. RetailerOS runs the wider retail operation — scheme reconciliation, warranty claims, repair job cards, staff and multi-store management — which is where electronics retailers usually lose time or money.'),
-      ('Can I move from Vyapar to RetailerOS?', 'Yes. Vyapar and spreadsheet imports are supported, and on the Chain plan the migration is done for you.'),
+      ('Can I move from Vyapar to RetailerOS?', 'Yes. Vyapar and spreadsheet imports are supported, and on the Pro plan the migration is done for you.'),
       ('Is there a free plan to try it?', 'Yes. RetailerOS is free for up to 50 bills a month, with no card needed, so you can try it alongside your current software.'),
     ],
     'source': 'Vyapar details from vyaparapp.in, checked %s. "Not listed" means the feature is not listed on Vyapar\'s mobile-shop page — check with Vyapar for their current plans. Vyapar prices are billed annually and exclude GST.' % VERIFIED,
@@ -218,7 +218,7 @@ SOLUTIONS = [
       ('Does RetailerOS handle Vivo, Samsung and Oppo schemes?', 'Yes. The Schemes module surfaces applicable brand and bank offers at billing and keeps cashback claims queued for reconciliation.'),
       ('Can I find which customer bought a particular phone?', 'Yes. Search the IMEI and you see the full history of that handset, including the sale.'),
       ('Does it handle used or second-hand phones?', 'A used-phone buy-back workflow is in development: buying from a customer, grading, pricing and reselling with the full IMEI history. It is not available yet.'),
-      ('How much does it cost for a mobile shop?', 'Free for up to 50 bills a month. Shop is Rs 3,999 a month for one store and 750 bills. For two or more stores, Chain is Rs 7,499 a month for the first store plus Rs 3,499 for each additional store.'),
+      ('How much does it cost for a mobile shop?', 'Free for up to 50 bills a month. Shop is Rs 3,999 a month for one store and 750 bills. Pro is Rs 7,499 a month with unlimited bills and every module, and each extra store you add is Rs 3,499 a month.'),
     ],
     'chat': 'Run a mobile shop? I can show you IMEI tracking and scheme reconciliation on a real counter in 15 minutes.',
   },
@@ -243,7 +243,7 @@ SOLUTIONS = [
       ('Can RetailerOS track serial numbers for appliances?', 'Yes. Air conditioners, refrigerators, washing machines, televisions and laptops are tracked by serial number in the same way handsets are tracked by IMEI.'),
       ('Does it show EMI and bank offers at billing?', 'Yes. The Schemes module surfaces applicable brand discounts, bank offers and EMI options while the bill is being created.'),
       ('Does it handle AC servicing?', 'Yes. The Repairs module runs job cards for repairs and service, including AC servicing and appliance callouts.'),
-      ('Can I run several showrooms?', 'Yes, on the Chain plan: Rs 7,499 a month for the first store plus Rs 3,499 for each additional store, with a minimum of two.'),
+      ('Can I run several showrooms?', 'Yes, on the Pro plan: Rs 7,499 a month for the first store plus Rs 3,499 for each additional store.'),
     ],
     'chat': 'Sell ACs, fridges or TVs? I can show you serial tracking and warranty claims for appliances in 15 minutes.',
   },
@@ -253,7 +253,7 @@ SOLUTIONS = [
     'desc': 'Run every store from one login: stock, staff, cash and invoice numbering per store, one owner view. Rs 7,499 for the first store, Rs 3,499 for each one after.',
     'eyebrow': 'Multi-store chains',
     'h1': 'Run every store <em>from one login.</em>',
-    'answer': 'RetailerOS runs a chain of electronics stores from one owner login. Each store keeps its own stock, staff, cash register and invoice numbering, and you see all of them together. On the Chain plan the first store is Rs 7,499 a month and each additional store is Rs 3,499, with a minimum of two stores, and every store comes with 3 staff logins.',
+    'answer': 'RetailerOS runs a chain of electronics stores from one owner login. Each store keeps its own stock, staff, cash register and invoice numbering, and you see all of them together. On the Pro plan the first store is Rs 7,499 a month and each additional store is Rs 3,499, and every store comes with 3 staff logins.',
     'cards': [
       ('One owner dashboard', 'Today\'s revenue, tasks and quick actions across every store, on one screen.', ''),
       ('Stock by location', 'Stock levels and movement kept separately for each store.', ''),
@@ -265,10 +265,10 @@ SOLUTIONS = [
       ('Cross-store IMEI search', 'Find any unit\'s history no matter which store took it in.', ''),
     ],
     'faqs': [
-      ('Is there a minimum number of stores on Chain?', 'Yes. Chain needs a minimum of two stores: Rs 7,499 a month for the first store and Rs 3,499 for each additional store, so two stores is Rs 10,998 a month before any billing discount.'),
+      ('Is there a minimum number of stores on Pro?', 'No. Pro starts with one store at Rs 7,499 a month. Each store you add is Rs 3,499 a month, so two stores come to Rs 10,998 a month before any billing discount.'),
       ('Do I pay extra for staff logins?', 'No. Every store includes 3 staff logins, so a 15-store chain gets 45 logins. Extra logins are Rs 499 a month each, only if one store needs more than three.'),
       ('Can each store have its own invoice numbering?', 'Yes. Taxes, invoice numbering and print templates are store-level settings.'),
-      ('Is there an upper limit on stores?', 'No. Chain has no cap. For rollouts across many cities, talk to us about a custom setup.'),
+      ('Is there an upper limit on stores?', 'No. Pro has no cap. For rollouts across many cities, talk to us about a custom setup.'),
       ('Does the quarterly or annual discount apply to additional stores?', 'Yes. Quarterly billing saves 5% and annual billing saves 15% on the whole bill, including each additional store.'),
     ],
     'chat': 'Running more than one store? Tell me how many and I will give you the exact monthly figure.',
@@ -292,8 +292,15 @@ SOLUTIONS = [
       ('What does a repair job card track?', 'Each job card follows the device from intake through diagnosis and repair to handover to the customer.'),
       ('Can I see a device\'s past repairs?', 'Yes. Searching the IMEI or serial number shows that unit\'s full history.'),
       ('Does RetailerOS file warranty claims with brands?', 'Yes. The Claims module tracks brand warranty claims from filing to settlement.'),
-      ('Which plan includes repairs?', 'Repairs and Claims are on the Shop plan, Rs 3,999 a month for one store, and on Chain.'),
+      ('Which plan includes repairs?', 'Repairs and Claims are on the Shop plan, Rs 3,999 a month for one store, and on Pro.'),
     ],
     'chat': 'Run a repair or service centre? I can show you job cards and warranty claims in 15 minutes.',
   },
 ]
+
+
+# ── the tools the industry actually uses (Tally, Marg, Zoho, APX) — tools/site_compares.py ──
+import site_compares as _SC  # noqa: E402
+_by = {c['slug']: c for c in COMPARES}
+_by.update({c['slug']: c for c in (_SC.TALLY, _SC.MARG, _SC.ZOHO, _SC.APX)})
+COMPARES = [_by[s] for s in _SC.NEW_ORDER]

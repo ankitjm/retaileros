@@ -98,13 +98,13 @@
     b.addEventListener('click', function () { cycle = b.dataset.cycle; paintCycle(); });
   });
 
-  var cPlan = 'chain', cStores = 2;
+  var cPlan = 'chain', cStores = 1;
   var input = document.getElementById('storeCount');
   function calc() {
     var out = document.getElementById('calcOut');
     if (!out) return;
     if (cPlan === 'shop') cStores = 1;
-    if (cPlan === 'chain' && cStores < 2) cStores = 2;
+    if (cPlan === 'chain' && cStores < 1) cStores = 1;
     if (input) { if (document.activeElement !== input) input.value = cStores; input.disabled = cPlan !== 'chain'; }
     document.querySelectorAll('[data-calc-plan]').forEach(function (b) {
       b.setAttribute('aria-pressed', b.dataset.calcPlan === cPlan ? 'true' : 'false');
@@ -139,18 +139,18 @@
   document.querySelectorAll('[data-calc-cycle]').forEach(function (b) {
     b.addEventListener('click', function () { cycle = b.dataset.calcCycle; paintCycle(); });
   });
-  function step(d) { cStores = Math.max(2, Math.min(500, (parseInt(cStores, 10) || 2) + d)); calc(); }
+  function step(d) { cStores = Math.max(1, Math.min(500, (parseInt(cStores, 10) || 1) + d)); calc(); }
   var dn = document.getElementById('storeDown'), up = document.getElementById('storeUp');
   if (dn) dn.addEventListener('click', function () { step(-1); });
   if (up) up.addEventListener('click', function () { step(1); });
   if (input) {
     input.addEventListener('input', function () {
       var v = parseInt(input.value, 10);
-      if (!isNaN(v) && v >= 2) { cStores = Math.min(500, v); calc(); }
+      if (!isNaN(v) && v >= 1) { cStores = Math.min(500, v); calc(); }
     });
     input.addEventListener('change', function () {
       var v = parseInt(input.value, 10);
-      cStores = isNaN(v) ? 2 : Math.max(2, Math.min(500, v)); input.value = cStores; calc();
+      cStores = isNaN(v) ? 1 : Math.max(1, Math.min(500, v)); input.value = cStores; calc();
     });
   }
   if (document.querySelector('.cycle') || document.getElementById('calcOut')) paintCycle();
