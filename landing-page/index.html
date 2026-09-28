@@ -16,7 +16,7 @@
 
 <!-- ─── SEO · primary ─── -->
 <title>RetailerOS — Billing &amp; Inventory for Electronics Retail</title>
-<meta name="description" content="GST billing, inventory, serial &amp; IMEI tracking, warranty claims and multi-store management for Indian consumer electronics retail — mobiles, appliances, ACs, TVs and IT. 26 modules. Free for 50 bills/month." />
+<meta name="description" content="GST billing, stock, IMEI &amp; serial tracking, schemes and multi-store for Indian electronics retail — mobiles, appliances, ACs, TVs. Free for 50 bills a month." />
 <meta name="keywords" content="billing software for mobile shop, GST billing software India, retail POS India, mobile shop inventory software, consumer electronics retail software, AC and refrigerator dealer software, appliance shop billing software, IMEI and serial number tracking, khaata app for shops, multi store billing software, multi location retail software India, software for retail chain India, Tally alternative, Vyapar alternative" />
 <link rel="canonical" href="https://retaileros.in/" />
 <meta name="robots" content="index, follow, max-image-preview:large" />
@@ -5609,6 +5609,31 @@
         photo) and fades in once the visitor scrolls past it. ── */
   .chatbot .chatbot-btn { transition: opacity 280ms ease, transform 280ms cubic-bezier(.2,.8,.2,1); }
   .chatbot.ch-hidden:not(.open) .chatbot-btn { opacity: 0; transform: translateY(18px) scale(.9); pointer-events: none; }
+  
+  /* ── Module pills that have their own landing page: a link, with a clear hover ── */
+  .mp-pill.has-page { padding: 0; border-color: #B8C8F2; background: var(--brand-blue-soft); }
+  .mp-pill.has-page a { display: inline-flex; align-items: center; gap: 7px; height: 100%; padding: 0 11px;
+    color: var(--brand-blue); font-weight: 600; text-decoration: none; border-radius: inherit; }
+  .mp-pill.has-page a::before { content: ""; width: 7px; height: 7px; border-radius: 50%; flex: none; }
+  .mp-pill.has-page::before { display: none; }
+  .mp-pill.has-page.free a::before { background: var(--green); } .mp-pill.has-page.shop a::before { background: var(--brand-blue); }
+  .mp-pill.has-page.chain a::before { background: var(--accent); }
+  .mp-pill.has-page .mp-go { font-size: 12px; transition: transform 180ms ease; }
+  .mp-pill.has-page { transition: transform 180ms cubic-bezier(.2,.8,.2,1), box-shadow 180ms ease, background 180ms ease, border-color 180ms ease; }
+  .mp-pill.has-page:hover, .mp-pill.has-page:focus-within { background: var(--brand-blue); border-color: var(--brand-blue);
+    transform: translateY(-3px) scale(1.04); box-shadow: 0 14px 28px -12px rgba(30,71,184,.65); }
+  .mp-pill.has-page:hover a, .mp-pill.has-page:focus-within a { color: #fff; }
+  .mp-pill.has-page:hover a::before, .mp-pill.has-page:focus-within a::before { background: #fff; }
+  .mp-pill.has-page:hover .mp-go { transform: translateX(3px); }
+  .mp-pill.has-page a:focus-visible { outline: none; }
+  .mp-bar .mp-all { margin-left: 10px; font-size: 12px; font-weight: 600; color: var(--brand-blue); text-decoration: none; white-space: nowrap; }
+  
+  /* module names linking to their landing pages */
+  a.mod-link { color: inherit; font-weight: 600; text-decoration: underline; text-decoration-color: rgba(30,71,184,.45);
+    text-underline-offset: 3px; transition: color .15s ease, text-decoration-color .15s ease; }
+  a.mod-link:hover { color: var(--brand-blue); text-decoration-color: currentColor; }
+  .price-card.tier-pro a.mod-link, .tier-pro a.mod-link { text-decoration-color: rgba(255,255,255,.45); }
+  .tier-pro a.mod-link:hover { color: #fff; text-decoration-color: #fff; }
   </style>
 
 <script>
@@ -5646,7 +5671,7 @@
       <img class="rh-mark" src="/assets/logo-mark.png" alt="" width="32" height="32">
       <img class="rh-word" src="/assets/logo-wordmark.png" alt="RetailerOS" width="106" height="20">
     </a>
-    <nav class="rh-nav" aria-label="Main"><a href="/#modules">Product</a><a href="/solutions/">Solutions</a><a href="/pricing/">Pricing</a><a href="/compare/">Compare</a><a href="/answers.html">Answers</a><a href="/resources.html">Resources</a></nav>
+    <nav class="rh-nav" aria-label="Main"><a href="/modules/">Product</a><a href="/solutions/">Solutions</a><a href="/pricing/">Pricing</a><a href="/compare/">Compare</a><a href="/answers.html">Answers</a><a href="/resources.html">Resources</a></nav>
     <div class="rh-cta">
       <a class="rh-signin signin" href="https://app.retaileros.in/login" data-label-in="Access account">Sign in</a>
       <a class="rh-start" href="/#start" data-cta="onboard">Start free</a>
@@ -5656,7 +5681,11 @@
 </header>
 <div class="rh-menu" id="rh-menu" aria-label="Menu" hidden>
   <nav class="rh-m-body" aria-label="Menu">
-    <a class="rh-m-link" href="/#modules">Product</a><a class="rh-m-link" href="/solutions/">Solutions</a><a class="rh-m-link" href="/pricing/">Pricing</a><a class="rh-m-link" href="/compare/">Compare</a><a class="rh-m-link" href="/answers.html">Answers</a><a class="rh-m-link" href="/resources.html">Resources</a>
+    <a class="rh-m-link" href="/modules/">Product</a><a class="rh-m-link" href="/solutions/">Solutions</a><a class="rh-m-link" href="/pricing/">Pricing</a><a class="rh-m-link" href="/compare/">Compare</a><a class="rh-m-link" href="/answers.html">Answers</a><a class="rh-m-link" href="/resources.html">Resources</a>
+    <div class="rh-m-group">
+      <p class="rh-m-label">Modules</p>
+      <div class="rh-m-list"><a href="/modules/schemes/">Schemes</a><a href="/modules/automation/">Automation</a><a href="/modules/marketing/">Marketing</a><a href="/modules/pre-booking/">Pre-booking</a><a href="/modules/marketplace/">Marketplace</a><a href="/modules/stores/">Stores</a><a href="/modules/">All 26 &rarr;</a></div>
+    </div>
     <div class="rh-m-group">
       <p class="rh-m-label">Solutions</p>
       <div class="rh-m-list"><a href="/solutions/mobile-phone-retail/">Mobile phone retail</a><a href="/solutions/appliance-and-ac-dealers/">Appliance &amp; AC dealers</a><a href="/solutions/multi-store-chains/">Multi-store chains</a><a href="/solutions/repair-and-service-centres/">Repair &amp; service centres</a></div>
@@ -6010,7 +6039,7 @@
           <li class="free">Free <b>7</b></li><li class="shop">Shop <b>+13</b></li><li class="chain">Chain <b>+6</b></li>
         </ul>
       </div>
-      <div class="mp-body"><div class="mp-row"><h3>Billing and stock<span>7</span></h3><ul><li class="mp-pill free">Sales Desk</li><li class="mp-pill free">Invoices</li><li class="mp-pill free">Inventory</li><li class="mp-pill shop">Purchase Orders</li><li class="mp-pill shop">Pricing rules</li><li class="mp-pill shop">Cash Register</li><li class="mp-pill shop">Expenses</li></ul></div><div class="mp-row"><h3>Phones, appliances and service<span>4</span></h3><ul><li class="mp-pill shop">IMEI &amp; Serial Tracker</li><li class="mp-pill shop">Schemes</li><li class="mp-pill shop">Repairs</li><li class="mp-pill shop">Claims</li></ul></div><div class="mp-row"><h3>Customers<span>5</span></h3><ul><li class="mp-pill free">Clients (CRM &amp; khaata)</li><li class="mp-pill shop">Inquiries</li><li class="mp-pill shop">Pre-booking</li><li class="mp-pill chain">Marketing</li><li class="mp-pill chain">Promoters</li></ul></div><div class="mp-row"><h3>Money and people<span>3</span></h3><ul><li class="mp-pill shop">Finance</li><li class="mp-pill shop">Staff</li><li class="mp-pill shop">Reports</li></ul></div><div class="mp-row"><h3>Multi-store and platform<span>7</span></h3><ul><li class="mp-pill chain">Stores</li><li class="mp-pill chain">Marketplace</li><li class="mp-pill chain">Integrations</li><li class="mp-pill chain">Automation</li><li class="mp-pill free">Dashboard</li><li class="mp-pill free">Settings</li><li class="mp-pill free">Login &amp; onboarding</li></ul></div></div>
+      <div class="mp-body"><div class="mp-row"><h3>Billing and stock<span>7</span></h3><ul><li class="mp-pill free">Sales Desk</li><li class="mp-pill free">Invoices</li><li class="mp-pill free">Inventory</li><li class="mp-pill shop">Purchase Orders</li><li class="mp-pill shop">Pricing rules</li><li class="mp-pill shop">Cash Register</li><li class="mp-pill shop">Expenses</li></ul></div><div class="mp-row"><h3>Phones, appliances and service<span>4</span></h3><ul><li class="mp-pill shop">IMEI &amp; Serial Tracker</li><li class="mp-pill shop has-page"><a href="/modules/schemes/">Schemes<span class="mp-go" aria-hidden="true">&rarr;</span></a></li><li class="mp-pill shop">Repairs</li><li class="mp-pill shop">Claims</li></ul></div><div class="mp-row"><h3>Customers<span>5</span></h3><ul><li class="mp-pill free">Clients (CRM &amp; khaata)</li><li class="mp-pill shop">Inquiries</li><li class="mp-pill shop has-page"><a href="/modules/pre-booking/">Pre-booking<span class="mp-go" aria-hidden="true">&rarr;</span></a></li><li class="mp-pill chain has-page"><a href="/modules/marketing/">Marketing<span class="mp-go" aria-hidden="true">&rarr;</span></a></li><li class="mp-pill chain">Promoters</li></ul></div><div class="mp-row"><h3>Money and people<span>3</span></h3><ul><li class="mp-pill shop">Finance</li><li class="mp-pill shop">Staff</li><li class="mp-pill shop">Reports</li></ul></div><div class="mp-row"><h3>Multi-store and platform<span>7</span></h3><ul><li class="mp-pill chain has-page"><a href="/modules/stores/">Stores<span class="mp-go" aria-hidden="true">&rarr;</span></a></li><li class="mp-pill chain has-page"><a href="/modules/marketplace/">Marketplace<span class="mp-go" aria-hidden="true">&rarr;</span></a></li><li class="mp-pill chain">Integrations</li><li class="mp-pill chain has-page"><a href="/modules/automation/">Automation<span class="mp-go" aria-hidden="true">&rarr;</span></a></li><li class="mp-pill free">Dashboard</li><li class="mp-pill free">Settings</li><li class="mp-pill free">Login &amp; onboarding</li></ul></div></div>
     </div>
   </div>
 </section>
@@ -6025,7 +6054,7 @@
       <a class="whofor-card" href="/solutions/mobile-phone-retail/">
         <picture class="whofor-img">
           <source type="image/webp" srcset="assets/solutions/mobile-phone-store.webp">
-          <img src="assets/solutions/mobile-phone-store.jpg" alt="A RetailerOS shop assistant showing a handset to a customer at a mobile phone counter" width="880" height="880" loading="lazy" decoding="async">
+          <img src="assets/solutions/mobile-phone-store.jpg" alt="A RetailerOS staff member showing a phone to a customer at a mobile store counter" width="880" height="880" loading="lazy" decoding="async">
         </picture>
         <div class="whofor-body">
           <h3>Mobile phone stores</h3>
@@ -6036,7 +6065,7 @@
       <a class="whofor-card" href="/solutions/appliance-and-ac-dealers/">
         <picture class="whofor-img">
           <source type="image/webp" srcset="assets/solutions/appliance-ac-dealer.webp">
-          <img src="assets/solutions/appliance-ac-dealer.jpg" alt="A dealer showing air conditioners and washing machines to a customer in an appliance showroom" width="880" height="880" loading="lazy" decoding="async">
+          <img src="assets/solutions/appliance-ac-dealer.jpg" alt="A RetailerOS staff member presenting air conditioners and washing machines to a customer" width="880" height="880" loading="lazy" decoding="async">
         </picture>
         <div class="whofor-body">
           <h3>AC &amp; appliance dealers</h3>
@@ -6058,7 +6087,7 @@
       <a class="whofor-card" href="/solutions/repair-and-service-centres/">
         <picture class="whofor-img">
           <source type="image/webp" srcset="assets/solutions/repair-service-centre.webp">
-          <img src="assets/solutions/repair-service-centre.jpg" alt="Service centre staff showing a customer a completed repair on their phone" width="880" height="880" loading="lazy" decoding="async">
+          <img src="assets/solutions/repair-service-centre.jpg" alt="A service desk technician showing a customer their repair status on a phone" width="880" height="880" loading="lazy" decoding="async">
         </picture>
         <div class="whofor-body">
           <h3>Repair &amp; service centres</h3>
@@ -6296,9 +6325,9 @@
       </div>
       <ul class="price-features">
         <li><strong>20 modules</strong> — everything in Free, plus:</li>
-        <li>IMEI Tracker · Schemes · Repairs · Claims</li>
+        <li>IMEI Tracker · <a class="mod-link" href="/modules/schemes/">Schemes</a> · Repairs · Claims</li>
         <li>Cash Register · Expenses · Purchase Orders</li>
-        <li>Inquiries · Pre-booking</li>
+        <li>Inquiries · <a class="mod-link" href="/modules/pre-booking/">Pre-booking</a></li>
         <li>Reports · Staff · Finance · Pricing</li>
         <li>200 WhatsApp messages / mo</li>
         <li>Email 48h SLA + in-app chat</li>
@@ -6325,8 +6354,8 @@
       </div>
       <ul class="price-features">
         <li><strong>All 26 modules</strong> — everything in Shop, plus:</li>
-        <li>Stores · Marketing · Marketplace · Integrations</li>
-        <li>Automation · Promoters</li>
+        <li><a class="mod-link" href="/modules/stores/">Stores</a> · <a class="mod-link" href="/modules/marketing/">Marketing</a> · <a class="mod-link" href="/modules/marketplace/">Marketplace</a> · Integrations</li>
+        <li><a class="mod-link" href="/modules/automation/">Automation</a> · Promoters</li>
         <li>Unlimited bills — no caps, no packs</li>
         <li>Cross-store stock, staff and reporting</li>
         <li>2,000 WhatsApp messages / mo</li>
@@ -6675,7 +6704,7 @@
     <div class="footer-cols">
       <div class="footer-col">
         <h3>Product</h3>
-        <a href="#modules">Modules</a>
+        <a href="/modules/">Modules</a>
         <a href="#multi-store">Multi-store</a>
         <a href="answers.html">Answers</a>
         <a href="#why">Why RetailerOS</a>

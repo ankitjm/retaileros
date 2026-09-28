@@ -63,8 +63,8 @@ COMPARES = [
   },
   {
     'slug': 'vyapar-alternative', 'nav': 'RetailerOS vs Vyapar', 'vs': 'Vyapar',
-    'title': 'RetailerOS vs Vyapar for Mobile & Electronics Shops | RetailerOS',
-    'desc': 'An honest comparison. Vyapar is low-cost billing that tracks IMEIs. RetailerOS adds brand scheme reconciliation, warranty claim filing, repair job cards and multi-store management.',
+    'title': 'RetailerOS vs Vyapar for Electronics Shops | RetailerOS',
+    'desc': 'An honest comparison. Vyapar is low-cost billing that tracks IMEIs; RetailerOS adds brand scheme claims, warranty claims, repair job cards and multi-store.',
     'h1': 'RetailerOS vs Vyapar: <em>billing, or the whole store?</em>',
     'answer': 'Vyapar is good-value billing software. It starts at Rs 283 a month on annual billing, and it already tracks IMEI numbers and warranty periods, shares bills on WhatsApp and works offline. If billing is what you need, it is hard to beat on price. RetailerOS costs more because it runs the rest of an electronics retail business: it reconciles brand scheme cashback, files warranty claims through to settlement, runs repair job cards, and manages several stores from one login.',
     'them_good': [
@@ -153,7 +153,7 @@ COMPARES = [
   },
   {
     'slug': 'retaileros-ai', 'nav': 'RetailerOS vs retaileros.ai', 'vs': 'retaileros.ai',
-    'title': 'RetailerOS (retaileros.in) and retaileros.ai Are Different Companies | RetailerOS',
+    'title': 'retaileros.in vs retaileros.ai: Different Companies | RetailerOS',
     'desc': 'RetailerOS at retaileros.in and retaileros.ai are separate companies with different products. Here is how to tell them apart.',
     'h1': 'retaileros.in and retaileros.ai are <em>different companies.</em>',
     'answer': 'RetailerOS at retaileros.in is built in India by Khosha Systems for consumer electronics retail, priced in rupees, with IMEI and serial tracking, GST invoicing, brand scheme reconciliation and warranty claims. retaileros.ai is a separate company offering point-of-sale software for general retail, priced in US dollars. The names are similar; the companies, products and customers are not.',
@@ -199,7 +199,7 @@ SOLUTIONS = [
   {
     'slug': 'mobile-phone-retail', 'nav': 'Mobile phone retail',
     'title': 'Mobile Shop Billing Software with IMEI Tracking | RetailerOS',
-    'desc': 'Billing software for Indian mobile phone shops: GST bills, IMEI tracking on every handset, Vivo, Samsung and Oppo scheme reconciliation, warranty claims and repairs. Free for 50 bills a month.',
+    'desc': 'Billing software for Indian mobile shops: GST bills, IMEI on every handset, Vivo, Samsung and Oppo scheme claims, warranty and repairs. Free for 50 bills a month.',
     'eyebrow': 'Mobile phone retail',
     'h1': 'Mobile shop software that <em>tracks every handset.</em>',
     'answer': 'RetailerOS runs a mobile phone counter end to end: GST bills in about 30 seconds, every handset tracked by IMEI from purchase to warranty, Vivo, Samsung and Oppo scheme cashback reconciled, warranty claims filed to settlement, repairs on job cards and customer khaata kept current. It is free for up to 50 bills a month.',
@@ -250,7 +250,7 @@ SOLUTIONS = [
   {
     'slug': 'multi-store-chains', 'nav': 'Multi-store chains',
     'title': 'Multi-Store Retail Software for Electronics Chains | RetailerOS',
-    'desc': 'Run every store from one login. Per-store stock, staff, cash and invoice numbering, with one owner view. Rs 7,499 for the first store and Rs 3,499 for each additional store.',
+    'desc': 'Run every store from one login: stock, staff, cash and invoice numbering per store, one owner view. Rs 7,499 for the first store, Rs 3,499 for each one after.',
     'eyebrow': 'Multi-store chains',
     'h1': 'Run every store <em>from one login.</em>',
     'answer': 'RetailerOS runs a chain of electronics stores from one owner login. Each store keeps its own stock, staff, cash register and invoice numbering, and you see all of them together. On the Chain plan the first store is Rs 7,499 a month and each additional store is Rs 3,499, with a minimum of two stores, and every store comes with 3 staff logins.',
@@ -276,7 +276,7 @@ SOLUTIONS = [
   {
     'slug': 'repair-and-service-centres', 'nav': 'Repair & service centres',
     'title': 'Job Card Software for Repair & Service Centres | RetailerOS',
-    'desc': 'Repair job cards from intake to handover, full device history by IMEI or serial number, and brand warranty claims tracked to settlement — for Indian repair and service centres.',
+    'desc': 'Repair job cards from intake to handover, device history by IMEI or serial, and brand warranty claims tracked to settlement, for Indian service centres.',
     'eyebrow': 'Repair and service centres',
     'h1': 'Repairs on job cards, <em>not on scraps of paper.</em>',
     'answer': 'RetailerOS runs repairs on job cards — device intake, diagnosis, repair and customer handover — with the device\'s full IMEI or serial history one search away and brand warranty claims filed and tracked to settlement. Service billing goes out on GST invoices, with the receipt on the customer\'s WhatsApp.',

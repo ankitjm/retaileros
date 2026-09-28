@@ -73,7 +73,8 @@ def footer():
         </a>
         <p>Billing, stock, serial &amp; IMEI tracking, schemes, warranty claims and multi-store management for Indian consumer electronics retail.</p>
       </div>
-      <div><h4>Product</h4><a href="/#modules">All 26 modules</a><a href="/pricing/">Pricing</a><a href="/answers.html">Questions &amp; answers</a><a href="/resources.html">Resources</a><a href="/#book-demo">Book a demo</a></div>
+      <div><h4>Product</h4><a href="/modules/">All 26 modules</a><a href="/pricing/">Pricing</a><a href="/answers.html">Questions &amp; answers</a><a href="/resources.html">Resources</a><a href="/#book-demo">Book a demo</a></div>
+      <div><h4>Modules</h4><a href="/modules/schemes/">Schemes</a><a href="/modules/pre-booking/">Pre-booking</a><a href="/modules/automation/">Automation</a><a href="/modules/marketing/">Marketing</a><a href="/modules/marketplace/">Marketplace</a><a href="/modules/stores/">Stores</a></div>
       <div><h4>Solutions</h4>%s</div>
       <div><h4>Compare</h4>%s</div>
     </div>
@@ -245,7 +246,7 @@ if __name__ == '__main__':
     static = ['/', '/pricing/', '/answers.html', '/resources.html', '/security.html', '/privacy.html', '/terms.html']
     urls = static + [p for p in built if p not in static]
     pri = lambda u: '1.0' if u == '/' else '0.9' if u in ('/pricing/', '/answers.html') else \
-        '0.8' if u.startswith(('/compare', '/solutions')) else '0.3'
+        '0.8' if u.startswith(('/compare', '/solutions', '/modules')) else '0.3'
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(
         '  <url><loc>%s%s</loc><lastmod>%s</lastmod><priority>%s</priority></url>\n' % (SITE, u, TODAY, pri(u)) for u in urls) + '</urlset>\n'
     io.open(os.path.join(OUT, 'sitemap.xml'), 'w', encoding='utf-8').write(sm)

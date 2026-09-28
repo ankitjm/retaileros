@@ -36,5 +36,14 @@ RetailerOS is used at the shop counter rather than in a back office. It is purpo
 - [Resources](https://retaileros.in/resources.html): free guides and templates for Indian retailers.
 - [Security](https://retaileros.in/security.html) · [Privacy](https://retaileros.in/privacy.html) · [Terms](https://retaileros.in/terms.html)
 
+## Modules
+- [All 26 modules](https://retaileros.in/modules/): every RetailerOS module and the plan that includes it.
+- [Schemes](https://retaileros.in/modules/schemes/): The Schemes module in RetailerOS keeps every brand and bank scheme you are running in one place — what it pays, which products it covers and how long it runs. It tracks your sales against each brand's target and incentive slab as you bill, and every sale made under a scheme becomes a claim you can follow until the brand pays.
+- [Automation](https://retaileros.in/modules/automation/): The Automation module sends WhatsApp messages to your customers on a schedule you set. Attach a campaign to a purchase and RetailerOS sends a sequence over the following days — a thank-you, a how-to, a check-in, an accessory offer — and it can send birthday wishes automatically. Every message is logged against the customer.
+- [Marketing](https://retaileros.in/modules/marketing/): The Marketing module creates promotional images for your store with AI. Describe what you want — "Diwali offer, 20% off Samsung phones" — and RetailerOS generates the banner or social post, which you can download or share on WhatsApp. Add a product photo and it suggests marketing copy for it.
+- [Pre-booking](https://retaileros.in/modules/pre-booking/): The Pre-booking module lets you take advance bookings for upcoming launches. Create a campaign with the product, deposit and dates, share its booking page with customers on WhatsApp, and track every booking as pending or confirmed. When the stock arrives, each booking becomes a sale with the deposit already deducted.
+- [Marketplace](https://retaileros.in/modules/marketplace/): The Marketplace module gives your store two new places to sell. Your online store is an e-commerce site for your customers, with listings, orders and shipping run from RetailerOS. The retailer marketplace — coming soon — lets RetailerOS retailers buy and sell stock with each other, so excess and open-box stock finds a buyer.
+- [Stores](https://retaileros.in/modules/stores/): The Stores module runs several locations from one RetailerOS account. Each store keeps its own stock, staff, cash register and invoice numbering, and you see all of them — sales, stock and performance — from one owner login. It is part of the Chain plan, and every store includes 3 staff logins.
+
 ## Contact
 WhatsApp +91 88849 72272 · https://retaileros.in/#book-demo (15-minute demo, weekdays 12:00–3:00 PM IST)

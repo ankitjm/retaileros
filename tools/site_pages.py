@@ -2,6 +2,7 @@
 """Renders every generated page. Called by build_site.py."""
 import html, json
 import site_content as C
+import site_modules_render as MR
 
 e = lambda s: html.escape(s, quote=True)
 
@@ -67,7 +68,7 @@ def build(B):
     <h3>Shop</h3><p class="for">Everything one busy counter needs.</p>
     <div class="amt"><span data-by-cycle="{sp}">{sq}</span> <small data-by-cycle="{spp}">{sppq}</small></div>
     <p class="bill" data-by-cycle="{sb}">{sbq}</p>
-    <ul><li>1 store · 3 staff logins</li><li>750 bills a month</li><li>20 modules — adds IMEI Tracker, Schemes, Repairs, Claims, Reports</li>
+    <ul><li>1 store · 3 staff logins</li><li>750 bills a month</li><li>20 modules — adds IMEI Tracker, Schemes, Repairs, Claims, Pre-booking, Reports</li>
         <li>200 WhatsApp messages a month</li><li>Email support, 48-hour reply</li></ul>
     <a class="btn btn-primary" href="/#start">Start 14-day trial</a>
   </article>
@@ -88,6 +89,7 @@ def build(B):
         cf=by(chain_first), cfq=chain_first['quarterly'],
         ce=by(chain_extra), ceq=chain_extra['quarterly'],
         cb=by(chain_bill), cbq=chain_bill['quarterly'])
+    plans = MR.link_modules(plans)   # module names -> their landing pages
 
     ex_rows = ''
     for n in (2, 3, 5, 10, 15, 25):
@@ -104,7 +106,8 @@ def build(B):
         mod_rows += '<tr><th scope="rowgroup" colspan="4" style="background:var(--bg);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted)">%s</th></tr>' % e(group)
         for name, tier in mods:
             cells = ''.join('<td%s>%s</td>' % (' class="us"' if i == 1 else '', B.Y if TIER[tier] <= i else B.N) for i in range(3))
-            mod_rows += '<tr><th scope="row">%s</th>%s</tr>' % (e(name), cells)
+            label = ('<a class="mod-link" href="/modules/%s/">%s</a>' % (MR.MODULE_SLUG[name], e(name))) if name in MR.MODULE_SLUG else e(name)
+            mod_rows += '<tr><th scope="row">%s</th>%s</tr>' % (label, cells)
     modtable = '''<div class="ctable-wrap"><table class="ctable">
   <thead><tr><th scope="col">Module</th><th scope="col">Free</th><th scope="col" class="us">Shop</th><th scope="col">Chain</th></tr></thead>
   <tbody>%s</tbody></table></div>''' % mod_rows
@@ -205,7 +208,7 @@ def build(B):
                 {'@type': 'Offer', 'name': 'Chain (2 stores)', 'price': str(B.chain(2, 'monthly')), 'priceCurrency': 'INR',
                  'description': 'Rs 7,499 a month for the first store plus Rs 3,499 for each additional store, minimum two. Unlimited bills, all 26 modules, 3 staff logins per store.'}]}
     built.append(B.page(path='/pricing/', title='Pricing — Free, Shop & Chain Plans | RetailerOS',
-        desc='RetailerOS pricing: free for 50 bills a month, Shop Rs 3,999 a month, Chain Rs 7,499 for the first store plus Rs 3,499 per additional store. 3 staff logins per store. Calculator included.',
+        desc='RetailerOS pricing: Free for 50 bills a month, Shop Rs 3,999 a month, Chain Rs 7,499 for the first store plus Rs 3,499 per extra store. Store calculator inside.',
         active='Pricing', trail=[('Pricing', '/pricing/')], body=body, faqs=pricing_faqs, extra_ld=[offers],
         chat_msg='Working out the cost for your stores? Tell me how many you run and I will give you the exact monthly figure.',
         chat_primary=('Work out my price', '#calculator'), chat_delay=12, chat_priority=True))
@@ -259,9 +262,15 @@ def build(B):
     for s in C.SOLUTIONS:
         cards = ''.join('<div class="card"><h3>%s</h3><p>%s</p>%s</div>' % (
             e(t), e(d), '<span class="tag">%s</span>' % e(tag) if tag else '') for t, d, tag in s['cards'])
-        extra = ''
+        SOL_MODS = {'mobile-phone-retail': ['schemes', 'pre-booking', 'automation', 'marketing'],
+                    'appliance-and-ac-dealers': ['schemes', 'pre-booking', 'automation', 'marketing'],
+                    'multi-store-chains': ['stores', 'marketplace', 'automation', 'schemes'],
+                    'repair-and-service-centres': ['automation', 'schemes', 'marketing', 'stores']}
+        by_mod = {m['slug']: m for m in MR.M.MODULE_PAGES}
+        extra = '<section class="sec"><div class="wrap"><div class="sec-head"><h2>Modules that matter here</h2></div><div class="cards">%s</div><p class="mod-all"><a href="/modules/">See all 26 modules &rarr;</a></p></div></section>' % ''.join(
+            '<a class="card" href="/modules/%s/"><h3>%s</h3><p>%s</p><span class="go">Explore &rarr;</span></a>' % (k, e(by_mod[k]['name']), e(by_mod[k]['desc'])) for k in SOL_MODS[s['slug']])
         if s['slug'] == 'multi-store-chains':
-            extra = '<section class="sec"><div class="wrap"><div class="sec-head"><h2>What a chain costs</h2><p>₹7,499 for the first store, ₹3,499 for each store after it. <a href="/pricing/#calculator">Work out your exact figure →</a></p></div>%s</div></section>' % examples
+            extra += '<section class="sec"><div class="wrap"><div class="sec-head"><h2>What a chain costs</h2><p>₹7,499 for the first store, ₹3,499 for each store after it. <a href="/pricing/#calculator">Work out your exact figure →</a></p></div>%s</div></section>' % examples
         body = '''<section class="hero-s"><div class="wrap narrow">
   <span class="eyebrow">%s</span>
   <h1>%s</h1>
@@ -285,9 +294,19 @@ def build(B):
             chat_msg=s['chat'], chat_primary=('See pricing', '/pricing/'), chat_delay=20))
 
     # ── hubs ──────────────────────────────────────────────────
+    # photo per solution: the same 1:1 images as the homepage "Who it's for" cards
+    SOL_IMG = {'mobile-phone-retail': ('mobile-phone-store', 'A RetailerOS staff member showing a phone to a customer at a mobile store counter'),
+               'appliance-and-ac-dealers': ('appliance-ac-dealer', 'A RetailerOS staff member presenting air conditioners and washing machines to a customer'),
+               'multi-store-chains': ('multi-store-chain', 'An owner at a laptop with the RetailerOS multi-store dashboard on the screen behind'),
+               'repair-and-service-centres': ('repair-service-centre', 'A service desk technician showing a customer their repair status on a phone')}
+    def pic(slug):
+        f, alt = SOL_IMG[slug]
+        return ('<picture class="card-img"><source type="image/webp" srcset="/assets/solutions/%s.webp">'
+                '<img src="/assets/solutions/%s.jpg" alt="%s" width="880" height="880" loading="lazy" decoding="async"></picture>' % (f, f, e(alt)))
     def hub(path, name, eyebrow, h1, lede, items, base):
-        cards = ''.join('<a class="card" href="/%s/%s/"><h3>%s</h3><p>%s</p><span class="go">Read →</span></a>' % (
-            base, i['slug'], e(i['nav']), e(i['desc'])) for i in items)
+        cards = ''.join('<a class="card%s" href="/%s/%s/">%s<div class="card-body"><h3>%s</h3><p>%s</p><span class="go">Read →</span></div></a>' % (
+            ' has-img' if i['slug'] in SOL_IMG and base == 'solutions' else '', base, i['slug'],
+            pic(i['slug']) if i['slug'] in SOL_IMG and base == 'solutions' else '', e(i['nav']), e(i['desc'])) for i in items)
         body = '''<section class="hero-s"><div class="wrap narrow"><span class="eyebrow">%s</span><h1>%s</h1><p class="lede">%s</p></div></section>
 <section class="sec alt"><div class="wrap"><div class="cards">%s</div></div></section>%s''' % (
             e(eyebrow), h1, e(lede), cards, B.cta_band('Not sure which fits?', 'Tell us what you sell and how many stores you run, and we will show you on a short call.'))
@@ -300,4 +319,5 @@ def build(B):
     built.append(hub('/solutions/', 'Solutions for Electronics Retail', 'Solutions', 'Built for the way <em>your store works.</em>',
         'RetailerOS for mobile shops, appliance and AC dealers, multi-store chains, and repair and service centres.',
         C.SOLUTIONS, 'solutions'))
+    built.extend(MR.module_pages(B, MODULES))
     return built

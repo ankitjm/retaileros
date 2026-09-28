@@ -15,12 +15,13 @@ landing-page/assets/header.js (both cache-busted by the build).
 import html
 
 import site_content as C
+import site_modules as M
 
 START, END = '<!-- SITE-HEADER:START -->', '<!-- SITE-HEADER:END -->'
 
 # (label, href, key) — key matches the `active` argument of render()
 LINKS = [
-    ('Product',   '/#modules',       'product'),
+    ('Product',   '/modules/',       'product'),
     ('Solutions', '/solutions/',     'solutions'),
     ('Pricing',   '/pricing/',       'pricing'),
     ('Compare',   '/compare/',       'compare'),
@@ -41,6 +42,7 @@ def render(active=None):
     main = ''.join('<a class="rh-m-link" href="%s"%s>%s</a>' % (h, cur(k), n) for n, h, k in LINKS)
     sol = ''.join('<a href="/solutions/%s/">%s</a>' % (s['slug'], _e(s['nav'])) for s in C.SOLUTIONS)
     cmp_ = ''.join('<a href="/compare/%s/">%s</a>' % (c['slug'], _e(c['nav'])) for c in C.COMPARES)
+    mods = ''.join('<a href="/modules/%s/">%s</a>' % (m['slug'], _e(m['name'])) for m in M.MODULE_PAGES) + '<a href="/modules/">All 26 &rarr;</a>'
     return '''%s
 <header class="rh" id="rh">
   <div class="rh-in">
@@ -60,6 +62,10 @@ def render(active=None):
   <nav class="rh-m-body" aria-label="Menu">
     %s
     <div class="rh-m-group">
+      <p class="rh-m-label">Modules</p>
+      <div class="rh-m-list">%s</div>
+    </div>
+    <div class="rh-m-group">
       <p class="rh-m-label">Solutions</p>
       <div class="rh-m-list">%s</div>
     </div>
@@ -74,4 +80,4 @@ def render(active=None):
     <a class="rh-m-signin signin" href="%s" data-label-in="Access account">Sign in</a>
   </div>
 </div>
-%s''' % (START, desk, SIGN_IN, main, sol, cmp_, SIGN_IN, END)
+%s''' % (START, desk, SIGN_IN, main, mods, sol, cmp_, SIGN_IN, END)
