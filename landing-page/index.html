@@ -5296,27 +5296,70 @@
                 text-decoration: none; margin: 4px 0 12px; }
   .price-link:hover { text-decoration: underline; }
 
-  /* ── 26-module grid (replaced the tabbed panel: it left a tall empty gap) ── */
-  .mgrid-inner { max-width: 1180px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
-  .mgrid-key { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 22px;
-    list-style: none; margin: 0 0 28px; padding: 0; font-size: 13px; color: var(--ink-soft); }
-  .mgrid-key li { display: flex; align-items: center; gap: 7px; }
-  .mgrid-key li::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--ink-muted); }
-  .mgrid-key .free::before { background: var(--green); }
-  .mgrid-key .shop::before { background: var(--brand-blue); }
-  .mgrid-key .chain::before { background: var(--accent); }
-  .mgrid { display: grid; gap: 16px; }
-  .mgrid-card { background: #fff; border: 1px solid var(--line); border-radius: 13px; padding: 22px 20px; }
-  .mgrid-card h3 { display: flex; align-items: center; justify-content: space-between; gap: 12px;
-    font-family: var(--font-display); font-size: 17px; font-weight: 500; color: var(--ink); margin: 0; }
-  .mgrid-n { font-size: 12px; font-weight: 500; color: var(--ink-muted); font-family: var(--font-mono, monospace); }
-  .mgrid-chips { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 14px 0 0; padding: 0; }
-  .mgrid-chip { display: inline-flex; align-items: center; gap: 7px; font-size: 13.5px; color: var(--ink);
-    background: var(--bg-page); border: 1px solid var(--line); border-radius: 9px; padding: 7px 11px; }
-  .mgrid-chip::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--ink-muted); flex: none; }
-  .mgrid-chip.free::before { background: var(--green); }
-  .mgrid-chip.shop::before { background: var(--brand-blue); }
-  .mgrid-chip.chain::before { background: var(--accent); }
+  /* ── 26 modules: icon pills in an app-window panel ── */
+  #modules-all.mp { padding: clamp(34px, 4.4vw, 52px) 0; }
+  .mp-head { margin-bottom: clamp(16px, 2vw, 22px) !important; }
+  .mp-head .modules23-eyebrow { margin-bottom: 10px; padding: 6px 0; }
+  .mp-head .modules23-anchor { margin-bottom: 0; }
+  .mp-inner { max-width: 1240px; margin: 0 auto; padding: 0 clamp(12px, 4vw, 48px); }
+  .mp-win { background: linear-gradient(180deg, #FFFFFF 0%, #FAFBFD 100%); border: 1px solid var(--line);
+    border-radius: 18px; overflow: hidden;
+    box-shadow: 0 1px 2px rgba(11,18,32,.04), 0 24px 48px -32px rgba(11,18,32,.28); }
+  .mp-bar { display: flex; align-items: center; gap: 12px; height: 42px; padding: 0 14px;
+    background: #F7F9FC; border-bottom: 1px solid var(--line); }
+  .mp-dots { display: flex; gap: 6px; }
+  .mp-dots i { width: 10px; height: 10px; border-radius: 50%; background: #E3E8F0; display: block; }
+  .mp-dots i:nth-child(1) { background: #FF8A7A; } .mp-dots i:nth-child(2) { background: #FFD166; }
+  .mp-dots i:nth-child(3) { background: #5FD39A; }
+  .mp-title { font-size: 12.5px; font-weight: 600; color: var(--ink-soft); letter-spacing: .01em; }
+  .mp-key { margin: 0 0 0 auto; padding: 0; list-style: none; display: flex; gap: 6px; }
+  .mp-key li { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 9px;
+    border-radius: 999px; background: #fff; border: 1px solid var(--line); font-size: 12px; color: var(--ink-soft); }
+  .mp-key li::before { content: ""; width: 7px; height: 7px; border-radius: 50%; }
+  .mp-key li b { font-weight: 600; color: var(--ink); }
+  .mp-key .free::before { background: var(--green); }
+  .mp-key .shop::before { background: var(--brand-blue); }
+  .mp-key .chain::before { background: var(--accent); }
+  .mp-body { padding: 4px 16px 8px; }
+  .mp-row { padding: 12px 0; border-top: 1px dashed var(--line); }
+  .mp-row:first-child { border-top: 0; }
+  .mp-row h3 { display: flex; align-items: center; gap: 8px; margin: 0 0 9px;
+    font-family: var(--font-display); font-size: 13.5px; font-weight: 500; color: var(--ink); }
+  .mp-row h3 span { font-size: 11px; font-weight: 600; color: var(--ink-soft); background: var(--bg-page);
+    border: 1px solid var(--line); border-radius: 999px; padding: 1px 7px; }
+  .mp-row ul { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+  .mp-pill { display: inline-flex; align-items: center; gap: 7px; height: 30px; padding: 0 11px;
+    background: #fff; border: 1px solid var(--line); border-radius: 9px; font-size: 12.5px; font-weight: 500;
+    color: var(--ink); white-space: nowrap; box-shadow: 0 1px 1px rgba(11,18,32,.03);
+    transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease; }
+  .mp-pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; flex: none; }
+  .mp-pill.free::before  { background: var(--green); }
+  .mp-pill.shop::before  { background: var(--brand-blue); }
+  .mp-pill.chain::before { background: var(--accent); }
+  .mp-pill:hover { transform: translateY(-1px); box-shadow: 0 6px 14px -8px rgba(11,18,32,.25); }
+  .mp-pill.free:hover { border-color: #A7E3BD; } .mp-pill.shop:hover { border-color: #B8C8F2; }
+  .mp-pill.chain:hover { border-color: #F5C3A8; }
+  @media (max-width: 480px) {
+    .mp-bar { height: 38px; padding: 0 12px; }
+    .mp-title { display: none; }
+    .mp-key li { height: 22px; padding: 0 7px; font-size: 11.5px; }
+    .mp-body { padding: 0 12px 4px; }
+    .mp-row { padding: 9px 0; }
+    .mp-row h3 { margin-bottom: 6px; font-size: 13px; }
+    .mp-row ul { gap: 4px; }
+    .mp-pill { height: 26px; padding: 0 9px; gap: 6px; font-size: 12px; border-radius: 8px; }
+  }
+  @media (min-width: 760px) {
+    .mp-body { padding: 2px 20px 4px; }
+    .mp-row { display: grid; grid-template-columns: 196px minmax(0, 1fr); align-items: center; gap: 12px; padding: 9px 0; }
+    .mp-row h3 { display: block; margin: 0; line-height: 1.3; }
+    .mp-row h3 span { display: inline-block; margin-left: 6px; vertical-align: 1px; }
+    .mp-row ul { gap: 5px; }
+    .mp-pill { padding: 0 11px; }
+  }
+  @media (min-width: 1100px) {
+    .mp-pill { font-size: 13px; }
+  }
 
   /* ── who it's for ── */
   .whofor { padding: clamp(64px, 8vw, 104px) 0; background: var(--bg-elev); }
@@ -5353,10 +5396,9 @@
   .start3-step p { font-size: 14.5px; line-height: 1.55; color: var(--ink-soft); margin: 8px 0 0; }
 
   @media (min-width: 720px) {
-    .mgrid, .whofor-grid, .start3-grid { grid-template-columns: repeat(2, 1fr); }
+    .whofor-grid, .start3-grid { grid-template-columns: repeat(2, 1fr); }
   }
   @media (min-width: 1000px) {
-    .mgrid { grid-template-columns: repeat(3, 1fr); }
     .whofor-grid { grid-template-columns: repeat(4, 1fr); }
     .start3-grid { grid-template-columns: repeat(3, 1fr); }
   }
@@ -5778,40 +5820,21 @@
 </section>
 
 <!-- ─── MODULES 23 · full-system tabbed directory (inline replacement for the modal) ─── -->
-<section class="modules23" id="modules-all">
-  <header class="modules23-head">
+<section class="modules23 mp" id="modules-all">
+  <header class="modules23-head mp-head">
     <span class="modules23-eyebrow">The full system</span>
     <h2 class="modules23-anchor">26 modules. <em>One login.</em></h2>
-    <p class="modules23-sub">Every part of running a consumer electronics counter in one place. Start with the free seven and switch the rest on when your shop needs them.</p>
   </header>
-
-  <div class="mgrid-inner">
-    <ul class="mgrid-key">
-      <li class="free">Free</li>
-      <li class="shop">Shop and up</li>
-      <li class="chain">Chain</li>
-    </ul>
-    <div class="mgrid">
-      <article class="mgrid-card">
-        <h3>Billing and stock <span class="mgrid-n">7</span></h3>
-        <ul class="mgrid-chips"><li class="mgrid-chip free">Sales Desk</li><li class="mgrid-chip free">Invoices</li><li class="mgrid-chip free">Inventory</li><li class="mgrid-chip shop">Purchase Orders</li><li class="mgrid-chip shop">Pricing rules</li><li class="mgrid-chip shop">Cash Register</li><li class="mgrid-chip shop">Expenses</li></ul>
-      </article>
-      <article class="mgrid-card">
-        <h3>Phones, appliances and service <span class="mgrid-n">4</span></h3>
-        <ul class="mgrid-chips"><li class="mgrid-chip shop">IMEI &amp; Serial Tracker</li><li class="mgrid-chip shop">Schemes</li><li class="mgrid-chip shop">Repairs</li><li class="mgrid-chip shop">Claims</li></ul>
-      </article>
-      <article class="mgrid-card">
-        <h3>Customers <span class="mgrid-n">5</span></h3>
-        <ul class="mgrid-chips"><li class="mgrid-chip free">Clients (CRM &amp; khaata)</li><li class="mgrid-chip shop">Inquiries</li><li class="mgrid-chip shop">Pre-booking</li><li class="mgrid-chip chain">Marketing</li><li class="mgrid-chip chain">Promoters</li></ul>
-      </article>
-      <article class="mgrid-card">
-        <h3>Money and people <span class="mgrid-n">3</span></h3>
-        <ul class="mgrid-chips"><li class="mgrid-chip shop">Finance</li><li class="mgrid-chip shop">Staff</li><li class="mgrid-chip shop">Reports</li></ul>
-      </article>
-      <article class="mgrid-card">
-        <h3>Multi-store and platform <span class="mgrid-n">7</span></h3>
-        <ul class="mgrid-chips"><li class="mgrid-chip chain">Stores</li><li class="mgrid-chip chain">Marketplace</li><li class="mgrid-chip chain">Integrations</li><li class="mgrid-chip chain">Automation</li><li class="mgrid-chip free">Dashboard</li><li class="mgrid-chip free">Settings</li><li class="mgrid-chip free">Login &amp; onboarding</li></ul>
-      </article>
+  <div class="mp-inner">
+    <div class="mp-win">
+      <div class="mp-bar">
+        <span class="mp-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="mp-title">RetailerOS &middot; Modules</span>
+        <ul class="mp-key" aria-label="Plans">
+          <li class="free">Free <b>7</b></li><li class="shop">Shop <b>+13</b></li><li class="chain">Chain <b>+6</b></li>
+        </ul>
+      </div>
+      <div class="mp-body"><div class="mp-row"><h3>Billing and stock<span>7</span></h3><ul><li class="mp-pill free">Sales Desk</li><li class="mp-pill free">Invoices</li><li class="mp-pill free">Inventory</li><li class="mp-pill shop">Purchase Orders</li><li class="mp-pill shop">Pricing rules</li><li class="mp-pill shop">Cash Register</li><li class="mp-pill shop">Expenses</li></ul></div><div class="mp-row"><h3>Phones, appliances and service<span>4</span></h3><ul><li class="mp-pill shop">IMEI &amp; Serial Tracker</li><li class="mp-pill shop">Schemes</li><li class="mp-pill shop">Repairs</li><li class="mp-pill shop">Claims</li></ul></div><div class="mp-row"><h3>Customers<span>5</span></h3><ul><li class="mp-pill free">Clients (CRM &amp; khaata)</li><li class="mp-pill shop">Inquiries</li><li class="mp-pill shop">Pre-booking</li><li class="mp-pill chain">Marketing</li><li class="mp-pill chain">Promoters</li></ul></div><div class="mp-row"><h3>Money and people<span>3</span></h3><ul><li class="mp-pill shop">Finance</li><li class="mp-pill shop">Staff</li><li class="mp-pill shop">Reports</li></ul></div><div class="mp-row"><h3>Multi-store and platform<span>7</span></h3><ul><li class="mp-pill chain">Stores</li><li class="mp-pill chain">Marketplace</li><li class="mp-pill chain">Integrations</li><li class="mp-pill chain">Automation</li><li class="mp-pill free">Dashboard</li><li class="mp-pill free">Settings</li><li class="mp-pill free">Login &amp; onboarding</li></ul></div></div>
     </div>
   </div>
 </section>
