@@ -29,6 +29,7 @@ LINKS = [
     ('Resources', '/resources.html', 'resources'),
 ]
 SIGN_IN = 'https://app.retaileros.in/login'
+SEARCH_V = '1'   # set by tools/build_site.py to the hash of assets/search.js (cache-busting)
 
 
 def _e(s):
@@ -53,6 +54,7 @@ def render(active=None):
     <nav class="rh-nav" aria-label="Main">%s</nav>
     <div class="rh-cta">
       <a class="rh-signin signin" href="%s" data-label-in="Access account">Sign in</a>
+      <a class="rh-search" href="/search/" aria-label="Search the site" data-sv="%s"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg></a>
       <a class="rh-start" href="/#start" data-cta="onboard">Start free</a>
       <button class="rh-burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="rh-menu"><span></span><span></span><span></span></button>
     </div>
@@ -60,6 +62,7 @@ def render(active=None):
 </header>
 <div class="rh-menu" id="rh-menu" aria-label="Menu" hidden>
   <nav class="rh-m-body" aria-label="Menu">
+    <form class="rh-m-search" action="/search/" role="search"><input type="search" name="q" placeholder="Search modules, pricing, answers…" aria-label="Search the site" autocomplete="off"></form>
     %s
     <div class="rh-m-group">
       <p class="rh-m-label">Modules</p>
@@ -80,4 +83,4 @@ def render(active=None):
     <a class="rh-m-signin signin" href="%s" data-label-in="Access account">Sign in</a>
   </div>
 </div>
-%s''' % (START, desk, SIGN_IN, main, mods, sol, cmp_, SIGN_IN, END)
+%s''' % (START, desk, SIGN_IN, SEARCH_V, main, mods, sol, cmp_, SIGN_IN, END)

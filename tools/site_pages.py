@@ -2,6 +2,7 @@
 """Renders every generated page. Called by build_site.py."""
 import html, json
 import site_content as C
+import site_extra as SX
 import site_compares as SC
 import site_modules_render as MR
 
@@ -350,4 +351,5 @@ def build(B):
         'RetailerOS for mobile shops, appliance and AC dealers, multi-store chains, and repair and service centres.',
         C.SOLUTIONS, 'solutions'))
     built.extend(MR.module_pages(B, MODULES))
+    built.extend(SX.pages(B))
     return built

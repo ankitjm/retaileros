@@ -63,6 +63,7 @@ def asset_ver(name):
 
 CSS_V, JS_V = asset_ver('site.css'), asset_ver('site.js')
 HCSS_V, HJS_V = asset_ver('header.css'), asset_ver('header.js')
+H.SEARCH_V = asset_ver('search.js')
 
 # ── layout ────────────────────────────────────────────────────
 def footer():
@@ -132,7 +133,10 @@ def crumb_ld(trail):
         items.append({'@type': 'ListItem', 'position': i, 'name': name, 'item': SITE + href})
     return {'@context': 'https://schema.org', '@type': 'BreadcrumbList', 'itemListElement': items}
 
-def page(*, path, title, desc, active, trail, body, faqs=(), extra_ld=(), chat_msg, chat_primary, chat_delay=20, chat_priority=False):
+NOINDEX = set()   # generated paths kept out of search engines and the sitemap
+
+def page(*, path, title, desc, active, trail, body, faqs=(), extra_ld=(), chat_msg, chat_primary, chat_delay=20, chat_priority=False, noindex=False):
+    if noindex: NOINDEX.add(path)
     url = SITE + path
     blocks = [crumb_ld(trail)] + ([faq_ld(faqs)] if faqs else []) + list(extra_ld)
     doc = '''<!doctype html>
@@ -147,7 +151,7 @@ def page(*, path, title, desc, active, trail, body, faqs=(), extra_ld=(), chat_m
 <title>{title}</title>
 <meta name="description" content="{desc}">
 <link rel="canonical" href="{url}">
-<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="robots" content="{robots}">
 <meta name="theme-color" content="#1E47B8">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
@@ -180,7 +184,7 @@ def page(*, path, title, desc, active, trail, body, faqs=(), extra_ld=(), chat_m
 <script src="/assets/header.js?v={hjs_v}" defer></script>
 </body>
 </html>
-'''.format(GA=GA, title=e(title), desc=e(desc), url=url, site=SITE, css_v=CSS_V, js_v=JS_V,
+'''.format(robots='noindex, follow' if noindex else 'index, follow, max-image-preview:large', GA=GA, title=e(title), desc=e(desc), url=url, site=SITE, css_v=CSS_V, js_v=JS_V,
            ld='\n'.join(ld(b) for b in blocks), delay=chat_delay, prio=' data-chat-priority' if chat_priority else '', header=H.render((active or '').lower()), hcss_v=HCSS_V, hjs_v=HJS_V,
            crumbs=crumbs(trail), body=body, footer=footer(),
            chat=chat(chat_msg, chat_primary))
@@ -249,13 +253,21 @@ if __name__ == '__main__':
     built = site_pages.build(sys.modules[__name__])
     # sitemap: hand-maintained pages + everything generated
     static = ['/', '/pricing/', '/answers.html', '/resources.html', '/security.html', '/privacy.html', '/terms.html']
-    urls = static + [p for p in built if p not in static]
+    urls = static + [p for p in built if p not in static and p not in NOINDEX]
     pri = lambda u: '1.0' if u == '/' else '0.9' if u in ('/pricing/', '/answers.html') else \
         '0.8' if u.startswith(('/compare', '/solutions', '/modules')) else '0.3'
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(
         '  <url><loc>%s%s</loc><lastmod>%s</lastmod><priority>%s</priority></url>\n' % (SITE, u, TODAY, pri(u)) for u in urls) + '</urlset>\n'
     io.open(os.path.join(OUT, 'sitemap.xml'), 'w', encoding='utf-8').write(sm)
     print('built %d pages, sitemap has %d URLs' % (len(built), len(urls)))
+    import build_search
+    n_idx = build_search.build(OUT)
+    print('search index: %d entries' % n_idx)
+    # the 404 page lives at /404.html (nginx: error_page 404 /404.html)
+    src404 = os.path.join(OUT, '404', 'index.html')
+    if os.path.isfile(src404):
+        io.open(os.path.join(OUT, '404.html'), 'w', encoding='utf-8').write(io.open(src404, encoding='utf-8').read())
+        import shutil; shutil.rmtree(os.path.join(OUT, '404'))
     touched = stamp_static()
     print('shared header stamped into: %s' % (', '.join(touched) if touched else 'nothing (already current)'))
     for p in built: print('  ', p)
