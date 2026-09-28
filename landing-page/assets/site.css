@@ -328,7 +328,10 @@ a.card .go { display: inline-block; margin-top: 12px; font-size: 14px; font-weig
   font: 600 14px/1.2 var(--font-body); cursor: pointer; text-align: left;
 }
 .rchat-opts a:hover, .rchat-opts button:hover { border-color: var(--blue); color: var(--blue); }
-.rchat-opts .wa { background: var(--wa); border-color: var(--wa); color: #06331b; }
+.rchat-opts .wa { background: #fff; border-color: var(--line-strong); color: var(--ink-soft); }
+.rchat-opts .wa::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #1FAF55; margin-right: 9px; flex: none; }
+.rchat-opts a:first-child { background: var(--blue); border-color: var(--blue); color: #fff; }
+.rchat-opts a:first-child:hover { color: #fff; opacity: .92; }
 .rchat-x { position: absolute; top: 8px; right: 8px; width: 36px; height: 36px; border: 0; background: transparent;
            font-size: 20px; color: var(--ink-muted); cursor: pointer; border-radius: 8px; }
 .rchat-x:hover { background: var(--bg); }
