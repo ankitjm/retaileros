@@ -1,0 +1,5 @@
+Contact: mailto:security@khoshasystems.com
+Expires: 2027-09-28T00:00:00.000Z
+Preferred-Languages: en, hi
+Canonical: https://retaileros.in/.well-known/security.txt
+Policy: https://retaileros.in/security.html
