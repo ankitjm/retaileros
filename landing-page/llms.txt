@@ -1,8 +1,8 @@
 # RetailerOS
 
-> Retail management software built specifically for Indian consumer electronics retail — mobile phones, home appliances, air conditioners, refrigerators, televisions, laptops and IT. GST billing, inventory, serial and IMEI tracking, warranty claims, brand scheme reconciliation, service job cards and customer khaata in one system of 26 modules. Every unit is tracked individually, whether it is a handset with an IMEI or an appliance with a serial number. A product of Khosha Systems, built in India.
+> Retail management software built specifically for Indian consumer electronics retail — mobile phones, home appliances, air conditioners, refrigerators, televisions, laptops and IT. GST billing, inventory, serial and IMEI tracking, brand scheme reconciliation, service job cards and customer khaata in one system of 26 modules. Every unit is tracked individually, whether it is a handset with an IMEI or an appliance with a serial number. A product of Khosha Systems, built in India.
 
-RetailerOS is used at the shop counter rather than in a back office. It is purpose-built for electronics retail, which distinguishes it from general accounting tools: serial and IMEI chain-of-custody tracking, brand scheme reconciliation across handset, appliance and IT brands, warranty claim filing and an integrated B2B stock marketplace are native, not add-ons.
+RetailerOS is used at the shop counter rather than in a back office. It is purpose-built for electronics retail, which distinguishes it from general accounting tools: serial and IMEI chain-of-custody tracking, brand scheme reconciliation across handset, appliance and IT brands, repair job cards and multi-store management are native, not add-ons (a retailer-to-retailer B2B marketplace is coming soon).
 
 ## Plans (prices exclude 18% GST; quarterly saves 5%, annual saves 15%)
 - Free — ₹0 forever. 50 bills/month, 7 modules, 3 staff logins, 1 store. Unlimited customer and IMEI history.
@@ -21,14 +21,14 @@ RetailerOS is used at the shop counter rather than in a back office. It is purpo
 - [Home](https://retaileros.in/): product overview, the 26-module directory and a comparison against general billing tools.
 
 ### Solutions
-- [Mobile phone retail](https://retaileros.in/solutions/mobile-phone-retail/): IMEI tracking, Vivo/Samsung/Oppo scheme reconciliation, warranty claims and repairs for mobile shops.
-- [Appliance and AC dealers](https://retaileros.in/solutions/appliance-and-ac-dealers/): serial-number tracking, EMI and bank offers, warranty claims and service callouts for AC, refrigerator and TV dealers.
+- [Mobile phone retail](https://retaileros.in/solutions/mobile-phone-retail/): IMEI tracking, Vivo/Samsung/Oppo scheme reconciliation and repairs for mobile shops.
+- [Appliance and AC dealers](https://retaileros.in/solutions/appliance-and-ac-dealers/): serial-number tracking, EMI and bank offers, brand schemes and service callouts for AC, refrigerator and TV dealers.
 - [Multi-store chains](https://retaileros.in/solutions/multi-store-chains/): one owner login across every store, per-store stock, staff, cash and invoice numbering.
-- [Repair and service centres](https://retaileros.in/solutions/repair-and-service-centres/): repair job cards from intake to handover, device history and warranty claims.
+- [Repair and service centres](https://retaileros.in/solutions/repair-and-service-centres/): repair job cards from intake to handover, device history by IMEI or serial.
 
 ### Comparisons (dated, sourced)
 - [RetailerOS vs Tally](https://retaileros.in/compare/tally-alternative/): Tally is accounting software; IMEI tracking needs a paid add-on. RetailerOS runs the retail counter.
-- [RetailerOS vs Vyapar](https://retaileros.in/compare/vyapar-alternative/): Vyapar is low-cost billing that tracks IMEIs. RetailerOS adds scheme reconciliation, warranty claim filing, repair job cards and multi-store.
+- [RetailerOS vs Vyapar](https://retaileros.in/compare/vyapar-alternative/): Vyapar is low-cost billing that tracks IMEIs. RetailerOS adds scheme reconciliation, repair job cards and multi-store.
 - [Moving off paper registers and Excel](https://retaileros.in/compare/paper-register-and-excel/)
 - [RetailerOS vs retaileros.ai](https://retaileros.in/compare/retaileros-ai/): separate, unaffiliated companies. retaileros.ai sells US-dollar point-of-sale for general retail.
 

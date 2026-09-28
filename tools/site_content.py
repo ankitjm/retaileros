@@ -10,6 +10,9 @@ RULES FOR EDITING — these are why the pages are safe to publish:
     own site, and dated. Use "Not listed" (not "No") when a feature is simply
     absent from their page: absence from a web page is not proof of absence.
   * Used-phone buy-back is IN DEVELOPMENT. Always label it that way.
+  * RetailerOS does NOT file warranty claims with brands (Ankit, 28 Sep 2026). It tracks
+    brand SCHEME claims built from sales, and keeps each unit's IMEI/serial history.
+    A done-for-you scheme + warranty claim filing service is COMING SOON as an add-on.
 """
 
 VERIFIED = '22 September 2026'
@@ -19,9 +22,9 @@ COMPARES = [
   {
     'slug': 'tally-alternative', 'nav': 'RetailerOS vs Tally', 'vs': 'Tally',
     'title': 'RetailerOS vs Tally for Electronics Retail | RetailerOS',
-    'desc': 'Tally is built for accountants; RetailerOS is built for the retail counter. Compare IMEI and serial tracking, brand schemes, warranty claims and repair job cards.',
+    'desc': 'Tally is built for accountants; RetailerOS is built for the retail counter. Compare IMEI and serial tracking, brand schemes and repair job cards.',
     'h1': 'Tally is built for your accountant. <em>RetailerOS is built for your counter.</em>',
-    'answer': 'Tally is accounting software, and it is very good at it: ledgers, vouchers, GST returns and the books your CA works from. It was not built to run a retail counter. Tracking IMEI or serial numbers in TallyPrime needs a paid third-party add-on, and there is no built-in workflow for brand scheme claims, repair job cards or warranty claims. RetailerOS is built for exactly that counter, for consumer electronics retail.',
+    'answer': 'Tally is accounting software, and it is very good at it: ledgers, vouchers, GST returns and the books your CA works from. It was not built to run a retail counter. Tracking IMEI or serial numbers in TallyPrime needs a paid third-party add-on, and there is no built-in workflow for brand scheme claims or repair job cards. RetailerOS is built for exactly that counter, for consumer electronics retail.',
     'them_good': [
       'Deep accounting — ledgers, vouchers, balance sheet and profit and loss',
       'GST returns in the format most Indian CAs already know',
@@ -31,7 +34,7 @@ COMPARES = [
     'us_more': [
       'IMEI and serial tracking built in — no add-on to buy and maintain',
       'Brand scheme cashback reconciled instead of kept in a side spreadsheet',
-      'Warranty claims filed and tracked through to settlement',
+      'Every unit\'s IMEI or serial history, from purchase to sale and service',
       'Repair and service job cards, from intake to handover',
       'Counter-first billing with receipts on WhatsApp',
       'Several stores from one login, each with its own stock, staff and cash',
@@ -43,17 +46,16 @@ COMPARES = [
       ('Ledgers and GST returns<small>Filing-grade books</small>', 'Y', 'P:Summaries'),
       ('IMEI / serial tracking<small>Per unit, purchase to warranty</small>', 'P:Paid add-on', 'Y'),
       ('Brand scheme reconciliation', 'P:Not built in', 'Y'),
-      ('Warranty claim filing', 'P:Not built in', 'Y'),
       ('Repair job cards', 'P:Not built in', 'Y'),
       ('Customer khaata', 'Y', 'Y'),
     ],
     'who': [
       ('Choose Tally if', 'You mainly need books and GST returns, you sell few serialised items, and your counter is simple.'),
-      ('Choose RetailerOS if', 'You sell phones, appliances or electronics by serial number and lose time on schemes, warranty claims or repairs.'),
+      ('Choose RetailerOS if', 'You sell phones, appliances or electronics by serial number and lose time on schemes or repairs.'),
       ('Many retailers use both', 'Their accountant stays on Tally for the books, and the counter runs on RetailerOS.'),
     ],
     'faqs': [
-      ('Is RetailerOS a replacement for Tally?', 'For running the retail counter, yes: billing, stock, IMEI and serial tracking, schemes, warranty claims and repairs. For filing-grade accounts and GST returns, Tally is stronger. RetailerOS includes day books, ledgers and GST return summaries, and many retailers keep their accountant on Tally for the books.'),
+      ('Is RetailerOS a replacement for Tally?', 'For running the retail counter, yes: billing, stock, IMEI and serial tracking, schemes and repairs. For filing-grade accounts and GST returns, Tally is stronger. RetailerOS includes day books, ledgers and GST return summaries, and many retailers keep their accountant on Tally for the books.'),
       ('Does Tally track IMEI numbers?', 'Not out of the box. IMEI and serial number tracking in TallyPrime is available through paid third-party add-ons and customisation. RetailerOS tracks every unit by IMEI or serial number as a standard feature.'),
       ('Can I move my data from Tally to RetailerOS?', 'Yes. There is a step-by-step migration guide on the Resources page, and on the Pro plan the migration is done for you.'),
       ('How much does RetailerOS cost compared with Tally?', 'RetailerOS is a subscription: free for up to 50 bills a month, Rs 3,999 a month for one store, and Rs 7,499 a month for the first store on Pro plus Rs 3,499 for each additional store. Tally is licensed per user, from monthly to a one-time perpetual licence; check Tally or your reseller for current prices.'),
@@ -64,9 +66,9 @@ COMPARES = [
   {
     'slug': 'vyapar-alternative', 'nav': 'RetailerOS vs Vyapar', 'vs': 'Vyapar',
     'title': 'RetailerOS vs Vyapar for Electronics Shops | RetailerOS',
-    'desc': 'An honest comparison. Vyapar is low-cost billing that tracks IMEIs; RetailerOS adds brand scheme claims, warranty claims, repair job cards and multi-store.',
+    'desc': 'An honest comparison. Vyapar is low-cost billing that tracks IMEIs; RetailerOS adds brand scheme claims, repair job cards and multi-store.',
     'h1': 'RetailerOS vs Vyapar: <em>billing, or the whole store?</em>',
-    'answer': 'Vyapar is good-value billing software. It starts at Rs 283 a month on annual billing, and it already tracks IMEI numbers and warranty periods, shares bills on WhatsApp and works offline. If billing is what you need, it is hard to beat on price. RetailerOS costs more because it runs the rest of an electronics retail business: it reconciles brand scheme cashback, files warranty claims through to settlement, runs repair job cards, and manages several stores from one login.',
+    'answer': 'Vyapar is good-value billing software. It starts at Rs 283 a month on annual billing, and it already tracks IMEI numbers and warranty periods, shares bills on WhatsApp and works offline. If billing is what you need, it is hard to beat on price. RetailerOS costs more because it runs the rest of an electronics retail business: it tracks brand scheme cashback against targets with claims built from sales, runs repair job cards, and manages several stores from one login.',
     'them_good': [
       'Very low price — a free mobile plan, and paid plans from Rs 283 a month billed annually',
       'Tracks IMEI numbers and checks whether a product is in warranty',
@@ -76,7 +78,7 @@ COMPARES = [
     ],
     'us_more': [
       'Brand scheme cashback reconciled and queued for claiming',
-      'Warranty claims filed and tracked to settlement — not just a coverage check',
+      'Each unit\'s full IMEI or serial history — purchase, sale and service — in one search',
       'Full repair job cards: intake, diagnosis, repair and handover',
       'Multi-store: per-store stock, staff, cash register and invoice numbering',
       'Pre-booking deposits for launch models',
@@ -89,7 +91,6 @@ COMPARES = [
       ('IMEI / serial tracking', 'Y', 'Y'),
       ('Warranty period check', 'Y', 'Y'),
       ('Bills on WhatsApp', 'Y', 'Y'),
-      ('Warranty claim filing<small>Through to settlement</small>', 'P:Not listed', 'Y'),
       ('Brand scheme reconciliation', 'P:Not listed', 'Y'),
       ('Repair job cards<small>Intake to handover</small>', 'P:Service income', 'Y'),
       ('Multi-store management<small>Per-store stock, staff, cash</small>', 'P:Multi-device', 'Y'),
@@ -97,17 +98,17 @@ COMPARES = [
     ],
     'who': [
       ('Choose Vyapar if', 'You run one small shop, billing is the main job, and keeping cost as low as possible matters most.'),
-      ('Choose RetailerOS if', 'Scheme cashback, warranty claims or repairs are costing you time or money, or you run more than one store.'),
+      ('Choose RetailerOS if', 'Scheme cashback or repairs are costing you time or money, or you run more than one store.'),
       ('Not sure?', 'RetailerOS is free for up to 50 bills a month, so you can run both side by side before deciding.'),
     ],
     'faqs': [
-      ('Does Vyapar track IMEI numbers?', 'Yes. Vyapar can store IMEI numbers for each phone and check warranty periods. RetailerOS does too; the difference is what happens next — RetailerOS files the warranty claim and tracks it to settlement, and reconciles brand scheme cashback.'),
-      ('Why does RetailerOS cost more than Vyapar?', 'Vyapar focuses on billing, accounting and stock. RetailerOS runs the wider retail operation — scheme reconciliation, warranty claims, repair job cards, staff and multi-store management — which is where electronics retailers usually lose time or money.'),
+      ('Does Vyapar track IMEI numbers?', 'Yes. Vyapar can store IMEI numbers for each phone and check warranty periods. RetailerOS does too; the difference is what sits around it — brand scheme cashback tracked against targets, repair job cards and multi-store management.'),
+      ('Why does RetailerOS cost more than Vyapar?', 'Vyapar focuses on billing, accounting and stock. RetailerOS runs the wider retail operation — scheme reconciliation, repair job cards, staff and multi-store management — which is where electronics retailers usually lose time or money.'),
       ('Can I move from Vyapar to RetailerOS?', 'Yes. Vyapar and spreadsheet imports are supported, and on the Pro plan the migration is done for you.'),
       ('Is there a free plan to try it?', 'Yes. RetailerOS is free for up to 50 bills a month, with no card needed, so you can try it alongside your current software.'),
     ],
     'source': 'Vyapar details from vyaparapp.in, checked %s. "Not listed" means the feature is not listed on Vyapar\'s mobile-shop page — check with Vyapar for their current plans. Vyapar prices are billed annually and exclude GST.' % VERIFIED,
-    'chat': 'Comparing us with Vyapar? Honest answer: if you only need billing, Vyapar is cheaper. If schemes, warranty claims or repairs cost you time, let me show you the difference.',
+    'chat': 'Comparing us with Vyapar? Honest answer: if you only need billing, Vyapar is cheaper. If schemes or repairs cost you time, let me show you the difference.',
   },
   {
     'slug': 'paper-register-and-excel', 'nav': 'vs paper & Excel', 'vs': 'paper and Excel',
@@ -156,7 +157,7 @@ COMPARES = [
     'title': 'retaileros.in vs retaileros.ai: Different Companies | RetailerOS',
     'desc': 'RetailerOS at retaileros.in and retaileros.ai are separate companies with different products. Here is how to tell them apart.',
     'h1': 'retaileros.in and retaileros.ai are <em>different companies.</em>',
-    'answer': 'RetailerOS at retaileros.in is built in India by Khosha Systems for consumer electronics retail, priced in rupees, with IMEI and serial tracking, GST invoicing, brand scheme reconciliation and warranty claims. retaileros.ai is a separate company offering point-of-sale software for general retail, priced in US dollars. The names are similar; the companies, products and customers are not.',
+    'answer': 'RetailerOS at retaileros.in is built in India by Khosha Systems for consumer electronics retail, priced in rupees, with IMEI and serial tracking, GST invoicing, brand scheme reconciliation and repair job cards. retaileros.ai is a separate company offering point-of-sale software for general retail, priced in US dollars. The names are similar; the companies, products and customers are not.',
     'them_good': [
       'Point-of-sale for general retail — hardware, jewellery, liquor, pet, apparel and grocery',
       'Priced in US dollars, per store and per user',
@@ -166,7 +167,7 @@ COMPARES = [
       'Built in India for consumer electronics retail',
       'Priced in rupees, with GST-compliant invoicing',
       'IMEI and serial tracking on every unit',
-      'Brand scheme reconciliation and warranty claim filing',
+      'Brand scheme reconciliation and repair job cards',
       'Hindi, Marathi, Gujarati and Tamil on every screen',
     ],
     'cols': ['', 'retaileros.ai', 'RetailerOS (retaileros.in)'],
@@ -202,12 +203,12 @@ SOLUTIONS = [
     'desc': 'Billing software for Indian mobile shops: GST bills, IMEI on every handset, Vivo, Samsung and Oppo scheme claims, warranty and repairs. Free for 50 bills a month.',
     'eyebrow': 'Mobile phone retail',
     'h1': 'Mobile shop software that <em>tracks every handset.</em>',
-    'answer': 'RetailerOS runs a mobile phone counter end to end: GST bills in about 30 seconds, every handset tracked by IMEI from purchase to warranty, Vivo, Samsung and Oppo scheme cashback reconciled, warranty claims filed to settlement, repairs on job cards and customer khaata kept current. It is free for up to 50 bills a month.',
+    'answer': 'RetailerOS runs a mobile phone counter end to end: GST bills in about 30 seconds, every handset tracked by IMEI from purchase to warranty, Vivo, Samsung and Oppo scheme cashback reconciled, repairs on job cards and customer khaata kept current. It is free for up to 50 bills a month.',
     'cards': [
       ('Bill in about 30 seconds', 'Scan the IMEI at the Sales Desk, take payment and print or WhatsApp the GST invoice.', ''),
       ('Every handset, by IMEI', 'Full chain of custody for each phone — who supplied it, who bought it, and its warranty.', ''),
       ('Scheme cashback, claimed', 'Vivo, Samsung and Oppo offers surface at billing, and cashback is queued for claiming.', ''),
-      ('Warranty claims to settlement', 'File brand warranty claims and track each one until it is settled.', ''),
+      ('Warranty history on every handset', 'Purchase and sale dates on each IMEI, ready when a customer comes back under warranty.', ''),
       ('Repairs on job cards', 'Intake, diagnosis, repair and handover, with the handset\'s IMEI history attached.', ''),
       ('Pre-bookings for launches', 'Take a deposit and hold a launch model for a customer before stock arrives.', ''),
       ('Customer khaata', 'A running credit ledger per customer, with purchase history alongside.', ''),
@@ -225,15 +226,15 @@ SOLUTIONS = [
   {
     'slug': 'appliance-and-ac-dealers', 'nav': 'Appliance & AC dealers',
     'title': 'Billing Software for Appliance, AC & TV Dealers | RetailerOS',
-    'desc': 'Serial number tracking, brand schemes and EMI offers, warranty claims and service job cards for Indian appliance, AC, refrigerator and TV dealers.',
+    'desc': 'Serial number tracking, brand schemes and EMI offers, and service job cards for Indian appliance, AC, refrigerator and TV dealers.',
     'eyebrow': 'Appliance, AC and TV dealers',
     'h1': 'Every AC, fridge and TV, <em>tracked by serial number.</em>',
-    'answer': 'RetailerOS tracks every air conditioner, refrigerator, washing machine and television by serial number, from the day it arrives to the day its warranty ends. It surfaces brand and bank offers and EMIs at billing, reconciles scheme cashback, files warranty claims, and runs service and callout job cards — all on GST invoices.',
+    'answer': 'RetailerOS tracks every air conditioner, refrigerator, washing machine and television by serial number, from the day it arrives to the day its warranty ends. It surfaces brand and bank offers and EMIs at billing, reconciles scheme cashback, and runs service and callout job cards — all on GST invoices.',
     'cards': [
       ('Serial number tracking', 'Each unit tracked individually, with full chain of custody from supplier to customer.', ''),
       ('Brand offers and EMIs', 'Applicable brand and bank offers and EMI options surface while the bill is being made.', ''),
       ('Scheme cashback reconciled', 'Cashback is queued for claiming instead of living in a side spreadsheet.', ''),
-      ('Warranty claims', 'File brand warranty claims and track them to settlement.', ''),
+      ('Warranty history', 'Every unit\'s serial number, purchase and sale date in one search, ready for a warranty visit.', ''),
       ('Service and callouts', 'Job cards for AC servicing and appliance callouts, from intake to handover.', ''),
       ('Customer credit', 'A running khaata for customers who pay in parts.', ''),
       ('Purchase orders', 'Vendor orders and goods-received notes, with stock updated on arrival.', ''),
@@ -245,7 +246,7 @@ SOLUTIONS = [
       ('Does it handle AC servicing?', 'Yes. The Repairs module runs job cards for repairs and service, including AC servicing and appliance callouts.'),
       ('Can I run several showrooms?', 'Yes, on the Pro plan: Rs 7,499 a month for the first store plus Rs 3,499 for each additional store.'),
     ],
-    'chat': 'Sell ACs, fridges or TVs? I can show you serial tracking and warranty claims for appliances in 15 minutes.',
+    'chat': 'Sell ACs, fridges or TVs? I can show you serial tracking and schemes for appliances in 15 minutes.',
   },
   {
     'slug': 'multi-store-chains', 'nav': 'Multi-store chains',
@@ -276,14 +277,14 @@ SOLUTIONS = [
   {
     'slug': 'repair-and-service-centres', 'nav': 'Repair & service centres',
     'title': 'Job Card Software for Repair & Service Centres | RetailerOS',
-    'desc': 'Repair job cards from intake to handover, device history by IMEI or serial, and brand warranty claims tracked to settlement, for Indian service centres.',
+    'desc': 'Repair job cards from intake to handover, and device history by IMEI or serial, for Indian repair and service centres.',
     'eyebrow': 'Repair and service centres',
     'h1': 'Repairs on job cards, <em>not on scraps of paper.</em>',
-    'answer': 'RetailerOS runs repairs on job cards — device intake, diagnosis, repair and customer handover — with the device\'s full IMEI or serial history one search away and brand warranty claims filed and tracked to settlement. Service billing goes out on GST invoices, with the receipt on the customer\'s WhatsApp.',
+    'answer': 'RetailerOS runs repairs on job cards — device intake, diagnosis, repair and customer handover — with the device\'s full IMEI or serial history one search away. Service billing goes out on GST invoices, with the receipt on the customer\'s WhatsApp.',
     'cards': [
       ('Job cards', 'Intake, diagnosis, repair and delivery, so no device sits untracked on the bench.', ''),
       ('Device history', 'Search an IMEI or serial number to see the full history of that unit.', ''),
-      ('Warranty claims', 'File brand warranty claims and track them through to settlement.', ''),
+      ('Warranty check', 'The unit\'s purchase and sale dates on its IMEI or serial record, so warranty is clear at intake.', ''),
       ('Parts and purchasing', 'Stock levels, vendor orders and goods-received notes for spares.', ''),
       ('Service billing', 'GST invoices for service work, with receipts on WhatsApp.', ''),
       ('Customer records', 'Every customer\'s devices and repair history in one place.', ''),
@@ -291,10 +292,10 @@ SOLUTIONS = [
     'faqs': [
       ('What does a repair job card track?', 'Each job card follows the device from intake through diagnosis and repair to handover to the customer.'),
       ('Can I see a device\'s past repairs?', 'Yes. Searching the IMEI or serial number shows that unit\'s full history.'),
-      ('Does RetailerOS file warranty claims with brands?', 'Yes. The Claims module tracks brand warranty claims from filing to settlement.'),
+      ('Does RetailerOS file warranty claims with brands?', 'Not today. RetailerOS keeps each device\'s full IMEI or serial history, which is what a warranty claim needs. A done-for-you service where the RetailerOS team files warranty and scheme claims with brands is coming soon as an add-on.'),
       ('Which plan includes repairs?', 'Repairs and Claims are on the Shop plan, Rs 3,999 a month for one store, and on Pro.'),
     ],
-    'chat': 'Run a repair or service centre? I can show you job cards and warranty claims in 15 minutes.',
+    'chat': 'Run a repair or service centre? I can show you job cards and device history in 15 minutes.',
   },
 ]
 

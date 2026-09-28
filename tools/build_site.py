@@ -38,7 +38,7 @@ LOGINS_PER_STORE = 3
 ADDONS = [('Extra store', 'Pro plan · 3 logins included', 3499, '/mo'), ('Extra staff login', 'Only if a store needs more than 3', 499, '/mo'),
           ('250-bill pack', 'For festival months on Shop', 499, ' per pack'), ('500 WhatsApp messages', 'Top-up pack', 249, ' per pack'),
           ('10 GB storage', 'Per month', 149, '/mo'), ('Dedicated WhatsApp number', 'Your own business number', 1499, '/mo'),
-          ('Claim recovery, done for you', 'We file your scheme and warranty claims', 2499, '/mo')]
+          ('Claim filing service', 'Coming soon · we file scheme & warranty claims', 2499, '/mo')]
 CHAIN_MIN = 1   # Pro starts at one store; extra stores are optional
 MONTHS = {'monthly': 1, 'quarterly': 3, 'annual': 12}
 
@@ -76,7 +76,7 @@ def footer():
           <img class="mark" src="/assets/logo-mark.png" alt="" width="34" height="34">
           <img class="word" src="/assets/logo-wordmark.png" alt="RetailerOS" width="111" height="21">
         </a>
-        <p>Billing, stock, serial &amp; IMEI tracking, schemes, warranty claims and multi-store management for Indian consumer electronics retail.</p>
+        <p>Billing, stock, serial &amp; IMEI tracking, brand schemes, repairs and multi-store management for Indian consumer electronics retail.</p>
       </div>
       <div><h4>Product</h4><a href="/modules/">All 26 modules</a><a href="/pricing/">Pricing</a><a href="/answers.html">Questions &amp; answers</a><a href="/resources.html">Resources</a><a href="/#book-demo">Book a demo</a></div>
       <div><h4>Modules</h4><a href="/modules/schemes/">Schemes</a><a href="/modules/pre-booking/">Pre-booking</a><a href="/modules/automation/">Automation</a><a href="/modules/marketing/">Marketing</a><a href="/modules/marketplace/">Marketplace</a><a href="/modules/stores/">Stores</a></div>

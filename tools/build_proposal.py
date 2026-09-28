@@ -119,7 +119,7 @@ def build_html():
     <div><p class="kicker">WHAT RETAILEROS IS</p><ul>
       <li>The operating system for your retail counter — GST billing, inventory and purchase orders</li>
       <li>Every unit tracked by IMEI or serial number, from purchase to sale to warranty</li>
-      <li>Brand schemes and warranty claims tracked until the brand pays</li>
+      <li>Brand schemes tracked against targets, with claims built from your sales</li>
       <li>Repairs on job cards, customer khaata, WhatsApp receipts and follow-ups</li>
       <li>Every store run from one owner login</li></ul></div>
     <div><p class="kicker">WHAT IT IS NOT</p><ul class="no">

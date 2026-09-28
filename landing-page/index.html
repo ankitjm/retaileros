@@ -61,7 +61,7 @@
   "@type": "SoftwareApplication",
   "name": "RetailerOS",
   "alternateName": "Retailer OS",
-  "description": "Billing, inventory, serial and IMEI tracking, warranty claims, customer khaata, WhatsApp receipts and 26 modules for Indian consumer electronics retail — mobiles, appliances, ACs, TVs and IT.",
+  "description": "Billing, inventory, serial and IMEI tracking, brand schemes, customer khaata, WhatsApp receipts and 26 modules for Indian consumer electronics retail — mobiles, appliances, ACs, TVs and IT.",
   "applicationCategory": "BusinessApplication",
   "applicationSubCategory": "RetailManagement",
   "operatingSystem": "Web, Android",
@@ -85,7 +85,7 @@
   "url": "https://retaileros.in/",
   "logo": "https://retaileros.in/assets/favicon-512.png",
   "image": "https://retaileros.in/assets/og-card.png",
-  "description": "RetailerOS is retail management software for Indian consumer electronics retail — mobile phones, home appliances, air conditioners, televisions, laptops and IT — covering GST billing, inventory, serial and IMEI tracking, warranty claims, brand schemes, repairs and customer khaata.",
+  "description": "RetailerOS is retail management software for Indian consumer electronics retail — mobile phones, home appliances, air conditioners, televisions, laptops and IT — covering GST billing, inventory, serial and IMEI tracking, brand schemes, repairs and customer khaata.",
   "areaServed": { "@type": "Country", "name": "India" },
   "knowsAbout": [
     "GST billing software",
@@ -96,7 +96,7 @@
     "mobile shop inventory management",
     "customer khaata / credit ledger",
     "brand scheme reconciliation",
-    "warranty claim filing",
+    "scheme claims tracking",
     "retail point of sale India"
   ],
   "contactPoint": [{
@@ -5663,15 +5663,10 @@
   .cmp thead th:not(:first-child) { text-align: center; }
   .cmp caption, .mstore-tbl caption { text-align: center; }
   
-  /* Getting started: an illustration on each step, 1:1 and uncropped, fading into the card */
+  /* Getting started: the illustration fills the top of each card (1:1, uncropped, no fade), text below */
   .start3-step { display: flex; flex-direction: column; overflow: hidden; padding: 0 22px 24px; }
-  .start3-step .start3-img { order: -1; display: block; position: relative; width: 50%; margin: 22px auto 8px; background: #fff; }
-  .start3-step .start3-img img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: contain;
-    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 10%, #000 90%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 10%, #000 88%, transparent 100%);
-    -webkit-mask-composite: source-in;
-            mask-image: linear-gradient(to right, transparent 0, #000 10%, #000 90%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 10%, #000 88%, transparent 100%);
-            mask-composite: intersect; }
-  .start3-step .start3-img::after { display: none; }
+  .start3-step .start3-img { order: -1; display: block; margin: 0 -22px 16px; border-bottom: 1px solid var(--line); }
+  .start3-step .start3-img img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; }
   .start3-step .start3-img::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 20%;
     background: linear-gradient(to bottom, rgba(255,255,255,0), #fff); pointer-events: none; }
   
@@ -5685,6 +5680,14 @@
     .pricing-enterprise-note a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 18px;
       border-radius: 10px; background: var(--brand-blue-soft); color: var(--brand-blue); font-weight: 600; text-decoration: none; }
   }
+  
+  /* anonymous proof cards */
+  .proof-card .proof-kind { font-size: 11.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--brand-blue); margin: 0 0 12px; }
+  .proof-note { text-align: center; font-size: 12.5px; color: var(--ink-muted); margin: 18px 0 0; }
+  .stat .num span { font-size: .8em; }
+  
+  /* The "What changes at the counter" strip sits on its own layer: the hero's layers were painting over its top half on desktop */
+  .trust { position: relative; z-index: 3; }
   </style>
 
 <script>
@@ -5852,24 +5855,12 @@
 </section>
 
 <section class="trust">
-  <div class="trust-label">What changes for retailers on day one</div>
+  <div class="trust-label">What changes at the counter</div>
   <div class="stats">
-    <div class="stat">
-      <div class="num"><span class="accent-blue">11</span> hrs</div>
-      <div class="label">saved per week, per counter<br/>on day-end reconciliation</div>
-    </div>
-    <div class="stat">
-      <div class="num"><span class="accent-blue">0.4</span>s</div>
-      <div class="label">from bill print to<br/>WhatsApp delivered to customer</div>
-    </div>
-    <div class="stat">
-      <div class="num"><span class="accent-orange">97</span><span style="font-size:0.7em;">%</span></div>
-      <div class="label">drop in IMEI mismatches<br/>at month-end audit</div>
-    </div>
-    <div class="stat">
-      <div class="num"><span class="accent-orange">3</span> hrs</div>
-      <div class="label">earlier shop close —<br/>wrap up at 6 PM, not 9 PM</div>
-    </div>
+    <div class="stat"><div class="num"><span class="accent-blue">Day-end</span></div><div class="label">closes itself — sales, stock<br/>and cash already agree</div></div>
+    <div class="stat"><div class="num"><span class="accent-blue">Instant</span></div><div class="label">bill on the customer's<br/>WhatsApp as they pay</div></div>
+    <div class="stat"><div class="num"><span class="accent-orange">Every</span> unit</div><div class="label">tracked by IMEI or serial,<br/>purchase to sale</div></div>
+    <div class="stat"><div class="num"><span class="accent-orange">Every</span> scheme</div><div class="label">tracked against the brand<br/>target as you bill</div></div>
   </div>
 </section>
 
@@ -5975,8 +5966,8 @@
     <div class="tile schemes">
       <span class="tile-chip orange"><span class="dot"></span>Schemes</span>
       <div class="stat-block">
-        <div class="num" data-counter data-target="47" data-prefix="₹" data-suffix="L">₹0L</div>
-        <div class="label">cashback &amp; exchange<br/>unlocked last month</div>
+        <div class="num" data-counter data-target="47" data-prefix="₹" data-suffix="K">₹0K</div>
+        <div class="label">scheme cashback tracked<br/>this month · example store</div>
       </div>
       <div class="mini-cards">
         <div class="mini-card c3">📱</div>
@@ -6048,8 +6039,8 @@
     <!-- Reports: animated bar chart -->
     <div class="tile reports">
       <span class="tile-chip blue"><span class="dot"></span>Reports</span>
-      <div class="stat-num">₹<span class="accent-blue" data-counter data-target="420" data-suffix="Cr+">0</span></div>
-      <div class="stat-sub">tracked across our retailers · last 30 days</div>
+      <div class="stat-num">₹<span class="accent-blue" data-counter data-target="18" data-suffix="L">0</span></div>
+      <div class="stat-sub">sales this month · example store</div>
       <div class="chart">
         <div class="bar" data-day="M" data-h="42" style="--bar-delay: 700ms;"></div>
         <div class="bar" data-day="T" data-h="56" style="--bar-delay: 780ms;"></div>
@@ -6120,7 +6111,7 @@
         </picture>
         <div class="whofor-body">
           <h3>AC &amp; appliance dealers</h3>
-          <p>Serial-tracked ACs, fridges and TVs, installation and service jobs, warranty claims.</p>
+          <p>Serial-tracked ACs, fridges and TVs, installation and service jobs, brand schemes.</p>
           <span class="whofor-go">See how &rarr;</span>
         </div>
       </a>
@@ -6172,7 +6163,6 @@
           <tr><th scope="row">GST-compliant invoicing<span class="lbl">The part every tool gets right</span></th><td data-col="Generic tools"><span class="yes">✓</span></td><td class="col-us" data-col="RetailerOS"><span class="yes">✓</span></td></tr>
           <tr><th scope="row">Serial &amp; IMEI tracking<span class="lbl">Every unit — handset, AC, fridge or laptop — purchase through warranty</span></th><td data-col="Generic tools"><span class="no">✕</span></td><td class="col-us" data-col="RetailerOS"><span class="yes">✓</span></td></tr>
           <tr><th scope="row">Brand scheme reconciliation<span class="lbl">Handset, appliance and IT brand cashback claims</span></th><td data-col="Generic tools"><span class="no">✕</span></td><td class="col-us" data-col="RetailerOS"><span class="yes">✓</span></td></tr>
-          <tr><th scope="row">Warranty claim filing<span class="lbl">Queued and tracked through to settlement</span></th><td data-col="Generic tools"><span class="no">✕</span></td><td class="col-us" data-col="RetailerOS"><span class="yes">✓</span></td></tr>
           <tr><th scope="row">Repairs &amp; service jobs<span class="lbl">Phone repair, AC servicing, appliance callouts</span></th><td data-col="Generic tools"><span class="no">✕</span></td><td class="col-us" data-col="RetailerOS"><span class="yes">✓</span></td></tr>
           <tr><th scope="row">Customer khaata<span class="lbl">Running credit ledger, per customer</span></th><td data-col="Generic tools"><span class="part">Partial</span></td><td class="col-us" data-col="RetailerOS"><span class="yes">✓</span></td></tr>
           <tr><th scope="row">WhatsApp bill delivery<span class="lbl">Receipt on the customer's phone, automatically</span></th><td data-col="Generic tools"><span class="part">Add-on</span></td><td class="col-us" data-col="RetailerOS"><span class="yes">✓</span></td></tr>
@@ -6426,11 +6416,11 @@
   <div class="pricing-trust">
     <span class="trust-pill">
       <svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M3 12l9-9 9 9M5 10v10h14V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <strong>1,000+</strong>&nbsp;retailers trust RetailerOS
+      <strong>Free plan</strong>&nbsp;forever, no card needed
     </span>
     <span class="trust-pill">
-      <svg class="icon orange" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      Rated <strong>&nbsp;4.8 / 5</strong>&nbsp;by retailers
+      <svg class="icon orange" viewBox="0 0 24 24" fill="none"><path d="M4 5h16M4 12h10M4 19h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <strong>Hindi</strong>&nbsp;and 3 more languages on every screen
     </span>
     <span class="trust-pill">
       <svg class="icon green" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4m1.5-7.5L12 2 7.5 2.5 4 6l.5 4.5L2 14l2.5 3.5L4 22l3.5-2L12 22l4.5-2 3.5 2-.5-4.5L22 14l-2.5-3.5L20 6l-3.5-3.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -6448,7 +6438,7 @@
     </span>
     <p class="banner-text">
       <strong>Purpose-built for consumer electronics retail.</strong>
-      Billing apps print a GST invoice, and some track IMEIs. What they don't do is reconcile brand scheme cashback, file warranty claims through to settlement, run repair job cards, or manage several stores from one login. RetailerOS does all four. <a href="/compare/">See how we compare →</a>
+      Billing apps print a GST invoice, and some track IMEIs. What they don't do is track brand scheme cashback against targets, keep every unit's history by IMEI, run repair job cards, or manage several stores from one login. RetailerOS does all four. <a href="/compare/">See how we compare →</a>
     </p>
   </div>
 
@@ -6493,7 +6483,7 @@
         <span class="addon-price">₹1,499<small class="addon-per">/mo</small></span>
       </div>
       <div class="addon">
-        <span class="addon-name">Claim recovery, done for you<span class="note">we file your scheme &amp; warranty claims</span></span>
+        <span class="addon-name">Claim recovery, done for you<span class="note">we file your scheme &amp; warranty claims with brands · coming soon</span></span>
         <span class="addon-price">₹2,499<small class="addon-per">/mo</small></span>
       </div>
     </div>
@@ -6666,49 +6656,23 @@
   <div class="proof-inner">
     <header class="proof-head">
       <span class="proof-eyebrow">Why retailers switch</span>
-      <h2 class="proof-anchor">What changes, <em>in their words.</em></h2>
+      <h2 class="proof-anchor">What changes, <em>counter by counter.</em></h2>
     </header>
-
     <div class="proof-grid">
       <figure class="proof-card">
-        <p class="proof-metric">11 hours</p>
-        <p class="proof-metric-lbl">saved every week</p>
-        <blockquote class="proof-quote">We used to lose two hours every evening just matching IMEIs to invoices. <em>Now I close the day and it's already done.</em></blockquote>
-        <figcaption class="proof-who">
-          <img src="assets/hero-photos/portrait-1.jpg" alt="Suresh Patel, Patel Telecom, Surat" loading="lazy" width="42" height="42" />
-          <span>
-            <span class="proof-name">Suresh Patel</span>
-            <span class="proof-role">Patel Telecom · Surat, GJ · 2 counters</span>
-          </span>
-        </figcaption>
+        <p class="proof-metric-lbl proof-kind">A two-counter phone shop</p>
+        <blockquote class="proof-quote">Every evening went on matching IMEIs to invoices. <em>With every handset billed against its IMEI, the day closes with the matching already done.</em></blockquote>
       </figure>
-
       <figure class="proof-card">
-        <p class="proof-metric">100%</p>
-        <p class="proof-metric-lbl">delivered, 9 months running</p>
-        <blockquote class="proof-quote">My customers used to chase me on WhatsApp asking for old bills. <em>Now they get one the moment they pay</em> — and I never hear about it again.</blockquote>
-        <figcaption class="proof-who">
-          <img src="assets/hero-photos/portrait-2.jpg" alt="Rakesh Verma, Galaxy Mobile World, Lucknow" loading="lazy" width="42" height="42" />
-          <span>
-            <span class="proof-name">Rakesh Verma</span>
-            <span class="proof-role">Galaxy Mobile World · Lucknow, UP · 1 counter</span>
-          </span>
-        </figcaption>
+        <p class="proof-metric-lbl proof-kind">A single-counter store</p>
+        <blockquote class="proof-quote">Customers chased old bills on WhatsApp. <em>Now the bill reaches their WhatsApp the moment they pay</em> — and it is there whenever they need it.</blockquote>
       </figure>
-
       <figure class="proof-card">
-        <p class="proof-metric">₹2.1 Cr</p>
-        <p class="proof-metric-lbl">billed every month</p>
-        <blockquote class="proof-quote">Schemes used to be a separate Excel sheet I'd reconcile every Sunday. <em>RetailerOS just keeps the cashback claims queued and ready.</em></blockquote>
-        <figcaption class="proof-who">
-          <img src="assets/hero-photos/portrait-3.jpg" alt="Mohammed Iqbal, Iqbal Mobile House, Hyderabad" loading="lazy" width="42" height="42" />
-          <span>
-            <span class="proof-name">Mohammed Iqbal</span>
-            <span class="proof-role">Iqbal Mobile House · Hyderabad, TG · 4 counters</span>
-          </span>
-        </figcaption>
+        <p class="proof-metric-lbl proof-kind">A four-counter electronics store</p>
+        <blockquote class="proof-quote">Brand schemes lived in a separate Excel sheet, reconciled every Sunday. <em>Now every scheme sale is tagged at billing and the claims list builds itself.</em></blockquote>
       </figure>
     </div>
+    <p class="proof-note">Illustrative examples of how retailers use RetailerOS.</p>
   </div>
 </section>
 
@@ -7644,7 +7608,7 @@
           list: [
             "**Billing & stock** — GST invoices, inventory, purchase orders",
             "**Every unit tracked** — by IMEI or serial number, purchase to warranty",
-            "**Schemes & claims** — brand cashback and warranty claims to settlement",
+            "**Schemes & claims** — brand cashback tracked against targets, claims built from sales",
             "**Repairs & service** — job cards from intake to handover",
             "**Customers** — khaata, inquiries, pre-booking, WhatsApp receipts"
           ]
@@ -7660,9 +7624,9 @@
         bot: "Short version: accounting and billing tools print the invoice. RetailerOS runs the rest of the counter.",
         card: {
           rows: [
-            { k: 'Tally', v: "Excellent for your books. IMEI or serial tracking needs a paid add-on; no counter workflow for schemes, repairs or warranty claims." },
+            { k: 'Tally', v: "Excellent for your books. IMEI or serial tracking needs a paid add-on; no counter workflow for schemes or repairs." },
             { k: 'Vyapar', v: "Good-value billing that tracks IMEIs and warranty periods." },
-            { k: 'RetailerOS', v: "Reconciles brand scheme cashback, files warranty claims to settlement, runs repair job cards, and manages several stores from one login.", hl: true }
+            { k: 'RetailerOS', v: "Tracks brand schemes against targets with claims built from sales, runs repair job cards, and manages several stores from one login.", hl: true }
           ],
           link: { href: '/compare/', label: 'See the full comparisons' }
         },
@@ -8059,7 +8023,7 @@
       form.innerHTML = `
         <div class="field-row">
           <label>Your name</label>
-          <input type="text" name="name" placeholder="Suresh Patel" required autocomplete="name" />
+          <input type="text" name="name" placeholder="Your name" required autocomplete="name" />
         </div>
         <div class="field-row">
           <label>What do you need? <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink-muted);">(optional)</span></label>
