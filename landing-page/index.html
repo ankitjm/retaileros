@@ -5295,7 +5295,66 @@
   .price-link { display: block; font-size: 13.5px; font-weight: 600; color: var(--brand-blue);
                 text-decoration: none; margin: 4px 0 12px; }
   .price-link:hover { text-decoration: underline; }
-</style>
+
+  /* ── 26-module grid (replaced the tabbed panel: it left a tall empty gap) ── */
+  .mgrid-inner { max-width: 1180px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
+  .mgrid-key { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 22px;
+    list-style: none; margin: 0 0 28px; padding: 0; font-size: 13px; color: var(--ink-soft); }
+  .mgrid-key li { display: flex; align-items: center; gap: 7px; }
+  .mgrid-key li::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--ink-muted); }
+  .mgrid-key .free::before { background: var(--green); }
+  .mgrid-key .shop::before { background: var(--brand-blue); }
+  .mgrid-key .chain::before { background: var(--accent); }
+  .mgrid { display: grid; gap: 16px; }
+  .mgrid-card { background: #fff; border: 1px solid var(--line); border-radius: 13px; padding: 22px 20px; }
+  .mgrid-card h3 { display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    font-family: var(--font-display); font-size: 17px; font-weight: 500; color: var(--ink); margin: 0; }
+  .mgrid-n { font-size: 12px; font-weight: 500; color: var(--ink-muted); font-family: var(--font-mono, monospace); }
+  .mgrid-chips { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 14px 0 0; padding: 0; }
+  .mgrid-chip { display: inline-flex; align-items: center; gap: 7px; font-size: 13.5px; color: var(--ink);
+    background: var(--bg-page); border: 1px solid var(--line); border-radius: 9px; padding: 7px 11px; }
+  .mgrid-chip::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--ink-muted); flex: none; }
+  .mgrid-chip.free::before { background: var(--green); }
+  .mgrid-chip.shop::before { background: var(--brand-blue); }
+  .mgrid-chip.chain::before { background: var(--accent); }
+
+  /* ── who it's for ── */
+  .whofor { padding: clamp(64px, 8vw, 104px) 0; background: var(--bg-elev); }
+  .whofor-inner { max-width: 1180px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
+  .whofor-grid { display: grid; gap: 16px; }
+  .whofor-card { display: flex; flex-direction: column; gap: 10px; padding: 24px 22px;
+    background: #fff; border: 1px solid var(--line); border-radius: 13px; text-decoration: none;
+    transition: border-color 200ms ease, transform 200ms ease, box-shadow 200ms ease; }
+  .whofor-card:hover { border-color: var(--brand-blue); transform: translateY(-2px);
+    box-shadow: 0 18px 40px -28px rgba(11, 18, 32, 0.45); }
+  .whofor-ico { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center;
+    background: var(--brand-blue-soft); color: var(--brand-blue); }
+  .whofor-ico svg { width: 21px; height: 21px; }
+  .whofor-card h3 { font-family: var(--font-display); font-size: 18px; font-weight: 500;
+    color: var(--ink); margin: 4px 0 0; }
+  .whofor-card p { font-size: 14.5px; line-height: 1.55; color: var(--ink-soft); margin: 0; }
+  .whofor-go { margin-top: auto; padding-top: 8px; font-size: 14px; font-weight: 600; color: var(--brand-blue); }
+
+  /* ── getting started ── */
+  .start3 { padding: clamp(64px, 8vw, 104px) 0; background: var(--bg-page); }
+  .start3-inner { max-width: 1180px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
+  .start3-grid { display: grid; gap: 16px; list-style: none; margin: 0; padding: 0; counter-reset: start3; }
+  .start3-step { background: #fff; border: 1px solid var(--line); border-radius: 13px; padding: 24px 22px; }
+  .start3-step::before { counter-increment: start3; content: "0" counter(start3);
+    font-family: var(--font-display); font-size: 34px; line-height: 1; color: var(--accent); }
+  .start3-step h3 { font-family: var(--font-display); font-size: 18px; font-weight: 500;
+    color: var(--ink); margin: 14px 0 0; }
+  .start3-step p { font-size: 14.5px; line-height: 1.55; color: var(--ink-soft); margin: 8px 0 0; }
+
+  @media (min-width: 720px) {
+    .mgrid, .whofor-grid, .start3-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1000px) {
+    .mgrid { grid-template-columns: repeat(3, 1fr); }
+    .whofor-grid { grid-template-columns: repeat(4, 1fr); }
+    .start3-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  </style>
 
 <script>
   // Nested overlays (the demo modal can open from inside the wizard) each
@@ -5716,107 +5775,76 @@
 <section class="modules23" id="modules-all">
   <header class="modules23-head">
     <span class="modules23-eyebrow">The full system</span>
-    <h2 class="modules23-anchor"><em>Twenty-six</em> modules. One platform.</h2>
-    <p class="modules23-sub">Every part of running a mobile retail shop, in one place — switchable without context loss.</p>
+    <h2 class="modules23-anchor">26 modules. <em>One login.</em></h2>
+    <p class="modules23-sub">Every part of running a consumer electronics counter in one place. Start with the free seven and switch the rest on when your shop needs them.</p>
   </header>
 
-  <nav class="modules23-tabs" role="tablist" aria-label="Module categories">
-    <button class="modules23-tab active" type="button" data-cat="selling" role="tab" aria-selected="true">
-      <span class="tab-num">01</span>
-      <span class="tab-name">Selling</span>
-      <span class="tab-count">4</span>
-    </button>
-    <button class="modules23-tab" type="button" data-cat="inventory" role="tab" aria-selected="false">
-      <span class="tab-num">02</span>
-      <span class="tab-name">Inventory</span>
-      <span class="tab-count">4</span>
-    </button>
-    <button class="modules23-tab" type="button" data-cat="customers" role="tab" aria-selected="false">
-      <span class="tab-num">03</span>
-      <span class="tab-name">Customers</span>
-      <span class="tab-count">3</span>
-    </button>
-    <button class="modules23-tab" type="button" data-cat="service" role="tab" aria-selected="false">
-      <span class="tab-num">04</span>
-      <span class="tab-name">Service</span>
-      <span class="tab-count">2</span>
-    </button>
-    <button class="modules23-tab" type="button" data-cat="operations" role="tab" aria-selected="false">
-      <span class="tab-num">05</span>
-      <span class="tab-name">Operations</span>
-      <span class="tab-count">3</span>
-    </button>
-    <button class="modules23-tab" type="button" data-cat="finance" role="tab" aria-selected="false">
-      <span class="tab-num">06</span>
-      <span class="tab-name">Finance</span>
-      <span class="tab-count">2</span>
-    </button>
-    <button class="modules23-tab" type="button" data-cat="platform" role="tab" aria-selected="false">
-      <span class="tab-num">07</span>
-      <span class="tab-name">Platform</span>
-      <span class="tab-count">5</span>
-    </button>
-  </nav>
-
-  <div class="modules23-stage">
-    <div class="modules23-panel active" data-cat="selling" role="tabpanel">
-      <ul class="panel-list">
-        <li class="module-card"><span class="module-name">Sales Desk</span><span class="module-desc">Core POS billing — create bills, scan IMEIs, process payments, print receipts.</span></li>
-        <li class="module-card"><span class="module-name">Schemes</span><span class="module-desc">Brand and bank offer calculator across handset, appliance and IT brands — surfaces applicable discounts, cashback and EMIs during billing.</span></li>
-        <li class="module-card"><span class="module-name">Pricing</span><span class="module-desc">Margin protection — dynamic pricing rules and remote discount approvals.</span></li>
-        <li class="module-card"><span class="module-name">Invoices</span><span class="module-desc">GST-compliant document generator for tax invoices, credit notes, and proformas.</span></li>
-      </ul>
-    </div>
-    <div class="modules23-panel" data-cat="inventory" role="tabpanel">
-      <ul class="panel-list">
-        <li class="module-card"><span class="module-name">Inventory</span><span class="module-desc">Stock across every category you carry — phones, appliances, ACs, TVs, accessories — with brands, stock levels and inward/outward movement.</span></li>
-        <li class="module-card"><span class="module-name">Serial &amp; IMEI Tracker</span><span class="module-desc">Track every unit individually by serial number or IMEI — phones, ACs, refrigerators, TVs, laptops — with full chain of custody from purchase to warranty.</span></li>
-        <li class="module-card"><span class="module-name">Purchase Orders</span><span class="module-desc">Procurement workflow — vendor orders and Goods Received Notes (GRN).</span></li>
-        <li class="module-card"><span class="module-name">Stores</span><span class="module-desc">Multi-store management — oversee inventory and performance across locations.</span></li>
-      </ul>
-    </div>
-    <div class="modules23-panel" data-cat="customers" role="tabpanel">
-      <ul class="panel-list">
-        <li class="module-card"><span class="module-name">Clients (CRM)</span><span class="module-desc">Customer relationship management — directories, purchase history, credit tracking.</span></li>
-        <li class="module-card"><span class="module-name">Marketing</span><span class="module-desc">Broadcast WhatsApp/SMS campaigns and build trigger-based automations.</span></li>
-        <li class="module-card"><span class="module-name">Pre-booking</span><span class="module-desc">Take deposits and hold launch models for customers before stock lands.</span></li>
-        <li class="module-card"><span class="module-name">Help / Inquiries</span><span class="module-desc">Walk-in lead management — track customer requests, follow-ups, pre-booking deposits.</span></li>
-      </ul>
-    </div>
-    <div class="modules23-panel" data-cat="service" role="tabpanel">
-      <ul class="panel-list">
-        <li class="module-card"><span class="module-name">Repairs</span><span class="module-desc">Job cards for repairs and service — phone repairs, AC servicing, appliance callouts — from intake through diagnosis to customer delivery.</span></li>
-        <li class="module-card"><span class="module-name">Claims</span><span class="module-desc">Warranty claim tracker for every category you sell — handsets, appliances, ACs and IT — from filing to settlement.</span></li>
-      </ul>
-    </div>
-    <div class="modules23-panel" data-cat="operations" role="tabpanel">
-      <ul class="panel-list">
-        <li class="module-card"><span class="module-name">Cash Register</span><span class="module-desc">Daily cash management — open shifts, close days, reconcile collections.</span></li>
-        <li class="module-card"><span class="module-name">Expenses</span><span class="module-desc">Daily expense tracker and monthly budget management — replaces paper diaries.</span></li>
-        <li class="module-card"><span class="module-name">Promoters</span><span class="module-desc">Manage brand-funded in-store promoters — attendance, targets and payouts.</span></li>
-        <li class="module-card"><span class="module-name">Staff</span><span class="module-desc">Team management — employee profiles, attendance, shifts, commission tracking.</span></li>
-      </ul>
-    </div>
-    <div class="modules23-panel" data-cat="finance" role="tabpanel">
-      <ul class="panel-list">
-        <li class="module-card"><span class="module-name">Finance</span><span class="module-desc">Accountant-facing day books, cash flow, ledgers, and GST return summaries.</span></li>
-        <li class="module-card"><span class="module-name">Reports</span><span class="module-desc">Business intelligence — sales trends, staff leaderboards, scheme ROI dashboards.</span></li>
-      </ul>
-    </div>
-    <div class="modules23-panel" data-cat="platform" role="tabpanel">
-      <ul class="panel-list">
-        <li class="module-card"><span class="module-name">Auth / Onboarding</span><span class="module-desc">Login, registration gateway, and store setup wizard.</span></li>
-        <li class="module-card"><span class="module-name">Launcher (Dashboard)</span><span class="module-desc">Executive home — today's revenue, tasks, quick actions.</span></li>
-        <li class="module-card"><span class="module-name">Settings</span><span class="module-desc">Store-level configurations — taxes, invoice numbering, print templates, team roles.</span></li>
-        <li class="module-card"><span class="module-name">Automation</span><span class="module-desc">Trigger-based workflows — automatic reminders, follow-ups and low-stock alerts.</span></li>
-        <li class="module-card"><span class="module-name">Integrations</span><span class="module-desc">Connect Busy, WATI, delivery partners and other third-party tools.</span></li>
-        <li class="module-card"><span class="module-name">Marketplace</span><span class="module-desc">Two-sided hub — B2B retailer trading board and a consumer-facing storefront.</span></li>
-      </ul>
+  <div class="mgrid-inner">
+    <ul class="mgrid-key">
+      <li class="free">Free</li>
+      <li class="shop">Shop and up</li>
+      <li class="chain">Chain</li>
+    </ul>
+    <div class="mgrid">
+      <article class="mgrid-card">
+        <h3>Billing and stock <span class="mgrid-n">7</span></h3>
+        <ul class="mgrid-chips"><li class="mgrid-chip free">Sales Desk</li><li class="mgrid-chip free">Invoices</li><li class="mgrid-chip free">Inventory</li><li class="mgrid-chip shop">Purchase Orders</li><li class="mgrid-chip shop">Pricing rules</li><li class="mgrid-chip shop">Cash Register</li><li class="mgrid-chip shop">Expenses</li></ul>
+      </article>
+      <article class="mgrid-card">
+        <h3>Phones, appliances and service <span class="mgrid-n">4</span></h3>
+        <ul class="mgrid-chips"><li class="mgrid-chip shop">IMEI &amp; Serial Tracker</li><li class="mgrid-chip shop">Schemes</li><li class="mgrid-chip shop">Repairs</li><li class="mgrid-chip shop">Claims</li></ul>
+      </article>
+      <article class="mgrid-card">
+        <h3>Customers <span class="mgrid-n">5</span></h3>
+        <ul class="mgrid-chips"><li class="mgrid-chip free">Clients (CRM &amp; khaata)</li><li class="mgrid-chip shop">Inquiries</li><li class="mgrid-chip shop">Pre-booking</li><li class="mgrid-chip chain">Marketing</li><li class="mgrid-chip chain">Promoters</li></ul>
+      </article>
+      <article class="mgrid-card">
+        <h3>Money and people <span class="mgrid-n">3</span></h3>
+        <ul class="mgrid-chips"><li class="mgrid-chip shop">Finance</li><li class="mgrid-chip shop">Staff</li><li class="mgrid-chip shop">Reports</li></ul>
+      </article>
+      <article class="mgrid-card">
+        <h3>Multi-store and platform <span class="mgrid-n">7</span></h3>
+        <ul class="mgrid-chips"><li class="mgrid-chip chain">Stores</li><li class="mgrid-chip chain">Marketplace</li><li class="mgrid-chip chain">Integrations</li><li class="mgrid-chip chain">Automation</li><li class="mgrid-chip free">Dashboard</li><li class="mgrid-chip free">Settings</li><li class="mgrid-chip free">Login &amp; onboarding</li></ul>
+      </article>
     </div>
   </div>
 </section>
 
-<!-- ─── WHY RETAILEROS · scroll-pinned editorial ─── -->
+<section class="whofor" id="whofor">
+  <div class="whofor-inner">
+    <header class="modules23-head">
+      <span class="modules23-eyebrow">Who it's for</span>
+      <h2 class="modules23-anchor">Made for the shop <em>you actually run</em>.</h2>
+    </header>
+    <div class="whofor-grid">
+      <a class="whofor-card" href="/solutions/mobile-phone-retail/">
+        <span class="whofor-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 18h4" stroke-linecap="round"/></svg></span>
+        <h3>Mobile phone stores</h3>
+        <p>IMEI on every handset, Vivo, Samsung and Oppo scheme claims, warranty and repairs.</p>
+        <span class="whofor-go">See how &rarr;</span>
+      </a>
+      <a class="whofor-card" href="/solutions/appliance-and-ac-dealers/">
+        <span class="whofor-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="8" rx="2"/><path d="M7 16v2M12 16v4M17 16v2" stroke-linecap="round"/></svg></span>
+        <h3>AC &amp; appliance dealers</h3>
+        <p>Serial-tracked ACs, fridges and TVs, installation and service jobs, warranty claims.</p>
+        <span class="whofor-go">See how &rarr;</span>
+      </a>
+      <a class="whofor-card" href="/solutions/multi-store-chains/">
+        <span class="whofor-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V9l9-6 9 6v12M9 21v-6h6v6"/></svg></span>
+        <h3>Multi-store chains</h3>
+        <p>Every store’s stock, cash and staff from one owner login, with 3 staff logins per store.</p>
+        <span class="whofor-go">See how &rarr;</span>
+      </a>
+      <a class="whofor-card" href="/solutions/repair-and-service-centres/">
+        <span class="whofor-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a4 4 0 00-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 005.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg></span>
+        <h3>Repair &amp; service centres</h3>
+        <p>Job cards from intake to diagnosis, repair and handover, with the unit’s history attached.</p>
+        <span class="whofor-go">See how &rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
 <section class="why" id="why">
   <div class="why-inner">
     <div class="why-head">
@@ -6363,6 +6391,20 @@
 </section>
 
 <!-- ─── FINAL CTA · Pre-footer closer ─── -->
+<section class="start3" id="getting-started">
+  <div class="start3-inner">
+    <header class="modules23-head">
+      <span class="modules23-eyebrow">Getting started</span>
+      <h2 class="modules23-anchor">Live on your counter <em>today</em>.</h2>
+    </header>
+    <ol class="start3-grid">
+      <li class="start3-step"><h3>Sign up free</h3><p>Your mobile number and your shop’s name. No card, no setup call.</p></li>
+      <li class="start3-step"><h3>Bring your data</h3><p>Moving from Tally, Vyapar or spreadsheets? We bring your inventory and khaata over for you.</p></li>
+      <li class="start3-step"><h3>Bill your first customer</h3><p>First counter set up in about 10 minutes. Add staff, schemes and stores when you’re ready.</p></li>
+    </ol>
+  </div>
+</section>
+
 <section class="cta-final" id="get-started">
   <div class="cta-final-inner">
     <span class="eyebrow-pill">Ready when you are</span>
