@@ -9,3 +9,10 @@ server/node_modules/
 
 # written by the deploy pipeline at deploy time
 landing-page/version.txt
+
+# Python bytecode (tools/ is run by the build and the deploy pipeline)
+__pycache__/
+*.pyc
+
+# git worktrees made for parallel agents
+.claude/
