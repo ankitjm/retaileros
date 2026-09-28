@@ -5402,6 +5402,12 @@
     .whofor-grid { grid-template-columns: repeat(4, 1fr); }
     .start3-grid { grid-template-columns: repeat(3, 1fr); }
   }
+  
+  /* The chat is fronted by a person, not the logo. */
+  .chatbot .chatbot-btn { padding: 3px; }
+  .chatbot .chatbot-btn img { object-fit: cover; border-radius: 50%; }
+  .chatbot .chatbot-head .avatar { padding: 0; overflow: hidden; }
+  .chatbot .chatbot-head .avatar img { object-fit: cover; border-radius: 50%; }
   </style>
 
 <script>
@@ -6831,13 +6837,13 @@
 <!-- ─── CHATBOT · concierge correspondence ─── -->
 <div class="chatbot" id="chatbot">
   <button class="chatbot-btn" id="chatbotBtn" type="button" aria-label="Open chat support">
-    <img src="assets/logo-mark.png" alt="" />
+    <img src="assets/support-avatar.jpg" alt="" />
     <span class="pulse-dot" aria-hidden="true"></span>
   </button>
   <div class="chatbot-backdrop" id="chatbotBackdrop" aria-hidden="true"></div>
   <div class="chatbot-panel" id="chatbotPanel" role="dialog" aria-label="RetailerOS support">
     <div class="chatbot-head">
-      <span class="avatar"><img src="assets/logo-mark.png" alt="" /></span>
+      <span class="avatar"><img src="assets/support-avatar.jpg" alt="" /></span>
       <div class="heading-text">
         <div class="name">RetailerOS <em>Support</em></div>
         <div class="status">Online · usually replies in minutes</div>

@@ -296,6 +296,9 @@ a.card .go { display: inline-block; margin-top: 12px; font-size: 14px; font-weig
   margin-left: auto;
 }
 .rchat-btn svg { width: 26px; height: 26px; }
+/* the chat is fronted by a person, not the logo */
+.rchat-btn { position: relative; background: #fff; padding: 3px; border: 1px solid var(--line); }
+.rchat-face { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
 .rchat-card {
   position: absolute; right: 0; bottom: 70px; width: min(340px, calc(100vw - 32px));
   background: #fff; border: 1px solid var(--line); border-radius: 16px;
@@ -304,7 +307,7 @@ a.card .go { display: inline-block; margin-top: 12px; font-size: 14px; font-weig
 }
 .rchat.open .rchat-card { opacity: 1; transform: none; visibility: visible; }
 .rchat-who { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-.rchat-who img { width: 34px; height: 34px; }
+.rchat-who img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; flex: none; }
 .rchat-who b { display: block; font-size: 14px; color: var(--ink); }
 .rchat-who span { font-size: 12px; color: var(--green); }
 .rchat-msg { background: var(--bg); border-radius: 4px 14px 14px 14px; padding: 11px 13px; font-size: 14.5px;

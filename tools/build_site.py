@@ -117,7 +117,7 @@ def chat(msg, primary):
     return '''<div class="rchat" id="rchat">
   <div class="rchat-card" role="dialog" aria-label="Chat with RetailerOS" aria-hidden="true">
     <button class="rchat-x" type="button" aria-label="Close chat">×</button>
-    <div class="rchat-who"><img src="/assets/logo-mark.png" alt="" width="34" height="34">
+    <div class="rchat-who"><img src="/assets/support-avatar.jpg" alt="" width="34" height="34">
       <div><b>RetailerOS team</b><span>● Usually replies within minutes</span></div></div>
     <p class="rchat-msg">%s</p>
     <div class="rchat-opts">
@@ -127,7 +127,7 @@ def chat(msg, primary):
     </div>
   </div>
   <button class="rchat-btn" type="button" aria-label="Chat with us" aria-expanded="false">
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5h16v11H8l-4 4V5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+    <img class="rchat-face" src="/assets/support-avatar.jpg" alt="" width="50" height="50">
     <span class="rchat-dot" hidden></span>
   </button>
 </div>''' % (e(msg), href, e(label), WA)
