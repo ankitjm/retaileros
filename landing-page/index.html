@@ -7201,8 +7201,8 @@
   (function () {
     /* Product tour. YouTube IFrame API so it can autoplay WITH sound when the browser allows
        (the play tap is a user gesture); if the browser blocks sound (common on phones), it
-       starts muted and shows a big "Tap for sound" button. On phones it opens full-screen,
-       which makes YouTube stream its highest resolution. The API script is preloaded after
+       starts muted and shows a big "Tap for sound" button. Phones in portrait get a 9:16
+       player (MOBILE_ID) inside the pop-up, never forced full-screen. The API script is preloaded after
        the page loads so the tap's gesture is still valid when playVideo() runs. */
     const modal = document.getElementById('videoModal');
     const frame = modal && modal.querySelector('.video-frame');
@@ -7279,8 +7279,7 @@
       modal.classList.toggle('portrait', !!portrait);
       modal.classList.add('open'); modal.classList.remove('ended'); modal.setAttribute('aria-hidden', 'false');
       if (window.rosLockScroll) rosLockScroll(); else document.body.style.overflow = 'hidden';
-      // small landscape screens: go full-screen inside the tap so the player is as large as possible (portrait phones keep the heading and buttons visible)
-      if (!portrait && matchMedia('(max-width: 760px)').matches && frame.requestFullscreen) { frame.requestFullscreen().catch(() => {}); }
+      // no forced full-screen on phones: the heading and buttons around the player stay visible (viewers can still tap YouTube's own full-screen button)
       if (apiReady && window.YT && YT.Player) start(id);
       else { pending = id; loadApi(); setTimeout(() => { if (pending) { pending = null; modal.classList.remove('portrait'); fallbackIframe(DEFAULT_ID); } }, 3500); }
     }
