@@ -116,11 +116,14 @@
     var list = monthlyFor(cPlan, cStores, 'monthly');
     var billed = perMonth * MONTHS[cycle];
     var saved = (list - perMonth) * 12;
-    document.getElementById('cBig').innerHTML = inr(perMonth) + ' <small>/ month + GST</small>';
+    // Big figure = what is actually billed for the cycle; the per-month figure sits below.
+    var period = cycle === 'monthly' ? '/ month' : cycle === 'quarterly' ? '/ 3 months' : '/ year';
+    document.getElementById('cBig').innerHTML = inr(billed) + ' <small>' + period + ' + GST</small>';
     document.getElementById('cStores').textContent = cStores + (cStores === 1 ? ' store' : ' stores');
     document.getElementById('cPer').textContent = inr(perMonth / cStores) + ' / store / month';
     document.getElementById('cLogins').textContent = (cStores * 3) + ' included';
-    document.getElementById('cBilled').textContent = inr(billed) + (cycle === 'monthly' ? ' a month' : cycle === 'quarterly' ? ' a quarter' : ' a year');
+    document.getElementById('cBilled').innerHTML = cycle === 'monthly' ? inr(perMonth) :
+      '<s style="color:var(--ink-muted);font-weight:500">' + inr(list) + '</s> ' + inr(perMonth);
     document.getElementById('cYear').textContent = inr(perMonth * 12);
     var hint = document.getElementById('cHint');
     if (cPlan === 'chain') {

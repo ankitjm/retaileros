@@ -238,6 +238,13 @@ a.card .go { display: inline-block; margin-top: 12px; font-size: 14px; font-weig
            border-top: 1px solid var(--line); }
 .plan li::before { content: "✓"; position: absolute; left: 0; color: var(--green); font-weight: 700; }
 .plan .btn { width: 100%; }
+/* pricing: per-month figure, struck-through monthly price and saving under the cycle total */
+.plan .bill s { opacity: .75; }
+.plan .bill .save { background: var(--green-soft, #DCFCE7); color: var(--green); padding: 1px 6px; border-radius: 4px;
+                    font-weight: 700; font-size: 12px; white-space: nowrap; }
+.plan .bill.first, .plan .bill.min { min-height: 0; }
+.plan .amt { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 8px; row-gap: 4px; }
+.ctable td small { display: block; font-weight: 400; color: var(--ink-muted); font-size: 12px; margin-top: 2px; }
 
 .calc { display: grid; gap: 22px; grid-template-columns: 1fr 1fr; background: #fff; border: 1px solid var(--line);
         border-radius: 18px; padding: clamp(20px, 3vw, 30px); }
