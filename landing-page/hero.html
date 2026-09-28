@@ -5697,6 +5697,30 @@
     padding: 12px 20px; background: rgba(255,255,255,.95); color: #0B1220; font: 700 15px/1 var(--font-body, system-ui); cursor: pointer;
     box-shadow: 0 10px 30px rgba(0,0,0,.4); animation: vs-pulse 1.6s ease-in-out infinite; }
   @keyframes vs-pulse { 50% { transform: translateX(-50%) scale(1.06); } }
+  
+  /* Start free — single step */
+  .su-overlay .su-card { position: relative; width: min(440px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); overflow-y: auto;
+    background: #fff; border-radius: 20px; padding: 28px 24px 22px; box-shadow: 0 30px 80px rgba(11,18,32,.35); text-align: left; }
+  .su-overlay .modal-close { position: absolute; top: 10px; right: 10px; width: 38px; height: 38px; border: 0; border-radius: 10px; background: var(--bg-page); font-size: 22px; color: var(--ink-soft); cursor: pointer; }
+  .su-mark { width: 44px; height: 44px; display: block; }
+  .su-card h2 { font-family: var(--font-display); font-weight: 500; font-size: 26px; line-height: 1.15; color: var(--ink); margin: 12px 0 10px; }
+  .su-ticks { list-style: none; margin: 0 0 18px; padding: 0; display: grid; gap: 6px; font-size: 14px; color: var(--ink-soft); }
+  .su-ticks li::before { content: "✓"; color: var(--green); font-weight: 700; margin-right: 8px; }
+  .su-field { display: grid; gap: 6px; margin-bottom: 12px; font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+  .su-field input { height: 50px; border-radius: 12px; border: 1px solid var(--line-strong); padding: 0 14px; font: 500 17px var(--font-body); color: var(--ink); background: #fff; min-width: 0; width: 100%; }
+  .su-field input:focus { outline: none; border-color: var(--brand-blue); box-shadow: 0 0 0 3px var(--brand-blue-soft); }
+  .su-phone { display: flex; align-items: stretch; }
+  .su-phone em { font-style: normal; display: grid; place-items: center; padding: 0 12px; border: 1px solid var(--line-strong); border-right: 0; border-radius: 12px 0 0 12px; background: var(--bg-page); font: 600 16px var(--font-body); color: var(--ink); }
+  .su-phone input { border-radius: 0 12px 12px 0; }
+  .su-err { min-height: 1.2em; margin: 0 0 6px; font-size: 13.5px; color: #B91C1C; }
+  .su-go { width: 100%; min-height: 52px; border: 0; border-radius: 12px; background: var(--brand-blue); color: #fff; font: 700 16px var(--font-body); cursor: pointer; }
+  .su-go:hover { background: #173a99; }
+  .su-fine { margin: 12px 0 0; font-size: 12.5px; line-height: 1.5; color: var(--ink-muted); }
+  .su-fine a { color: var(--brand-blue); font-weight: 600; }
+  
+  /* hero picture is one big play target */
+  .hero .stage { cursor: pointer; }
+  .hero .stage:hover .play-overlay { transform: translate(-50%, -50%) scale(1.08); }
   </style>
 
 <script>
@@ -6783,280 +6807,20 @@
 </div>
 
 <!-- ─── ONBOARDING MODAL ─── -->
-<div class="modal-overlay" id="onboardingModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-  <div class="modal-card">
-    <!-- LEFT PANE · animated illustration stage -->
-    <aside class="modal-stage" aria-hidden="true">
-      <span class="stage-eyebrow">RetailerOS</span>
-      <div class="stage-canvas">
-        <!-- Scene 1 -->
-        <div class="stage-scene scene-1 active" data-scene="1">
-          <div class="scene-art">
-            <div class="r-wrap">
-              <span class="ring r3"></span>
-              <span class="ring r2"></span>
-              <span class="ring r1"></span>
-              <img src="assets/logo-mark.png" alt="" />
-            </div>
-          </div>
-          <div class="scene-text">
-            <p class="stage-line">Welcome aboard.</p>
-            <p class="stage-sub">In a few minutes, your counter is live.</p>
-          </div>
-        </div>
-
-        <!-- Scene 2 -->
-        <div class="stage-scene scene-2" data-scene="2">
-          <div class="scene-art">
-            <span class="bill b1"></span>
-            <span class="bill b2"></span>
-            <span class="bill b3"></span>
-            <span class="bill b4"></span>
-            <div class="tray">
-              <div class="tray-img"><img src="assets/logo-mark.png" alt="" /></div>
-              <div class="tray-base"></div>
-            </div>
-          </div>
-          <div class="scene-text">
-            <p class="stage-line">Tell us about your counter.</p>
-            <p class="stage-sub">Three quick answers help us pick the right plan.</p>
-          </div>
-        </div>
-
-        <!-- Scene 3 -->
-        <div class="stage-scene scene-3" data-scene="3">
-          <div class="scene-art">
-            <div class="tiers">
-              <div class="tier-r t1">
-                <div class="r-img"><img src="assets/logo-mark.png" alt="" /></div>
-                <span class="label">Free</span>
-              </div>
-              <div class="tier-r t2 recommended">
-                <div class="r-img"><img src="assets/logo-mark.png" alt="" /></div>
-                <span class="label">Shop</span>
-              </div>
-              <div class="tier-r t3">
-                <div class="r-img"><img src="assets/logo-mark.png" alt="" /></div>
-                <span class="label">Pro</span>
-              </div>
-            </div>
-          </div>
-          <div class="scene-text">
-            <p class="stage-line">Pick what fits today.</p>
-            <p class="stage-sub">Upgrade or downgrade any time — no contracts.</p>
-          </div>
-        </div>
-
-        <!-- Scene 4 -->
-        <div class="stage-scene scene-4" data-scene="4">
-          <div class="scene-art">
-            <div class="success-burst">
-              <span class="confetti c1"></span>
-              <span class="confetti c2"></span>
-              <span class="confetti c3"></span>
-              <span class="confetti c4"></span>
-              <span class="confetti c5"></span>
-              <div class="burst-r"><img src="assets/logo-mark.png" alt="" /></div>
-              <div class="check-pin">
-                <svg viewBox="0 0 20 20" fill="none">
-                  <path d="M5 10l3 3 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-          <div class="scene-text">
-            <p class="stage-line">You're set up.</p>
-            <p class="stage-sub">Your counter is being prepared right now.</p>
-          </div>
-        </div>
-      </div>
-    </aside>
-
-    <!-- RIGHT PANE · form -->
-    <div class="modal-form">
-    <header class="modal-head">
-      <div class="modal-progress">
-        <span class="dot active" data-step="1"></span>
-        <span class="dot" data-step="2"></span>
-        <span class="dot" data-step="3"></span>
-        <span class="dot" data-step="4"></span>
-      </div>
-      <button class="modal-close" type="button" aria-label="Close">×</button>
-    </header>
-
-    <div class="modal-body">
-      <!-- STEP 1 · Account info -->
-      <section class="step active" data-step="1">
-        <h2 id="modalTitle">Tell us about your store</h2>
-        <p class="step-sub">We'll set up your counter in under 10 minutes.</p>
-
-        <div class="field">
-          <label for="storeName">Store name</label>
-          <input type="text" id="storeName" name="storeName" placeholder="e.g. Patel Telecom" autocomplete="organization" />
-        </div>
-        <div class="field">
-          <label for="gst">GSTIN <span class="optional">optional</span></label>
-          <input type="text" id="gst" name="gst" placeholder="22AAAAA0000A1Z5" maxlength="15" />
-        </div>
-        <div class="field">
-          <label for="phone">Owner mobile</label>
-          <div class="phone-row">
-            <span class="prefix">+91</span>
-            <input type="tel" id="phone" name="phone" placeholder="98••• 6743" maxlength="10" autocomplete="tel-national" inputmode="numeric" />
-          </div>
-        </div>
-        <div class="field" id="otpField" hidden>
-          <label for="otp">Enter OTP <span class="otp-hint">sent to +91 ••••• ••43</span></label>
-          <input type="text" id="otp" name="otp" placeholder="6-digit code" maxlength="6" inputmode="numeric" />
-        </div>
-
-        <div class="step-foot">
-          <button class="modal-btn-primary" id="step1Continue" type="button">
-            <span class="otp-state-send">Send OTP →</span>
-            <span class="otp-state-verify" hidden>Verify &amp; continue →</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- STEP 2 · Qualifying questions -->
-      <section class="step" data-step="2">
-        <h2>How does your counter run today?</h2>
-        <p class="step-sub">This helps us pick the right plan for you.</p>
-
-        <div class="field">
-          <label>Bills per day</label>
-          <div class="chip-row" data-name="billsPerDay">
-            <button type="button" class="chip" data-value="0-10">0-10</button>
-            <button type="button" class="chip" data-value="11-25">11-25</button>
-            <button type="button" class="chip" data-value="26-50">26-50</button>
-            <button type="button" class="chip" data-value="50+">50+</button>
-          </div>
-        </div>
-        <div class="field">
-          <label>How do you bill today?</label>
-          <div class="chip-row" data-name="currentMethod">
-            <button type="button" class="chip" data-value="paper">Pen &amp; paper</button>
-            <button type="button" class="chip" data-value="tally">Tally</button>
-            <button type="button" class="chip" data-value="vyapar">Vyapar</button>
-            <button type="button" class="chip" data-value="other">Other software</button>
-            <button type="button" class="chip" data-value="none">I don't bill</button>
-          </div>
-        </div>
-        <div class="field">
-          <label>How many brands do you carry?</label>
-          <div class="chip-row" data-name="brands">
-            <button type="button" class="chip" data-value="1-3">1-3</button>
-            <button type="button" class="chip" data-value="4-10">4-10</button>
-            <button type="button" class="chip" data-value="11-25">11-25</button>
-            <button type="button" class="chip" data-value="25+">25+</button>
-          </div>
-        </div>
-
-        <div class="step-foot">
-          <button class="modal-btn-back" type="button" data-action="back">← Back</button>
-          <button class="modal-btn-primary" type="button" data-action="next">Continue →</button>
-        </div>
-      </section>
-
-      <!-- STEP 3 · Plan offer -->
-      <section class="step" data-step="3">
-        <h2>Pick your plan</h2>
-        <p class="step-sub" id="planSub">Based on your answers, we recommend the Starter plan.</p>
-
-        <div class="plan-grid plan-grid-vertical">
-          <article class="plan-card" data-plan="free">
-            <span class="plan-badge">Recommended</span>
-            <header class="plan-head">
-              <div>
-                <h3>Free</h3>
-                <p class="plan-cap">50 bills/mo · 1 staff · 1 store</p>
-              </div>
-              <div class="plan-price"><span class="num">₹0</span><span class="per">forever</span></div>
-            </header>
-            <ul class="plan-features">
-              <li>Basic Sales + 100 customers</li>
-              <li>200 IMEI records</li>
-              <li>Browse-only Marketplace</li>
-            </ul>
-            <button class="plan-choose" type="button" data-plan="free">Choose Free</button>
-          </article>
-
-          <article class="plan-card recommended" data-plan="starter">
-            <span class="plan-badge">Recommended</span>
-            <header class="plan-head">
-              <div>
-                <h3>Shop</h3>
-                <p class="plan-cap">750 bills/mo · 3 logins · 14-day trial</p>
-              </div>
-              <div class="plan-price"><span class="num">₹3,999</span><span class="per">/ month</span></div>
-            </header>
-            <ul class="plan-features">
-              <li>20 of 26 modules · Repairs · Claims · Reports</li>
-              <li>Unlimited customer &amp; IMEI history</li>
-              <li>200 WhatsApp messages / month</li>
-            </ul>
-            <button class="plan-choose" type="button" data-plan="starter">Choose Shop</button>
-          </article>
-
-          <article class="plan-card" data-plan="pro">
-            <span class="plan-badge">Recommended</span>
-            <header class="plan-head">
-              <div>
-                <h3>Pro</h3>
-                <p class="plan-cap">Unlimited bills</p>
-              </div>
-              <div class="plan-price"><span class="num">₹7,499</span><span class="per">/ mo first store</span></div>
-            </header>
-            <ul class="plan-features">
-              <li>All 26 modules · Stores · Marketing · Automation</li>
-              <li>2,000 WhatsApp messages / month</li>
-              <li>Priority 12h support + phone callback</li>
-            </ul>
-            <button class="plan-choose" type="button" data-plan="pro">Choose Pro</button>
-          </article>
-        </div>
-
-        <p class="plan-foot-note">
-          Running multiple stores or a multi-city chain? <a href="#book-demo" class="enterprise-link" data-demo-open>Talk to us about a custom rollout →</a>
-        </p>
-
-        <div class="step-foot">
-          <button class="modal-btn-back" type="button" data-action="back">← Back</button>
-        </div>
-      </section>
-
-      <!-- STEP 4 · Confirmation -->
-      <section class="step" data-step="4">
-        <div class="success-mark">
-          <svg width="56" height="56" viewBox="0 0 56 56" aria-hidden="true">
-            <circle class="check-circle" cx="28" cy="28" r="26" />
-            <path class="check-tick" d="M16 29 L25 38 L41 19" />
-          </svg>
-        </div>
-        <h2 id="successTitle">You're all set!</h2>
-        <p class="step-sub" id="successSub">Setting up your counter — this'll take just a moment.</p>
-
-        <div class="setup-progress">
-          <div class="setup-line">
-            <span class="setup-dot done"></span>
-            Account created
-          </div>
-          <div class="setup-line">
-            <span class="setup-dot done"></span>
-            Plan activated
-          </div>
-          <div class="setup-line">
-            <span class="setup-dot pending"></span>
-            Loading your dashboard…
-          </div>
-        </div>
-
-        <div class="step-foot center">
-          <a href="https://app.retaileros.in/login" class="modal-btn-primary" id="openCounter">Open my counter →</a>
-        </div>
-      </section>
-    </div>
-    </div><!-- /.modal-form -->
+<div class="modal-overlay su-overlay" id="onboardingModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="suTitle">
+  <div class="su-card">
+    <button class="modal-close" type="button" aria-label="Close">×</button>
+    <img class="su-mark" src="assets/logo-mark.png" alt="" width="44" height="44">
+    <h2 id="suTitle">Start RetailerOS free</h2>
+    <ul class="su-ticks"><li>Free forever up to 50 bills a month</li><li>No card needed</li><li>Your counter live in about 10 minutes</li></ul>
+    <form id="suForm" novalidate>
+      <label class="su-field"><span>Shop name</span><input id="suStore" name="store" autocomplete="organization" placeholder="e.g. Mhatre Mobiles" required></label>
+      <label class="su-field"><span>Mobile number</span>
+        <span class="su-phone"><em>+91</em><input id="suPhone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="98765 43210" maxlength="11" required></span></label>
+      <p class="su-err" id="suErr" role="alert"></p>
+      <button type="submit" class="su-go">Create my free account →</button>
+      <p class="su-fine">Next, you'll confirm your number with a one-time code on app.retaileros.in. Already have an account? <a href="https://app.retaileros.in/login" class="signin" data-label-in="Access account">Sign in</a></p>
+    </form>
   </div>
 </div>
 
@@ -7415,15 +7179,18 @@
       soundBtn.addEventListener('click', () => { try { player.unMute(); player.setVolume(100); player.playVideo(); } catch (e) {} soundBtn.remove(); soundBtn = null; });
       frame.appendChild(soundBtn);
     }
+    // no captions: cc_load_policy=0 only stops them defaulting on; unloading the module also overrides a viewer's own 'always show captions' setting
+    function captionsOff(p) { try { p.unloadModule('captions'); p.unloadModule('cc'); p.setOption('captions', 'track', {}); } catch (err) {} }
     function start(id) {
       frame.querySelectorAll('iframe, #videoPlayer').forEach(n => n.remove());
       const host = document.createElement('div'); host.id = 'videoPlayer'; frame.appendChild(host);
       player = new YT.Player('videoPlayer', {
         videoId: id,
-        playerVars: { autoplay: 1, playsinline: 1, rel: 0, modestbranding: 1, vq: 'hd1080' },
+        playerVars: { autoplay: 1, playsinline: 1, rel: 0, modestbranding: 1, vq: 'hd1440', cc_load_policy: 0, iv_load_policy: 3 },
         events: {
           onReady: (e) => {
-            try { e.target.setPlaybackQuality('highres'); } catch (err) {}
+            try { e.target.setPlaybackQuality('hd1440'); } catch (err) {}
+            captionsOff(e.target);
             e.target.unMute(); e.target.playVideo();
             // if sound autoplay was blocked, the video won't be playing — start muted instead
             setTimeout(() => {
@@ -7433,14 +7200,17 @@
             }, 1300);
             if (window.rosTrack) rosTrack('video_start', { video_id: id });
           },
-          onStateChange: (e) => { if (e.data === YT.PlayerState.ENDED && window.rosTrack) rosTrack('video_complete', { video_id: id }); }
+          onStateChange: (e) => {
+            if (e.data === YT.PlayerState.PLAYING) captionsOff(e.target);
+            if (e.data === YT.PlayerState.ENDED && window.rosTrack) rosTrack('video_complete', { video_id: id });
+          }
         }
       });
     }
     function fallbackIframe(id) {     // if the API can't load (blocked network), plain embed, muted so it still autoplays
       frame.querySelectorAll('iframe, #videoPlayer').forEach(n => n.remove());
       const f = document.createElement('iframe');
-      f.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1&vq=hd1080';
+      f.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1&vq=hd1440&cc_load_policy=0&iv_load_policy=3';
       f.title = 'RetailerOS product tour'; f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
       f.referrerPolicy = 'strict-origin-when-cross-origin'; f.allowFullscreen = true; frame.appendChild(f);
     }
@@ -7460,6 +7230,12 @@
       if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
     }
     triggers.forEach(tr => tr.addEventListener('click', e => { e.preventDefault(); open(tr.dataset.video); }));
+    // the whole hero picture plays the tour — screen, presenter and cards, not only the round button
+    const stage = document.querySelector('.hero .stage');
+    if (stage && triggers[0]) {
+      stage.style.cursor = 'pointer';
+      stage.addEventListener('click', e => { if (e.target.closest('.play-overlay')) return; e.preventDefault(); open(triggers[0].dataset.video); });
+    }
     if (closeBtn) closeBtn.addEventListener('click', close);
     modal.addEventListener('click', e => { if (e.target === modal) close(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
@@ -7468,168 +7244,40 @@
 
   // Onboarding modal — multi-step signup flow
   (function () {
+    /* Start free: one honest step. Shop name + mobile, then the real signup on
+       app.retaileros.in (where the OTP is sent). Nothing is "created" on this page. */
     const modal = document.getElementById('onboardingModal');
     if (!modal) return;
-
-    const closeBtn = modal.querySelector('.modal-close');
-    const dots = modal.querySelectorAll('.modal-progress .dot');
-    const steps = modal.querySelectorAll('.step');
-    const triggers = document.querySelectorAll('[data-cta="onboard"]');
-
-    const state = {
-      step: 1,
-      otpSent: false,
-      preferredPlan: '',
-      data: {
-        storeName: '', gst: '', phone: '', otp: '',
-        billsPerDay: '', currentMethod: '', brands: '', plan: ''
-      }
-    };
-
+    const form = document.getElementById('suForm'), store = document.getElementById('suStore'), phone = document.getElementById('suPhone'), err = document.getElementById('suErr');
+    let plan = '';
     function open(e) {
       if (e) e.preventDefault();
-      modal.classList.add('open');
-      modal.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-      setTimeout(() => {
-        const input = steps[state.step - 1].querySelector('input:not([hidden])');
-        if (input) input.focus();
-      }, 320);
+      const t = e && e.currentTarget; plan = (t && t.getAttribute && t.getAttribute('data-plan')) || '';
+      modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false');
+      if (window.rosLockScroll) rosLockScroll(); else document.body.style.overflow = 'hidden';
+      setTimeout(() => store.focus(), 60);
     }
     function close() {
-      modal.classList.remove('open');
-      modal.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
+      modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true');
+      if (window.rosUnlockScroll) rosUnlockScroll(); else document.body.style.overflow = '';
     }
-    const scenes = modal.querySelectorAll('.stage-scene');
-    function goTo(n) {
-      if (n < 1 || n > 4) return;
-      state.step = n;
-      steps.forEach((s, i) => s.classList.toggle('active', i + 1 === n));
-      dots.forEach((d, i) => {
-        d.classList.toggle('active', i + 1 === n);
-        d.classList.toggle('done', i + 1 < n);
-      });
-      scenes.forEach((s, i) => s.classList.toggle('active', i + 1 === n));
-      const formCol = modal.querySelector('.modal-form .modal-body');
-      if (formCol) formCol.scrollTop = 0;
-      setTimeout(() => {
-        const input = steps[n - 1].querySelector('input:not([hidden])');
-        if (input) input.focus();
-      }, 320);
-    }
-
-    triggers.forEach(t => t.addEventListener('click', (e) => {
-      if (t.dataset.plan) state.preferredPlan = t.dataset.plan;
-      open(e);
-    }));
-    closeBtn.addEventListener('click', close);
+    document.querySelectorAll('[data-cta="onboard"]').forEach(el => el.addEventListener('click', open));
+    modal.querySelector('.modal-close').addEventListener('click', close);
     modal.addEventListener('click', e => { if (e.target === modal) close(); });
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && modal.classList.contains('open')) close();
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
+    phone.addEventListener('input', () => { phone.value = phone.value.replace(/[^0-9 ]/g, ''); });
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const s = store.value.trim(), p = phone.value.replace(/\D/g, '').replace(/^91(?=\d{10}$)/, '');
+      if (!s) { err.textContent = 'Please add your shop name.'; store.focus(); return; }
+      if (!/^[6-9]\d{9}$/.test(p)) { err.textContent = 'Please enter a 10-digit Indian mobile number.'; phone.focus(); return; }
+      err.textContent = '';
+      const q = new URLSearchParams({ store: s, phone: p });
+      if (plan) q.set('plan', plan === 'chain' ? 'pro' : plan);
+      const v = window.rosVisitor || {}; if (v.src1) q.set('utm_source', v.src1); if (v.camp) q.set('utm_campaign', v.camp);
+      if (window.rosTrack) rosTrack('sign_up_start', { method: 'website_form', plan: plan || 'free' });
+      location.href = 'https://app.retaileros.in/signup?' + q.toString();
     });
-
-    // STEP 1 — phone + OTP placeholder flow
-    const step1 = steps[0];
-    const storeNameInput = step1.querySelector('#storeName');
-    const gstInput = step1.querySelector('#gst');
-    const phoneInput = step1.querySelector('#phone');
-    const otpField = step1.querySelector('#otpField');
-    const otpInput = step1.querySelector('#otp');
-    const otpHint = step1.querySelector('.otp-hint');
-    const step1Btn = step1.querySelector('#step1Continue');
-    const sendState = step1Btn.querySelector('.otp-state-send');
-    const verifyState = step1Btn.querySelector('.otp-state-verify');
-
-    phoneInput.addEventListener('input', () => {
-      phoneInput.value = phoneInput.value.replace(/\D/g, '').slice(0, 10);
-    });
-    otpInput.addEventListener('input', () => {
-      otpInput.value = otpInput.value.replace(/\D/g, '').slice(0, 6);
-    });
-
-    step1Btn.addEventListener('click', () => {
-      if (!state.otpSent) {
-        const storeName = storeNameInput.value.trim();
-        const phone = phoneInput.value.trim();
-        if (!storeName) { storeNameInput.focus(); return; }
-        if (phone.length !== 10) { phoneInput.focus(); return; }
-        state.data.storeName = storeName;
-        state.data.gst = gstInput.value.trim();
-        state.data.phone = phone;
-        otpField.hidden = false;
-        otpHint.textContent = 'sent to +91 ••••• ••' + phone.slice(-2);
-        sendState.hidden = true;
-        verifyState.hidden = false;
-        state.otpSent = true;
-        otpInput.focus();
-      } else {
-        const otp = otpInput.value.trim();
-        if (otp.length !== 6) { otpInput.focus(); return; }
-        state.data.otp = otp;
-        goTo(2);
-      }
-    });
-
-    // STEP 2 — chip selection + recommend plan
-    const step2 = steps[1];
-    step2.querySelectorAll('.chip-row').forEach(row => {
-      row.querySelectorAll('.chip').forEach(chip => {
-        chip.addEventListener('click', () => {
-          row.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
-          chip.classList.add('selected');
-          state.data[row.dataset.name] = chip.dataset.value;
-        });
-      });
-    });
-    step2.querySelector('[data-action="next"]').addEventListener('click', () => {
-      if (!state.data.billsPerDay || !state.data.currentMethod || !state.data.brands) {
-        const firstUnselected = step2.querySelector('.chip-row:not(:has(.selected))');
-        if (firstUnselected) firstUnselected.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        return;
-      }
-      const recommended = state.preferredPlan || recommendPlan(state.data.billsPerDay, state.data.currentMethod);
-      state.data.plan = recommended;
-      updatePlanRecommendation(recommended);
-      goTo(3);
-    });
-    step2.querySelector('[data-action="back"]').addEventListener('click', () => goTo(1));
-
-    function recommendPlan(bills, currentMethod) {
-      if (currentMethod === 'none') return 'free';
-      if (bills === '0-10') return 'starter';
-      if (bills === '11-25') return 'starter';
-      return 'pro';
-    }
-    function updatePlanRecommendation(plan) {
-      const sub = modal.querySelector('#planSub');
-      const labels = {
-        free: 'Just getting started? The Free plan covers you for now.',
-        starter: 'Based on your volume, we recommend the Starter plan.',
-        pro: 'Based on your volume, we recommend the Pro plan.'
-      };
-      if (sub && labels[plan]) sub.textContent = labels[plan];
-      modal.querySelectorAll('.plan-card').forEach(c => {
-        c.classList.toggle('recommended', c.dataset.plan === plan);
-      });
-      modal.querySelectorAll('.tier-r').forEach(t => t.classList.remove('recommended'));
-      const sceneTierMap = { free: '.tier-r.t1', starter: '.tier-r.t2', pro: '.tier-r.t3' };
-      const tierEl = modal.querySelector(sceneTierMap[plan]);
-      if (tierEl) tierEl.classList.add('recommended');
-    }
-
-    // STEP 3 — plan choose
-    modal.querySelectorAll('.plan-choose').forEach(btn => {
-      btn.addEventListener('click', () => {
-        state.data.plan = btn.dataset.plan;
-        const planNames = { free: 'Free', starter: 'Shop', pro: 'Pro', shop: 'Shop', chain: 'Pro' };
-        modal.querySelector('#successTitle').textContent = "You're all set!";
-        modal.querySelector('#successSub').textContent =
-          'Activating your ' + (planNames[state.data.plan] || state.data.plan) + ' counter — this\'ll take just a moment.';
-        goTo(4);
-      });
-    });
-    steps[2].querySelector('[data-action="back"]').addEventListener('click', () => goTo(2));
   })();
 
   // Chatbot — pre-defined conversation tree with escalation form
