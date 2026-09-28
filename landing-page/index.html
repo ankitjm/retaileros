@@ -5688,6 +5688,15 @@
   
   /* The "What changes at the counter" strip sits on its own layer: the hero's layers were painting over its top half on desktop */
   .trust { position: relative; z-index: 3; }
+  
+  /* product tour player: as large as the screen allows (bigger player → YouTube picks higher quality) */
+  .video-overlay .video-frame { position: relative; width: min(96vw, calc(88vh * 16 / 9), 1600px); aspect-ratio: 16 / 9; background: #000; }
+  .video-overlay .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .video-overlay .video-frame:fullscreen { width: 100vw; height: 100vh; aspect-ratio: auto; }
+  .video-sound { position: absolute; left: 50%; bottom: 14%; transform: translateX(-50%); z-index: 3; border: 0; border-radius: 999px;
+    padding: 12px 20px; background: rgba(255,255,255,.95); color: #0B1220; font: 700 15px/1 var(--font-body, system-ui); cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0,0,0,.4); animation: vs-pulse 1.6s ease-in-out infinite; }
+  @keyframes vs-pulse { 50% { transform: translateX(-50%) scale(1.06); } }
   </style>
 
 <script>
@@ -5795,7 +5804,7 @@
     <div class="dash">
       <div class="live"><span class="dot"></span> Live</div>
       <img src="uploads/01-dashboard.png" alt="RetailerOS dashboard" />
-      <button class="play-overlay" type="button" data-video="ZM76wIMnGYI" aria-label="Watch product tour">
+      <button class="play-overlay" type="button" data-video="gqq8JpArm8M" aria-label="Watch product tour">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <polygon points="8,5 8,19 19,12" fill="currentColor"/>
         </svg>
@@ -6766,11 +6775,10 @@
 </footer>
 
 <!-- ─── VIDEO MODAL ─── -->
-<!-- Video ID is set on .play-overlay's data-video attribute. Current: ZM76wIMnGYI -->
+<!-- Video ID is set on .play-overlay's data-video attribute. Current: gqq8JpArm8M (product tour, 28 Sep 2026) -->
 <div class="video-overlay" id="videoModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Product tour video">
   <button class="video-close" type="button" aria-label="Close video">×</button>
   <div class="video-frame">
-    <iframe id="videoIframe" src="" title="Product tour" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
   </div>
 </div>
 
@@ -7377,38 +7385,85 @@
 
   // Video modal — YouTube embed
   (function () {
+    /* Product tour. YouTube IFrame API so it can autoplay WITH sound when the browser allows
+       (the play tap is a user gesture); if the browser blocks sound (common on phones), it
+       starts muted and shows a big "Tap for sound" button. On phones it opens full-screen,
+       which makes YouTube stream its highest resolution. The API script is preloaded after
+       the page loads so the tap's gesture is still valid when playVideo() runs. */
     const modal = document.getElementById('videoModal');
-    const iframe = document.getElementById('videoIframe');
+    const frame = modal && modal.querySelector('.video-frame');
     const closeBtn = modal && modal.querySelector('.video-close');
     const triggers = document.querySelectorAll('.play-overlay');
-    if (!modal || !iframe) return;
+    if (!modal || !frame) return;
+    const DEFAULT_ID = 'gqq8JpArm8M';
+    let player = null, apiReady = false, pending = null, soundBtn = null;
 
+    function loadApi() {
+      if (window.YT && window.YT.Player) { apiReady = true; return; }
+      if (document.getElementById('yt-api')) return;
+      const prev = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = function () { apiReady = true; if (prev) prev(); if (pending) { const id = pending; pending = null; start(id); } };
+      const s = document.createElement('script'); s.id = 'yt-api'; s.src = 'https://www.youtube.com/iframe_api'; s.async = true;
+      document.head.appendChild(s);
+    }
+    if (document.readyState === 'complete') setTimeout(loadApi, 1500); else addEventListener('load', () => setTimeout(loadApi, 1500));
+
+    function showSoundButton() {
+      if (soundBtn) return;
+      soundBtn = document.createElement('button'); soundBtn.type = 'button'; soundBtn.className = 'video-sound';
+      soundBtn.innerHTML = '🔊 Tap for sound';
+      soundBtn.addEventListener('click', () => { try { player.unMute(); player.setVolume(100); player.playVideo(); } catch (e) {} soundBtn.remove(); soundBtn = null; });
+      frame.appendChild(soundBtn);
+    }
+    function start(id) {
+      frame.querySelectorAll('iframe, #videoPlayer').forEach(n => n.remove());
+      const host = document.createElement('div'); host.id = 'videoPlayer'; frame.appendChild(host);
+      player = new YT.Player('videoPlayer', {
+        videoId: id,
+        playerVars: { autoplay: 1, playsinline: 1, rel: 0, modestbranding: 1, vq: 'hd1080' },
+        events: {
+          onReady: (e) => {
+            try { e.target.setPlaybackQuality('highres'); } catch (err) {}
+            e.target.unMute(); e.target.playVideo();
+            // if sound autoplay was blocked, the video won't be playing — start muted instead
+            setTimeout(() => {
+              const st = e.target.getPlayerState();
+              if (st !== YT.PlayerState.PLAYING && st !== YT.PlayerState.BUFFERING) { e.target.mute(); e.target.playVideo(); showSoundButton(); }
+              else if (e.target.isMuted && e.target.isMuted()) showSoundButton();
+            }, 1300);
+            if (window.rosTrack) rosTrack('video_start', { video_id: id });
+          },
+          onStateChange: (e) => { if (e.data === YT.PlayerState.ENDED && window.rosTrack) rosTrack('video_complete', { video_id: id }); }
+        }
+      });
+    }
+    function fallbackIframe(id) {     // if the API can't load (blocked network), plain embed, muted so it still autoplays
+      frame.querySelectorAll('iframe, #videoPlayer').forEach(n => n.remove());
+      const f = document.createElement('iframe');
+      f.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1&vq=hd1080';
+      f.title = 'RetailerOS product tour'; f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      f.referrerPolicy = 'strict-origin-when-cross-origin'; f.allowFullscreen = true; frame.appendChild(f);
+    }
     function open(videoId) {
-      const id = videoId || 'ZM76wIMnGYI';
-      // mute=1 is required for autoplay in Chrome/Safari/Firefox (autoplay-with-sound is blocked)
-      // playsinline=1 keeps it embedded on iOS Safari instead of forcing fullscreen
-      // controls=1 (default) gives the user a fallback if autoplay is blocked
-      iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1';
-      modal.classList.add('open');
-      modal.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
+      const id = videoId || DEFAULT_ID;
+      modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden';
+      // phones: go full-screen inside the tap, so the player is as large as the screen (→ highest quality)
+      if (matchMedia('(max-width: 760px)').matches && frame.requestFullscreen) { frame.requestFullscreen().catch(() => {}); }
+      if (apiReady && window.YT && YT.Player) start(id);
+      else { pending = id; loadApi(); setTimeout(() => { if (pending) { pending = null; fallbackIframe(id); } }, 3500); }
     }
     function close() {
-      modal.classList.remove('open');
-      modal.setAttribute('aria-hidden', 'true');
-      iframe.src = '';
-      document.body.style.overflow = '';
+      modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true'); document.body.style.overflow = '';
+      try { if (player) { player.destroy(); player = null; } } catch (e) {}
+      frame.querySelectorAll('iframe, #videoPlayer').forEach(n => n.remove());
+      if (soundBtn) { soundBtn.remove(); soundBtn = null; }
+      if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
     }
-
-    triggers.forEach(t => t.addEventListener('click', e => {
-      e.preventDefault();
-      open(t.dataset.video);
-    }));
+    triggers.forEach(tr => tr.addEventListener('click', e => { e.preventDefault(); open(tr.dataset.video); }));
     if (closeBtn) closeBtn.addEventListener('click', close);
     modal.addEventListener('click', e => { if (e.target === modal) close(); });
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && modal.classList.contains('open')) close();
-    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
+    document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && modal.classList.contains('open') && matchMedia('(max-width: 760px)').matches) {/* keep playing in the modal */} });
   })();
 
   // Onboarding modal — multi-step signup flow
