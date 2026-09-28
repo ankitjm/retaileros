@@ -5726,9 +5726,12 @@
     .video-stack { gap: 14px; padding-top: 44px; }
     .video-overlay .video-frame { width: 100%; }
     .video-sub { display: none; }
-    .video-cta-btns { flex-direction: column; width: 100%; }
-    .video-cta-btns a { width: 100%; }
+    .video-cta-btns { width: 100%; flex-wrap: nowrap; }
+    .video-cta-btns a { flex: 1 1 0; padding: 0 12px; white-space: nowrap; }
+    .vc-long { display: none; }
   }
+  /* portrait tour on phones: 9:16 player sized to leave room for the heading and buttons */
+  @media (max-width: 760px) { .video-overlay.portrait .video-frame { aspect-ratio: 9 / 16; width: min(100%, calc((100svh - 300px) * 9 / 16)); min-width: 0; border-radius: 14px; } }
   @media (max-height: 560px) and (min-width: 621px) { .video-sub, .video-cta-line, .video-cta-fine { display: none; } .video-stack { gap: 10px; } }
   
   /* Start free — single step */
@@ -6847,7 +6850,7 @@
       <p class="video-cta-line">Ready to try it at your counter?</p>
       <div class="video-cta-btns">
         <a href="/#start" class="video-cta-primary" data-cta="onboard">Start free &rarr;</a>
-        <a href="/#book-demo" class="video-cta-ghost" data-demo-open>Book a 15-minute demo</a>
+        <a href="/#book-demo" class="video-cta-ghost" data-demo-open>Book a <span class="vc-long">15-minute </span>demo</a>
       </div>
       <p class="video-cta-fine">Free plan &middot; no card needed</p>
     </div>
@@ -7208,6 +7211,9 @@
     const triggers = document.querySelectorAll('.play-overlay');
     if (!modal || !frame) return;
     const DEFAULT_ID = 'gqq8JpArm8M';
+    // portrait cut for phones (YouTube Short). While it is private or blocked from embedding, onError falls back to DEFAULT_ID.
+    const MOBILE_ID = '-SfQLdFtysc';
+    const wantsPortrait = () => matchMedia('(max-width: 760px) and (orientation: portrait)').matches;
     let player = null, apiReady = false, pending = null, soundBtn = null;
 
     function loadApi() {
@@ -7249,6 +7255,9 @@
             }, 1300);
             if (window.rosTrack) rosTrack('video_start', { video_id: id });
           },
+          onError: () => {                     // private / not embeddable / removed → play the landscape tour instead
+            if (id !== DEFAULT_ID) { modal.classList.remove('portrait'); start(DEFAULT_ID); }
+          },
           onStateChange: (e) => {
             if (e.data === YT.PlayerState.PLAYING) captionsOff(e.target);
             if (e.data === YT.PlayerState.ENDED) { modal.classList.add('ended'); if (window.rosTrack) rosTrack('video_complete', { video_id: id }); }
@@ -7265,18 +7274,20 @@
       f.referrerPolicy = 'strict-origin-when-cross-origin'; f.allowFullscreen = true; frame.appendChild(f);
     }
     function open(videoId) {
-      const id = videoId || DEFAULT_ID;
       if (modal.classList.contains('open')) return;
+      const portrait = wantsPortrait() && MOBILE_ID;
+      const id = portrait ? MOBILE_ID : (videoId || DEFAULT_ID);
+      modal.classList.toggle('portrait', !!portrait);
       modal.classList.add('open'); modal.classList.remove('ended'); modal.setAttribute('aria-hidden', 'false');
       if (window.rosLockScroll) rosLockScroll(); else document.body.style.overflow = 'hidden';
-      // phones: go full-screen inside the tap, so the player is as large as the screen (→ highest quality)
-      if (matchMedia('(max-width: 760px)').matches && frame.requestFullscreen) { frame.requestFullscreen().catch(() => {}); }
+      // small landscape screens: go full-screen inside the tap so the player is as large as possible (portrait phones keep the heading and buttons visible)
+      if (!portrait && matchMedia('(max-width: 760px)').matches && frame.requestFullscreen) { frame.requestFullscreen().catch(() => {}); }
       if (apiReady && window.YT && YT.Player) start(id);
-      else { pending = id; loadApi(); setTimeout(() => { if (pending) { pending = null; fallbackIframe(id); } }, 3500); }
+      else { pending = id; loadApi(); setTimeout(() => { if (pending) { pending = null; modal.classList.remove('portrait'); fallbackIframe(DEFAULT_ID); } }, 3500); }
     }
     function close() {
       if (!modal.classList.contains('open')) return;
-      modal.classList.remove('open', 'ended'); modal.setAttribute('aria-hidden', 'true');
+      modal.classList.remove('open', 'ended', 'portrait'); modal.setAttribute('aria-hidden', 'true');
       if (window.rosUnlockScroll) rosUnlockScroll(); else document.body.style.overflow = '';
       try { if (player) { player.destroy(); player = null; } } catch (e) {}
       frame.querySelectorAll('iframe, #videoPlayer').forEach(n => n.remove());
