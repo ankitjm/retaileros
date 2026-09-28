@@ -236,7 +236,7 @@
     color: var(--ink);
     background: var(--bg-page);
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
   a { color: inherit; text-decoration: none; }
 
@@ -5089,7 +5089,7 @@
   }
 
   /* 5 · Belt-and-braces: nothing may push the page sideways. */
-  html, body { max-width: 100%; overflow-x: hidden; }
+  html, body { max-width: 100%; overflow-x: clip; }
 
   /* ───────────────────────────────────────
      NAV / HERO MOBILE FIXES
@@ -5350,6 +5350,9 @@
   --x-disp:'Space Grotesk',system-ui,sans-serif; --x-body:'Inter',system-ui,sans-serif; --x-mono:'JetBrains Mono',ui-monospace,monospace;
   --x-r:18px; --x-wrap:1180px; --x-g:20px;
 }
+/* The header is sticky, so anchor targets must stop below it. */
+html{scroll-padding-top:96px}
+@media (max-width:760px){html{scroll-padding-top:72px}}
 .x{font-family:var(--x-body);-webkit-font-smoothing:antialiased;overflow-x:clip}
 .x *,.x *::before,.x *::after{box-sizing:border-box}
 .x :where(h1,h2,h3,h4,p,li,dt,dd,figure){margin:0;color:inherit}
@@ -5549,8 +5552,8 @@
 .x-pnote{font-size:13px;color:var(--x-soft);min-height:2.6em;line-height:1.45} .x-hot .x-pnote{color:var(--x-dsoft)}
 .x-pnote b{color:var(--x-blue)} .x-hot .x-pnote b{color:var(--x-or2)}
 .x-feat{display:grid;gap:9px;font-size:14.5px}
-.x-feat li{display:flex;gap:9px;line-height:1.45}
-.x-feat li::before{content:"✓";color:#16A34A;font-weight:700;flex:none}
+.x-feat li{position:relative;padding-left:22px;line-height:1.45}
+.x-feat li::before{content:"✓";position:absolute;left:0;top:0;color:#16A34A;font-weight:700}
 .x-hot .x-feat li::before{color:var(--x-green)}
 .x-plan .x-btn{width:100%;margin-top:auto}
 .x-pfoot{margin-top:24px;font-size:14px;color:var(--x-soft)}
@@ -5624,6 +5627,17 @@
   .x-rv{opacity:1;transform:none;transition:none}
   .x-live::before{animation:none}
 }
+
+/* The header is sticky and now passes over the dark sections — keep it opaque
+   (translucent + blur let the dark type ghost through on a phone). */
+.nav{background:#F4F7FB}
+.nav.scrolled{box-shadow:0 2px 16px rgba(10,11,20,.14)}
+
+/* The sticky bar shares the bottom of the screen with the two floating
+   buttons — lift them clear while it is showing. */
+body.x-bar-on .whatsapp-fab{bottom:calc(84px + env(safe-area-inset-bottom,0px));transition:bottom .25s}
+body.x-bar-on .chatbot-btn,body.x-bar-on #chatbotBtn{bottom:calc(84px + env(safe-area-inset-bottom,0px));transition:bottom .25s}
+
 
 </style>
 </head>
@@ -7582,13 +7596,24 @@
       Array.prototype.forEach.call(rv, function (el, i) { el.style.transitionDelay = (i % 4) * 70 + 'ms'; io.observe(el); });
     }
 
-    /* ---------- sticky mobile CTA: after the hero, hidden over the leak check ---------- */
+    /* ---------- sticky mobile CTA: after the hero, out of the way of the leak check ---------- */
     var st = $('xSticky'), hero = document.querySelector('.x-hero'), lm = $('leak-check');
-    if (st && hero && 'IntersectionObserver' in window) {
-      var pastHero = false, onLm = false;
-      function upd() { st.classList.toggle('on', pastHero && !onLm); }
-      new IntersectionObserver(function (es) { pastHero = !es[0].isIntersecting; upd(); }).observe(hero);
-      if (lm) new IntersectionObserver(function (es) { onLm = es[0].isIntersecting; upd(); }, { threshold: 0.15 }).observe(lm);
+    if (st && hero) {
+      var tick = false;
+      function place() {
+        tick = false;
+        var on = hero.getBoundingClientRect().bottom < 40;
+        if (on && lm) {
+          var r = lm.getBoundingClientRect();
+          var shown = Math.min(r.bottom, innerHeight) - Math.max(r.top, 0);
+          if (shown > innerHeight * 0.6) on = false;   // the tool itself fills the screen
+        }
+        st.classList.toggle('on', on);
+        document.body.classList.toggle('x-bar-on', on);
+      }
+      addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(place); } }, { passive: true });
+      addEventListener('resize', place);
+      place();
     }
 
     /* ---------- funnel events on the main CTAs ---------- */
