@@ -6,8 +6,10 @@ Static generator for the retaileros.in multi-page site.
     python3 tools/build_site.py            # writes pages into landing-page/
 
 Generates /pricing/, /compare/*, /solutions/*. The homepage (index.html),
-answers.html and the legal pages are hand-maintained and NOT touched here,
-except sitemap.xml, which is rewritten to include every page.
+answers.html, resources.html and the legal pages are hand-maintained; the build
+touches only two things in them: the site header (between the SITE-HEADER
+markers, from tools/site_header.py) and the header.css/header.js cache-bust
+versions. It also rewrites sitemap.xml, and copies index.html to hero.html.
 
 Content lives in tools/site_content.py. Every FAQ's JSON-LD is produced from
 the same data as the visible FAQ, so the two cannot drift apart.
@@ -23,6 +25,7 @@ TODAY = '2026-09-22'
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import site_content as C  # noqa: E402
+import site_header as H   # noqa: E402
 
 # ── pricing: single source of truth ───────────────────────────
 PRICE = {
@@ -54,42 +57,9 @@ def asset_ver(name):
         return hashlib.sha1(f.read()).hexdigest()[:10]
 
 CSS_V, JS_V = asset_ver('site.css'), asset_ver('site.js')
+HCSS_V, HJS_V = asset_ver('header.css'), asset_ver('header.js')
 
 # ── layout ────────────────────────────────────────────────────
-NAV = [('Product', '/#modules'), ('Solutions', '/solutions/'), ('Pricing', '/pricing/'),
-       ('Compare', '/compare/'), ('Answers', '/answers.html')]
-
-def header(active):
-    links = ''.join('<a href="%s"%s>%s</a>' % (h, ' aria-current="page"' if n == active else '', n)
-                    for n, h in NAV)
-    return '''<header class="site-head">
-  <div class="wrap head-in">
-    <a class="brand" href="/" aria-label="RetailerOS home">
-      <img class="mark" src="/assets/logo-mark.png" alt="" width="34" height="34">
-      <img class="word" src="/assets/logo-wordmark.png" alt="RetailerOS" width="111" height="21">
-    </a>
-    <nav class="nav" aria-label="Main">%s</nav>
-    <div class="head-cta">
-      <a class="signin" href="https://app.retaileros.in/login">Sign in</a>
-      <a class="btn btn-primary btn-sm" href="/#start">Start free</a>
-      <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span></button>
-    </div>
-  </div>
-</header>
-<nav class="mnav" id="mnav" aria-label="Menu" aria-hidden="true">
-  <button class="menu-btn mnav-close" type="button" aria-label="Close menu" style="display:inline-flex">✕</button>
-  %s
-  <div class="mnav-group">Solutions</div>
-  %s
-  <div class="mnav-group">Compare</div>
-  %s
-  <a class="signin" href="https://app.retaileros.in/login">Sign in</a>
-  <a class="btn btn-primary" href="/#start">Start free</a>
-</nav>''' % (links,
-             ''.join('<a href="%s">%s</a>' % (h, n) for n, h in NAV),
-             ''.join('<a href="/solutions/%s/">%s</a>' % (s['slug'], e(s['nav'])) for s in C.SOLUTIONS),
-             ''.join('<a href="/compare/%s/">%s</a>' % (c['slug'], e(c['nav'])) for c in C.COMPARES))
-
 def footer():
     sol = ''.join('<a href="/solutions/%s/">%s</a>' % (s['slug'], e(s['nav'])) for s in C.SOLUTIONS)
     cmp_ = ''.join('<a href="/compare/%s/">%s</a>' % (c['slug'], e(c['nav'])) for c in C.COMPARES)
@@ -189,6 +159,7 @@ def page(*, path, title, desc, active, trail, body, faqs=(), extra_ld=(), chat_m
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500&display=swap">
 <link rel="stylesheet" href="/assets/site.css?v={css_v}">
+<link rel="stylesheet" href="/assets/header.css?v={hcss_v}">
 {ld}
 </head>
 <body data-chat-delay="{delay}"{prio}>
@@ -200,10 +171,11 @@ def page(*, path, title, desc, active, trail, body, faqs=(), extra_ld=(), chat_m
 {footer}
 {chat}
 <script src="/assets/site.js?v={js_v}" defer></script>
+<script src="/assets/header.js?v={hjs_v}" defer></script>
 </body>
 </html>
 '''.format(GA=GA, title=e(title), desc=e(desc), url=url, site=SITE, css_v=CSS_V, js_v=JS_V,
-           ld='\n'.join(ld(b) for b in blocks), delay=chat_delay, prio=' data-chat-priority' if chat_priority else '', header=header(active),
+           ld='\n'.join(ld(b) for b in blocks), delay=chat_delay, prio=' data-chat-priority' if chat_priority else '', header=H.render((active or '').lower()), hcss_v=HCSS_V, hjs_v=HJS_V,
            crumbs=crumbs(trail), body=body, footer=footer(),
            chat=chat(chat_msg, chat_primary))
     dest = os.path.join(OUT, path.strip('/'), 'index.html')
@@ -231,6 +203,41 @@ def ctable(cols, rows, caption='', us_col=None):
 Y, N = '<span class="y" aria-label="Yes">✓</span>', '<span class="n" aria-label="No">✕</span>'
 def P_(t): return '<span class="p">%s</span>' % e(t)
 
+# hand-written pages that carry the shared header -> which LINKS key is "current"
+STATIC_HEADER = {'index.html': None, 'answers.html': 'answers', 'resources.html': 'resources',
+                 'privacy.html': None, 'terms.html': None, 'security.html': None}
+
+def stamp_static():
+    """Put the shared header (and current header.css/js versions) into the
+    hand-written pages. Only the marked region and the two asset tags change."""
+    import re
+    changed = []
+    for name, active in STATIC_HEADER.items():
+        f = os.path.join(OUT, name)
+        src = io.open(f, encoding='utf-8').read()
+        a, b = src.find(H.START), src.find(H.END)
+        if a < 0 or b < a:
+            raise SystemExit('%s: no %s ... %s markers — the shared header has nowhere to go' % (name, H.START, H.END))
+        doc = src[:a] + H.render(active) + src[b + len(H.END):]
+        css = '<link rel="stylesheet" href="/assets/header.css?v=%s">' % HCSS_V
+        js = '<script src="/assets/header.js?v=%s" defer></script>' % HJS_V
+        if 'assets/header.css' in doc:
+            doc = re.sub(r'<link rel="stylesheet" href="/assets/header\.css\?v=[0-9a-f]+">', css, doc)
+        else:
+            doc = doc.replace('</head>', css + '\n</head>', 1)
+        if 'assets/header.js' in doc:
+            doc = re.sub(r'<script src="/assets/header\.js\?v=[0-9a-f]+" defer></script>', js, doc)
+        else:
+            i = doc.rfind('</body>'); doc = doc[:i] + js + '\n' + doc[i:]
+        if doc != src:
+            io.open(f, 'w', encoding='utf-8').write(doc); changed.append(name)
+    # hero.html must stay a byte-for-byte copy of index.html
+    idx = io.open(os.path.join(OUT, 'index.html'), encoding='utf-8').read()
+    hero = os.path.join(OUT, 'hero.html')
+    if io.open(hero, encoding='utf-8').read() != idx:
+        io.open(hero, 'w', encoding='utf-8').write(idx); changed.append('hero.html')
+    return changed
+
 if __name__ == '__main__':
     import site_pages
     built = site_pages.build(sys.modules[__name__])
@@ -243,4 +250,6 @@ if __name__ == '__main__':
         '  <url><loc>%s%s</loc><lastmod>%s</lastmod><priority>%s</priority></url>\n' % (SITE, u, TODAY, pri(u)) for u in urls) + '</urlset>\n'
     io.open(os.path.join(OUT, 'sitemap.xml'), 'w', encoding='utf-8').write(sm)
     print('built %d pages, sitemap has %d URLs' % (len(built), len(urls)))
+    touched = stamp_static()
+    print('shared header stamped into: %s' % (', '.join(touched) if touched else 'nothing (already current)'))
     for p in built: print('  ', p)

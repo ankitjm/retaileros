@@ -30,7 +30,8 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-padding-top: 76px; }
-html, body { max-width: 100%; overflow-x: hidden; }
+/* clip, not hidden: hidden makes the page a scroll container and silently disables the sticky header */
+html, body { max-width: 100%; overflow-x: clip; }
 body {
   margin: 0; background: var(--bg); color: var(--ink);
   font-family: var(--font-body); font-size: 16px; line-height: 1.6;

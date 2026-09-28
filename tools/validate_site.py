@@ -17,7 +17,8 @@ SITE = os.path.join(ROOT, 'landing-page')
 
 REQUIRED = ['index.html', 'answers.html', 'pricing/index.html', 'compare/index.html',
             'solutions/index.html', 'sitemap.xml', 'robots.txt', 'llms.txt',
-            'assets/site.css', 'assets/site.js', 'assets/logo-mark.png', 'favicon.ico']
+            'assets/site.css', 'assets/site.js', 'assets/header.css', 'assets/header.js',
+            'assets/logo-mark.png', 'assets/logo-wordmark.png', 'favicon.ico']
 # Tags whose open/close counts must match. Deliberately short: these are the
 # ones whose imbalance has actually broken this site's layout.
 BALANCED = ['div', 'section', 'main', 'nav', 'header', 'footer', 'table', 'script', 'style']
@@ -43,6 +44,11 @@ for path in pages:
         o, c = len(re.findall(r'<%s[\s>]' % t, s)), s.count('</%s>' % t)
         if o != c: bad(rel, '<%s> opened %d times but closed %d' % (t, o, c))
     if len(re.findall(r'<h1[\s>]', s)) > 1: bad(rel, 'more than one <h1>')
+    # one shared header everywhere (tools/site_header.py) — no page may drift back to its own
+    if s.count('<!-- SITE-HEADER:START -->') != 1 or s.count('id="rh"') != 1:
+        bad(rel, 'must carry the shared site header exactly once (tools/site_header.py, run tools/build_site.py)')
+    if 'assets/header.css' not in s or 'assets/header.js' not in s:
+        bad(rel, 'shared header assets (header.css / header.js) not linked — run tools/build_site.py')
     if rel.endswith('index.html') or rel == 'answers.html':
         if 'G-9MV0N80GKW' not in s: bad(rel, 'Google Analytics tag missing')
     for j, js in enumerate(re.findall(r'<script(?![^>]*ld\+json)(?![^>]*\bsrc=)[^>]*>(.*?)</script>', s, re.S)):

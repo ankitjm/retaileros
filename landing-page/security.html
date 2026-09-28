@@ -136,16 +136,44 @@
   .legal-body .callout a { display: inline-block; padding: 6px 0; }
   @media (max-width: 620px) { .brand img.brand-wordmark { height: 20px; } .back-link { white-space: nowrap; } }
 </style>
+<link rel="stylesheet" href="/assets/header.css?v=529fe25c51">
 </head>
 <body>
 
-<header class="nav">
-  <a href="hero.html" class="brand" aria-label="RetailerOS home">
-    <img class="brand-mark" src="assets/logo-mark.png" alt="" />
-    <img class="brand-wordmark" src="assets/logo-wordmark.png" alt="RetailerOS" />
-  </a>
-  <a href="hero.html" class="back-link">← Back to RetailerOS</a>
+<!-- SITE-HEADER:START -->
+<header class="rh" id="rh">
+  <div class="rh-in">
+    <a class="rh-brand" href="/" aria-label="RetailerOS home">
+      <img class="rh-mark" src="/assets/logo-mark.png" alt="" width="32" height="32">
+      <img class="rh-word" src="/assets/logo-wordmark.png" alt="RetailerOS" width="106" height="20">
+    </a>
+    <nav class="rh-nav" aria-label="Main"><a href="/#modules">Product</a><a href="/solutions/">Solutions</a><a href="/pricing/">Pricing</a><a href="/compare/">Compare</a><a href="/answers.html">Answers</a><a href="/resources.html">Resources</a></nav>
+    <div class="rh-cta">
+      <a class="rh-signin signin" href="https://app.retaileros.in/login" data-label-in="Access account">Sign in</a>
+      <a class="rh-start" href="/#start" data-cta="onboard">Start free</a>
+      <button class="rh-burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="rh-menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
 </header>
+<div class="rh-menu" id="rh-menu" aria-label="Menu" hidden>
+  <nav class="rh-m-body" aria-label="Menu">
+    <a class="rh-m-link" href="/#modules">Product</a><a class="rh-m-link" href="/solutions/">Solutions</a><a class="rh-m-link" href="/pricing/">Pricing</a><a class="rh-m-link" href="/compare/">Compare</a><a class="rh-m-link" href="/answers.html">Answers</a><a class="rh-m-link" href="/resources.html">Resources</a>
+    <div class="rh-m-group">
+      <p class="rh-m-label">Solutions</p>
+      <div class="rh-m-list"><a href="/solutions/mobile-phone-retail/">Mobile phone retail</a><a href="/solutions/appliance-and-ac-dealers/">Appliance &amp; AC dealers</a><a href="/solutions/multi-store-chains/">Multi-store chains</a><a href="/solutions/repair-and-service-centres/">Repair &amp; service centres</a></div>
+    </div>
+    <div class="rh-m-group">
+      <p class="rh-m-label">Compare</p>
+      <div class="rh-m-list"><a href="/compare/tally-alternative/">RetailerOS vs Tally</a><a href="/compare/vyapar-alternative/">RetailerOS vs Vyapar</a><a href="/compare/paper-register-and-excel/">vs paper &amp; Excel</a><a href="/compare/retaileros-ai/">RetailerOS vs retaileros.ai</a></div>
+    </div>
+  </nav>
+  <div class="rh-m-foot">
+    <a class="rh-m-start" href="/#start" data-cta="onboard">Start free &rarr;</a>
+    <a class="rh-m-demo" href="/#book-demo" data-demo-open>Book a 15-minute demo</a>
+    <a class="rh-m-signin signin" href="https://app.retaileros.in/login" data-label-in="Access account">Sign in</a>
+  </div>
+</div>
+<!-- SITE-HEADER:END -->
 
 <article class="legal-page">
   <header class="legal-header">
@@ -268,5 +296,6 @@
   </div>
 </footer>
 
+<script src="/assets/header.js?v=2cf170edf7" defer></script>
 </body>
 </html>

@@ -8,25 +8,6 @@
     try { if (get) return sessionStorage.getItem(key); sessionStorage.setItem(key, val); } catch (e) { return null; }
   }
 
-  /* ── mobile menu ─────────────────────────────────────── */
-  var menu = document.getElementById('mnav');
-  var openBtn = document.querySelector('.menu-btn');
-  var closeBtn = document.querySelector('.mnav-close');
-  function setMenu(open) {
-    if (!menu) return;
-    menu.classList.toggle('open', open);
-    menu.setAttribute('aria-hidden', open ? 'false' : 'true');
-    if (openBtn) openBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    document.body.style.overflow = open ? 'hidden' : '';
-    if (open && closeBtn) closeBtn.focus(); else if (!open && openBtn) openBtn.focus();
-  }
-  if (openBtn) openBtn.addEventListener('click', function () { setMenu(true); });
-  if (closeBtn) closeBtn.addEventListener('click', function () { setMenu(false); });
-  if (menu) menu.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && menu && menu.classList.contains('open')) setMenu(false);
-  });
-
   /* ── "Sign in" becomes "Access account" for signed-in users ──
      The app keeps its token in localStorage on app.retaileros.in, which this
      origin cannot read. It works once the app also sets a non-sensitive

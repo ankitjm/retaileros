@@ -69,3 +69,16 @@ rather than "No" when a feature simply isn't on their page.
 - The server keeps the last three versions and can roll back instantly.
 
 Server-side details (for Ankit): `/root/Production/docs/retaileros-landing-deploy.md`.
+
+## The header and menu (every page)
+
+There is **one** header + mobile menu for the whole site. It lives in `tools/site_header.py`
+(links, labels, menu groups), `landing-page/assets/header.css` (look) and
+`landing-page/assets/header.js` (menu behaviour). `python3 tools/build_site.py` stamps it into every
+page — the generated ones and the hand-written ones (`index.html`, `answers.html`, `resources.html`,
+`privacy.html`, `terms.html`, `security.html`), between `<!-- SITE-HEADER:START -->` and
+`<!-- SITE-HEADER:END -->`.
+
+- To change the menu: edit `tools/site_header.py`, run the build, commit everything it changed.
+- **Never edit the header inside a page** — the next build overwrites it.
+- `tools/validate_site.py` refuses any page without exactly one shared header.
