@@ -1995,6 +1995,10 @@
     background: rgba(74,222,128,0.18);
     color: #4ADE80;
   }
+  /* pricing: struck-through monthly list price beside the cycle's per-month figure */
+  .price-billing s { opacity: 0.7; margin-left: 2px; }
+  .price-billing.price-min { min-height: 0; }
+  .price-billing .save { white-space: nowrap; }
   .price-limits {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -6154,11 +6158,11 @@
       <span class="price-badge">Recommended</span>
       <h3 class="price-name">Shop</h3>
       <p class="price-tagline">Everything one counter needs, run properly.</p>
-      <div class="price-amount" data-prices='{"monthly":"₹3,999","quarterly":"₹3,799","annual":"₹3,399"}'>
-        <span class="num">₹3,799</span>
-        <span class="per">/ month</span>
+      <div class="price-amount" data-prices='{"monthly":"₹3,999","quarterly":"₹11,397","annual":"₹40,788"}' data-per='{"monthly":"/ month","quarterly":"/ 3 months","annual":"/ year"}'>
+        <span class="num">₹11,397</span>
+        <span class="per">/ 3 months</span>
       </div>
-      <p class="price-billing" data-billing='{"monthly":"Billed monthly · ₹3,999 + 18% GST","quarterly":"Billed quarterly · ₹11,397 + 18% GST · <span class=\"save\">save ₹600</span>","annual":"Billed annually · ₹40,788 + 18% GST · <span class=\"save\">save ₹7,200/yr</span>"}'>Billed quarterly · ₹11,397 + 18% GST · <span class="save">save ₹600</span></p>
+      <p class="price-billing" data-billing='{"monthly":"Billed monthly · + 18% GST","quarterly":"₹3,799/month <s>₹3,999</s> · <span class=\"save\">save ₹600</span> · + 18% GST","annual":"₹3,399/month <s>₹3,999</s> · <span class=\"save\">save ₹7,200</span> · + 18% GST"}'>₹3,799/month <s>₹3,999</s> · <span class="save">save ₹600</span> · + 18% GST</p>
       <div class="price-limits">
         <span class="limit"><span class="limit-num">750</span>bills/mo</span>
         <span class="limit"><span class="limit-num">3</span>staff logins</span>
@@ -6181,12 +6185,13 @@
     <article class="price-card tier-starter" data-plan="chain">
       <h3 class="price-name">Chain</h3>
       <p class="price-tagline">For owners running two or more stores.</p>
-      <div class="price-amount" data-prices='{"monthly":"₹7,499","quarterly":"₹7,124","annual":"₹6,374"}'>
-        <span class="num">₹7,124</span>
-        <span class="per">/ month · first store</span>
+      <div class="price-amount" data-prices='{"monthly":"₹7,499","quarterly":"₹21,372","annual":"₹76,488"}' data-per='{"monthly":"/ month · first store","quarterly":"/ 3 months · first store","annual":"/ year · first store"}'>
+        <span class="num">₹21,372</span>
+        <span class="per">/ 3 months · first store</span>
       </div>
-      <p class="price-extra" data-extra='{"monthly":"+ ₹3,499/mo for each additional store","quarterly":"+ ₹3,324/mo for each additional store","annual":"+ ₹2,974/mo for each additional store"}'>+ ₹3,324/mo for each additional store</p>
-      <p class="price-billing" data-billing='{"monthly":"Minimum 2 stores: <strong>₹10,998/mo</strong> + 18% GST","quarterly":"Minimum 2 stores: <strong>₹10,448/mo</strong>, billed ₹31,344 a quarter + GST · <span class=\"save\">save ₹1,650</span>","annual":"Minimum 2 stores: <strong>₹9,348/mo</strong>, billed ₹1,12,176 a year + GST · <span class=\"save\">save ₹19,800/yr</span>"}'>Minimum 2 stores: <strong>₹10,448/mo</strong>, billed ₹31,344 a quarter + GST · <span class="save">save ₹1,650</span></p>
+      <p class="price-billing" data-billing='{"monthly":"Billed monthly · + 18% GST","quarterly":"₹7,124/month <s>₹7,499</s> · <span class=\"save\">save ₹1,125</span> · + 18% GST","annual":"₹6,374/month <s>₹7,499</s> · <span class=\"save\">save ₹13,500</span> · + 18% GST"}'>₹7,124/month <s>₹7,499</s> · <span class="save">save ₹1,125</span> · + 18% GST</p>
+      <p class="price-extra" data-extra='{"monthly":"+ ₹3,499/month for each additional store","quarterly":"+ ₹9,972 per additional store / 3 months (₹3,324/month)","annual":"+ ₹35,688 per additional store / year (₹2,974/month)"}'>+ ₹9,972 per additional store / 3 months (₹3,324/month)</p>
+      <p class="price-billing price-min" data-billing='{"monthly":"Minimum 2 stores: <strong>₹10,998/month</strong>","quarterly":"Minimum 2 stores: <strong>₹31,344</strong> / 3 months (₹10,448/month) · <span class=\"save\">save ₹1,650</span>","annual":"Minimum 2 stores: <strong>₹1,12,176</strong> / year (₹9,348/month) · <span class=\"save\">save ₹19,800</span>"}'>Minimum 2 stores: <strong>₹31,344</strong> / 3 months (₹10,448/month) · <span class="save">save ₹1,650</span></p>
       <div class="price-limits">
         <span class="limit"><span class="limit-num">∞</span>bills/mo</span>
         <span class="limit"><span class="limit-num">3</span>logins per store</span>
@@ -7052,6 +7057,8 @@
         try {
           const prices = JSON.parse(amt.dataset.prices);
           if (prices[cycle]) amt.querySelector('.num').textContent = prices[cycle];
+          // period label follows the cycle: / month, / 3 months, / year
+          if (amt.dataset.per) { const per = JSON.parse(amt.dataset.per); if (per[cycle]) amt.querySelector('.per').textContent = per[cycle]; }
         } catch (e) {}
       });
       document.querySelectorAll('.price-card .price-extra[data-extra]').forEach(x => {
@@ -7475,7 +7482,7 @@
         ]
       },
       'pricing-starter': {
-        bot: "Shop — **₹3,999/mo** (quarterly ₹3,799/mo, annual ₹3,399/mo). 750 bills/mo, 3 staff logins, 1 store. 20 modules — adds IMEI Tracker, Schemes, Repairs, Claims, Cash Register, Expenses, Purchase Orders, Inquiries, Pre-booking, Reports, Staff, Finance and Pricing. 200 WhatsApp/mo. Busy festival month? Add 250-bill packs at ₹499.",
+        bot: "Shop — **₹3,999/mo** (quarterly ₹11,397 every 3 months = ₹3,799/mo; annual ₹40,788 a year = ₹3,399/mo). 750 bills/mo, 3 staff logins, 1 store. 20 modules — adds IMEI Tracker, Schemes, Repairs, Claims, Cash Register, Expenses, Purchase Orders, Inquiries, Pre-booking, Reports, Staff, Finance and Pricing. 200 WhatsApp/mo. Busy festival month? Add 250-bill packs at ₹499.",
         choices: [
           { id: 'pricing-pro', label: "What's in Pro?" },
           { id: 'pricing-trial', label: 'How does the trial work?' },
@@ -7483,7 +7490,7 @@
         ]
       },
       'pricing-pro': {
-        bot: "Chain — **₹7,499/mo for your first store** plus **₹3,499/mo for each additional store**, minimum two stores. So two stores is ₹10,998/mo, or ₹9,348/mo on annual billing. *Unlimited bills*, 3 staff logins per store, *all 26 modules* — adds Stores, Marketing, Marketplace, Integrations, Automation and Promoters. 2,000 WhatsApp/mo, REST API, priority 12h email + WhatsApp + phone callback.",
+        bot: "Chain — **₹7,499/mo for your first store** plus **₹3,499/mo for each additional store**, minimum two stores. So two stores is ₹10,998/mo, or ₹1,12,176 a year on annual billing (₹9,348/mo). *Unlimited bills*, 3 staff logins per store, *all 26 modules* — adds Stores, Marketing, Marketplace, Integrations, Automation and Promoters. 2,000 WhatsApp/mo, REST API, priority 12h email + WhatsApp + phone callback.",
         choices: [
           { id: 'pricing-enterprise', label: 'What about a bigger chain?' },
           { id: 'pricing-trial', label: 'Trial details' },

@@ -29,12 +29,29 @@ def build(B):
     # ── /pricing/ ─────────────────────────────────────────────
     def by(d): return e(json.dumps(d, ensure_ascii=False))
     cyc = ('monthly', 'quarterly', 'annual')
-    shop_bill = {'monthly': 'Billed monthly + 18% GST'}
+    # Every cycle is shown the same way: monthly -> the monthly price; quarterly/annual ->
+    # the total actually billed for the cycle as the big figure, with the per-month
+    # equivalent, the struck-through monthly price and the saving underneath.
+    per = {'monthly': '/ month', 'quarterly': '/ 3 months', 'annual': '/ year'}
+    def total(n, c): return B.inr(n * B.MONTHS[c])
+    def sub(key, c):
+        if c == 'monthly': return 'Billed monthly · + 18% GST'
+        m, lst = B.PRICE[key][c], B.PRICE[key]['monthly']
+        return '%s/month <s>%s</s> · <span class="save">save %s</span> · +\u00a018%%\u00a0GST' % (
+            B.inr(m), B.inr(lst), B.inr((lst - m) * B.MONTHS[c]))
+    shop_amt = {c: total(B.PRICE['shop'][c], c) for c in cyc}
+    shop_bill = {c: sub('shop', c) for c in cyc}
+    chain_amt = {c: total(B.PRICE['first'][c], c) for c in cyc}
+    chain_per = {c: per[c] + ', first store' for c in cyc}
+    chain_first = {c: sub('first', c) for c in cyc}
+    chain_extra = {'monthly': '+ %s/month for each additional store' % B.inr(B.PRICE['extra']['monthly'])}
+    chain_bill = {'monthly': 'Minimum 2 stores: <strong>%s/month</strong>' % B.inr(B.chain(2, 'monthly'))}
     for c in ('quarterly', 'annual'):
-        saving = (B.PRICE['shop']['monthly'] - B.PRICE['shop'][c]) * 12
-        shop_bill[c] = 'Billed %s a %s + GST · save %s/yr' % (
-            B.inr(B.PRICE['shop'][c] * B.MONTHS[c]), 'quarter' if c == 'quarterly' else 'year', B.inr(saving))
-    chain_bill = {c: 'Minimum 2 stores: <strong>%s/mo</strong> + GST' % B.inr(B.chain(2, c)) for c in cyc}
+        chain_extra[c] = '+ %s per additional store %s (%s/month)' % (
+            total(B.PRICE['extra'][c], c), per[c], B.inr(B.PRICE['extra'][c]))
+        chain_bill[c] = 'Minimum 2 stores: <strong>%s</strong> %s (%s/month) · <span class="save">save %s</span>' % (
+            total(B.chain(2, c), c), per[c], B.inr(B.chain(2, c)),
+            B.inr((B.chain(2, 'monthly') - B.chain(2, c)) * B.MONTHS[c]))
 
     plans = '''<div class="plans">
   <article class="plan">
@@ -48,7 +65,7 @@ def build(B):
   <article class="plan featured">
     <span class="badge">Most shops</span>
     <h3>Shop</h3><p class="for">Everything one busy counter needs.</p>
-    <div class="amt"><span data-by-cycle="{sp}">{sq}</span> <small>/ month</small></div>
+    <div class="amt"><span data-by-cycle="{sp}">{sq}</span> <small data-by-cycle="{spp}">{sppq}</small></div>
     <p class="bill" data-by-cycle="{sb}">{sbq}</p>
     <ul><li>1 store · 3 staff logins</li><li>750 bills a month</li><li>20 modules — adds IMEI Tracker, Schemes, Repairs, Claims, Reports</li>
         <li>200 WhatsApp messages a month</li><li>Email support, 48-hour reply</li></ul>
@@ -56,28 +73,29 @@ def build(B):
   </article>
   <article class="plan">
     <h3>Chain</h3><p class="for">For owners running two or more stores.</p>
-    <div class="amt"><span data-by-cycle="{cp}">{cq}</span> <small>/ month, first store</small></div>
+    <div class="amt"><span data-by-cycle="{cp}">{cq}</span> <small data-by-cycle="{cpp}">{cppq}</small></div>
+    <p class="bill first" data-by-cycle="{cf}">{cfq}</p>
     <p class="extra" data-by-cycle="{ce}">{ceq}</p>
-    <p class="bill" data-by-cycle="{cb}">{cbq}</p>
+    <p class="bill min" data-by-cycle="{cb}">{cbq}</p>
     <ul><li>Minimum 2 stores · 3 logins per store</li><li>Unlimited bills</li><li>All 26 modules — adds Stores, Marketing, Marketplace, Automation</li>
         <li>2,000 WhatsApp messages a month</li><li>Priority support with phone callback</li></ul>
     <a class="btn btn-ghost" href="#calculator">Price my stores</a>
   </article>
 </div>'''.format(
-        sp=by({c: B.inr(B.PRICE['shop'][c]) for c in cyc}), sq=B.inr(B.PRICE['shop']['quarterly']),
+        sp=by(shop_amt), sq=shop_amt['quarterly'], spp=by(per), sppq=per['quarterly'],
         sb=by(shop_bill), sbq=shop_bill['quarterly'],
-        cp=by({c: B.inr(B.PRICE['first'][c]) for c in cyc}), cq=B.inr(B.PRICE['first']['quarterly']),
-        ce=by({c: '+ %s/mo for each additional store' % B.inr(B.PRICE['extra'][c]) for c in cyc}),
-        ceq='+ %s/mo for each additional store' % B.inr(B.PRICE['extra']['quarterly']),
+        cp=by(chain_amt), cq=chain_amt['quarterly'], cpp=by(chain_per), cppq=chain_per['quarterly'],
+        cf=by(chain_first), cfq=chain_first['quarterly'],
+        ce=by(chain_extra), ceq=chain_extra['quarterly'],
         cb=by(chain_bill), cbq=chain_bill['quarterly'])
 
     ex_rows = ''
     for n in (2, 3, 5, 10, 15, 25):
-        ex_rows += '<tr><th scope="row">%d stores<small>%d staff logins</small></th><td>%s</td><td class="us">%s</td><td>%s</td></tr>' % (
+        ex_rows += '<tr><th scope="row">%d stores<small>%d staff logins</small></th><td>%s</td><td class="us">%s<small>%s a year</small></td><td>%s</td></tr>' % (
             n, n * B.LOGINS_PER_STORE, B.inr(B.chain(n, 'monthly')), B.inr(B.chain(n, 'annual')),
-            B.inr(B.chain(n, 'annual') / n))
+            B.inr(B.chain(n, 'annual') * 12), B.inr(B.chain(n, 'annual') / n))
     examples = '''<div class="ctable-wrap"><table class="ctable">
-  <caption>Monthly figures before 18%% GST. Yearly billing saves 15%% on every store, including additional ones.</caption>
+  <caption>Figures before 18%% GST. Yearly billing saves 15%% on every store, including additional ones.</caption>
   <thead><tr><th scope="col">Chain size</th><th scope="col">Pay monthly</th><th scope="col" class="us">Pay yearly<br>(per month)</th><th scope="col">Per store<br>(yearly)</th></tr></thead>
   <tbody>%s</tbody></table></div>''' % ex_rows
 
@@ -155,7 +173,7 @@ def build(B):
     <div class="result" id="calcOut" aria-live="polite">
       <div class="big" id="cBig">—</div>
       <dl><dt>Stores</dt><dd id="cStores">—</dd><dt>Cost per store</dt><dd id="cPer">—</dd>
-          <dt>Staff logins</dt><dd id="cLogins">—</dd><dt>You are billed</dt><dd id="cBilled">—</dd>
+          <dt>Staff logins</dt><dd id="cLogins">—</dd><dt>Per month</dt><dd id="cBilled">—</dd>
           <dt>Per year</dt><dd id="cYear">—</dd></dl>
       <p class="hint" id="cHint"></p>
     </div>
