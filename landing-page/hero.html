@@ -5481,6 +5481,17 @@
                           linear-gradient(to bottom, transparent 0, #000 10%, #000 88%, transparent 100%); }
   }
 
+  
+  /* WhatsApp lives inside the chat now (no separate floating button). */
+  .whatsapp-fab { display: none !important; }
+  .chatbot-foot { display: grid; gap: 7px; padding: 12px 16px 14px; letter-spacing: 0; }
+  .chatbot-foot a.chat-wa { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px;
+    border-radius: 12px; background: #25D366; color: #06331b; font-size: 14px; font-weight: 700;
+    text-decoration: none; transition: background 160ms ease, transform 160ms ease; }
+  .chatbot-foot a.chat-wa:hover { background: #1FBE5B; transform: translateY(-1px); }
+  .chatbot-foot .chat-wa-note { font-size: 11px; color: var(--ink-muted); }
+  .chat-form button.chat-form-wa { background: #25D366; color: #06331b; }
+  .chat-form button.chat-form-wa:hover { background: #1FBE5B; }
   </style>
 
 <script>
@@ -6872,17 +6883,6 @@
   </div>
 </div>
 
-<!-- ─── WHATSAPP FAB ─── -->
-<a href="https://wa.me/918884972272?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20RetailerOS"
-   class="whatsapp-fab"
-   target="_blank"
-   rel="noopener"
-   aria-label="Chat with us on WhatsApp">
-  <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
-    <path d="M16 0C7.163 0 0 7.163 0 16c0 2.825.733 5.578 2.122 8L0 32l8.222-2.156C10.6 31.252 13.275 32 16 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm0 29.333c-2.475 0-4.92-.65-7.067-1.878l-.508-.293-5.069 1.328 1.354-4.946-.328-.522A13.282 13.282 0 0 1 2.667 16C2.667 8.636 8.636 2.667 16 2.667S29.333 8.636 29.333 16 23.364 29.333 16 29.333zm7.318-9.96c-.4-.2-2.366-1.166-2.732-1.3-.366-.134-.633-.2-.9.2-.266.4-1.033 1.3-1.266 1.566-.234.267-.467.3-.867.1-.4-.2-1.689-.622-3.217-1.984-1.189-1.06-1.992-2.37-2.225-2.77-.234-.4-.025-.617.176-.816.181-.18.4-.467.6-.7.2-.234.267-.4.4-.667.134-.267.067-.5-.033-.7-.1-.2-.9-2.166-1.233-2.966-.325-.78-.654-.674-.9-.687-.233-.012-.5-.014-.766-.014-.267 0-.7.1-1.067.5-.367.4-1.4 1.367-1.4 3.333s1.434 3.866 1.633 4.133c.2.267 2.825 4.314 6.842 6.05.957.413 1.703.66 2.286.844.96.305 1.835.262 2.526.158.77-.115 2.366-.967 2.7-1.9.334-.934.334-1.733.234-1.9-.1-.167-.367-.267-.766-.467z"/>
-  </svg>
-</a>
-
 <!-- ─── CHATBOT · concierge correspondence ─── -->
 <div class="chatbot" id="chatbot">
   <button class="chatbot-btn" id="chatbotBtn" type="button" aria-label="Open chat support">
@@ -6904,7 +6904,10 @@
       </button>
     </div>
     <div class="chatbot-body" id="chatbotBody"></div>
-    <div class="chatbot-foot">We'll get back within <strong>4 hours</strong> · 10 AM–7 PM IST</div>
+    <div class="chatbot-foot">
+      <a class="chat-wa" href="https://wa.me/918884972272?text=Hi%20RetailerOS%2C%20I%27d%20like%20to%20know%20more." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm0 18.2a8.2 8.2 0 01-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1112 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 01-3.3-2.9c-.3-.4.3-.4.7-1.3a.5.5 0 000-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 00-.7.3 3 3 0 00-.9 2.2 5.2 5.2 0 001.1 2.7 11.8 11.8 0 004.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 001.8-1.2 2.2 2.2 0 00.1-1.2c0-.1-.2-.2-.4-.3z"/></svg> Chat with us on WhatsApp</a>
+      <span class="chat-wa-note">Replies within <strong>4 hours</strong> · 10 AM–7 PM IST</span>
+    </div>
   </div>
 </div>
 
@@ -7420,7 +7423,7 @@
           { id: 'pricing', label: 'Pricing & plans' },
           { id: 'free-paid', label: 'Free vs paid' },
           { id: 'setup', label: 'Setup & onboarding' },
-          { id: 'human', label: '👤 Talk to a human' }
+          { id: 'human', label: '💬 Chat with us on WhatsApp' }
         ]
       },
       product: {
@@ -7547,7 +7550,7 @@
         ]
       },
       human: {
-        bot: "Sure — drop your details and someone from our team will reach out within *4 hours* during working hours (10 AM–7 PM IST).",
+        bot: "Sure — tell us your name and what you need. WhatsApp opens with it filled in; press send and the team replies there within *4 hours* (10 AM–7 PM IST).",
         form: true
       }
     };
@@ -7633,6 +7636,8 @@
     }
 
     function renderForm() {
+      // Hands the conversation to WhatsApp. (It used to "stash" details in the visitor's own
+      // localStorage "until a backend is wired up" — so no one ever received them.)
       const form = document.createElement('form');
       form.className = 'chat-form';
       form.innerHTML = `
@@ -7641,47 +7646,38 @@
           <input type="text" name="name" placeholder="Suresh Patel" required autocomplete="name" />
         </div>
         <div class="field-row">
-          <label>Mobile</label>
-          <input type="tel" name="phone" placeholder="+91 98••• 6743" required autocomplete="tel" />
+          <label>What do you need? <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink-muted);">(optional)</span></label>
+          <textarea name="message" rows="2" placeholder="e.g. pricing for 3 stores"></textarea>
         </div>
-        <div class="field-row">
-          <label>Email</label>
-          <input type="email" name="email" placeholder="you@yourshop.com" required autocomplete="email" />
-        </div>
-        <div class="field-row">
-          <label>Anything specific? <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink-muted);">(optional)</span></label>
-          <textarea name="message" rows="2"></textarea>
-        </div>
-        <button type="submit">Send to team →</button>
+        <button type="submit" class="chat-form-wa"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm0 18.2a8.2 8.2 0 01-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1112 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 01-3.3-2.9c-.3-.4.3-.4.7-1.3a.5.5 0 000-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 00-.7.3 3 3 0 00-.9 2.2 5.2 5.2 0 001.1 2.7 11.8 11.8 0 004.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 001.8-1.2 2.2 2.2 0 00.1-1.2c0-.1-.2-.2-.4-.3z"/></svg> Continue on WhatsApp</button>
       `;
       form.addEventListener('submit', (e) => {
         e.preventDefault();
         const data = Object.fromEntries(new FormData(form).entries());
-        // Stash locally until backend is wired up
-        const queue = JSON.parse(localStorage.getItem('chatEscalations') || '[]');
-        queue.push({ ...data, ts: Date.now(), userAgent: navigator.userAgent });
-        localStorage.setItem('chatEscalations', JSON.stringify(queue));
-        // Optionally console.log so it's visible during dev
-        console.log('Chat escalation captured:', data);
-
+        const name = (data.name || '').trim();
+        const note = (data.message || '').trim();
+        const text = 'Hi RetailerOS, I\'m ' + name + '.' + (note ? ' ' + note : ' I\'d like to know more.') + ' (from the website chat)';
+        const url = 'https://wa.me/918884972272?text=' + encodeURIComponent(text);
+        try { if (window.gtag) gtag('event', 'generate_lead', { method: 'chatbot_whatsapp' }); } catch (err) {}
+        const w = window.open(url, '_blank', 'noopener');
+        if (!w) location.href = url;
         form.remove();
-        addMessage(`${data.name || 'You'}, thanks! We've got your details.`, 'user');
+        addMessage(name || 'You', 'user');
         setTimeout(() => {
-          addMessage("We'll reach out within 4 hours during working hours (10 AM–7 PM IST). Anything else?", 'bot');
+          addMessage("WhatsApp is open with your message — press *send* and we'll reply there within 4 hours (10 AM–7 PM IST). Anything else?", 'bot');
           setTimeout(() => {
             renderChoices([
               { id: 'greeting', label: 'I have more questions' },
               { id: '__close', label: "No, that's it" }
             ]);
           }, 400);
-        }, 600);
+        }, 500);
       });
       body.appendChild(form);
       body.scrollTop = body.scrollHeight;
       const firstInput = form.querySelector('input');
       if (firstInput) setTimeout(() => firstInput.focus(), 200);
     }
-
     // Custom close-via-choice handler — listens for __close
     body.addEventListener('click', (e) => {
       const btn = e.target.closest('.chat-choice');
@@ -7702,6 +7698,8 @@
 
     btn.addEventListener('click', open);
     closeBtn.addEventListener('click', close);
+    const waLink = chatbot.querySelector('.chat-wa');
+    if (waLink) waLink.addEventListener('click', () => { try { if (window.gtag) gtag('event', 'contact', { method: 'chatbot_whatsapp_footer' }); } catch (err) {} });
     const backdrop = document.getElementById('chatbotBackdrop');
     if (backdrop) backdrop.addEventListener('click', close);
     document.addEventListener('keydown', (e) => {
