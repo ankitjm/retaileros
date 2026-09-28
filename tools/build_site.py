@@ -79,7 +79,7 @@ def footer():
         <p>Billing, stock, serial &amp; IMEI tracking, brand schemes, repairs and multi-store management for Indian consumer electronics retail.</p>
       </div>
       <div><h4>Product</h4><a href="/modules/">All 26 modules</a><a href="/pricing/">Pricing</a><a href="/answers.html">Questions &amp; answers</a><a href="/resources.html">Resources</a><a href="/#book-demo">Book a demo</a></div>
-      <div><h4>Modules</h4><a href="/modules/schemes/">Schemes</a><a href="/modules/pre-booking/">Pre-booking</a><a href="/modules/automation/">Automation</a><a href="/modules/marketing/">Marketing</a><a href="/modules/marketplace/">Marketplace</a><a href="/modules/stores/">Stores</a></div>
+      <div><h4>Modules</h4><a href="/modules/schemes/">Schemes</a><a href="/modules/pre-booking/">Pre-booking</a><a href="/modules/automation/">Automation</a><a href="/modules/marketing/">Marketing</a><a href="/modules/marketplace/">Marketplace</a><a href="/modules/stores/">Stores</a><a href="/modules/finance/">Finance</a><a href="/modules/device-protection/">Device Protection</a></div>
       <div><h4>Solutions</h4>%s</div>
       <div><h4>Compare</h4>%s</div>
     </div>

@@ -58,6 +58,20 @@ def module_demo(kind):
         r = ''.join('<li><b>%s</b><span>%s</span><small>%d bills</small></li>' % x for x in rows)
         return ('<div class="md-card"><div class="md-head"><b>All stores · today</b><span>₹6.38L</span></div>'
                 '<ul class="mds-list">%s</ul></div>' % r)
+    if kind == 'journal':
+        rows = [('01 Oct', 'Sales · Galaxy A55 · INV-1042', 'Sales A/c', '₹26,999'), ('01 Oct', 'Expense · Shop rent', 'Rent A/c', '₹45,000'),
+                ('02 Oct', 'Receipt · Ramesh (khaata)', 'Cash A/c', '₹8,700'), ('02 Oct', 'Expense · Electricity', 'Power A/c', '₹6,240')]
+        r = ''.join('<li><span class="mdj-d">%s</span><div><b>%s</b><small>%s</small></div><span class="mdj-a">%s</span></li>' % x for x in rows)
+        return ('<div class="md-card"><div class="md-head"><b>Journal · October</b><span class="soon">Coming soon</span></div>'
+                '<ul class="mdj-list">%s</ul>'
+                '<div class="mdc-actions"><span>Income report</span><span>Expense report</span><span>GST report</span></div></div>' % r)
+    if kind == 'protection':
+        return ('<div class="md-card"><div class="md-head"><b>Bill #1048 · Galaxy S24</b><span class="soon">Coming soon</span></div>'
+                '<ul class="mdp-list"><li><b>Galaxy S24 · 256 GB</b><span>₹74,999</span></li></ul>'
+                '<div class="mdv-offer"><b>Add protection?</b>'
+                '<label><span class="mdv-box on"></span>Screen damage · 1 year<em>₹2,499</em></label>'
+                '<label><span class="mdv-box"></span>Extended warranty · +1 year<em>₹1,999</em></label></div>'
+                '<div class="mdc-actions"><span class="wa">Add to bill</span></div></div>')
     return ''
 
 
@@ -118,7 +132,8 @@ def module_pages(B, MODULES):
     by_slug = {m['slug']: m for m in M.MODULE_PAGES}
     tiers = {n: t for _, items in MODULES for n, t in items}
     for m in M.MODULE_PAGES:
-        assert tiers.get(m['name']) == m['plan'], '%s: plan %s does not match the module table' % (m['name'], m['plan'])
+        if not m.get('soon'):
+            assert tiers.get(m['name']) == m['plan'], '%s: plan %s does not match the module table' % (m['name'], m['plan'])
         soon = lambda st: st == 'soon'
         feats = ''.join('<div class="card%s"><h3>%s</h3><p>%s</p>%s</div>' % (
             ' is-soon' if soon(st) else '', e(t), e(d), '<span class="tag soon">Coming soon</span>' if soon(st) else '')
@@ -141,7 +156,8 @@ def module_pages(B, MODULES):
                   'isPartOf': {'@type': 'SoftwareApplication', 'name': 'RetailerOS', 'url': B.SITE + '/'},
                   'publisher': {'@type': 'Organization', 'name': 'Khosha Systems', 'url': 'https://khoshasystems.com'}}
         plan_line = {'shop': 'Included on Shop (₹3,999 a month) and Pro',
-                     'chain': 'Part of the Pro plan', 'free': 'Free on every plan'}[m['plan']]
+                     'chain': 'Part of the Pro plan', 'free': 'Free on every plan',
+                     'soon': 'Coming soon — book a demo to hear first'}[m['plan']]
         body = PAGE.format(
             eyebrow=e(m['eyebrow']), h1=m['h1'], answer=e(m['answer']), plan=m['plan'], plan_line=e(plan_line),
             name=e(m['name']), demo=module_demo(m['demo']), split=split,
@@ -155,7 +171,7 @@ def module_pages(B, MODULES):
                            'Start free today, or book a 15-minute walkthrough on a weekday.'))
         out.append(B.page(path='/modules/%s/' % m['slug'], title=m['title'], desc=m['desc'], active='Product',
                           trail=[('Modules', '/modules/'), (m['name'], '/modules/%s/' % m['slug'])], body=body,
-                          faqs=m['faqs'], extra_ld=[app_ld], chat_msg=m['chat'],
+                          faqs=m['faqs'], extra_ld=[] if m.get('soon') else [app_ld], chat_msg=m['chat'],
                           chat_primary=('See pricing', '/pricing/'), chat_delay=20))
 
     groups = ''

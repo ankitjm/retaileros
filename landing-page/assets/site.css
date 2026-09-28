@@ -487,3 +487,18 @@ a.pdf-card { display: grid; grid-template-columns: 112px 1fr; gap: 16px; align-i
 @media (min-width: 900px) { .pdf-meta { margin-top: 12px; } .pdf-btn { justify-self: center; } }
 a.pdf-card:hover { border-color: var(--blue); transform: translateY(-2px); box-shadow: 0 28px 50px -30px rgba(30,71,184,.55); }
 a.pdf-card:hover .pdf-sheet.s1 { transform: translateY(-4px) rotate(-1deg); }
+
+/* Finance: journal mock-up · Device Protection: plan offer mock-up */
+.mdj-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.mdj-list li { display: grid; grid-template-columns: 48px 1fr auto; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 10px; background: var(--bg); font-size: 13px; }
+.mdj-d { font-size: 11.5px; font-weight: 700; color: var(--ink-muted); }
+.mdj-list b { display: block; font-size: 13px; color: var(--ink); font-weight: 600; }
+.mdj-list small { font-size: 11.5px; color: var(--ink-muted); }
+.mdj-a { font-family: var(--font-display); font-weight: 700; color: var(--ink); }
+.mdv-offer { display: grid; gap: 8px; padding: 12px; border: 1px dashed var(--line-strong); border-radius: 12px; background: #FBFCFE; }
+.mdv-offer > b { font-size: 13.5px; }
+.mdv-offer label { display: flex; align-items: center; gap: 9px; font-size: 13.5px; color: var(--ink); }
+.mdv-offer label em { margin-left: auto; font-style: normal; font-weight: 700; font-family: var(--font-display); }
+.mdv-box { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid var(--line-strong); flex: none; }
+.mdv-box.on { background: var(--blue); border-color: var(--blue); box-shadow: inset 0 0 0 3px #fff; }
+.card .tag.soon, a.card .tag.soon { color: #92400E; background: #FEF3C7; }

@@ -13,7 +13,7 @@ RULES (same as site_content.py, plus):
 - `demo` picks an illustrated mock-up (see site_pages.module_demo()).
 """
 
-PLAN = {'free': 'Free', 'shop': 'Shop', 'chain': 'Pro'}
+PLAN = {'free': 'Free', 'shop': 'Shop', 'chain': 'Pro', 'soon': 'Coming soon'}
 
 MODULE_PAGES = [
   {
@@ -163,7 +163,7 @@ MODULE_PAGES = [
   {
     'slug': 'marketplace', 'name': 'Marketplace', 'plan': 'chain',
     'title': 'Online Store & Retailer Marketplace | RetailerOS',
-    'desc': 'Your own online store for customers, plus a marketplace where RetailerOS retailers buy and sell stock with each other. Built for Indian electronics retail.',
+    'desc': 'Your own online store for customers, run from RetailerOS. Coming soon: a marketplace where RetailerOS retailers buy and sell stock with each other.',
     'eyebrow': 'Marketplace module',
     'h1': 'Sell beyond the counter — <em>to customers and to other retailers.</em>',
     'answer': 'The Marketplace module gives your store two new places to sell. Your online store is an e-commerce site for your customers, with listings, orders and shipping run from RetailerOS. The retailer marketplace — coming soon — lets RetailerOS retailers buy and sell stock with each other, so excess and open-box stock finds a buyer.',
@@ -238,5 +238,80 @@ MODULE_PAGES = [
     ],
     'related': ['marketplace', 'automation', 'schemes'],
     'chat': 'Running more than one store? I can show you the owner view across every location in 15 minutes.',
+  },
+]
+
+MODULE_PAGES += [
+  {
+    'slug': 'finance', 'name': 'Finance', 'plan': 'shop',
+    'title': 'Accounting Reports for Your CA | RetailerOS Finance',
+    'desc': 'Expenses, customer ledgers and sales from your counter in files your accountant can use. Journal entries and GST reports coming soon.',
+    'eyebrow': 'Finance module · for your accountant',
+    'h1': 'Everything your accountant needs, <em>straight from the counter.</em>',
+    'answer': 'The Finance module turns what happens at your counter into records your accountant can work from. Every expense is logged with its category and payment mode, every customer has a running ledger, and sales download as a file for your CA. A journal view of every entry and downloadable income, expense and GST reports are coming soon.',
+    'features': [
+      ('Expenses by category', 'Rent, salary, electricity, marketing and more — each with its payment mode, and a monthly category breakdown.', ''),
+      ('Customer ledgers', 'A running khaata for every customer and business account, updated by every bill and payment.', ''),
+      ('Sales for your CA', 'Download sales as a spreadsheet file for any period, ready for your accountant.', ''),
+      ('Accounting export', 'Export your sales data from settings for month-end work with your accountant.', ''),
+      ('Journal entries', 'Every bill, expense and payment shown as a journal entry, in one place your accountant can review.', 'soon'),
+      ('Income, expense & GST reports', 'Download month-end income, expense and GST reports — sales and purchase registers, tax summaries — for filing.', 'soon'),
+    ],
+    'steps': [
+      ('Bill as usual', 'Sales, payments and khaata are recorded as you work.'),
+      ('Log expenses', 'Add each expense with its category and how it was paid.'),
+      ('Download for your CA', 'Pick the period and download the file.'),
+      ('Close the month', 'Your accountant files from the reports, not from a shoebox of bills.'),
+    ],
+    'demo': 'journal',
+    'examples': [
+      ('Month-end in minutes', 'Instead of handing over a bag of bills, you send your CA one download for the month.'),
+      ('Where the money went', 'Rent, salaries and electricity side by side, so you see which cost grew this month.'),
+      ('Khaata that adds up', 'Every customer\'s balance matches their bills and payments, so there is nothing to reconcile.'),
+    ],
+    'faqs': [
+      ('Can my accountant get reports from RetailerOS?', 'Yes. Sales download as a spreadsheet file for any period, expenses are recorded by category and payment mode, and customer ledgers are kept up to date. Downloadable income, expense and GST reports are coming soon.'),
+      ('Does RetailerOS show journal entries?', 'A journal view of every bill, expense and payment is coming soon.'),
+      ('Do I still need an accountant?', 'Yes, for filing returns and your books. RetailerOS gives your accountant clean records from the counter, so they spend their time on filing rather than data entry.'),
+      ('Which plan includes Finance?', 'Finance is included on the Shop plan (₹3,999 a month) and on Pro.'),
+    ],
+    'related': ['schemes', 'stores', 'automation'],
+    'chat': 'Want your accountant to stop chasing you for bills? I can show you the Finance module in 15 minutes.',
+  },
+  {
+    'slug': 'device-protection', 'name': 'Device Protection', 'plan': 'soon', 'soon': True,
+    'title': 'Sell Device Protection Plans at the Counter | RetailerOS',
+    'desc': 'Offer extended warranty and damage protection on phones, ACs and TVs at billing, earn on every plan, and raise claims from RetailerOS. Coming soon.',
+    'eyebrow': 'Device Protection · coming soon',
+    'h1': 'Protection plans, <em>sold on the same bill.</em>',
+    'answer': 'Device Protection, coming soon to RetailerOS, will let your counter offer extended warranty and damage protection plans on the phones, ACs and TVs you sell — right on the bill. Each plan is tied to the unit\'s IMEI or serial number, and where the plan provider supports it, claims will be raised from RetailerOS.',
+    'features': [
+      ('Offered at billing', 'When a phone or appliance is billed, the matching protection plans appear on the same screen.', 'soon'),
+      ('On the same invoice', 'The plan is added to the customer\'s bill and receipt, with no second system to use.', 'soon'),
+      ('Tied to the unit', 'Every plan is linked to the IMEI or serial number it covers.', 'soon'),
+      ('Claims from the counter', 'When a covered device comes back, raise the claim from RetailerOS where the provider allows it.', 'soon'),
+      ('Earnings per plan', 'See what each plan sold earns your store, by staff member and by month.', 'soon'),
+      ('Reminders before expiry', 'A WhatsApp nudge to renew before cover runs out.', 'soon'),
+    ],
+    'steps': [
+      ('Bill the device', 'Scan the IMEI or serial number as usual.'),
+      ('Offer a plan', 'The plans for that product show on screen.'),
+      ('Add it to the bill', 'The customer pays once; cover is linked to the unit.'),
+      ('Claim when needed', 'Raise the claim from the device\'s record.'),
+    ],
+    'demo': 'protection',
+    'examples': [
+      ('A new flagship phone', 'Screen damage and extended warranty offered at the counter, when the customer is most likely to say yes.'),
+      ('An AC installation', 'Extended warranty on the compressor, added to the same bill as the installation.'),
+      ('A cracked screen', 'The customer walks in; one search on the IMEI shows the cover, and the claim starts from there.'),
+    ],
+    'faqs': [
+      ('When will Device Protection be available?', 'It is coming soon. Book a demo if you want to be among the first stores to use it.'),
+      ('Which protection providers will it work with?', 'RetailerOS is building integrations with device-protection providers. Where a provider offers an API, plans and claims will run from RetailerOS.'),
+      ('Will my store earn on each plan?', 'Plans are sold by your store, and the earnings on each one will be shown in RetailerOS.'),
+      ('Can I raise claims from RetailerOS?', 'Where the plan provider supports it, yes — claims will be raised from the device\'s record in RetailerOS.'),
+    ],
+    'related': ['schemes', 'automation', 'pre-booking'],
+    'chat': 'Interested in selling protection plans at your counter? Tell me a bit about your store and we will keep you posted.',
   },
 ]
