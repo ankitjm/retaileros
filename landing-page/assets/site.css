@@ -285,7 +285,8 @@ a.card .go { display: inline-block; margin-top: 12px; font-size: 14px; font-weig
 @media (max-width: 700px) { .verdict { grid-template-columns: 1fr; } }
 
 /* ── footer ──────────────────────────────────────────────── */
-.site-foot { background: #fff; border-top: 1px solid var(--line); margin-top: clamp(40px, 6vw, 72px); padding: 40px 0 110px; }
+.site-foot { background: #fff; border-top: 1px solid var(--line); margin-top: clamp(40px, 6vw, 72px); padding: 40px 0 28px; }
+@media (max-width: 760px) { .site-foot { padding-bottom: 76px; } } /* room for the chat button */
 .foot-cols { display: grid; gap: 24px; grid-template-columns: 1.3fr repeat(3, 1fr); }
 .foot-cols h4 { font-family: var(--font-body); font-size: 12px; font-weight: 700; letter-spacing: .1em;
                 text-transform: uppercase; color: var(--ink-muted); margin-bottom: 10px; }

@@ -5496,6 +5496,78 @@
   .chatbot-foot .chat-wa-note { font-size: 11px; color: var(--ink-muted); }
   .chat-form button.chat-form-wa { background: #25D366; color: #06331b; }
   .chat-form button.chat-form-wa:hover { background: #1FBE5B; }
+  
+  /* ── Chatbot replies: structured blocks (price tables, plan rows, lists, steps) ── */
+  .chat-msg.bot .bubble { max-width: 100%; }
+  .chat-msg.bot .bubble .cb-lead { margin: 0; color: var(--ink); }  /* colors_and_type.css paints bare <p> grey */
+  .chat-msg.bot .bubble .cb-note { color: var(--ink-muted); }
+  .cb-card { margin-top: 10px; display: grid; gap: 10px; }
+  .cb-card small { font-size: 12px; font-weight: 500; color: var(--ink-soft); }
+  .cb-prices, .cb-plans, .cb-rows { background: #fff; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .cb-price { display: grid; grid-template-columns: 76px 1fr; gap: 10px; align-items: baseline; padding: 10px 12px; }
+  .cb-price + .cb-price, .cb-plan + .cb-plan, .cb-row + .cb-row { border-top: 1px solid var(--line); }
+  .cb-cycle { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-muted); }
+  .cb-val { display: grid; gap: 2px; }
+  .cb-big { font-family: var(--font-display); font-size: 17px; font-weight: 700; color: var(--ink); letter-spacing: -.01em; }
+  .cb-sub { font-size: 12.5px; color: var(--ink-soft); }
+  .cb-sub s { color: var(--ink-muted); margin-left: 2px; }
+  .cb-save { display: inline-block; margin-left: 4px; padding: 1px 7px; border-radius: 999px; background: var(--green-soft);
+    color: #15803D; font-size: 11px; font-weight: 700; white-space: nowrap; }
+  .cb-plan { display: grid; gap: 3px; padding: 10px 12px 10px 14px; position: relative; }
+  .cb-plan::before { content: ""; position: absolute; left: 0; top: 10px; bottom: 10px; width: 3px; border-radius: 0 3px 3px 0; background: var(--ink-muted); }
+  .cb-plan.free::before { background: var(--green); } .cb-plan.shop::before { background: var(--brand-blue); } .cb-plan.chain::before { background: var(--accent); }
+  .cb-plan-top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .cb-plan-name { font-weight: 700; color: var(--ink); font-size: 14px; }
+  .cb-plan-price { font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--ink); white-space: nowrap; }
+  .cb-plan-note { font-size: 12.5px; line-height: 1.45; color: var(--ink-soft); }
+  .cb-row { display: grid; gap: 2px; padding: 10px 12px; }
+  .cb-row.hl { background: var(--brand-blue-soft); }
+  .cb-k { font-size: 12px; font-weight: 700; color: var(--ink); }
+  .cb-row.hl .cb-k { color: var(--brand-blue); }
+  .cb-v { font-size: 13px; line-height: 1.5; color: var(--ink-soft); }
+  .cb-list, .cb-steps { margin: 0; padding: 0; list-style: none; display: grid; gap: 7px; font-size: 13.5px; line-height: 1.45; }
+  .cb-list li { position: relative; padding-left: 18px; }
+  .cb-list li::before { content: ""; position: absolute; left: 3px; top: .55em; width: 6px; height: 6px; border-radius: 50%; background: var(--brand-blue); }
+  .cb-steps { counter-reset: cbs; }
+  .cb-steps li { position: relative; padding-left: 30px; min-height: 22px; }
+  .cb-steps li::before { counter-increment: cbs; content: counter(cbs); position: absolute; left: 0; top: -1px; width: 21px; height: 21px;
+    border-radius: 50%; background: var(--ink); color: #fff; font-size: 11.5px; font-weight: 700; display: grid; place-items: center; }
+  .cb-note { margin: 0; font-size: 12px; line-height: 1.45; color: var(--ink-muted); }
+  .chat-msg.bot .bubble a.cb-link { justify-self: start; display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 10px;
+    background: var(--ink); color: #fff; font-size: 13px; font-weight: 600; text-decoration: none; }
+  .chat-msg.bot .bubble a.cb-link:hover { background: #1f2937; }
+  
+  /* ── Footer, tightened. An old rule padded BOTH .site-footer and .footer-bottom by 96px
+        (~190px of blank space). The legal links now sit left with the copyright, clear of the
+        chat button at the bottom right; phones keep just enough room below for that button. ── */
+  .site-footer { padding: clamp(40px, 5vw, 60px) 0 28px; }
+  .site-footer .footer-top { padding-bottom: clamp(22px, 3vw, 30px); }
+  .site-footer .footer-cols { padding: clamp(22px, 3vw, 34px) 0; }
+  .site-footer .footer-bottom { padding-bottom: 0; padding-top: 18px; justify-content: flex-start; gap: 6px 22px; }
+  @media (max-width: 760px) {
+    .site-footer { padding-bottom: 76px; }
+    .site-footer .footer-cols { gap: 14px 16px; }
+    .site-footer .footer-col h3 { margin-bottom: 6px; }
+    .site-footer .footer-cols a { min-height: 36px; padding: 0; }
+    .site-footer .footer-top { gap: 12px; }
+    .site-footer .footer-ctas { gap: 4px 20px; flex-direction: row; }
+    .site-footer .footer-bottom { gap: 4px; }
+    .site-footer .footer-meta a { min-height: 36px; }
+  }
+
+  /* ── Multi-store table: caption and plan column headings centred ── */
+  .mstore-tbl caption { text-align: center; }
+  .mstore-tbl thead th:not(:first-child) { text-align: center; }
+
+  /* ── Add-ons: never fewer than two columns, phones included ── */
+  @media (max-width: 1080px) { .pricing-addons .addons-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 620px) {
+    .pricing-addons .addons-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .pricing-addons .addon { padding: 12px; flex-direction: column; flex-wrap: nowrap; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .pricing-addons .addon-name { flex: 0 0 auto; font-size: 13px; line-height: 1.3; }
+    .pricing-addons .addon-price { font-size: 15px; }
+    .pricing-addons .addon-name .note { font-size: 11.5px; }
+  }
   </style>
 
 <script>
@@ -7423,6 +7495,9 @@
     if (!btn || !closeBtn || !body) return;
 
     const tree = {
+      // Each reply: `bot` (the opening line) + optional `card` blocks rendered inside the same
+      // bubble — prices (a price table), plans (plan rows), list (bullets), steps (numbered),
+      // note (small print), link (a button). Text supports *italic* and **bold** only.
       greeting: {
         bot: "Hi 👋 I'm here to help you find what's right for *your shop*. What would you like to know?",
         choices: [
@@ -7434,7 +7509,16 @@
         ]
       },
       product: {
-        bot: "RetailerOS is a billing, inventory and operations platform built specifically for Indian mobile and electronics retailers — single counters to multi-city chains.",
+        bot: "RetailerOS runs the whole counter for Indian consumer electronics retail — from a single counter to a multi-city chain.",
+        card: {
+          list: [
+            "**Billing & stock** — GST invoices, inventory, purchase orders",
+            "**Every unit tracked** — by IMEI or serial number, purchase to warranty",
+            "**Schemes & claims** — brand cashback and warranty claims to settlement",
+            "**Repairs & service** — job cards from intake to handover",
+            "**Customers** — khaata, inquiries, pre-booking, WhatsApp receipts"
+          ]
+        },
         choices: [
           { id: 'product-different', label: 'How is it different from Tally?' },
           { id: 'product-modules', label: 'What modules do you have?' },
@@ -7443,7 +7527,15 @@
         ]
       },
       'product-different': {
-        bot: "Tally is accounting software — excellent for your books, but IMEI or serial tracking needs a paid third-party add-on, and it has no counter workflow for schemes, repairs or warranty claims. Vyapar is good-value billing and does track IMEIs and warranty periods. RetailerOS goes further for electronics retail: it reconciles brand scheme cashback, files warranty claims through to settlement, runs repair job cards from intake to handover, and manages several stores from one login. Full comparisons at retaileros.in/compare.",
+        bot: "Short version: accounting and billing tools print the invoice. RetailerOS runs the rest of the counter.",
+        card: {
+          rows: [
+            { k: 'Tally', v: "Excellent for your books. IMEI or serial tracking needs a paid add-on; no counter workflow for schemes, repairs or warranty claims." },
+            { k: 'Vyapar', v: "Good-value billing that tracks IMEIs and warranty periods." },
+            { k: 'RetailerOS', v: "Reconciles brand scheme cashback, files warranty claims to settlement, runs repair job cards, and manages several stores from one login.", hl: true }
+          ],
+          link: { href: '/compare/', label: 'See the full comparisons' }
+        },
         choices: [
           { id: 'product-modules', label: 'What modules?' },
           { id: 'pricing', label: 'See pricing' },
@@ -7451,7 +7543,14 @@
         ]
       },
       'product-modules': {
-        bot: "26 modules total. **Free** gives you 7 — Sales Desk, Invoices, Inventory and Clients plus dashboard and settings. **Shop** takes you to 20, adding IMEI Tracker, Schemes, Repairs, Claims, Cash Register, Expenses, Purchase Orders, Inquiries, Pre-booking, Reports, Staff, Finance and Pricing. **Chain** unlocks all 26 — Stores, Marketing, Marketplace, Integrations, Automation and Promoters.",
+        bot: "**26 modules**, one login. Start free and switch the rest on as you grow.",
+        card: {
+          plans: [
+            { tier: 'free', name: 'Free', price: '7 modules', note: "Sales Desk, Invoices, Inventory, Clients, plus dashboard and settings" },
+            { tier: 'shop', name: 'Shop', price: '+13', note: "IMEI Tracker, Schemes, Repairs, Claims, Cash Register, Expenses, Purchase Orders, Inquiries, Pre-booking, Reports, Staff, Finance, Pricing" },
+            { tier: 'chain', name: 'Chain', price: '+6', note: "Stores, Marketing, Marketplace, Integrations, Automation, Promoters" }
+          ]
+        },
         choices: [
           { id: 'pricing', label: 'See pricing' },
           { id: 'product-india', label: 'Why "built for India"?' },
@@ -7459,7 +7558,15 @@
         ]
       },
       'product-india': {
-        bot: "Hindi labels on every screen (also Marathi, Gujarati, Tamil). GST-ready invoices. Every unit tracked by serial number or IMEI, whether it is a handset, an AC or a refrigerator. Brand-scheme reconciliation handled the way Indian electronics retailers actually claim it — not bolted on as an afterthought.",
+        bot: "Built for the way Indian electronics retailers actually work:",
+        card: {
+          list: [
+            "**Hindi labels** on every screen (also Marathi, Gujarati and Tamil)",
+            "**GST-ready invoices**, out of the box",
+            "**Every unit by IMEI or serial** — a handset, an AC or a refrigerator",
+            "**Brand schemes** reconciled the way retailers really claim them"
+          ]
+        },
         choices: [
           { id: 'product-modules', label: 'What modules?' },
           { id: 'setup', label: 'How does setup work?' },
@@ -7467,17 +7574,34 @@
         ]
       },
       pricing: {
-        bot: "Three plans: **Free** (₹0 forever), **Shop** (₹3,999/mo, one store) and **Chain** (₹7,499/mo for your first store plus ₹3,499/mo for each additional store, minimum two). Paid plans get a 14-day trial. Quarterly billing saves 5%, annual saves 15%. All prices exclude 18% GST. Exact figures for your store count: retaileros.in/pricing.",
+        bot: "Three plans. Start free, upgrade when the counter gets busy.",
+        card: {
+          plans: [
+            { tier: 'free', name: 'Free', price: '₹0', per: 'forever', note: '1 store · 50 bills a month' },
+            { tier: 'shop', name: 'Shop', price: '₹3,999', per: '/ month', note: '1 store · 750 bills a month · 20 modules' },
+            { tier: 'chain', name: 'Chain', price: '₹7,499', per: '/ month, first store', note: '+ ₹3,499 a month per extra store · minimum 2 · all 26 modules' }
+          ],
+          note: "Quarterly billing saves 5%, annual 15%. Paid plans have a 14-day trial. Prices exclude 18% GST.",
+          link: { href: '/pricing/', label: 'Full pricing & store calculator' }
+        },
         choices: [
           { id: 'pricing-free', label: 'Tell me about Free' },
-          { id: 'pricing-starter', label: "What's in Starter?" },
-          { id: 'pricing-pro', label: "What's in Pro?" },
-          { id: 'pricing-enterprise', label: 'What about a bigger chain?' },
+          { id: 'pricing-starter', label: 'Shop — prices by billing cycle' },
+          { id: 'pricing-pro', label: 'Chain — prices for 2+ stores' },
+          { id: 'pricing-trial', label: 'How does the trial work?' },
           { id: 'greeting', label: '← Back to topics' }
         ]
       },
       'pricing-free': {
-        bot: "Free — **₹0 forever**, no card needed. 50 bills/month, 3 staff logins, 1 store. You get 7 modules — Sales Desk, Invoices, Inventory and Clients plus dashboard and settings — with *unlimited* customers and *unlimited* IMEI history, kept forever.",
+        bot: "**Free** — ₹0, forever. No card needed.",
+        card: {
+          list: [
+            "**50 bills** a month",
+            "**1 store**, 3 staff logins",
+            "**7 modules** — Sales Desk, Invoices, Inventory, Clients, plus dashboard and settings",
+            "*Unlimited* customers and IMEI history, kept forever"
+          ]
+        },
         choices: [
           { id: 'pricing-starter', label: 'When should I upgrade?' },
           { id: 'human', label: '👤 Talk to sales' },
@@ -7485,15 +7609,44 @@
         ]
       },
       'pricing-starter': {
-        bot: "Shop — **₹3,999/mo** (quarterly ₹11,397 every 3 months = ₹3,799/mo; annual ₹40,788 a year = ₹3,399/mo). 750 bills/mo, 3 staff logins, 1 store. 20 modules — adds IMEI Tracker, Schemes, Repairs, Claims, Cash Register, Expenses, Purchase Orders, Inquiries, Pre-booking, Reports, Staff, Finance and Pricing. 200 WhatsApp/mo. Busy festival month? Add 250-bill packs at ₹499.",
+        bot: "**Shop** — everything one counter needs.",
+        card: {
+          prices: [
+            { cycle: 'Monthly', big: '₹3,999', per: '/ month' },
+            { cycle: 'Quarterly', big: '₹11,397', per: '/ 3 months', sub: '₹3,799/month', was: '₹3,999', save: 'save ₹600' },
+            { cycle: 'Annual', big: '₹40,788', per: '/ year', sub: '₹3,399/month', was: '₹3,999', save: 'save ₹7,200' }
+          ],
+          list: [
+            "**750 bills** a month · 1 store · 3 staff logins",
+            "**20 modules** — adds IMEI Tracker, Schemes, Repairs, Claims and 9 more",
+            "**200 WhatsApp** messages a month",
+            "Festival rush? Add **250-bill packs** at ₹499"
+          ],
+          note: "Prices exclude 18% GST · 14-day free trial"
+        },
         choices: [
-          { id: 'pricing-pro', label: "What's in Pro?" },
           { id: 'pricing-trial', label: 'How does the trial work?' },
+          { id: 'pricing-pro', label: 'I have 2+ stores' },
           { id: 'greeting', label: '← Back to topics' }
         ]
       },
       'pricing-pro': {
-        bot: "Chain — **₹7,499/mo for your first store** plus **₹3,499/mo for each additional store**, minimum two stores. So two stores is ₹10,998/mo, or ₹1,12,176 a year on annual billing (₹9,348/mo). *Unlimited bills*, 3 staff logins per store, *all 26 modules* — adds Stores, Marketing, Marketplace, Integrations, Automation and Promoters. 2,000 WhatsApp/mo, REST API, priority 12h email + WhatsApp + phone callback.",
+        bot: "**Chain** — for two or more stores. Here's the minimum, two stores:",
+        card: {
+          prices: [
+            { cycle: 'Monthly', big: '₹10,998', per: '/ month' },
+            { cycle: 'Quarterly', big: '₹31,344', per: '/ 3 months', sub: '₹10,448/month', was: '₹10,998', save: 'save ₹1,650' },
+            { cycle: 'Annual', big: '₹1,12,176', per: '/ year', sub: '₹9,348/month', was: '₹10,998', save: 'save ₹19,800' }
+          ],
+          note: "First store ₹7,499/month + ₹3,499/month for each extra store (monthly rates). Prices exclude 18% GST.",
+          list: [
+            "**Unlimited bills** · 3 staff logins with every store",
+            "**All 26 modules** — adds Stores, Marketing, Marketplace, Integrations, Automation, Promoters",
+            "**2,000 WhatsApp** messages a month",
+            "**Priority support** — 12-hour email, WhatsApp and phone callback"
+          ],
+          link: { href: '/pricing/', label: 'Price my exact number of stores' }
+        },
         choices: [
           { id: 'pricing-enterprise', label: 'What about a bigger chain?' },
           { id: 'pricing-trial', label: 'Trial details' },
@@ -7501,14 +7654,30 @@
         ]
       },
       'pricing-enterprise': {
-        bot: "Chain scales to any number of stores at ₹3,499 each per month, so there is no separate enterprise plan to buy. For a custom rollout across cities, a dedicated WhatsApp number, on-site training or SSO, talk to us and we'll scope it with you.",
+        bot: "There's no separate enterprise plan — Chain scales to any number of stores at ₹3,499 a month each.",
+        card: {
+          list: [
+            "Custom rollout across cities",
+            "A dedicated WhatsApp number",
+            "On-site training",
+            "Single sign-on (SSO)"
+          ],
+          note: "Need any of these? Talk to us and we'll scope it with you."
+        },
         choices: [
           { id: 'human', label: '👤 Get a custom quote' },
           { id: 'greeting', label: '← Back to topics' }
         ]
       },
       'pricing-trial': {
-        bot: "Shop and Chain both have a 14-day trial. After 14 days, your selected plan begins billing. You can cancel any time — no charges if you cancel before day 14, and your account drops to Free with all your data intact.",
+        bot: "Shop and Chain both come with a **14-day trial**.",
+        card: {
+          steps: [
+            "Pick Shop or Chain and start — no charge for 14 days",
+            "On day 15 your plan starts billing",
+            "Cancel before then and you pay nothing — you drop to Free with *all your data intact*"
+          ]
+        },
         choices: [
           { id: 'pricing', label: 'See plan details' },
           { id: 'human', label: '👤 Talk to a human' },
@@ -7516,16 +7685,28 @@
         ]
       },
       'free-paid': {
-        bot: "Free is genuinely free, forever — no credit card, no trial timer, and your customer and IMEI history stays unlimited and kept forever. Paid plans (Shop & Chain) get a 14-day trial then convert. Free works great for shops doing fewer than 50 bills/month.",
+        bot: "Free is genuinely free, forever. Paid plans are for when the counter gets busy.",
+        card: {
+          rows: [
+            { k: 'Free', v: "No card, no trial timer. Up to 50 bills a month. Customer and IMEI history unlimited and kept forever." },
+            { k: 'Shop & Chain', v: "14-day trial, then billing starts. More bills, more modules, more support.", hl: true }
+          ],
+          note: "Free works well for shops doing fewer than 50 bills a month."
+        },
         choices: [
-          { id: 'pricing-free', label: "What's in Free?" },
-          { id: 'pricing-starter', label: "What's in Starter?" },
           { id: 'pricing', label: 'Compare all plans' },
           { id: 'greeting', label: '← Back to topics' }
         ]
       },
       setup: {
-        bot: "Setup takes about 10 minutes. We'll walk you through store info, your first product entries, and connecting WhatsApp. No IT team needed.",
+        bot: "Setup takes about **10 minutes**. No IT team needed.",
+        card: {
+          steps: [
+            "Add your store details",
+            "Enter your first products",
+            "Connect WhatsApp — and you're billing"
+          ]
+        },
         choices: [
           { id: 'setup-import', label: 'Can I import from Tally/Vyapar?' },
           { id: 'setup-language', label: 'Hindi support?' },
@@ -7534,7 +7715,15 @@
         ]
       },
       'setup-import': {
-        bot: "Yes — we have a step-by-step migration guide (free PDF on our Resources page). Vyapar and spreadsheet imports are also supported. On the Chain plan, we'll handle the migration for you.",
+        bot: "Yes — you can bring your data with you.",
+        card: {
+          list: [
+            "**Tally** — step-by-step migration guide (free on our Resources page)",
+            "**Vyapar and spreadsheets** — imports supported",
+            "**On Chain** — we handle the migration for you"
+          ],
+          link: { href: '/resources.html', label: 'Open the Resources page' }
+        },
         choices: [
           { id: 'setup', label: 'Other setup questions' },
           { id: 'human', label: '👤 Get migration help' },
@@ -7542,14 +7731,24 @@
         ]
       },
       'setup-language': {
-        bot: "Yes — every screen has Hindi labels. We also support Marathi, Gujarati and Tamil. Each counter staff member can switch language in their profile.",
+        bot: "Yes — every screen has **Hindi** labels. Marathi, Gujarati and Tamil are supported too.",
+        card: {
+          note: "Each staff member can switch language in their own profile."
+        },
         choices: [
           { id: 'setup', label: 'Other setup questions' },
           { id: 'greeting', label: '← Back to topics' }
         ]
       },
       'setup-training': {
-        bot: "Shop: email support with a 48-hour SLA plus in-app chat. Chain: priority 12-hour email, WhatsApp and phone callback, with onboarding help. Free: in-app knowledge base and community forum.",
+        bot: "Support depends on your plan:",
+        card: {
+          rows: [
+            { k: 'Free', v: "In-app knowledge base and community forum" },
+            { k: 'Shop', v: "Email support with a 48-hour SLA, plus in-app chat" },
+            { k: 'Chain', v: "Priority 12-hour email, WhatsApp and phone callback, with onboarding help", hl: true }
+          ]
+        },
         choices: [
           { id: 'pricing', label: 'See plans' },
           { id: 'human', label: '👤 Talk to a human' },
@@ -7584,19 +7783,91 @@
         .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
         .replace(/\*([^*]+)\*/g, '<em>$1</em>');
     }
-    function addMessage(text, side) {
+    function addMessage(text, side, card) {
       const msg = document.createElement('div');
       msg.className = `chat-msg ${side}`;
       const bubble = document.createElement('div');
       bubble.className = 'bubble';
       if (side === 'bot') {
-        bubble.innerHTML = emphasize(text);
+        const lead = document.createElement('p');
+        lead.className = 'cb-lead';
+        lead.innerHTML = emphasize(text);
+        bubble.appendChild(lead);
+        if (card) bubble.appendChild(renderCard(card));
       } else {
         bubble.textContent = text;
       }
       msg.appendChild(bubble);
       body.appendChild(msg);
-      body.scrollTop = body.scrollHeight;
+      // keep the start of a long reply in view rather than jumping to its end
+      body.scrollTop = card ? Math.max(0, msg.offsetTop - 12) : body.scrollHeight;
+    }
+
+    // Rich reply blocks. Every string goes through emphasize(), which escapes HTML first.
+    function el(tag, cls, html) {
+      const e = document.createElement(tag);
+      if (cls) e.className = cls;
+      if (html != null) e.innerHTML = html;
+      return e;
+    }
+    function renderCard(card) {
+      const wrap = el('div', 'cb-card');
+      if (card.prices) {
+        const t = el('div', 'cb-prices');
+        card.prices.forEach(p => {
+          const row = el('div', 'cb-price');
+          row.appendChild(el('span', 'cb-cycle', emphasize(p.cycle)));
+          const val = el('div', 'cb-val');
+          val.appendChild(el('span', 'cb-big', emphasize(p.big) + ' <small>' + emphasize(p.per || '') + '</small>'));
+          if (p.sub) {
+            val.appendChild(el('span', 'cb-sub', emphasize(p.sub) + (p.was ? ' <s>' + emphasize(p.was) + '</s>' : '') +
+              (p.save ? ' <b class="cb-save">' + emphasize(p.save) + '</b>' : '')));
+          }
+          row.appendChild(val);
+          t.appendChild(row);
+        });
+        wrap.appendChild(t);
+      }
+      if (card.plans) {
+        const t = el('div', 'cb-plans');
+        card.plans.forEach(p => {
+          const row = el('div', 'cb-plan ' + (p.tier || ''));
+          const top = el('div', 'cb-plan-top');
+          top.appendChild(el('span', 'cb-plan-name', emphasize(p.name)));
+          top.appendChild(el('span', 'cb-plan-price', emphasize(p.price) + (p.per ? ' <small>' + emphasize(p.per) + '</small>' : '')));
+          row.appendChild(top);
+          if (p.note) row.appendChild(el('span', 'cb-plan-note', emphasize(p.note)));
+          t.appendChild(row);
+        });
+        wrap.appendChild(t);
+      }
+      if (card.rows) {
+        const t = el('div', 'cb-rows');
+        card.rows.forEach(r => {
+          const row = el('div', 'cb-row' + (r.hl ? ' hl' : ''));
+          row.appendChild(el('span', 'cb-k', emphasize(r.k)));
+          row.appendChild(el('span', 'cb-v', emphasize(r.v)));
+          t.appendChild(row);
+        });
+        wrap.appendChild(t);
+      }
+      if (card.list) {
+        const ul = el('ul', 'cb-list');
+        card.list.forEach(item => ul.appendChild(el('li', null, emphasize(item))));
+        wrap.appendChild(ul);
+      }
+      if (card.steps) {
+        const ol = el('ol', 'cb-steps');
+        card.steps.forEach(item => ol.appendChild(el('li', null, emphasize(item))));
+        wrap.appendChild(ol);
+      }
+      if (card.note) wrap.appendChild(el('p', 'cb-note', emphasize(card.note)));
+      if (card.link) {
+        const a = el('a', 'cb-link', emphasize(card.link.label) + ' <span aria-hidden="true">&rarr;</span>');
+        a.href = card.link.href;
+        wrap.appendChild(a);
+      }
+      return wrap;
     }
 
     function addTyping() {
@@ -7614,7 +7885,7 @@
       const typing = addTyping();
       setTimeout(() => {
         typing.remove();
-        addMessage(node.bot, 'bot');
+        addMessage(node.bot, 'bot', node.card);
         if (node.form) {
           renderForm();
         } else if (node.choices) {
