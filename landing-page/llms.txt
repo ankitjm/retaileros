@@ -37,6 +37,7 @@ RetailerOS is used at the shop counter rather than in a back office. It is purpo
 - [Security](https://retaileros.in/security.html) · [Privacy](https://retaileros.in/privacy.html) · [Terms](https://retaileros.in/terms.html)
 
 ## Comparisons (added 28 September 2026)
+- [RetailerOS vs APX](https://retaileros.in/compare/apx-erp-alternative/): APX ERP runs some of India's largest mobile chains as a custom ERP. RetailerOS is published-price software for single stores and growing chains.
 - [RetailerOS vs Marg](https://retaileros.in/compare/marg-erp-alternative/): Marg ERP 9+ is desktop billing and accounting with IMEI tracking. RetailerOS adds brand scheme tracking, repair job cards and cloud multi-store.
 - [RetailerOS vs Zoho](https://retaileros.in/compare/zoho-books-inventory-alternative/): Zoho Books and Inventory are strong cloud accounting and stock tools for any business. RetailerOS is built for the electronics counter.
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Comparison pages for the tools Indian electronics retailers actually use:
-Tally, Marg, Zoho Books + Inventory, APX ("Apex"). Merged into
+Tally, Marg, Zoho Books + Inventory, APX ERP. Merged into
 site_content.COMPARES (see the bottom of site_content.py).
 
 Same rules as site_content.py: every competitor claim was read on the vendor's
@@ -162,11 +162,11 @@ ZOHO = {
 }
 
 APX = {
-    'slug': 'apx-erp-alternative', 'nav': 'RetailerOS vs APX (Apex)', 'vs': 'APX ERP',
-    'title': 'RetailerOS vs APX (Apex) ERP for Mobile Retail | RetailerOS',
+    'slug': 'apx-erp-alternative', 'nav': 'RetailerOS vs APX', 'vs': 'APX ERP',
+    'title': 'RetailerOS vs APX ERP for Mobile Retail | RetailerOS',
     'desc': 'APX ERP runs some of India\'s largest mobile chains as a custom ERP. RetailerOS is published-price software for single stores and growing chains.',
     'h1': 'APX is an ERP for the largest chains. <em>RetailerOS is ready for yours today.</em>',
-    'answer': 'APX ERP from APX Solution, Chennai — often said as "Apex" — is a full retail and distribution ERP used by several of India\'s largest mobile chains. It has IMEI tracking, a schemes, targets and claims module, service handling and full accounts, sold through tailored implementations with no published prices. RetailerOS is ready-to-use software with published per-store pricing, for single stores and growing chains.',
+    'answer': 'APX ERP from APX Solution, Chennai (apxsolution.in), is a full retail and distribution ERP used by several of India\'s largest mobile chains. It has IMEI tracking, a schemes, targets and claims module, service handling and full accounts, sold through tailored implementations with no published prices. RetailerOS is ready-to-use software with published per-store pricing, for single stores and growing chains.',
     'cols': ['What you need', 'APX ERP', 'RetailerOS'],
     'rows': [
         ('Built for<small>Where the software starts from</small>', 'P:Large chains & distribution', 'P:Stores & growing chains'),
@@ -188,7 +188,7 @@ APX = {
         'Implementation tailored to each client',
     ],
     'us_more': [
-        'Published prices — ₹3,999 a month for a store, ₹7,499 + ₹3,499 per store for a chain',
+        'Published prices — ₹3,999 a month for Shop, ₹7,499 for Pro, and ₹3,499 for each store you add',
         'Start the same day: sign up, add products and bill, with a free plan to try it',
         'WhatsApp receipts and automated follow-up sequences after every sale',
         'Pre-booking for launches, AI marketing creatives and an online store',
@@ -200,7 +200,7 @@ APX = {
         ('Growing into a chain', 'RetailerOS Pro adds each new store at ₹3,499 a month, with its stock, staff and cash from day one.'),
     ],
     'faqs': [
-        ('Is APX the same as "Apex" software?', 'In mobile retail, "Apex" usually refers to APX ERP from APX Solution, Chennai (apxsolution.in), whose client list includes several of India\'s largest mobile chains. Other unrelated products also use the Apex name.'),
+        ('Who uses APX ERP?', 'APX ERP is made by APX Solution, Chennai (apxsolution.in). Its client list includes several of India\'s largest mobile retail chains, many running 100 or more stores.'),
         ('How much does APX ERP cost?', 'APX does not publish prices; its site offers a "Get Price" enquiry and tailored implementations. RetailerOS prices are published: free for 50 bills a month, ₹3,999 a month for Shop, and ₹7,499 for the first Pro store plus ₹3,499 for each additional store.'),
         ('Does APX track schemes and IMEI numbers?', 'Yes. APX lists IMEI and serial tracking and a "Schemes, Targets & Incentives" module covering schemes, claims and credit notes. RetailerOS includes IMEI tracking, schemes against brand targets and scheme claims too.'),
         ('Which should a 10-store chain choose?', 'If you want a custom ERP with distribution and full accounts, talk to APX. If you want to be live this week at a published price, with every store on one owner login, RetailerOS Pro is built for that.'),
@@ -209,7 +209,7 @@ APX = {
     'chat': 'Comparing us with APX? I can show you RetailerOS Pro on your own store count in 15 minutes.',
 }
 
-# APX is written but NOT published until Ankit confirms the industry's "Apex" is APX ERP (apxsolution.in).
-APX_CONFIRMED = False
+# APX ERP (apxsolution.in) — confirmed by Ankit 28 September 2026.
+APX_CONFIRMED = True
 NEW_ORDER = ['tally-alternative', 'marg-erp-alternative', 'zoho-books-inventory-alternative'] + (['apx-erp-alternative'] if APX_CONFIRMED else []) + [
              'vyapar-alternative', 'paper-register-and-excel', 'retaileros-ai']
