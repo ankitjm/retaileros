@@ -5458,6 +5458,15 @@
   
   /* The header is sticky; keep it solid so the page doesn't ghost through it. */
   header.nav { background: #F4F7FB; }
+  /* Multi-store visual: one dashboard wired to five stores, between the answer and the card grid.
+     Phone (<=620px) gets a 4:3 centre crop (laptop + Store 1); width/height attrs need height:auto. */
+  .mstore-visual {
+    max-width: 1080px; margin: 0 auto clamp(40px, 5vw, 56px);
+    background: #fff; border: 1px solid var(--line); border-radius: 16px; overflow: hidden;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 12px 32px -12px rgba(15, 23, 42, .14);
+  }
+  .mstore-visual picture, .mstore-visual img { display: block; width: 100%; max-width: 100%; height: auto; }
+  @media (max-width: 620px) { .mstore-visual { border-radius: 14px; } }
   </style>
 
 <script>
@@ -6024,6 +6033,14 @@
         <strong>Yes — RetailerOS runs multiple stores from one login.</strong> Each location keeps its own stock, staff, cash register and invoice numbering, while you get a single owner's view across all of them. On <strong>Chain</strong>, your first store is ₹7,499/month and every additional store is <strong>₹3,499/month</strong>, with a minimum of two — so a two-store chain starts at ₹10,998/month — and every store brings 3 staff logins with it, at no extra charge. Consolidating always costs less than running separate accounts.
       </p>
     </div>
+
+    <figure class="mstore-visual">
+      <picture>
+        <source media="(max-width: 620px)" type="image/webp" srcset="assets/hero-photos/multistore-phone.webp">
+        <source type="image/webp" srcset="assets/hero-photos/multistore-wide.webp">
+        <img src="assets/hero-photos/multistore-wide.jpg" alt="One RetailerOS dashboard connected to five stores" width="1600" height="533" loading="lazy" decoding="async">
+      </picture>
+    </figure>
 
     <div class="mstore-grid">
       <article class="mstore-card">
