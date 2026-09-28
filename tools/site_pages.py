@@ -93,12 +93,16 @@ def build(B):
 
     ex_rows = ''
     for n in (2, 3, 5, 10, 15, 25):
-        ex_rows += '<tr><th scope="row">%d stores<small>%d staff logins</small></th><td>%s</td><td class="us">%s<small>%s a year</small></td><td>%s</td></tr>' % (
-            n, n * B.LOGINS_PER_STORE, B.inr(B.chain(n, 'monthly')), B.inr(B.chain(n, 'annual')),
-            B.inr(B.chain(n, 'annual') * 12), B.inr(B.chain(n, 'annual') / n))
+        # every cell says what period it is for: the big figure is what is billed, the small one the per-month view
+        ex_rows += ('<tr><th scope="row">%d stores<small>%d staff logins</small></th>'
+                    '<td>%s<small>a month</small></td>'
+                    '<td class="us">%s<small>a year · %s a month</small></td>'
+                    '<td>%s<small>a month, billed yearly</small></td></tr>') % (
+            n, n * B.LOGINS_PER_STORE, B.inr(B.chain(n, 'monthly')),
+            B.inr(B.chain(n, 'annual') * 12), B.inr(B.chain(n, 'annual')), B.inr(B.chain(n, 'annual') / n))
     examples = '''<div class="ctable-wrap"><table class="ctable">
-  <caption>Figures before 18%% GST. Yearly billing saves 15%% on every store, including additional ones.</caption>
-  <thead><tr><th scope="col">Chain size</th><th scope="col">Pay monthly</th><th scope="col" class="us">Pay yearly<br>(per month)</th><th scope="col">Per store<br>(yearly)</th></tr></thead>
+  <caption>What a chain pays, before 18%% GST. Yearly billing saves 15%% on every store, including additional ones. Quarterly billing saves 5%%.</caption>
+  <thead><tr><th scope="col">Chain size</th><th scope="col">Billed monthly</th><th scope="col" class="us">Billed yearly</th><th scope="col">Per store<br>(yearly billing)</th></tr></thead>
   <tbody>%s</tbody></table></div>''' % ex_rows
 
     mod_rows = ''
@@ -112,10 +116,7 @@ def build(B):
   <thead><tr><th scope="col">Module</th><th scope="col">Free</th><th scope="col" class="us">Shop</th><th scope="col">Chain</th></tr></thead>
   <tbody>%s</tbody></table></div>''' % mod_rows
 
-    addons = [('Extra store', 'Chain plan · 3 logins included', 3499, '/mo'), ('Extra staff login', 'Only if a store needs more than 3', 499, '/mo'),
-              ('250-bill pack', 'For festival months on Shop', 499, ''), ('500 WhatsApp messages', 'Top-up pack', 249, ''),
-              ('10 GB storage', 'Per month', 149, '/mo'), ('Dedicated WhatsApp number', 'Your own business number', 1499, '/mo'),
-              ('Claim recovery, done for you', 'We file your scheme and warranty claims', 2499, '/mo')]
+    addons = B.ADDONS
     addon_html = '<div class="addons">%s</div>' % ''.join(
         '<div class="addon"><div><b>%s</b><span>%s</span></div><div class="pr">%s<small style="font-size:12px;color:var(--ink-muted)">%s</small></div></div>' % (
             e(n), e(d), B.inr(p), s) for n, d, p, s in addons)
@@ -136,6 +137,7 @@ def build(B):
   <h1>Pricing that grows <em>with your stores.</em></h1>
   <p class="lede">Three plans. Start free, move to Shop when the counter gets busy, and to Chain when you open a second store. Every store includes 3 staff logins.</p>
   <p class="answer">RetailerOS is <strong>free</strong> for one store up to 50 bills a month. <strong>Shop</strong> is ₹3,999 a month for one store. <strong>Chain</strong> is ₹7,499 a month for the first store plus ₹3,499 for each additional store, with a minimum of two. Paying quarterly saves 5%% and yearly saves 15%%. Prices exclude GST.</p>
+  <a class="dl-proposal" href="/assets/RetailerOS-Pricing-Proposal.pdf" download data-track="proposal_download"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg><span><b>Download pricing proposal</b><small>PDF · 4 pages · plans, rates, chain examples and terms — to share with your partners or management</small></span></a>
   <div class="hero-cta" style="margin-top:26px">
     <div class="cycle" role="group" aria-label="Billing cycle">
       <button type="button" data-cycle="monthly" aria-pressed="false">Monthly</button>

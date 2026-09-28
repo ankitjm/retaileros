@@ -67,6 +67,18 @@ try:
 except OSError:
     pass
 
+# the downloadable pricing proposal must quote today's prices (tools/build_proposal.py)
+try:
+    sys.path.insert(0, os.path.join(ROOT, 'tools'))
+    import build_proposal as _BP
+    _st = json.load(io.open(os.path.join(SITE, 'assets', 'pricing-proposal.json'), encoding='utf-8'))
+    if not os.path.isfile(os.path.join(SITE, 'assets', 'RetailerOS-Pricing-Proposal.pdf')):
+        bad('assets/RetailerOS-Pricing-Proposal.pdf', 'missing — run: python3 tools/build_proposal.py')
+    elif _st.get('hash') != _BP.stamp_hash():
+        bad('assets/RetailerOS-Pricing-Proposal.pdf', 'prices or modules changed since the PDF was made — run: python3 tools/build_proposal.py')
+except (OSError, ValueError) as ex:
+    bad('assets/pricing-proposal.json', 'missing or unreadable (%s) — run: python3 tools/build_proposal.py' % ex)
+
 node = shutil.which('node')
 if node:
     tmp = tempfile.mkdtemp()

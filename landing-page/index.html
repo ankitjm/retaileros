@@ -5634,6 +5634,23 @@
   a.mod-link:hover { color: var(--brand-blue); text-decoration-color: currentColor; }
   .price-card.tier-pro a.mod-link, .tier-pro a.mod-link { text-decoration-color: rgba(255,255,255,.45); }
   .tier-pro a.mod-link:hover { color: #fff; text-decoration-color: #fff; }
+  
+  .addon-price .addon-per { font-size: 11px; font-weight: 600; color: var(--ink-muted); margin-left: 2px; letter-spacing: 0; }
+  .mstore-tbl .num small { font-size: 11px; font-weight: 600; color: var(--ink-muted); margin-left: 2px; }
+  
+  /* "Download pricing proposal" */
+  .dl-proposal-wrap { text-align: center; margin: 28px auto 48px; }
+  a.dl-proposal { display: inline-flex; align-items: center; gap: 12px; padding: 12px 18px 12px 14px; border-radius: 14px; text-align: left;
+    background: #fff; border: 1px solid var(--line-strong); color: var(--ink); text-decoration: none; max-width: 560px;
+    transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease; }
+  a.dl-proposal svg { flex: none; width: 38px; height: 38px; padding: 9px; border-radius: 10px; background: var(--brand-blue); color: #fff; }
+  a.dl-proposal b { display: block; font-size: 15px; color: var(--ink); }
+  a.dl-proposal small { display: block; font-size: 13px; color: var(--ink-soft); line-height: 1.4; margin-top: 2px; }
+  a.dl-proposal:hover { border-color: var(--brand-blue); box-shadow: 0 10px 24px -14px rgba(30,71,184,.55); transform: translateY(-1px); }
+  
+  /* Tables: every value column heading centred over its centred cells; captions centred everywhere */
+  .cmp thead th:not(:first-child) { text-align: center; }
+  .cmp caption, .mstore-tbl caption { text-align: center; }
   </style>
 
 <script>
@@ -6226,7 +6243,7 @@
         </thead>
         <tbody>
           <tr><th scope="row">Stores included</th><td data-col="Free"><span class="num">1</span></td><td data-col="Shop"><span class="num">1</span></td><td class="hi" data-col="Chain"><span class="num">2 min.</span></td></tr>
-          <tr><th scope="row">Extra stores</th><td data-col="Free"><span class="no">✕</span></td><td data-col="Shop"><span class="no">✕</span></td><td class="hi" data-col="Chain"><span class="num">₹3,499</span></td></tr>
+          <tr><th scope="row">Extra stores</th><td data-col="Free"><span class="no">✕</span></td><td data-col="Shop"><span class="no">✕</span></td><td class="hi" data-col="Chain"><span class="num">₹3,499<small>/mo each</small></span></td></tr>
           <tr><th scope="row">Bills per month</th><td data-col="Free"><span class="num">50</span></td><td data-col="Shop"><span class="num">750</span></td><td class="hi" data-col="Chain"><span class="num">Unlimited</span></td></tr>
           <tr><th scope="row">Staff logins included</th><td data-col="Free"><span class="num">3</span></td><td data-col="Shop"><span class="num">3</span></td><td class="hi" data-col="Chain"><span class="num">3 per store</span></td></tr>
           <tr><th scope="row">Unlimited customer &amp; IMEI history</th><td data-col="Free"><span class="yes">✓</span></td><td data-col="Shop"><span class="yes">✓</span></td><td class="hi" data-col="Chain"><span class="yes">✓</span></td></tr>
@@ -6402,6 +6419,8 @@
   </div>
 
   <!-- ADD-ONS -->
+  <p class="dl-proposal-wrap"><a class="dl-proposal" href="/assets/RetailerOS-Pricing-Proposal.pdf" download data-track="proposal_download"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg><span><b>Download pricing proposal</b><small>PDF · plans, rates, chain examples and terms — to share with your partners or management</small></span></a></p>
+
   <div class="pricing-addons">
     <div class="pricing-addons-head">
       <span class="eyebrow-mini">Add-ons</span>
@@ -6411,31 +6430,31 @@
     <div class="addons-grid">
       <div class="addon">
         <span class="addon-name">Extra store location<span class="note">Chain plan · per store, per month</span></span>
-        <span class="addon-price">₹3,499</span>
+        <span class="addon-price">₹3,499<small class="addon-per">/mo</small></span>
       </div>
       <div class="addon">
         <span class="addon-name">Extra staff login<span class="note">only if one store needs more than 3</span></span>
-        <span class="addon-price">₹499</span>
+        <span class="addon-price">₹499<small class="addon-per">/mo</small></span>
       </div>
       <div class="addon">
         <span class="addon-name">Extra bills<span class="note">250-bill pack · for festival spikes</span></span>
-        <span class="addon-price">₹499</span>
+        <span class="addon-price">₹499<small class="addon-per"> / pack</small></span>
       </div>
       <div class="addon">
         <span class="addon-name">Extra WhatsApp messages<span class="note">500-message pack</span></span>
-        <span class="addon-price">₹249</span>
+        <span class="addon-price">₹249<small class="addon-per"> / pack</small></span>
       </div>
       <div class="addon">
         <span class="addon-name">Extra storage<span class="note">10 GB, per month</span></span>
-        <span class="addon-price">₹149</span>
+        <span class="addon-price">₹149<small class="addon-per">/mo</small></span>
       </div>
       <div class="addon">
         <span class="addon-name">Dedicated WhatsApp number<span class="note">your own WABA number</span></span>
-        <span class="addon-price">₹1,499</span>
+        <span class="addon-price">₹1,499<small class="addon-per">/mo</small></span>
       </div>
       <div class="addon">
         <span class="addon-name">Claim recovery, done for you<span class="note">we file your scheme &amp; warranty claims</span></span>
-        <span class="addon-price">₹2,499</span>
+        <span class="addon-price">₹2,499<small class="addon-per">/mo</small></span>
       </div>
     </div>
   </div>
@@ -8362,6 +8381,12 @@
     window.addEventListener('resize', update);
     update();
   })();
+</script>
+<script>
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('[data-track="proposal_download"]');
+    if (a) { try { if (window.gtag) gtag('event', 'file_download', { file_name: 'RetailerOS-Pricing-Proposal.pdf', link_url: a.href }); } catch (err) {} }
+  });
 </script>
 <script src="/assets/header.js?v=2cf170edf7" defer></script>
 </body>

@@ -155,3 +155,9 @@
   }
   if (document.querySelector('.cycle') || document.getElementById('calcOut')) paintCycle();
 })();
+
+/* GA4: count downloads of the pricing proposal */
+document.addEventListener('click', function (e) {
+  var a = e.target.closest && e.target.closest('[data-track="proposal_download"]');
+  if (a) { try { if (window.gtag) gtag('event', 'file_download', { file_name: 'RetailerOS-Pricing-Proposal.pdf', link_url: a.href }); } catch (err) {} }
+});

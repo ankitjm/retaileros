@@ -34,6 +34,11 @@ PRICE = {
     'extra': {'monthly': 3499, 'quarterly': 3324, 'annual': 2974},
 }
 LOGINS_PER_STORE = 3
+# add-ons: (name, note, price, period). Shared by /pricing/ and the pricing proposal PDF.
+ADDONS = [('Extra store', 'Chain plan · 3 logins included', 3499, '/mo'), ('Extra staff login', 'Only if a store needs more than 3', 499, '/mo'),
+          ('250-bill pack', 'For festival months on Shop', 499, ' per pack'), ('500 WhatsApp messages', 'Top-up pack', 249, ' per pack'),
+          ('10 GB storage', 'Per month', 149, '/mo'), ('Dedicated WhatsApp number', 'Your own business number', 1499, '/mo'),
+          ('Claim recovery, done for you', 'We file your scheme and warranty claims', 2499, '/mo')]
 CHAIN_MIN = 2
 MONTHS = {'monthly': 1, 'quarterly': 3, 'annual': 12}
 
