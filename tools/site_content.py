@@ -82,7 +82,7 @@ COMPARES = [
       'Full repair job cards: intake, diagnosis, repair and handover',
       'Multi-store: per-store stock, staff, cash register and invoice numbering',
       'Pre-booking deposits for launch models',
-      'A B2B marketplace for buying and selling stock with other dealers',
+      'Your own online store for customers (a B2B marketplace between retailers is coming soon)',
     ],
     'cols': ['What you need', 'Vyapar', 'RetailerOS'],
     'rows': [
@@ -94,7 +94,6 @@ COMPARES = [
       ('Brand scheme reconciliation', 'P:Not listed', 'Y'),
       ('Repair job cards<small>Intake to handover</small>', 'P:Service income', 'Y'),
       ('Multi-store management<small>Per-store stock, staff, cash</small>', 'P:Multi-device', 'Y'),
-      ('Dealer marketplace', 'P:Not listed', 'Y'),
     ],
     'who': [
       ('Choose Vyapar if', 'You run one small shop, billing is the main job, and keeping cost as low as possible matters most.'),
@@ -179,7 +178,7 @@ COMPARES = [
       ('IMEI / serial tracking', 'P:Not listed', 'Y'),
       ('Brand scheme reconciliation', 'P:Not listed', 'Y'),
       ('Indian languages', 'P:Not listed', 'Y'),
-      ('Amazon & eBay listing', 'Y', 'P:Dealer marketplace'),
+      ('Amazon & eBay listing', 'Y', 'P:Own online store'),
     ],
     'who': [
       ('Looking for US point-of-sale software?', 'You want retaileros.ai. We are not affiliated with them.'),
