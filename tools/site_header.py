@@ -41,6 +41,7 @@ def render(active=None):
     cur = lambda k: ' aria-current="page"' if k == active else ''
     desk = ''.join('<a href="%s"%s>%s</a>' % (h, cur(k), n) for n, h, k in LINKS)
     main = ''.join('<a class="rh-m-link" href="%s"%s>%s</a>' % (h, cur(k), n) for n, h, k in LINKS)
+    main += '<a class="rh-m-link" href="/contact.html"%s>Contact &amp; support</a>' % cur('contact')
     sol = ''.join('<a href="/solutions/%s/">%s</a>' % (s['slug'], _e(s['nav'])) for s in C.SOLUTIONS)
     cmp_ = ''.join('<a href="/compare/%s/">%s</a>' % (c['slug'], _e(c['nav'])) for c in C.COMPARES)
     mods = ''.join('<a href="/modules/%s/">%s</a>' % (m['slug'], _e(m['name'])) for m in M.MODULE_PAGES) + '<a href="/modules/">All 26 &rarr;</a>'

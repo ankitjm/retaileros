@@ -79,13 +79,13 @@ def footer():
         </a>
         <p>Billing, stock, serial &amp; IMEI tracking, brand schemes, repairs and multi-store management for Indian consumer electronics retail.</p>
       </div>
-      <div><h4>Product</h4><a href="/modules/">All 26 modules</a><a href="/pricing/">Pricing</a><a href="/answers.html">Questions &amp; answers</a><a href="/resources.html">Resources</a><a href="/#book-demo">Book a demo</a></div>
+      <div><h4>Product</h4><a href="/modules/">All 26 modules</a><a href="/pricing/">Pricing</a><a href="/answers.html">Questions &amp; answers</a><a href="/resources.html">Resources</a><a href="/#book-demo">Book a demo</a><a href="/contact.html">Contact &amp; support</a></div>
       <div><h4>Modules</h4><a href="/modules/schemes/">Schemes</a><a href="/modules/pre-booking/">Pre-booking</a><a href="/modules/automation/">Automation</a><a href="/modules/marketing/">Marketing</a><a href="/modules/marketplace/">Marketplace</a><a href="/modules/stores/">Stores</a><a href="/modules/finance/">Finance</a><a href="/modules/device-protection/">Device Protection</a></div>
       <div><h4>Solutions</h4>%s</div>
       <div><h4>Compare</h4>%s</div>
     </div>
     <div class="foot-base">© 2026 RetailerOS · a product of Khosha Systems · Made in India ·
-      <a href="/security.html">Security</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></div>
+      <a href="/contact.html">Contact</a> · <a href="/security.html">Security</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></div>
   </div>
 </footer>''' % (sol, cmp_)
 
@@ -188,7 +188,7 @@ def page(*, path, title, desc, active, trail, body, faqs=(), extra_ld=(), chat_m
            ld='\n'.join(ld(b) for b in blocks), delay=chat_delay, prio=' data-chat-priority' if chat_priority else '', header=H.render((active or '').lower()), hcss_v=HCSS_V, hjs_v=HJS_V,
            crumbs=crumbs(trail), body=body, footer=footer(),
            chat=chat(chat_msg, chat_primary))
-    dest = os.path.join(OUT, path.strip('/'), 'index.html')
+    dest = os.path.join(OUT, path.strip('/')) if path.endswith('.html') else os.path.join(OUT, path.strip('/'), 'index.html')
     os.makedirs(os.path.dirname(dest), exist_ok=True)
     io.open(dest, 'w', encoding='utf-8').write(doc)
     return path

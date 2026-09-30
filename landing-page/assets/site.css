@@ -531,3 +531,23 @@ a.pdf-card:hover .pdf-sheet.s1 { transform: translateY(-4px) rotate(-1deg); }
 .ref-form .btn { justify-self: start; }
 .nf-code { font-family: var(--font-display); font-size: clamp(72px, 16vw, 140px); line-height: 1; font-weight: 700; margin: 0 0 6px;
   background: linear-gradient(90deg, var(--blue), #E8622A); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* ── /contact.html ── */
+.ct-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.ct-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 6px; }
+.ct-card.ct-main { border-color: var(--blue); box-shadow: 0 10px 30px rgba(30,71,184,.10); }
+.ct-k { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--blue); }
+.ct-card h3 { font-size: 18px; margin: 0; }
+.ct-v { font-weight: 700; font-size: 16px; margin: 0; overflow-wrap: anywhere; }
+.ct-v a { color: var(--ink); text-decoration: none; border-bottom: 2px solid var(--blue-soft); }
+.ct-v a:hover { border-color: var(--blue); }
+.ct-card p:last-child { font-size: 14.5px; line-height: 1.55; margin: 4px 0 0; }
+.ct-form select, .ct-form textarea { border-radius: 10px; border: 1px solid var(--line-strong); padding: 0 12px; font: 500 16px var(--font-body); color: var(--ink); background: #fff; min-width: 0; }
+.ct-form select { height: 46px; }
+.ct-form textarea { padding: 12px; resize: vertical; min-height: 110px; line-height: 1.5; }
+.ct-msg { display: grid; gap: 6px; font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+.ct-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.ct-other { margin-top: 28px; padding: 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); }
+.ct-other h3 { font-size: 16px; margin: 0 0 8px; }
+.ct-other p { font-size: 14.5px; line-height: 1.7; margin: 0 0 6px; }
+@media (max-width: 560px) { .ct-actions .btn { width: 100%; justify-content: center; } }
