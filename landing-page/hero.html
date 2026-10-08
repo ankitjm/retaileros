@@ -5689,7 +5689,7 @@
   /* The "What changes at the counter" strip sits on its own layer: the hero's layers were painting over its top half on desktop */
   .trust { position: relative; z-index: 3; }
   /* named customer spotlight in the proof section */
-  .proof-customer { display: grid; grid-template-columns: auto 1fr auto; gap: 20px; align-items: center; margin: 0 auto 22px; max-width: 1080px;
+  .proof-customer { display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: center; margin: 0 auto 22px; max-width: 1080px;
     padding: 22px 26px; border-radius: 18px; background: #fff; border: 1px solid #E5EAF2; border-left: 4px solid var(--accent); box-shadow: 0 14px 36px rgba(11,18,32,.07); text-align: left; }
   .pc-logo, .pc-logo img { width: 72px; height: 72px; display: block; border-radius: 50%; }
   .pc-logo img { box-shadow: 0 6px 18px rgba(11,18,32,.18); }
@@ -6736,13 +6736,12 @@
       <span class="proof-eyebrow">Why retailers switch</span>
       <h2 class="proof-anchor">What changes, <em>counter by counter.</em></h2>
     </header>
-    <!-- Named customer: facts only (kept in step with CUSTOMERS in tools/build_site.py) -->
+    <!-- Named customer: name + logo only, never store counts or plans (kept in step with CUSTOMERS in tools/build_site.py) -->
     <figure class="proof-customer">
       <picture class="pc-logo"><source type="image/webp" srcset="/assets/customers/jeevan-mobile-160.webp 1x, /assets/customers/jeevan-mobile-320.webp 2x"><img src="/assets/customers/jeevan-mobile-160.png" alt="Jeevan Mobile logo" width="72" height="72" loading="lazy" decoding="async"></picture>
       <div class="pc-body"><span class="pc-k">Customer</span>
-        <p class="pc-line">Jeevan Mobiles chose RetailerOS for all three of its stores.</p>
-        <p class="pc-more">A mobile phone chain, Jeevan Mobiles has moved its billing, IMEI stock and brand schemes onto one platform, with room to add stores as it grows.</p></div>
-      <div class="pc-n"><b>3</b><span>stores on RetailerOS</span></div>
+        <p class="pc-line">Jeevan Mobiles runs on RetailerOS.</p>
+        <p class="pc-more">Billing, IMEI stock and brand schemes for a growing mobile phone retailer, on one platform.</p></div>
     </figure>
     <div class="proof-grid">
       <figure class="proof-card">

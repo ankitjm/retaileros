@@ -554,7 +554,7 @@ a.pdf-card:hover .pdf-sheet.s1 { transform: translateY(-4px) rotate(-1deg); }
 
 /* ── named customer band ── */
 .cust { padding-top: 0; }
-.cust-card { display: grid; grid-template-columns: auto 1fr auto; gap: 20px; align-items: center; padding: 22px 24px; border-radius: var(--radius);
+.cust-card { display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: center; padding: 22px 24px; border-radius: var(--radius);
   background: #fff; border: 1px solid var(--line); border-left: 4px solid #E8622A; box-shadow: 0 10px 30px rgba(11,18,32,.06); }
 .cust-mark { width: 56px; height: 56px; border-radius: 14px; display: grid; place-items: center; background: var(--blue-soft); color: var(--blue); font: 700 20px var(--font-display); }
 .cust-k { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #C2521F; }

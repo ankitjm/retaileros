@@ -193,19 +193,19 @@ def page(*, path, title, desc, active, trail, body, faqs=(), extra_ld=(), chat_m
     io.open(dest, 'w', encoding='utf-8').write(doc)
     return path
 
-# Named, paying customers. Facts only, and nothing commercial (no prices, plans or custom work).
+# Named, paying customers. Name and logo only, plus what they use it for. Nothing commercial.
 # Add a customer here only with Ankit's go-ahead.
-CUSTOMERS = [{'name': 'Jeevan Mobiles', 'stores': 3, 'logo': 'jeevan-mobile', 'logo_alt': 'Jeevan Mobile logo',
-              'line': 'Jeevan Mobiles chose RetailerOS for all three of its stores.',
-              'more': 'A mobile phone chain, Jeevan Mobiles has moved its billing, IMEI stock and brand schemes onto one platform, with room to add stores as it grows.'}]
+CUSTOMERS = [{'name': 'Jeevan Mobiles', 'logo': 'jeevan-mobile', 'logo_alt': 'Jeevan Mobile logo',
+              'line': 'Jeevan Mobiles runs on RetailerOS.',
+              'more': 'Billing, IMEI stock and brand schemes for a growing mobile phone retailer, on one platform.'}]
+# NEVER publish a customer's store count, licences, plan or price; that is Ankit's sales data (8 Oct 2026).
 
 def customer_band():
     c = CUSTOMERS[0]
     return '''<section class="sec cust"><div class="wrap"><div class="cust-card">
   <picture class="cust-logo"><source type="image/webp" srcset="/assets/customers/%(logo)s-160.webp 1x, /assets/customers/%(logo)s-320.webp 2x"><img src="/assets/customers/%(logo)s-160.png" alt="%(alt)s" width="72" height="72" loading="lazy" decoding="async"></picture>
   <div><span class="cust-k">Customer</span><h2>%s</h2><p>%s</p></div>
-  <div class="cust-n"><b>%d</b><span>stores on RetailerOS</span></div>
-</div></div></section>'''.replace('%(logo)s', c['logo']).replace('%(alt)s', e(c['logo_alt'])) % (e(c['line']), e(c['more']), c['stores'])
+</div></div></section>'''.replace('%(logo)s', c['logo']).replace('%(alt)s', e(c['logo_alt'])) % (e(c['line']), e(c['more']))
 
 def cta_band(h2, p, primary=('Start free', '/#start')):
     return '''<section class="sec"><div class="wrap"><div class="cta-band">
