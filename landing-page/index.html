@@ -5688,6 +5688,16 @@
   
   /* The "What changes at the counter" strip sits on its own layer: the hero's layers were painting over its top half on desktop */
   .trust { position: relative; z-index: 3; }
+  /* named customer spotlight in the proof section */
+  .proof-customer { display: grid; grid-template-columns: auto 1fr auto; gap: 20px; align-items: center; margin: 0 auto 22px; max-width: 1080px;
+    padding: 22px 26px; border-radius: 18px; background: #fff; border: 1px solid #E5EAF2; border-left: 4px solid var(--accent); box-shadow: 0 14px 36px rgba(11,18,32,.07); text-align: left; }
+  .pc-mark { width: 58px; height: 58px; border-radius: 14px; display: grid; place-items: center; background: var(--brand-blue-soft); color: var(--brand-blue); font: 700 21px var(--font-display, inherit); }
+  .pc-k { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #C2521F; }
+  .pc-line { margin: 4px 0 6px; font: 700 clamp(18px, 2.2vw, 23px)/1.25 var(--font-display, inherit); color: var(--ink); }
+  .pc-more { margin: 0; font-size: 15px; line-height: 1.55; color: var(--ink-soft); }
+  .pc-n { text-align: center; min-width: 110px; } .pc-n b { display: block; font: 700 42px/1 var(--font-display, inherit); color: var(--brand-blue); }
+  .pc-n span { font-size: 12.5px; color: var(--ink-soft); }
+  @media (max-width: 640px) { .proof-customer { grid-template-columns: auto 1fr; padding: 18px; } .pc-n { grid-column: 1 / -1; display: flex; gap: 10px; align-items: baseline; text-align: left; } .pc-n b { font-size: 30px; } }
   
   /* product tour player: as large as the screen allows (bigger player → YouTube picks higher quality) */
   .video-overlay .video-frame { position: relative; width: min(96vw, calc(88vh * 16 / 9), 1600px); aspect-ratio: 16 / 9; background: #000; }
@@ -6725,6 +6735,14 @@
       <span class="proof-eyebrow">Why retailers switch</span>
       <h2 class="proof-anchor">What changes, <em>counter by counter.</em></h2>
     </header>
+    <!-- Named customer: facts only (kept in step with CUSTOMERS in tools/build_site.py) -->
+    <figure class="proof-customer">
+      <div class="pc-mark" aria-hidden="true">JM</div>
+      <div class="pc-body"><span class="pc-k">Customer</span>
+        <p class="pc-line">Jeevan Mobiles chose RetailerOS for all three of its stores.</p>
+        <p class="pc-more">A mobile phone chain, Jeevan Mobiles has moved its billing, IMEI stock and brand schemes onto one platform, with room to add stores as it grows.</p></div>
+      <div class="pc-n"><b>3</b><span>stores on RetailerOS</span></div>
+    </figure>
     <div class="proof-grid">
       <figure class="proof-card">
         <p class="proof-metric-lbl proof-kind">A two-counter phone shop</p>
@@ -6739,7 +6757,7 @@
         <blockquote class="proof-quote">Brand schemes lived in a separate Excel sheet, reconciled every Sunday. <em>Now every scheme sale is tagged at billing and the claims list builds itself.</em></blockquote>
       </figure>
     </div>
-    <p class="proof-note">Illustrative examples of how retailers use RetailerOS.</p>
+    <p class="proof-note">The three cards above are illustrative examples of how retailers use RetailerOS.</p>
   </div>
 </section>
 

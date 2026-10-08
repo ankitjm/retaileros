@@ -294,7 +294,7 @@ def build(B):
   <div class="hero-cta"><a class="btn btn-primary" href="/#start">Start free</a><a class="btn btn-ghost" href="/#book-demo">Book a 15-minute demo</a></div>
   <p class="hero-note">Free for up to 50 bills a month · no card needed</p>
 </div></section>
-<section class="sec alt"><div class="wrap">
+%s<section class="sec alt"><div class="wrap">
   <div class="sec-head"><h2>What it handles</h2></div>
   <div class="cards">%s</div>
 </div></section>
@@ -303,7 +303,8 @@ def build(B):
   <div class="sec-head"><h2>Questions</h2></div>
   %s
 </div></section>
-%s''' % (e(s['eyebrow']), s['h1'], e(s['answer']), cards, extra, B.faq_html(s['faqs']),
+%s''' % (e(s['eyebrow']), s['h1'], e(s['answer']),
+         B.customer_band() if s['slug'] in ('multi-store-chains', 'mobile-phone-retail') else '', cards, extra, B.faq_html(s['faqs']),
          B.cta_band('See it on a real counter', 'A 15-minute walkthrough on a weekday, or start free today and set it up yourself in about ten minutes.'))
         built.append(B.page(path='/solutions/%s/' % s['slug'], title=s['title'], desc=s['desc'], active='Solutions',
             trail=[('Solutions', '/solutions/'), (s['nav'], '/solutions/%s/' % s['slug'])], body=body, faqs=s['faqs'],

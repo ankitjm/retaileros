@@ -551,3 +551,15 @@ a.pdf-card:hover .pdf-sheet.s1 { transform: translateY(-4px) rotate(-1deg); }
 .ct-other h3 { font-size: 16px; margin: 0 0 8px; }
 .ct-other p { font-size: 14.5px; line-height: 1.7; margin: 0 0 6px; }
 @media (max-width: 560px) { .ct-actions .btn { width: 100%; justify-content: center; } }
+
+/* ── named customer band ── */
+.cust { padding-top: 0; }
+.cust-card { display: grid; grid-template-columns: auto 1fr auto; gap: 20px; align-items: center; padding: 22px 24px; border-radius: var(--radius);
+  background: #fff; border: 1px solid var(--line); border-left: 4px solid #E8622A; box-shadow: 0 10px 30px rgba(11,18,32,.06); }
+.cust-mark { width: 56px; height: 56px; border-radius: 14px; display: grid; place-items: center; background: var(--blue-soft); color: var(--blue); font: 700 20px var(--font-display); }
+.cust-k { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #C2521F; }
+.cust-card h2 { font-size: clamp(19px, 2.4vw, 24px); margin: 4px 0 6px; }
+.cust-card p { font-size: 15px; line-height: 1.55; margin: 0; }
+.cust-n { text-align: center; min-width: 110px; } .cust-n b { display: block; font: 700 40px/1 var(--font-display); color: var(--blue); }
+.cust-n span { font-size: 12.5px; color: var(--ink-soft); }
+@media (max-width: 640px) { .cust-card { grid-template-columns: auto 1fr; } .cust-n { grid-column: 1 / -1; display: flex; gap: 10px; align-items: baseline; text-align: left; } .cust-n b { font-size: 30px; } }
