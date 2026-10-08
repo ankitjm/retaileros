@@ -5691,7 +5691,8 @@
   /* named customer spotlight in the proof section */
   .proof-customer { display: grid; grid-template-columns: auto 1fr auto; gap: 20px; align-items: center; margin: 0 auto 22px; max-width: 1080px;
     padding: 22px 26px; border-radius: 18px; background: #fff; border: 1px solid #E5EAF2; border-left: 4px solid var(--accent); box-shadow: 0 14px 36px rgba(11,18,32,.07); text-align: left; }
-  .pc-mark { width: 58px; height: 58px; border-radius: 14px; display: grid; place-items: center; background: var(--brand-blue-soft); color: var(--brand-blue); font: 700 21px var(--font-display, inherit); }
+  .pc-logo, .pc-logo img { width: 72px; height: 72px; display: block; border-radius: 50%; }
+  .pc-logo img { box-shadow: 0 6px 18px rgba(11,18,32,.18); }
   .pc-k { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #C2521F; }
   .pc-line { margin: 4px 0 6px; font: 700 clamp(18px, 2.2vw, 23px)/1.25 var(--font-display, inherit); color: var(--ink); }
   .pc-more { margin: 0; font-size: 15px; line-height: 1.55; color: var(--ink-soft); }
@@ -6737,7 +6738,7 @@
     </header>
     <!-- Named customer: facts only (kept in step with CUSTOMERS in tools/build_site.py) -->
     <figure class="proof-customer">
-      <div class="pc-mark" aria-hidden="true">JM</div>
+      <picture class="pc-logo"><source type="image/webp" srcset="/assets/customers/jeevan-mobile-160.webp 1x, /assets/customers/jeevan-mobile-320.webp 2x"><img src="/assets/customers/jeevan-mobile-160.png" alt="Jeevan Mobile logo" width="72" height="72" loading="lazy" decoding="async"></picture>
       <div class="pc-body"><span class="pc-k">Customer</span>
         <p class="pc-line">Jeevan Mobiles chose RetailerOS for all three of its stores.</p>
         <p class="pc-more">A mobile phone chain, Jeevan Mobiles has moved its billing, IMEI stock and brand schemes onto one platform, with room to add stores as it grows.</p></div>
